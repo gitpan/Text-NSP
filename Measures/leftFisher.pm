@@ -1,7 +1,7 @@
 
 =head1 NAME
 
-leftFisher.pm Version 0.1
+leftFisher.pm 
 
 =head1 SYNOPSIS
 

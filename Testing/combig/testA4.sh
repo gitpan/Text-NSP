@@ -18,5 +18,5 @@ else
 	cat var1;
 endif
 
-/bin/rm -f var1 t0 t1 
+/bin/rm -f var1 t0 t1 test-A4.output 
  

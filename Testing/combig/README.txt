@@ -2,7 +2,7 @@
 
 		        README.txt FOR Testing combig.pl
 
-                               Version 0.01
+                               Version 0.02
                          Copyright (C) 2002-2004
                        Ted Pedersen, tpederse@umn.edu
                     Amruta Purandare pura0010@d.umn.edu
@@ -19,7 +19,7 @@ Testing for combig.pl
 
 AMRUTA PURANDARE
 pura0010@d.umn.edu
-06/17/2003
+03/22/2004
 
 
 1. Introduction: 
@@ -48,6 +48,9 @@ Test A3  :	Tests combig when all bigrams occur in both orders
 Test A4  :	Tests combig on a directed bipartite graph
 
 Test A5  :	Tests combig on a directed cyclic graph
+
+Test A6  :	Test added during version 0.02 to test the correctness
+		of the new data structure
 
 2.2 Error conditions:
 ---------------------

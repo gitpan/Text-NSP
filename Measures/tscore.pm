@@ -1,7 +1,7 @@
 
 =head1 NAME
 
-tscore.pm Version 0.1
+tscore.pm
 
 =head1 SYNOPSIS
 

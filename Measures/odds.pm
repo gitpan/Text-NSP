@@ -1,7 +1,7 @@
 
 =head1 NAME
 
-odds.pm Version 0.1
+odds.pm 
 
 =head1 SYNOPSIS
 

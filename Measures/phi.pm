@@ -1,7 +1,7 @@
 
 =head1 NAME
 
-phi.pm Version 0.1
+phi.pm 
 
 =head1 SYNOPSIS
 

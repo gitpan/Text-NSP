@@ -1,7 +1,6 @@
-
 =head1 NAME
 
-pmi.pm Version 0.1
+pmi.pm 
 
 =head1 SYNOPSIS
 
@@ -40,6 +39,8 @@ Ted Pedersen <tpederse@d.umn.edu>
 
 Satanjeev Banerjee <banerjee@cs.cmu.edu>
 
+Bridget Thomson McInnes <bthomson@d.umn.edu>
+
 =head1 BUGS
 
 This measure currently only defined for bigram data stored in 2x2 
@@ -70,6 +71,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 =cut
 
 package pmi;
+
+#  Make sure that measure2d.pm is available in the PATH. First
+#  we check in the directory you are running from, and then we
+#  look through the system path. If the module is not found anywhere
+#  then abort. 
+
+my $module = "measure2d.pm"; my $modulename = "measure2d.pm";
+
+if( !( -f $modulename ) ) {
+    my $found = 0;
+    #  Check each of the PATHS to see if the module is there
+    foreach (split(/:/, $ENV{PATH})) {
+ 	$module = $_ . "/" . $modulename;
+	if ( -f $module ) { $found = 1; last; }
+    }
+    # if still not found anywhere, quit!
+    if ( ! $found ) { print "Could not find $modulename.\n"; exit; }
+}
+
+# Include the module into the current package.    
+require $module;
+
 require Exporter;
 @ISA = qw ( Exporter );
 @EXPORT = qw (initializeStatistic getStatisticName calculateStatistic errorCode errorString);
@@ -77,158 +100,62 @@ require Exporter;
 # function to set up various variables before the actual computation
 # starts. also to check if we are being given bigrams, and if our
 # frequency combinations are enough to do the computation
+
 sub initializeStatistic
 {
-    ($ngram, $totalBigrams, $combIndex, @freqComb) = @_;
-    
-    $errorCodeNumber = 0;
-    $errorMessage = "";
-
-    # check if ngram > 2. mi statistic only defined for ngram = 2. 
-    if ($ngram > 2)
-    {
-	$errorCodeNumber = 1;
-	$errorMessage = "Pointwise Mutual information statistic is only available for bigrams!";
-	return;
-    }
-
-    # totalBigrams should not be less than equal to 0
-    if ($totalBigrams <= 0) 
-    { 
-	$errorCodeNumber = 10;
-	$errorMessage = "Total number of bigrams ($totalBigrams) must be greater than 0.";
-	return;
-    }
-
-    # figure out from the @freqComb array if the frequency values we
-    # are going to get are indeed the ones we need. the ones we need
-    # are (0,1), (0) and (1). while we figure this out, we shall also
-    # note which of the indices of the array passed to function
-    # calculateStatistic are the ones we want.
-
-    my $i;
-    for ($i = 0; $i < $combIndex; $i++)
-    {
-	$string = join (" ", @{$freqComb[$i]}[1..$freqComb[$i][0]]);
-
-	if ($string eq "0 1") { $jointFreqIndex = $i; }
-	elsif ($string eq "0") { $leftFreqIndex = $i; }
-	elsif ($string eq "1") { $rightFreqIndex = $i; }
-    }
-
-    if (!(defined $jointFreqIndex))
-    {
-	$errorCodeNumber = 100;
-	$errorMessage = "Frequency combination \"0 1\" (frequency of bigram) missing!\n";
-    }
-
-    if (!(defined $leftFreqIndex))
-    {
-	$errorCodeNumber = 101;
-	$errorMessage = "Frequency combination \"0\" (frequency of bigrams containing left token) missing!\n";
-    }
-
-    if (!(defined $rightFreqIndex))
-    {
-	$errorCodeNumber = 102;
-	$errorMessage = "Frequency combination \"1\" (frequency of bigrams containing right token) missing!\n";
-    }
+    measure2d::initializeStatistic(@_);
 }
 
-# function to calculate the dice value!
+# function to calculate the Phi Coefficient!
+
 sub calculateStatistic
 {
-    my @numbers = @_;
-    my $jointFrequency = $numbers[$jointFreqIndex];
-    my $leftFrequency  = $numbers[$leftFreqIndex];
-    my $rightFrequency = $numbers[$rightFreqIndex];
-
-    # joint frequency should be greater than equal to zero 
-    if ($jointFrequency < 0)
-    {
-	$errorCodeNumber = 200;
-	$errorMessage = "Frequency value ($jointFrequency) must not be negative.";
+    #  The parameters passed into calculateStatistic
+    #  need to be passed into getObservedValues for it 
+    #  to calculate the Observed values. If there is a 
+    #  problem with the observed values, this function 
+    #  will return, causing the measure to abort its 
+    #  computations and return with a zero code.
+    
+    if( !( ($n11, $n12, $n21, $n22) = measure2d::getObservedValues(@_) ) ) {
 	return(0);
     }
+   
+    #  Get the total number of bigrams; no need to check
+    #  if this is correct because this value was already
+    #  checked and computed in measure2d::initalizeStatistic.
+    #  getTotalBigrams simply reads an existing value.
 
-    # joint frequency should be less than or equal to totalBigrams
-    if ($jointFrequency > $totalBigrams)
-    {
-	$errorCodeNumber = 201;
-	$errorMessage = "Frequency value ($jointFrequency) must not exceed total number of bigrams.";
-	return(0);
-    }
+    my $npp = measure2d::getTotalBigrams();
 
-    # joint frequency should be less than or equal to the marginal totals
-    if ($jointFrequency > $leftFrequency || $jointFrequency > $rightFrequency)
-    {
-	$errorCodeNumber = 202;
-	$errorMessage = "Frequency value of ngram ($jointFrequency) must not exceed the marginal totals.";
-	return(0);
-    }
+    #  Get the marginal values; no need to check
+    #  if this is correct because this value was already
+    #  checked and computed in measure2d::initalizeStatistic.
+    #  getTotalBigrams simply reads an existing value.
 
-    # left frequency should be greater than or equal to zero 
-    if ($leftFrequency <= 0)
-    {
-	$errorCodeNumber = 210;
-	$errorMessage = "Marginal total value ($leftFrequency) must not be 0 or less.";
-	return(0);
-    }
+    ($n1p, $np1, $n2p, $np2) = measure2d::getMarginalTotals();
 
-    # left frequency should be less than or equal to totalBigrams
-    if ($leftFrequency > $totalBigrams)
-    {
-	$errorCodeNumber = 211;
-	$errorMessage = "Marginal total value ($leftFrequency) must not exceed total number of bigrams.";
-	return(0);
-    }
+    #  Now the calculations!
+    my $temp = (($n11 / $np1) / $n1p) * $npp; 
 
-    # right frequency should be greater than or equal to zero 
-    if ($rightFrequency <= 0)
-    {
-	$errorCodeNumber = 220;
-	$errorMessage = "Marginal total value ($rightFrequency) must not be 0 or less.";
-	return(0);
-    }
+    return(log($temp)/log(2));
 
-    # right frequency should be less than or equal to totalBigrams
-    if ($rightFrequency > $totalBigrams)
-    {
-	$errorCodeNumber = 221;
-	$errorMessage = "Marginal total value ($rightFrequency) must not exceed total number of bigrams.";
-	return(0);
-    }
-
-    # finally the calculation!!
-    my $temp = (($jointFrequency / $leftFrequency ) / $rightFrequency) * $totalBigrams; 
-    if ($temp <= 0)
-    {
-	$errorCodeNumber = 230;
-	$errorMessage = "Attempt to take log of 0 or negative value.";
-	return(0);
-    }
-    else
-    {
-	return(log($temp)/log(2));
-    }
 }
 
 # function to return the error code of the last operation and reset
 # error code. useful if the error can be recovered from!
+
 sub errorCode 
 { 
-    my $temp = $errorCodeNumber;
-    $errorCodeNumber = 0;
-    return($temp); 
+    return measure2d::errorCode();
 }
 
 # function to return the error message of the last operation and reset
 # the message string. useful if error can be recovered from!
+
 sub errorString
 {
-    my $temp = $errorMessage;
-    $errorMessage = "";
-    return($temp);
+    return measure2d::errorString();
 }
 
 # function to return the name of this statistic

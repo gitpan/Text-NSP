@@ -1,7 +1,7 @@
 
 =head1 NAME
 
-dice.pm Version 0.1
+dice.pm
 
 =head1 SYNOPSIS
 

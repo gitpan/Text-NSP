@@ -22,7 +22,7 @@ words occur together in a bigram  regardless of which one comes first.
 
 =item * BIGRAM
 
-Specify a file of bigram counts created by NSP programs count.pl/statistic.pl. 
+Specify a file of bigram counts created by NSP programs count.pl. 
 The entries in BIGRAM will be formatted as follows:
 
 	word1<>word2<>n11 n1p np1  
@@ -48,7 +48,10 @@ Displays the version information.
 combig.pl produces a count of the number of times two words make up a   
 bigram in either order, whereas count.pl produces counts for a single 
 fixed ordering. In other words, combig.pl combines the counts of bigrams 
-that are composed of the same words but in reverse order. 
+that are composed of the same words but in reverse order. While the 
+BIGRAM shows pairs of words forming bigrams, output of combig will show
+the pairs of words that are co-occurrences or that co-occur irrespective
+of their order.
 
 e.g. if bigrams 
 
@@ -273,7 +276,7 @@ will be n1p and degree of vertex word2 will be np1.
  Amruta Purandare, pura0010@d.umn.edu
  Ted Pedersen, tpederse@d.umn.edu
 
- Last update 12/05/03 by TDP
+ Last update 03/22/04 by ADP
 
 This work has been partially supported by a National Science Foundation
 Faculty Early CAREER Development award (#0092784).
@@ -286,7 +289,7 @@ http://www.d.umn.edu/~tpederse/nsp.html
 
 =head1 COPYRIGHT
 
-Copyright (c) 2003, Amruta Purandare and Ted Pedersen
+Copyright (c) 2004, Amruta Purandare and Ted Pedersen
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -424,24 +427,18 @@ while(<IN>)
 		# if the reverse bigram is already seen 
 		if(defined $n11{$2}{$1})
 		{
-			# combining the bigrams 
-
 			# new n11=n11{w2}{w1}+n11{w1}{w2}
 			$n11{$2}{$1}+=$3;
-			# new n1p=n1p{w2}{w1}+np1{w1}{w2}
-			$n1p{$2}{$1}+=$5;
-			# new np1=np1{w2}{w1}+n1p{w1}{w2}
-			$np1{$2}{$1}+=$4;
 		}
 		# make a new bigram entry 
 		else
 		{
 			$n11{$1}{$2}=$3;
-			$n1p{$1}{$2}=$4;
-			$np1{$1}{$2}=$5;
-			push @order_w1,$1;
-			push @order_w2,$2;
 		}
+		# marg stores total #pairs
+		# in which a word occurs
+		$marg{$1}+=$3;
+		$marg{$2}+=$3;
         }
         else
         {
@@ -462,11 +459,13 @@ else
 	Bigram file <$infile> should show the total number of bigrams.\n";
 	exit;
 }
-foreach (0..$#order_w1)
+
+foreach $w1 (keys %n11)
 {
-	$w1=$order_w1[$_];
-	$w2=$order_w2[$_];
-	print "$w1<>$w2<>$n11{$w1}{$w2} $n1p{$w1}{$w2} $np1{$w1}{$w2}\n";
+	foreach $w2 (keys %{$n11{$w1}})
+	{
+		print "$w1<>$w2<>$n11{$w1}{$w2} $marg{$w1} $marg{$w2}\n";
+	}
 }
 
 ##############################################################################
@@ -507,9 +506,9 @@ Type 'perldoc combig.pl' to view detailed documentation of combig.\n";
 #version information
 sub showversion()
 {
-        print "combig.pl      -         Version 0.01\n";
-        print "Copyright (C) 2003, Amruta Purandare & Ted Pedersen.\n";
-        print "Date of Last Update:     07/03/2003\n";
+        print "combig.pl      -         Version 0.02\n";
+        print "Copyright (C) 2004, Amruta Purandare & Ted Pedersen.\n";
+        print "Date of Last Update:     03/22/2004\n";
 }
 
 #############################################################################

@@ -1,6 +1,6 @@
 =head1 NAME
 
-x2.pm Version 0.1
+x2.pm 
 
 =head1 SYNOPSIS
 

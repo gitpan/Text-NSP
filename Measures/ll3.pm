@@ -1,7 +1,7 @@
 
 =head1 NAME
 
-ll3.pm Version 0.1
+ll3.pm 
 
 =head1 SYNOPSIS
 

@@ -4,7 +4,7 @@ Changes from NSP version 0.65 to 0.67
 
 Ted Pedersen, tpederse@d.umn.edu
 University of Minnesota, Duluth
-March 3, 2003
+March 3, 2004
 
 Measures
 --------
