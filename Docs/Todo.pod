@@ -217,11 +217,17 @@ return an error code that can be detected by the calling program, so that
 abnormal termination is clear. This affects count.pl and statistic.pl 
 particularly, but will also be changed in rank.pl, combig.pl and kocos.pl. 
 
+=head2 REDUCE REDUNDANT CODE IN MEASURES
+
+There is some shared code in the /Measures that could be put into a single 
+directory and then inherited by each measure. This would make it easier to 
+write new Measures, and to maintain the existing ones. 
+
 =head1 AUTHOR
 
 Ted Pedersen, tpederse@d.umn.edu
 
-Last updated 12/05/03 by TDP
+Last updated 12/30/03 by TDP
 
 =head1 BUGS
 

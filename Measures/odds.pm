@@ -1,42 +1,71 @@
-# odds.pm Version 0.1
-#
-# Statistical library package to calculate the Odds Ratio. This
-# package should be used with statistic.pl and rank.pl.
-#
-# The odds ratio computes the ratio of the number of times that
-# the words in a bigram occur together (or not at all) to the
-# number of times the words occur individually. It is the cross
-# product of the diagonal and the off-diagonal. 
-#
-# if this is a 2x2 contingency table...
-# 
-# n11 n12 
-# n21 n22
-#
-# ODDS RATIO = n11*n22/n21*n12
-#
-# if n21 and/or n12 is 0, then each zero value is "smoothed" to one to  
-# avoid a zero in the denominator. 
-#
-#
-# Copyright (C) 2003
-# Ted Pedersen, University of Minnesota, Duluth
-# tpederse@d.umn.edu
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+=head1 NAME
+
+odds.pm Version 0.1
+
+=head1 SYNOPSIS
+
+Statistical library package to calculate the Odds Ratio. This
+package should be used with statistic.pl and rank.pl.
+
+=head1 DESCRIPTION
+
+Assume that the frequency count data associated with a bigram 
+<word1><word2> is stored in a 2x2 contingency table:
+
+          word2   ~word2
+  word1    n11      n12 | n1p
+ ~word1    n21      n22 | n2p
+           --------------
+           np1      np2   npp
+
+where n11 is the number of times <word1><word2> occur together, and
+n12 is the number of times <word1> occurs with some word other than
+word2, and n1p is the number of times in total that word1 occurs as
+the first word in a bigram. 
+
+The odds ratio computes the ratio of the number of times that
+the words in a bigram occur together (or not at all) to the
+number of times the words occur individually. It is the cross
+product of the diagonal and the off-diagonal. 
+
+Thus, ODDS RATIO = n11*n22/n21*n12
+
+if n21 and/or n12 is 0, then each zero value is "smoothed" to one to  
+avoid a zero in the denominator. 
+
+=head1 AUTHORS
+
+Ted Pedersen <tpederse@d.umn.edu>
+
+=head1 BUGS
+
+This measure currently only defined for bigram data stored in 2x2 
+contingency table. 
+
+=head1 SEE ALSO
+
+Mailing List: http://groups.yahoo.com/ngram
+
+=head1 COPYRIGHT
+
+Copyright 2000-2004 by Ted Pedersen
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+=cut
 
 package odds;
 require Exporter;

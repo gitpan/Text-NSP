@@ -33,7 +33,7 @@ WriteMakefile(
 
 # Version Number
 
-    'VERSION'	 	=> '0.63', 
+    'VERSION'	 	=> '0.65', 
 
 # List any required Perl modules
 
@@ -59,6 +59,34 @@ WriteMakefile(
 ##  .pl and .sh files should go into man1, and .pm to man3
 ##
 
+##  these settings are overridden by PM
+#	'MAN1PODS' =>  {
+#
+#		'count.pl' => '$(INST_MAN1DIR)/count.1',
+#		'statistic.pl' => '$(INST_MAN1DIR)/statistic.1',
+#		'Utils/kocos.pl' => '$(INST_MAN1DIR)/kocos.1',
+#		'Utils/combig.pl' => '$(INST_MAN1DIR)/combig.1',
+#		'Utils/rank.pl' => '$(INST_MAN1DIR)/rank.1'
+#
+#	},
+
+
+'MAN3PODS' =>  {
+
+		'Measures/dice.pm' => '$(INST_MAN3DIR)/dice.3',
+		'Measures/leftFisher.pm' => '$(INST_MAN3DIR)/leftFisher.3',
+		'Measures/ll.pm' => '$(INST_MAN3DIR)/ll.3',
+		'Measures/ll3.pm' => '$(INST_MAN3DIR)/ll3.3',
+		'Measures/odds.pm' => '$(INST_MAN3DIR)/odds.3',
+		'Measures/phi.pm' => '$(INST_MAN3DIR)/phi.3',
+		'Measures/pmi.pm' => '$(INST_MAN3DIR)/pmi.3',
+		'Measures/rightFisher.pm' => '$(INST_MAN3DIR)/rightFisher.3',
+		'Measures/tmi.pm' => '$(INST_MAN3DIR)/tmi.3',
+		'Measures/tmi3.pm' => '$(INST_MAN3DIR)/tmi3.3',
+		'Measures/tscore.pm' => '$(INST_MAN3DIR)/tscore.3',
+		'Measures/x2.pm' => '$(INST_MAN3DIR)/x2.3',
+	 },
+
 ## executable files to be installed, copied to INST_SCRIPT
 ## and then installed to /bin,  man pages to /man1 (in the
 ## typical case.  
@@ -72,7 +100,8 @@ WriteMakefile(
 ## location of libraries to be installed. Will be installed at
 ## corresponding location in INST_LIBDIR. Not a good choice if
 ## you want to change the directory structure where the libraries
-## are installed. Use PM instead
+## are installed. Use PM instead in this case. 
+##
 ##    'PMLIBDIRS'         => [ 'Measures' ],
 
 ## PM enumerates where .pm and .pl files should be installed. Use
@@ -81,7 +110,6 @@ WriteMakefile(
 ## and the man pages to /man3 (in the typical case). 
 
 	'PM' =>         {
-
 	'NSP.pm' => '$(INST_LIB)/Text/NSP.pm',
 	'Measures/dice.pm' => '$(INST_LIB)/dice.pm',
 	'Measures/leftFisher.pm' => '$(INST_LIB)/leftFisher.pm',
@@ -93,8 +121,8 @@ WriteMakefile(
 	'Measures/rightFisher.pm' => '$(INST_LIB)/rightFisher.pm',
 	'Measures/tmi.pm' => '$(INST_LIB)/tmi.pm',
 	'Measures/tmi3.pm' => '$(INST_LIB)/tmi3.pm',
-	'Measures/tscore.pm' => '$(INST_LIB)/tscore.pm'
-
+	'Measures/tscore.pm' => '$(INST_LIB)/tscore.pm',
+	'Measures/x2.pm' => '$(INST_LIB)/x2.pm',
 	} ,
 
 ## what happens when you run "make test" (test.pl is also run BTW). 
@@ -153,19 +181,37 @@ html:
 	@echo "Make sure that the following are in your PATH:"
 	@echo "     $(INSTALLSITEBIN)"
 	@echo "     $(INSTALLSITELIB)"
+	@echo "After your paths are set, run Testing/ALL-TESTS.sh to"
+	@echo "verify that installation is ok"
 	@echo "*****************************************************"
 	
 
 # @ keeps make from repeating command
 
-	@echo "installing html documentation in $(SITEPREFIX)/doc/html"
-	
 # create /doc/html and /doc/pod directory
 
 	@$(MKPATH) $(SITEPREFIX)/doc/html
 	@$(MKPATH) $(SITEPREFIX)/doc/pod
 	
+# measures documentation to html
+
+	@echo "Installing measures documentation in $(SITEPREFIX)/doc/html"
+
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/dice.html --infile=Measures/dice.pm --title="NSP Dice Coefficient"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/ll.html --infile=Measures/ll.pm --title="NSP Log Likelihood Ratio"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/ll3.html --infile=Measures/ll3.pm --title="NSP Log Likelihood Ratio"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/odds.html --infile=Measures/odds.pm --title="NSP Odds Ratio"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/phi.html --infile=Measures/phi.pm --title="NSP Phi Coefficient"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/tmi.html --infile=Measures/tmi.pm --title="NSP True Mutual Information"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/pmi.html --infile=Measures/pmi.pm --title="NSP Pointwise Mutual Information"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/tscore.html --infile=Measures/tscore.pm --title="NSP T-Score"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/x2.html --infile=Measures/x2.pm --title="NSP Pearsons Chi Squared Tests"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/leftFisher.html --infile=Measures/leftFisher.pm --title="NSP Left Sided Fisher's Exact Test"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/rightFisher.html --infile=Measures/rightFisher.pm --title="NSP Right Sided Fisher's Exact Test"
+
 # program documentation to html
+
+	@echo "Installing program documentation in $(SITEPREFIX)/doc/html"
 
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/count.html --infile=count.pl --title="NSP count"
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/statistic.html --infile=statistic.pl --title="NSP statistic"
@@ -175,6 +221,8 @@ html:
 
 # general documentation to html
 
+	@echo "Installing general documentation in $(SITEPREFIX)/doc/html"
+
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/FAQ.html --infile=Docs/FAQ.pod --title="NSP FAQ"
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/NewStats.html --infile=Docs/NewStats.pod --title="NSP NewStats"
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/Measures.html --infile=Docs/Measures.pod --title="NSP Measures"
@@ -182,9 +230,9 @@ html:
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/Todo.html --infile=Docs/Todo.pod --title="NSP Todo"
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/Usage.html --infile=Docs/Usage.pod --title="NSP Usage"
 
-	@echo "installing documentation in $(SITEPREFIX)/man/man3"
-
 # general documentation to man/man3
+
+	@echo "Installing man page documentation in $(SITEPREFIX)/man/man3"
 
 	@pod2man Docs/FAQ.pod $(SITEPREFIX)/man/man3/FAQ.$(MAN3EXT) 
 	@pod2man Docs/NewStats.pod $(SITEPREFIX)/man/man3/NewStats.$(MAN3EXT) 
@@ -193,9 +241,9 @@ html:
 	@pod2man Docs/Todo.pod $(SITEPREFIX)/man/man3/Todo.$(MAN3EXT) 
 	@pod2man Docs/Usage.pod $(SITEPREFIX)/man/man3/Usage.$(MAN3EXT) 
 
-	@echo "installing pod documentation in $(SITEPREFIX)/doc/pod"
-
 # general documentation to doc/pod
+
+	@echo "Installing pod documentation in $(SITEPREFIX)/doc/pod"
 
 	@$(CP) Docs/FAQ.pod $(SITEPREFIX)/doc/pod/FAQ.pod
 	@$(CP) Docs/NewStats.pod $(SITEPREFIX)/doc/pod/NewStats.pod

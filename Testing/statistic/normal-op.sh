@@ -643,4 +643,6 @@ echo ""
 /bin/rm -f error.out
 /bin/rm -f test-2.out
 /bin/rm -f freq.out 
+/bin/rm -f t1
+/bin/rm -f t2
 

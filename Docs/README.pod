@@ -2,9 +2,7 @@
 
 README for Ngram Statistics Package
 
-Version 0.63  
-
-December 29, 2003
+Last Updated for Version 0.63, December 29, 2003
 
 =head1 SYNOPSIS
 
@@ -24,7 +22,7 @@ In earlier versions (v0.1, v0.3, v0.4) this package was known as
 the Bigram Statistics Package (BSP). The name change reflects the 
 widening scope of the package in moving beyond Bigrams to Ngrams. 
 
-NSP version 0.63 consists of two core programs and three utilities:
+NSP consists of two core programs and three utilities:
 
 Program count.pl takes flat text files as input and generates a list of 
 all the Ngrams that occur in those files. The Ngrams, along with their 
@@ -1331,9 +1329,11 @@ cicling2003.pdf or cicling2003.ps).
 
 =over 4 
 
-=item * NSP Home:  http://www.d.umn.edu/~tpederse/nsp.html
+=item * NSP Home:      http://www.d.umn.edu/~tpederse/nsp.html
 
-=item * Sourceforge home:  http://ngram.sourceforge.net
+=item * Sourceforge:   http://sourceforge.net/projects/ngram
+
+=item * CPAN:          http://search.cpan.org/dist/Text-NSP/
 
 =item * Mailing List : http://groups.yahoo.com/group/ngram/
 

@@ -1,15 +1,19 @@
 
-	Welcome to the Ngram Statistics Package, version 0.63 
+	Welcome to the Ngram Statistics Package, version 0.65 
         -----------------------------------------------------
 
- 	     	        December 29, 2003
+ 	     	        December 30, 2003
 
  		      Copyright (C) 2000-2003
 
-  	   	 Ted Pedersen (tpederse@umn.edu)
+  	   	 Ted Pedersen (tpederse@d.umn.edu)
 		 University of Minnesota, Duluth
-	      http://www.d.umn.edu/~tpederse/nsp.html
 
+       NSP is available from three different distribution sites:
+	
+              http://www.d.umn.edu/~tpederse/nsp.html
+              http://sourceforge.net/projects/ngram
+              http://search.cpan.org/dist/Text-NSP/
 
 ===================================================================
 
@@ -39,11 +43,18 @@ METHOD 1:
 ---------
 
 On Unix/Linux, NSP should be included in your PATH. This is how I set my  
-.cshrc file to include NSP. 
+.cshrc file to include NSP if I have downloaded from sourceforge or from
+Ted Pedersen's home page. 
 
-set path = ($HOME/nsp-v0.63 $path)
-set path = ($HOME/nsp-v0.63/Measures $path)
-set path = ($HOME/nsp-v0.63/Utils $path)
+set path = ($HOME/nsp-v0.65 $path)
+set path = ($HOME/nsp-v0.65/Measures $path)
+set path = ($HOME/nsp-v0.65/Utils $path)
+
+If I have downloaded from CPAN, I set these paths as follows:
+
+set path = ($HOME/Text-NSP-0.65 $path)
+set path = ($HOME/Text-NSP-0.65/Measures $path)
+set path = ($HOME/Text-NSP-0.65/Utils $path)
 
 After doing this, you should be able to run any of the NSP programs from  
 any directory. 
@@ -65,9 +76,9 @@ After installing to system directories, it's very likely that you can run
 NSP without needing to set any paths explicitly. 
 
 If you do not have such authority, you can install into a directory of  
-your choosing by running:
+your own choosing by running (for example):
 
-perl Makefile.PL PREFIX=/home/cs/mydirectory/NSP
+perl Makefile.PL PREFIX=/home/cs/mydirectory/NSP65
 make
 make test
 make install
@@ -132,7 +143,10 @@ Testing/	: directory of test scripts for each program in NSP.
 	          after installation is complete. 
 
 GPL.txt		: copy of the GNU General Public License, the terms 
-		  under which NSP is distributed.
+		  under which NSP source code is distributed.
+
+FDL.txt		: copy of the GNU Free Documentation License, the terms 
+		  under which NSP documentation is distributed.
 
 ===================================================================
 
@@ -144,13 +158,6 @@ http://groups.yahoo.com/group/ngram/
 
 If you'd rather not subscribe, then just send me (tpederse@umn.edu) a  
 short note when you download, we just like to know who's out there. :)
-
-===================================================================
-	
-As of October 2003, the Ngram Statistics Package is a sourceforge   
-project. You can also download source code from : 
-
-http://sourceforge.net/projects/ngram
 
 ===================================================================
 
@@ -172,6 +179,4 @@ Note: The text of the GNU General Public License is provided in the file
 GPL.txt that you should have received with this distribution.
 
 ---
-
-[updated 12/29/2003 by TDP]
 

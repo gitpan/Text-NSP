@@ -1,29 +1,55 @@
-# tmi3.pm Version 0.1
-#
-# Statistical library package to calculate the true mutual information 
-# for trigrams. This package should be used with statistic.pl and rank.pl.
-#
-# Copyright (C) 2002-2003,
-# Satanjeev Banerjee, University of Minnesota, Duluth
-# bane0025@d.umn.edu
-# Ted Pedersen, University of Minnesota, Duluth
-# tpederse@d.umn.edu
-# Amruta Purandare, University of Minnesota, Duluth
-# pura0010@d.umn.edu
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+=head1 NAME
+
+tmi3.pm Version 0.1
+
+=head1 SYNOPSIS
+
+Statistical library package to calculate the true mutual information 
+for trigrams. This package should be used with statistic.pl and rank.pl.
+
+=head1 DESCRIPTION
+
+Note that the true mutual information value is distinct from pointwise  
+mutual information (pmi.pm). True mutual information is equivalent to
+the log-likelihood ratio (ll3.pm). They only differ by a scaling factor.
+
+=head1 AUTHORS
+
+Ted Pedersen <tpederse@d.umn.edu>
+
+Satanjeev Banerjee <banerjee@cs.cmu.edu>
+
+Amruta Purandare <pura0010@d.umn.edu> 
+
+=head1 BUGS
+
+This measure currently only defined for trigram data stored in 3x3x3 
+contingency table. 
+
+=head1 SEE ALSO
+
+Mailing List: http://groups.yahoo.com/ngram
+
+=head1 COPYRIGHT
+
+Copyright 2000-2004 by Ted Pedersen and Satanjeev Banerjee and Amruta Purandare 
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+=cut
 
 # this module was originally written by Satanjeev Banerjee
 # for bigrams and was updated by Amruta Purandare for trigrams

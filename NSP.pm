@@ -9,7 +9,7 @@ large corpora of text, and measure their association.
 
 =head1 DESCRIPTION
 
-The module NSP.pm is a stub that doesn't have any real functionality.
+The module NSP.pm is a stub that doesn't have any real functionality. 
 The real work is done by five programs:
 
 count.pl statistic.pl rank.pl combig.pl kocos.pl

@@ -1,32 +1,60 @@
-# ll3.pm Version 0.1
-#
-# Statistical library package to calculate the Loglikelihood coefficient 
-# for trigrams. This package should be used with statistic.pl and rank.pl.
-#
-# Copyright (C) 2002-2003,
-# Satanjeev Banerjee, University of Minnesota, Duluth
-# bane0025@d.umn.edu
-# Ted Pedersen, University of Minnesota, Duluth
-# tpederse@d.umn.edu
-# Amruta Purandare, University of Minnesota, Duluth
-# pura0010@d.umn.edu
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-# this module was originally written by Satanjeev Banerjee
-# for bigrams and was updated by Amruta Purandare for trigrams
+=head1 NAME
+
+ll3.pm Version 0.1
+
+=head1 SYNOPSIS
+
+Statistical library package to calculate the Loglikelihood ratio for 
+trigrams. This package should be used with statistic.pl and rank.pl.
+
+=head1 DESCRIPTION
+
+The log-likelihood ratio measures the devitation between the observed data 
+and what would be expected if <word1>, <word2>, and <word3> were  
+independent. The higher the score, the less evidence there is in favor of  
+concluding that the words are independent. 
+
+=head1 AUTHORS
+
+Ted Pedersen <tpederse@d.umn.edu>
+
+Satanjeev Banerjee <banerjee@cs.cmu.edu>
+
+Amruta Purandare <pura0010@d.umn.edu>
+
+=head1 BUGS
+
+This measure currently only defined for trigram data stored in 3x3x3 
+contingency table. 
+
+=head1 SEE ALSO
+
+Mailing List: http://groups.yahoo.com/ngram
+
+=head1 COPYRIGHT
+
+Copyright 2000-2004 by Ted Pedersen and Satanjeev Banerjee and Amruta 
+Purandare
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+=cut
+
+## this module written by Amruta Purandare, based on ll.pm by Satanjeev 
+## Banerjee
 
 package ll3;
 require Exporter;

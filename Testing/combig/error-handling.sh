@@ -32,3 +32,4 @@ foreach i ($dirlist)
 	$i
 end
 
+rm -fr *.output

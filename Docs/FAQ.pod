@@ -1,6 +1,6 @@
 =head1 NAME
 
-Ngram Statistics Package FAQ
+Ngram Statistics Package (NSP) FAQ
 
 =head1 SYNOPSIS
 

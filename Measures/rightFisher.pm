@@ -1,32 +1,58 @@
-# rightFisher.pm	Version	0.1
-#
-# Statistical library package to calculate the Fisher's exact test 
-# (right-sided). This package should be used with statistic.pl and rank.pl
-#
-# There is a known problem with rightFisher when min(n11,n12,n21,n22) = n22
-# see message of July 25 on the NSP mailing list for more details:
-# http://groups.yahoo.com/group/ngram/message/15
-#
-# Copyright (C)	2000,
-# Satanjeev Banerjee, University of Minnesota, Duluth
-# bane0025@d.umn.edu
-# Ted Pedersen,	University of Minnesota, Duluth
-# tpederse@d.umn.edu
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation;	either version 2
-# of the License, or (at your option) any later	version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along	with this program; if not, write to the	Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+=head1 NAME
+
+rightFisher.pm	Version	0.1
+
+=head1 SYNOPSIS
+
+Statistical library package to calculate the Fisher's exact test 
+(right-sided). This package should be used with statistic.pl and rank.pl
+
+=head1 DESCRIPTION
+
+A right sided test is calculated by adding the probabilities of all
+the possible two by two contingency tables formed by fixing the
+marginal totals and changing the value of n11 to greater than or
+equal to the given value. A right sided Fisher's Exact Test tells us
+how likely it is to randomly sample a table where n11 is greater
+than observed. In other words, it tells us how likely it is to sample
+an observation where the two words are more dependent than currently
+observed.
+
+=head1 AUTHORS
+
+Ted Pedersen <tpederse@d.umn.edu>
+
+Satanjeev Banerjee <banerjee@cs.cmu.edu>
+
+=head1 BUGS
+
+This measure currently only defined for bigram data stored in 2x2 
+contingency table. 
+
+=head1 SEE ALSO
+
+Mailing List: http://groups.yahoo.com/ngram
+
+=head1 COPYRIGHT
+
+Copyright 2000-2004 by Ted Pedersen and Satanjeev Banerjee
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+=cut
 
 package	rightFisher;
 require	Exporter;
@@ -193,17 +219,14 @@ sub calculateStatistic
     # divide the result	for 0 with correct numbers to obtain result for	i,
     # i>0, i<=n11!! :o)
 
-   
-
-
     #  Bridget Thomson McInnes 15 October 2003
-    #  Set the final limit to the leaste of the marginal totals
+    #  Set the final limit to the least of the marginal totals
     #  n1p or np1 because that is the maximum number of times
     #  the bigram would be seen
 
     $final_Limit = ($n1p < $np1) ? $n1p : $np1;
 
-    ########### this part by Nitin O Verma
+    ########### this part by Nitin O Varma
 
     #$final_Limit = $n11;
     #$n11  = 0;
@@ -219,7 +242,7 @@ sub calculateStatistic
     #    $n22 = $n2p - $n21;
     #}
 
-    ########### end of part by Nitin O Verma
+    ########### end of part by Nitin O Varma
 
     my @denominator = sort { $b	<=> $a } ($npp,	$n22, $n12, $n21, $n11);
 
