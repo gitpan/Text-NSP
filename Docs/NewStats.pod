@@ -1,0 +1,249 @@
+=head1 NAME
+
+NewStats.pod
+
+=head1 SYNOPSIS
+
+How to create a new statistics package for the Ngram Statistics Package.
+
+=head1 DESCRIPTION
+
+The following steps should be followed while creating a new statistic
+library package for NSP. 
+
+=head2 Steps to Creating a New Module 
+
+=over 4
+
+=item 1. 
+
+The filename should have an extension of .pm. Usually the name of 
+the file should be Statistic.pm, where "Statistic" is the name of the
+particular statistic you are writing.
+
+=item 2. 
+
+Let us say you have named your file Statistic.pm. The first line of the
+file should declare that its a package of the same name as the filename.
+Thus the first line of the file Statistic.pm should be...
+
+   package Statistic;
+
+=item 3. 
+
+You need to implement at least two functions in your package
+
+   i)   initializeStatistic()
+   ii)  calculateStatistic()
+
+Function initializeStatistic() is passed the following parameters: 
+
+     1) The ngram size. eg: 2 (for bigrams), 3 (for trigrams) etc. 
+     2) The total number of bigrams in the corpus. 
+     3) The number of frequency combinations
+     4) An array containing the frequency combinations.
+
+The fourth data structure above may be accessed as a double
+dimensioned array in which each row represents a single frequency
+combination. On a given row, the first element denotes the number
+of indices on this row, say 'n'. This is followed by 'n' numbers
+representing the 'n' indices that make up this frequency
+combination. (For details on frequency combinations, see README.pod). 
+
+Thus for example say we are passing the default frequency
+combinations for trigrams. There are 7 combinations in the
+default. Thus the third item passed above will be '7'. After
+this, the following two dimensioned array would be passed: 
+
+     Row 1: 3 0 1 2
+     Row 2: 1 0
+     Row 3: 1 1
+     Row 4: 1 2
+     Row 5: 2 0 1
+     Row 6: 2 0 2
+     Row 7: 2 1 2
+
+(The "Row X:" parts are for explanation purposes are not
+passed). Thus row 1 start with the number '3' which says that
+there are 3 more numbers on this row, 0, 1, and 2. Similarly, row
+two 2 starts with '1' and then has one number after it: 0. And so on. 
+
+This function is called before any calls to the function
+calculateStatistic() and can be used by the statistic library to
+set up any values that may be required for the calculations
+later. For example, many statistical measures require the corpus
+size, and so this would be a good place to save that value (the
+second item passed above). Also, since the frequencies passed to
+the calculateStatistic() function below follow the order defined
+through the frequency combination array passed above, it is
+important to note which indices are to be used for the
+calculation. See dice.pm for an example of one way to do this.
+
+This function is not expected to return anything. If an error
+occurs, it can be reported through the mechanisms described below. 
+
+The other mandatory function is calculateStatistic(). This is
+passed an array containing the frequency values for an ngram as
+found in the input n-gram file. The size of this array is
+guaranteed to be exactly the same as the third number passed to the
+initializeStatistic() function above. 
+
+Function calculateStatistic() is expected to return a (possibly
+floating) value as the value of the statistical measure calculated
+using the frequency values passed to it. 
+
+When a library is loaded, statistic.pl checks for these two
+functions: if they are not implemented, then an error is reported
+and the program quits. 
+
+=item 4. 
+
+Program statistic.pl also supports three other functions that are
+not mandatory, but may be implemented by the user. These are:
+
+     i) errorCode()
+    ii) errorString()
+   iii) getStatisticName()
+
+Function errorCode, if implemented, is called immediately after the
+call to function initializeStatistic() and immediately after every
+call to function calculateStatistic(). 
+
+This function should: 
+
+   a) return 0 to imply that the last operation was successful.
+   b) return an integer starting with 1 to imply that the last
+      operation was unsuccessful, that there has been a fatal error
+      and that statistic.pl should abort. 
+   c) return an integer starting with 2 to imply that the last
+      operation was unsuccessful but it is not a fatal error, just a
+      warning. Program statistic.pl will not abort on error codes
+      starting with 2. If there is a warning after a call to the
+      function calculateStatistic(), then the ngram for which the
+      warning was issued will be ignored by statistic.pl. 
+
+If a non-zero code is returned by function errorCode(),
+statistic.pl will print to STDERR the message "Error from statistic
+library!", if the error code starts with 1, or the message "Warning
+from statistic library" if the error starts with 2. Then,
+statistic.pl will print the actual error code returned. Finally, if
+function errorString() has been defined, this function will be
+called. This function may be implemented by the user to return a
+wordy description of the error or warning; the string returned by
+this function is then printed to STDERR.
+
+Note that functions errorCode() and errorString() should be
+implemented in such a way that they reset the error code and the
+error message respectively after a call to the function. This will
+prevent mistakenly reporting a warning more than once. 
+
+The third function that may be implemented is
+getStatisticName(). If this function is implemented, it is expected
+to return a string containing the name of the statistic being
+implmented. This string is used in the formatted output of
+statistic.pl. If this function is not implemented, then the
+statistic file name entered on the commandline is used in the
+formatted output. 
+
+Note that all three functions described in this section are first
+checked for existence before being called. So, if the user elects
+to not implement these functions, no harm will be done. However, we
+strongly recommend the implementation of at least the function
+errorCode() since this is the only way for the statistic library to
+report errors to the user. 
+
+=item 5. 
+
+Having implemented the two mandatory functions (in point 3 above)
+and zero or more of the three non-mandatory functions (in point 4
+above), one must make these functions available outside the
+package. To do so, one has to export them, thusly. 
+
+For this, first include the Exporter package by including the
+following line in the program
+
+   require Exporter;
+
+Now include the following line to inherit Exporter's functions:
+
+   @ISA = qw ( Exporter );
+
+Now export the various functions implemented so that they are
+accessible outside this package, by adding the following line
+(assume that you have implemented only the two mandatory
+functions): 
+
+   @EXPORT = qw( initializeStatistic calculateStatistic );
+
+If you implement say the errorCode() and errorString() functions
+too, you may export them like so: 
+
+   @EXPORT = qw( initializeStatistic calculateStatistic errorCode errorString );
+   
+Note that the user may implement other functions too, and may
+export them if he so wishes, but since statistic.pl is not
+expecting anything besides the five functions above, doing so would
+have no effect on statistic.pl. 
+
+=item 6. 
+
+Finally, at the end of everything, add the line
+
+   1;
+
+   This will ensure that the LAST line of the file returns a true value, and
+   is necessary so that when this package is loaded, it returns a TRUE value.
+
+=back
+
+=head2 Errors to look out for:
+
+=over 4
+
+=item 1. 
+
+The filename does not end with a .pm.
+
+=item 2. 
+
+The rest of the filename (besides the extension) does not match the package
+name (declared in the first line of the file). Remember its case sensitive!
+
+=item 3. 
+
+The five functions (2 mandatory, 3 non-mandatory) must have their
+names match EXACTLY with those shown above. Again, names are all
+case sensitive.
+
+=item 4. 
+
+The last line of the file is not "1;". This is necessary, and easily
+overlooked!
+
+=back
+
+=head1 AUTHORS
+
+ Ted Pedersen (tpederse@umn.edu)
+ Satanjeev Banerjee (bane0025@d.umn.edu)
+
+=head1 BUGS
+
+=head1 SEE ALSO
+
+ home page:    http://www.d.umn.edu/~tpederse/nsp.html
+
+ mailing list: http://groups.yahoo.com/group/ngram/
+
+=head1 COPYRIGHT
+
+Copyright (C) 2000-2001, Satanjeev Banerjee and Ted Pedersen
+
+Permission is granted to copy, distribute and/or modify this  document  
+under the terms of the GNU Free Documentation License, Version 1.2 or  any  
+later version published by the Free Software Foundation; with no  
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+Note: a copy of the GNU Free Documentation License is available on the web   
+at L<http://www.gnu.org/copyleft/fdl.html> and is included in this    
+distribution as FDL.txt. 

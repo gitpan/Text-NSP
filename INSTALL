@@ -1,0 +1,177 @@
+
+	Welcome to the Ngram Statistics Package, version 0.63 
+        -----------------------------------------------------
+
+ 	     	        December 29, 2003
+
+ 		      Copyright (C) 2000-2003
+
+  	   	 Ted Pedersen (tpederse@umn.edu)
+		 University of Minnesota, Duluth
+	      http://www.d.umn.edu/~tpederse/nsp.html
+
+
+===================================================================
+
+Dependencies:
+
+NSP is a suite of Perl programs. Unless you have really good reasons for  
+not doing so, it would make sense to be using a  relatively  recent  
+version of Perl. As of this writing that would be 5.8 or better. 
+
+NSP has been developed on the Unix and Linux platforms, but is known to   
+run on Windows. In theory it should run on any platform that supports   
+Perl, which is most. (http://www.cpan.org/ports/index.html)
+
+There is one Perl module used in NSP, Getopt::Long, which helps us handle 
+options in command line processing. It is very likely that this is  
+included with your Perl installation, but if not it can be downloaded 
+from the CPAN archive (http://search.cpan.org). 
+
+===================================================================
+
+Installation: 
+
+As of version 0.63, there are two methods of installation now supported  
+for NSP. 
+
+METHOD 1: 
+---------
+
+On Unix/Linux, NSP should be included in your PATH. This is how I set my  
+.cshrc file to include NSP. 
+
+set path = ($HOME/nsp-v0.63 $path)
+set path = ($HOME/nsp-v0.63/Measures $path)
+set path = ($HOME/nsp-v0.63/Utils $path)
+
+After doing this, you should be able to run any of the NSP programs from  
+any directory. 
+
+METHOD 2: 
+---------
+
+Install to a system directory (or a directory you specify via the PREFIX 
+option) via the following sequence of commands: 
+
+perl Makefile.PL 
+make
+make test
+make install
+
+The above sequence requires that you have system administrator authority, 
+and you will installing in system directories (like /usr/local/ etc.) 
+After installing to system directories, it's very likely that you can run
+NSP without needing to set any paths explicitly. 
+
+If you do not have such authority, you can install into a directory of  
+your choosing by running:
+
+perl Makefile.PL PREFIX=/home/cs/mydirectory/NSP
+make
+make test
+make install
+
+Whether installing to a system directory or to a local directory, programs  
+you can run (.pl and .sh) will be installed in  /bin, documentation in  
+/doc, man pages in /man, and perl modules in /lib. As a part of this 
+installation process, html versions of pod documents are created 
+automatically.  
+
+You will need to set your path to include the /bin and /lib directory 
+locations. These are displayed during the execution of make install, so   
+please make a note of them and be sure to set your path accordingly. 
+
+===================================================================
+
+Orientation:
+
+INSTALL         : this file
+
+README          : a plain text version of Docs/README.pod
+
+CHANGES         : a plain text version of Docs/ChangeLog-v0.63.txt
+
+                  (INSTALL, README, and CHANGES are names required
+		   by CPAN, hence the naming/renaming)
+
+MANIFEST        : a list of the files found in this distribution,
+		  created automatically by "make manifest" and used
+	          by Makefile.PL
+
+count.pl 	: program that counts Ngrams in corpora
+
+statistic.pl 	: program that measures association of Ngrams based on 
+		  count.pl output
+
+Docs/		: directory of documentation
+
+		  README.pod - complete description of NSP
+		  FAQ.pod    - frequently asked questions
+	          NewStats.pod - how to implement new measures 
+		  Todo.pod   - our list of things to do
+		  Usage.pod  - sample usages (very basic)
+		  cicling2003.(ps|pdf) - overview of NSP design
+	
+Measures/	: directory of Perl modules that implement various 
+		  measures of association
+
+Utils/		: directory that contains several useful programs
+
+		  rank.pl: compare two measures of association
+		  kocos.pl: find kth order co-occurrences
+		  combig.pl: find unordered counts of bigrams
+
+Testing/	: directory of test scripts for each program in NSP.
+		  You can run these to make sure your installation is
+		  working, and also to see some sample usages. Each
+		  program tested has its own directory within Testing
+		  in which you can find a README.txt file that describes
+		  the testing process. Please note that "make test" above
+		  does *not* run these tests.  They must be run separately
+	          after installation is complete. 
+
+GPL.txt		: copy of the GNU General Public License, the terms 
+		  under which NSP is distributed.
+
+===================================================================
+
+There is a mailing list for NSP. Please subscribe - it's a low volume  
+list used for release announcements, bug reports, and general discussion.  
+Find the mailing list at: 
+
+http://groups.yahoo.com/group/ngram/ 
+
+If you'd rather not subscribe, then just send me (tpederse@umn.edu) a  
+short note when you download, we just like to know who's out there. :)
+
+===================================================================
+	
+As of October 2003, the Ngram Statistics Package is a sourceforge   
+project. You can also download source code from : 
+
+http://sourceforge.net/projects/ngram
+
+===================================================================
+
+This suite of programs is free software; you can redistribute it and/or 
+modify it under the terms of the GNU General Public License as published  
+by the Free Software Foundation; either version 2 of the License, or (at  
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but  
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY  
+or FITNESS  FOR A PARTICULAR PURPOSE.  See the GNU General Public License  
+for more details. 
+
+You should have received a copy of the GNU General Public License along  
+with this program; if not, write to the Free Software Foundation, Inc., 59  
+Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+Note: The text of the GNU General Public License is provided in the file 
+GPL.txt that you should have received with this distribution.
+
+---
+
+[updated 12/29/2003 by TDP]
+

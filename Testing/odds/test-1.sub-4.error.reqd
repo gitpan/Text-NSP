@@ -1,0 +1,36 @@
+Warning from statistic library!
+  Warning code: 200
+  Warning message: Frequency value (-1) must not be negative.
+Skipping ngram one<>two<>-1 13 7
+Warning from statistic library!
+  Warning code: 201
+  Warning message: Frequency value (18) must not exceed total number of bigrams.
+Skipping ngram one<>three<>18 13 5
+Warning from statistic library!
+  Warning code: 202
+  Warning message: Frequency value of ngram (10) must not exceed the marginal totals.
+Skipping ngram one<>four<>10 6 12
+Warning from statistic library!
+  Warning code: 202
+  Warning message: Frequency value of ngram (10) must not exceed the marginal totals.
+Skipping ngram two<>two<>10 12 6
+Warning from statistic library!
+  Warning code: 202
+  Warning message: Frequency value of ngram (1) must not exceed the marginal totals.
+Skipping ngram three<>four<>1 -1 5
+Warning from statistic library!
+  Warning code: 211
+  Warning message: Marginal total value (18) must not exceed total number of bigrams.
+Skipping ngram three<>one<>1 18 5
+Warning from statistic library!
+  Warning code: 202
+  Warning message: Frequency value of ngram (1) must not exceed the marginal totals.
+Skipping ngram four<>five<>1 1 -1
+Warning from statistic library!
+  Warning code: 221
+  Warning message: Marginal total value (18) must not exceed total number of bigrams.
+Skipping ngram three<>five<>1 1 18
+Warning from statistic library!
+  Warning code: 202
+  Warning message: Frequency value of ngram (1) must not exceed the marginal totals.
+Skipping ngram three<>seven<>1 0 0
