@@ -22,6 +22,8 @@ Satanjeev Banerjee, bane0025@d.umn.edu
 
 Ted Pedersen, tpederse@d.umn.edu
 
+Amruta Purandare, pura0010@d.umn.edu
+
 =head1 BUGS
 
 =head1 SEE ALSO
@@ -32,7 +34,7 @@ Ted Pedersen, tpederse@d.umn.edu
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2003, Ted Pedersen and Satanjeev Banerjee
+Copyright (C) 2000-2003, Ted Pedersen, Satanjeev Banerjee, Amruta Purandare.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -56,7 +58,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 #version        date            programmer      List of changes     change-id
 #
-#             
+# 0.67		02/19/2004	Amruta		Used stat scores     ADP.67.1
+#						as keys of the hash
+#						instead of the N-grams
+#						This reduces the memory
+#						consumption when large
+#						#Ngrams have same scores
+#          
 # 0.57          07/01/2003      Ted         (1) if destination file  TDP.57.3
 #		                                found, check for 
 #                                               source before proceeding
@@ -368,6 +376,18 @@ if (defined &errorCode)
     }
 }
 
+# ---------
+# ADP.67.1 
+# ---------
+# In 0.65 and earlier versions, there are 2 hashes that use N-grams 
+# as the hash-keys and store N-gram scores and marginal totals. This 
+# increases the memory usage as the number of bigrams increase.
+
+# Instead, we create a hash whose keys are the N-gram scores and 
+# values are the N-gram strings. Our assumption is that, this will
+# cut down the memory usage by a lot as large number of N-grams
+# usually have same scores.
+
 while(<SRC>)
 {
     $lineNo++;
@@ -377,6 +397,12 @@ while(<SRC>)
     # get the various fields of the record!
     if ( defined @tokens  ) { undef @tokens;  }
     if ( defined @numbers ) { undef @numbers; }
+
+    # ADP.67.1
+    # in old versions, ngramString variable was storing only the
+    # the N-gram tokens and not the scores. Here, we store entire
+    # line as the value of hash
+    my $ngramString=$_;
 
     # split on the <>. thus @tokens will have all the separate tokens
     # that make up this ngram and its last element will be the string
@@ -400,7 +426,7 @@ while(<SRC>)
     pop @tokens;
     
     # remove bit stuffed '@' symbol from first token if present. 
-    $tokens[0] =~ s/^@@/@/; 
+ #   $tokens[0] =~ s/^@@/@/;
 
     # the number of frequency values should be equal to $combIndex. if
     # not, quit! note this is the only check we can do to ascertain if
@@ -417,13 +443,23 @@ while(<SRC>)
     # the loop
     if (defined $opt_frequency && $numbers[$ngramFreqIndex] < $opt_frequency) { next; }
     
+    # ------------------------------------------------------------------
+    # ADP.67.1 start
+    # we don't need to store the Ngram tokens and scores separately in 
+    # two different hashes
+    # ------------------------------------------------------------------
+
     # having got this far, we are ready to compute! first recreate the ngram string. 
-    my $ngramString = join("<>", @tokens);
+#    my $ngramString = join("<>", @tokens);
 
     # next create the string with the frequency values in it. we shall
     # output this later on, so put it in a hash whose keys are the
     # ngram strings
-    $NUMBERSTRINGS{$ngramString} = join(" ", @numbers);
+#    $NUMBERSTRINGS{$ngramString} = join(" ", @numbers);
+
+    # ---------------
+    # ADP.67.1 end
+    # ---------------
 
     # calculate the statistic and create the statistic hash.
     my $statisticValue = calculateStatistic(@numbers); # function implemented by stat library
@@ -452,7 +488,11 @@ while(<SRC>)
 		my $errorMessage = errorString();
 		print STDERR "  Warning message: $errorMessage\n" if( $errorMessage ne "");
 	    }
-	    print STDERR "Skipping ngram $ngramString<>$NUMBERSTRINGS{$ngramString}\n";
+
+ 	    # ADP commented the following line as a part of ADP.67.1
+
+#	    print STDERR "Skipping ngram $ngramString<>$NUMBERSTRINGS{$ngramString}\n";
+	    print STDERR "Skipping ngram $ngramString\n";
 	    next; # if warning, dont save the statistic value just computed
 	}
     }
@@ -461,8 +501,18 @@ while(<SRC>)
 
     # round the statistic value returned according to the precision
     # requested by using the float format created earlier.
-    $STATISTIC{$ngramString} = sprintf $floatFormat, $statisticValue;
-}	
+
+    # ADP.67.1 start
+
+#   $STATISTIC{$ngramString} = sprintf $floatFormat, $statisticValue;
+    $statScore = sprintf $floatFormat, $statisticValue;
+    # the keys of the hash are now the stat scores while 
+    # values are all N-grams separated by # that have that score
+
+    $STATISTIC{$statScore}.=$ngramString."#";
+    # ADP.67.1 end
+
+}
 
 # that completes the calculations. now to write out the data onto the
 # destination file, ranking the ngrams according to the statistic just
@@ -519,34 +569,72 @@ sub unformattedPrinting
     # lower valued ngram will have a rank of x+1!
     
     my $rank = 1;
-    my $lastValue = 0;
+
+#   following commented statements belong to code before version 0.67
+#   this part was re-written and simplified by ADP during 0.67
+
+#    my $lastValue = 0;
 
     # find the smallest statistic value and assign to $lastValue
-    foreach ( sort { $STATISTIC{$b} <=> $STATISTIC{$a} } keys %STATISTIC )
-    { 
-	$lastValue = $STATISTIC{$_}; 
-	last;
-    }
+    #foreach ( sort { $STATISTIC{$b} <=> $STATISTIC{$a} } keys %STATISTIC )
+    #{ 
+	#$lastValue = $STATISTIC{$_}; 
+	#last;
+    #}
 
-    foreach ( sort { $STATISTIC{$b} <=> $STATISTIC{$a} } keys %STATISTIC )
+    #foreach ( sort { $STATISTIC{$b} <=> $STATISTIC{$a} } keys %STATISTIC )
+    #{
+	#my @tokens = split ( /<>/, $_ );
+	
+	#if ( $lastValue != $STATISTIC{$_} ) 
+	#{
+	#    $lastValue = $STATISTIC{$_};
+	#    $rank++;
+	#}
+
+    # ---------------
+    # ADP.67.1 start
+    # ---------------
+    foreach $score (sort {$b <=> $a } keys %STATISTIC)
     {
-	my @tokens = split ( /<>/, $_ );
-	
-	if ( $lastValue != $STATISTIC{$_} ) 
+	# currentScore is the score associated with the
+	# current rank.
+	# only when the score drops, the rank is incremented
+	if(defined $currentScore) 
 	{
-	    $lastValue = $STATISTIC{$_};
-	    $rank++;
+		if($score < $currentScore) { $rank++; }
+		elsif($score > $currentScore)
+		{
+			print STDERR "Weird Sorting error.\n";
+			exit;
+		}
 	}
-	
+	$currentScore=$score;
+
 	# if less than score cut-off, then quit!
-	if ( defined $scoreCutOff && $STATISTIC{$_} < $scoreCutOff ) { last; }
+#	if ( defined $scoreCutOff && $STATISTIC{$_} < $scoreCutOff ) { last; }
+	if ( defined $scoreCutOff && $score < $scoreCutOff ) { last; }
 
 	# if exceeded the showing limit for the rank, quit!
 	if ( ( $show > 0 ) && ( $show < $rank ) ) { last; }
 
-	# do bit-stuffing
-	if ( $_ =~ /^@/ ) { print DST "@"; }
-	print DST "$_<>$rank $STATISTIC{$_} $NUMBERSTRINGS{$_}\n";
+	# N-grams stored in STATISTIC are separated by #
+	# removing last #
+	if($STATISTIC{$score}=~/#$/) { chop $STATISTIC{$score}; }
+	@ngramStrings=split(/#/,$STATISTIC{$score});
+	foreach $ngramString (@ngramStrings)
+	{
+		@tokens=split(/<>/,$ngramString);
+		$numberString=pop @tokens;
+		$ngram=join "<>", @tokens;
+
+		# commented by ADP during version 0.67
+		# do bit-stuffing
+#		if ( $_ =~ /^@/ ) { print DST "@"; }
+#		print DST "$_<>$rank $STATISTIC{$_} $NUMBERSTRINGS{$_}\n";
+
+		print DST "$ngram<>$rank $score $numberString\n";
+	}
     }
 }
 
@@ -568,35 +656,85 @@ sub formattedPrinting
     my $maxFreqLength = 0;
 
     my $rank = 1;
-    my $lastValue = 0;
+
+    # ---------------
+    # ADP.67.1 start
+    # ---------------
+    # the commented code below belongs to versions 0.65 and earlier
+
+#    my $lastValue = 0;
 
     # find the smallest statistic value and assign to $lastValue
-    foreach ( sort { $STATISTIC{$b} <=> $STATISTIC{$a} } keys %STATISTIC )
-    { 
-	$lastValue = $STATISTIC{$_}; 
-	last;
-    }
+#    foreach ( sort { $STATISTIC{$b} <=> $STATISTIC{$a} } keys %STATISTIC )
+#    { 
+#	$lastValue = $STATISTIC{$_}; 
+#	last;
+#    }
 
-    foreach ( sort { $STATISTIC{$b} <=> $STATISTIC{$a} } keys %STATISTIC )
+#    foreach ( sort { $STATISTIC{$b} <=> $STATISTIC{$a} } keys %STATISTIC )
+#    {
+#	my @tokens = split ( /<>/, $_ );
+	
+#	if ( $lastValue != $STATISTIC{$_} ) 
+#	{
+#	    $lastValue = $STATISTIC{$_};
+#	    $rank++;
+#	}
+
+    # Code added by ADP.67.1
+    foreach $score (sort {$b <=> $a} keys %STATISTIC)
     {
-	my @tokens = split ( /<>/, $_ );
-	
-	if ( $lastValue != $STATISTIC{$_} ) 
+	if(defined $currentScore)
 	{
-	    $lastValue = $STATISTIC{$_};
-	    $rank++;
+		if($score < $currentScore) { $rank++; }
+		elsif($score > $currentScore)
+		{
+			print STDERR "Weird sorting error.\n";
+			exit;
+		}
 	}
-	
+	$currentScore=$score;
+
+	# In the following code, ADP changed reference to
+	# $_ by the N-gram strings stored in $STATISTIC{$score} &
+	# $STATISTIC{$_} by $score
+	# during 0.67
+
 	# if less than score cut-off, then quit!
-	if ( defined $scoreCutOff && $STATISTIC{$_} < $scoreCutOff ) { last; }
+#	if ( defined $scoreCutOff && $STATISTIC{$_} < $scoreCutOff ) { last; }
+	if ( defined $scoreCutOff && $score < $scoreCutOff ) { last; }
 	
 	# if exceeded the showing limit for the rank, quit!
 	if ( ( $show > 0 ) && ( $show < $rank ) ) { last; }
 	
-	if (length($_) > $maxNgramStringLength) { $maxNgramStringLength = length($_); }
-	if (length($STATISTIC{$_}) > $maxStatStringLength) { $maxStatStringLength = length($STATISTIC{$_}); }
-	if (length($NUMBERSTRINGS{$_}) > $maxFreqLength) { $maxFreqLength = length($NUMBERSTRINGS{$_}); }
+	if($STATISTIC{$score}=~/#$/) { chop $STATISTIC{$score}; }
+
+	@ngramStrings=split(/#/,$STATISTIC{$score});
+
+	foreach $ngramString (@ngramStrings)
+	{
+		@tokens=split(/<>/,$ngramString);
+		$numberString=pop @tokens;
+		$ngram=join "<>", @tokens;
+
+		# if (length($_) > $maxNgramStringLength) { $maxNgramStringLength = length($_); }
+		if (length($ngram) > $maxNgramStringLength) { $maxNgramStringLength = length($ngram); }
+
+		if (length($numberString) > $maxFreqLength) { $maxFreqLength = length($numberString); }
+	}
+
+#	if (length($STATISTIC{$_}) > $maxStatStringLength) { $maxStatStringLength = length($STATISTIC{$_}); }
+	if (length($score) > $maxStatStringLength) { $maxStatStringLength = length($score); }
+
+#	if (length($NUMBERSTRINGS{$_}) > $maxFreqLength) { $maxFreqLength = length($NUMBERSTRINGS{$_}); }
     }
+
+    # --------------
+    #  ADP.67.1 end
+    # --------------
+
+#   The following code until next ADP.67.1 start has not been updated by 
+#   ADP
 
     my $maxRankLength = length($rank);
 
@@ -667,49 +805,85 @@ sub formattedPrinting
     printf DST "\n";
 
     $rank = 1;
-    $lastValue = 0;
+    #$lastValue = 0;
+
+    # ----------------
+    #  ADP.67.1 start
+    # ----------------
 
     # find the smallest statistic value and assign to $lastValue
-    foreach ( sort { $STATISTIC{$b} <=> $STATISTIC{$a} } keys %STATISTIC )
-    { 
-	$lastValue = $STATISTIC{$_}; 
-	last;
-    }
+#    foreach ( sort { $STATISTIC{$b} <=> $STATISTIC{$a} } keys %STATISTIC )
+#    { 
+#	$lastValue = $STATISTIC{$_};
+#	last;
+#    }
 
-    foreach ( sort { $STATISTIC{$b} <=> $STATISTIC{$a} } keys %STATISTIC )
+#    foreach ( sort { $STATISTIC{$b} <=> $STATISTIC{$a} } keys %STATISTIC )
+#    {
+#        my @tokens = split ( /<>/, $_ );
+	
+#	if ( $lastValue != $STATISTIC{$_} )
+#	{
+#	    $lastValue = $STATISTIC{$_};
+#	    $rank++;
+#	}
+
+    undef $currentScore;
+    # Code added by ADP.67.1
+    foreach $score (sort {$b <=> $a} keys %STATISTIC)
     {
-        my @tokens = split ( /<>/, $_ );
-	
-	if ( $lastValue != $STATISTIC{$_} )
-	{
-	    $lastValue = $STATISTIC{$_};
-	    $rank++;
-	}
-	
+        if(defined $currentScore)
+        {
+                if($score < $currentScore) { $rank++; }
+                elsif($score > $currentScore)
+                {
+                        print STDERR "Weird sorting error.\n";
+                        exit;
+                }
+        }
+        $currentScore=$score;
+
 	# if less than score cut-off, then quit!
-	if ( defined $scoreCutOff && $STATISTIC{$_} < $scoreCutOff ) { last; }
+#	if ( defined $scoreCutOff && $STATISTIC{$_} < $scoreCutOff ) { last; }
+	if ( defined $scoreCutOff && $score < $scoreCutOff ) { last; }
 
 	# if exceeded the showing limit for the rank, quit!
         if ( ( $show > 0 ) && ( $show < $rank ) ) { last; }
-	
-	# check size of string...
-	$spacesToAppend = ($maxNgramStringLength + $spaceBetwFields - length($_));
-	print DST $_;
-	for ($i = 0; $i < $spacesToAppend; $i++) { print DST " "; }
-	
-	for ($i = 0; $i < $spacesToAppendForRank; $i++) { print DST " "; }
-        chomp $rank;
-	printf(DST "%${maxRankLength}d", $rank);
-	for ($i = 0; $i < $spacesToAppendForRank; $i++) { print DST " "; }
 
-	for ($i = 0; $i < $spacesToAppendForStat; $i++) { print DST " "; }
-        chomp $STATISTIC{$_};
-	printf(DST "%${maxStatStringLength}.${precision}f", $STATISTIC{$_});
-	for ($i = 0; $i < $spacesToAppendForStat; $i++) { print DST " "; }
+	if($STATISTIC{$score} =~ /#$/) { chop $STATISTIC{$score}; }
+	@ngramStrings=split(/#/, $STATISTIC{$score});
 
-	for ($i = 0; $i < $spacesToAppendForFreqValues; $i++) { print DST " "; }
-        chomp $NUMBERSTRINGS{$_};
-	printf DST "$NUMBERSTRINGS{$_}\n";
+	foreach $ngramString (@ngramStrings)
+	{
+		@tokens=split(/<>/,$ngramString);
+		$numberString=pop @tokens;
+		$ngram=join "<>", @tokens;
+
+		# check size of string...
+#		$spacesToAppend = ($maxNgramStringLength + $spaceBetwFields - length($_));
+		$spacesToAppend = ($maxNgramStringLength + $spaceBetwFields - length($ngram));
+
+		print DST $ngram;
+		for ($i = 0; $i < $spacesToAppend; $i++) { print DST " "; }
+	
+		for ($i = 0; $i < $spacesToAppendForRank; $i++) { print DST " "; }
+        	chomp $rank;
+		printf(DST "%${maxRankLength}d", $rank);
+		for ($i = 0; $i < $spacesToAppendForRank; $i++) { print DST " "; }
+
+		for ($i = 0; $i < $spacesToAppendForStat; $i++) { print DST " "; }
+		#       chomp $STATISTIC{$_};
+		#	printf(DST "%${maxStatStringLength}.${precision}f", $STATISTIC{$_});
+		printf(DST "%${maxStatStringLength}.${precision}f", $score);
+
+		for ($i = 0; $i < $spacesToAppendForStat; $i++) { print DST " "; }
+
+		for ($i = 0; $i < $spacesToAppendForFreqValues; $i++) { print DST " "; }
+		#       chomp $NUMBERSTRINGS{$_};
+
+		#	printf DST "$NUMBERSTRINGS{$_}\n";
+		printf DST "$numberString\n";
+	}
     }
 }
 
@@ -887,9 +1061,9 @@ sub showHelp
 # function to show version number
 sub showVersion
 {
-    print "statistic.pl     -      version 0.57\n";
-    print "Copyright (C) 2000-2003, Ted Pedersen & Satanjeev Banerjee\n";
-    print "Date of Last Update: 07/01/03\n";
+    print "statistic.pl     -      version 0.67\n";
+    print "Copyright (C) 2000-2003, Ted Pedersen, Satanjeev Banerjee, Amruta Purandare\n";
+    print "Date of Last Update: 03/04/04\n";
 }
 
 # function to output "ask for help" message when the user's goofed up!

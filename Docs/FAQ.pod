@@ -447,9 +447,10 @@ following bigrams in a corpus of text:
 These are first order co-occurrences. 
 
 "telephone" and "busy" are said to be second order co-occurrences of each 
-other since they both occur with "line". Then "operator" is said to be a 
-third order co-occurrence of "line" since it occurs with "telephone" which 
-is a second order co-occurrence of "line". 
+other since they both occur with "line". (Both are first order 
+co-occurrences of "line"). Then "operator" is said to be a second order 
+co-occurrence of "line" since it occurs with "telephone" which 
+is a first order co-occurrence of "line". 
 
 These relationships can be visualized as graphs or chains.
 

@@ -14,7 +14,7 @@ use ExtUtils::MakeMaker;
 
 my @pgms_to_install = qw( count.pl statistic.pl );
 
-my @utils_to_install = qw (kocos.pl rank.pl combig.pl); 
+my @utils_to_install = qw (kocos.pl rank.pl combig.pl huge-count.pl huge-combine.pl sort-bigrams.pl split-data.pl); 
 
 my @sh_to_install = qw( kocos-script.sh rank-script.sh combig-script.sh ); 
 
@@ -33,7 +33,7 @@ WriteMakefile(
 
 # Version Number
 
-    'VERSION'	 	=> '0.65', 
+    'VERSION'	 	=> '0.67', 
 
 # List any required Perl modules
 
@@ -85,6 +85,8 @@ WriteMakefile(
 		'Measures/tmi3.pm' => '$(INST_MAN3DIR)/tmi3.3',
 		'Measures/tscore.pm' => '$(INST_MAN3DIR)/tscore.3',
 		'Measures/x2.pm' => '$(INST_MAN3DIR)/x2.3',
+		'Measures/measure2d.pm' => '$(INST_MAN3DIR)/measure2d.3',
+		'Measures/measure3d.pm' => '$(INST_MAN3DIR)/measure3d.3',
 	 },
 
 ## executable files to be installed, copied to INST_SCRIPT
@@ -123,6 +125,8 @@ WriteMakefile(
 	'Measures/tmi3.pm' => '$(INST_LIB)/tmi3.pm',
 	'Measures/tscore.pm' => '$(INST_LIB)/tscore.pm',
 	'Measures/x2.pm' => '$(INST_LIB)/x2.pm',
+	'Measures/measure2d.pm' => '$(INST_LIB)/measure2d.pm',
+	'Measures/measure3d.pm' => '$(INST_LIB)/measure3d.pm',
 	} ,
 
 ## what happens when you run "make test" (test.pl is also run BTW). 
@@ -208,6 +212,8 @@ html:
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/x2.html --infile=Measures/x2.pm --title="NSP Pearsons Chi Squared Tests"
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/leftFisher.html --infile=Measures/leftFisher.pm --title="NSP Left Sided Fisher's Exact Test"
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/rightFisher.html --infile=Measures/rightFisher.pm --title="NSP Right Sided Fisher's Exact Test"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/measure2d.html --infile=Measures/measure2d.pm --title="NSP 2D measures"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/measure3d.html --infile=Measures/measure3d.pm --title="NSP 3D measures"
 
 # program documentation to html
 
@@ -218,6 +224,10 @@ html:
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/rank.html --infile=Utils/rank.pl --title="NSP rank"
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/kocos.html --infile=Utils/kocos.pl --title="NSP kocos"
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/combig.html --infile=Utils/combig.pl --title="NSP combig"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/huge-count.html --infile=Utils/huge-count.pl --title="NSP huge-count"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/huge-combine.html --infile=Utils/huge-combine.pl --title="NSP huge-combine"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/sort-bigrams.html --infile=Utils/sort-bigrams.pl --title="NSP sort-bigrams"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/split-data.html --infile=Utils/split-data.pl --title="NSP split-data"
 
 # general documentation to html
 

@@ -70,7 +70,7 @@ statistic.pl --ngram 3 --set_freq_combo $FREQCOMBFILE --get_freq_combo freq.out 
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
-diff t1 t2 > difference
+diff -w t1 t2 > difference
 #diff test-2.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"
@@ -135,7 +135,7 @@ statistic.pl --frequency 2 $LIB test-2.out $TESTFILE
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
-diff t1 t2 > difference
+diff -w t1 t2 > difference
 #diff test-2.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"
@@ -174,7 +174,7 @@ statistic.pl --frequency 3 $LIB test-2.out $TESTFILE
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
-diff t1 t2 > difference
+diff -w t1 t2 > difference
 #diff test-2.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"
@@ -229,7 +229,7 @@ statistic.pl --rank 6 $LIB test-2.out $TESTFILE
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
-diff t1 t2 > difference
+diff -w t1 t2 > difference
 #diff test-2.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"
@@ -267,7 +267,7 @@ statistic.pl --rank 3 $LIB test-2.out $TESTFILE
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
-diff t1 t2 > difference
+diff -w t1 t2 > difference
 #diff test-2.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"
@@ -321,7 +321,7 @@ statistic.pl --precision 0 $LIB test-2.out $TESTFILE
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
-diff t1 t2 > difference
+diff -w t1 t2 > difference
 #diff test-2.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"
@@ -359,7 +359,7 @@ statistic.pl --precision 5 $LIB test-2.out $TESTFILE
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
-diff t1 t2 > difference
+diff -w t1 t2 > difference
 #diff test-2.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"
@@ -397,7 +397,7 @@ statistic.pl --precision 10 $LIB test-2.out $TESTFILE
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
-diff t1 t2 > difference
+diff -w t1 t2 > difference
 #diff test-2.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"
@@ -450,7 +450,7 @@ statistic.pl --score 0.8 $LIB test-2.out $TESTFILE
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
-diff t1 t2 > difference
+diff -w t1 t2 > difference
 #diff test-2.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"
@@ -488,7 +488,7 @@ statistic.pl --score 1.2 $LIB test-2.out $TESTFILE
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
-diff t1 t2 > difference
+diff -w t1 t2 > difference
 #diff test-2.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"
@@ -537,7 +537,7 @@ statistic.pl --format $LIB test-2.out $TESTFILE
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
-diff t1 t2 > difference
+diff -w t1 t2 > difference
 #diff test-2.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"
@@ -590,7 +590,7 @@ statistic.pl --extended $LIB test-2.out $TESTFILE
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
-diff t1 t2 > difference
+diff -w t1 t2 > difference
 #diff test-2.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"
@@ -628,7 +628,7 @@ statistic.pl $LIB test-2.out $TESTFILE
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
-diff t1 t2 > difference
+diff -w t1 t2 > difference
 #diff test-2.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"

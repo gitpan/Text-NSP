@@ -1,8 +1,12 @@
 =head1 NAME
 
-NewStats.pod
+NewStats.pod. 
 
 =head1 SYNOPSIS
+
+This document is out of date as of version 0.67. Please consult the  
+documentation in measure2d.pm and measure3d.pm. The following is provided  
+for historical purposes only. 
 
 How to create a new statistics package for the Ngram Statistics Package.
 

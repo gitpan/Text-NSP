@@ -24,6 +24,8 @@ Ted Pedersen <tpederse@d.umn.edu>
 
 Satanjeev Banerjee <banerjee@cs.cmu.edu>
 
+Bridget Thomson McInnes <bthomson@d.umn.edu>
+
 =head1 BUGS
 
 This measure currently only defined for bigram data stored in 2x2 
@@ -54,7 +56,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 =cut
 
 package	leftFisher;
+
+#  Make sure that measure2d.pm is available in the PATH. First
+#  we check in the directory you are running from, and then we
+#  look through the system path. If the module is not found anywhere
+#  then abort. 
+
+my $module = "measure2d.pm"; my $modulename = "measure2d.pm";
+
+if( !( -f $modulename ) ) {
+    my $found = 0;
+    #  Check each of the PATHS to see if the module is there
+    foreach (split(/:/, $ENV{PATH})) {
+ 	$module = $_ . "/" . $modulename;
+	if ( -f $module ) { $found = 1; last; }
+    }
+    # if still not found anywhere, quit!
+    if ( ! $found ) { print "Could not find $modulename.\n"; exit; }
+}
+
+# Include the module into the current package.    
+
+require $module;
 require	Exporter;
+
 @ISA = qw ( Exporter );
 @EXPORT = qw (initializeStatistic getStatisticName calculateStatistic errorCode errorString);
 
@@ -64,136 +89,35 @@ require	Exporter;
 
 sub initializeStatistic
 {
-    ($ngram, $totalBigrams, $combIndex, @freqComb) = @_;
-    
-    $errorCodeNumber = 0;
-    $errorMessage = "";
-
-    # check if ngram > 2. Left-fisher statistic only defined for ngram = 2. 
-    if ($ngram > 2)
-    {
-	$errorCodeNumber = 1;
-	$errorMessage = "Left-fisher statistic is only available for bigrams!";
-	return;
-    }
-
-    # totalBigrams should not be less than equal to 0
-    if ($totalBigrams <= 0) 
-    { 
-	$errorCodeNumber = 10;
-	$errorMessage = "Total number of bigrams ($totalBigrams) must be greater than 0.";
-	return;
-    }
-
-    # figure out from the @freqComb array if the frequency values we
-    # are going to get are indeed the ones we need. the ones we need
-    # are (0,1), (0) and (1). while we figure this out, we shall also
-    # note which of the indices of the array passed to function
-    # calculateStatistic are the ones we want.
-
-    my $i;
-    for ($i = 0; $i < $combIndex; $i++)
-    {
-	$string = join (" ", @{$freqComb[$i]}[1..$freqComb[$i][0]]);
-
-	if ($string eq "0 1") { $jointFreqIndex = $i; }
-	elsif ($string eq "0") { $leftFreqIndex = $i; }
-	elsif ($string eq "1") { $rightFreqIndex = $i; }
-    }
-
-    if (!(defined $jointFreqIndex))
-    {
-	$errorCodeNumber = 100;
-	$errorMessage = "Frequency combination \"0 1\" (frequency of bigram) missing!\n";
-    }
-
-    if (!(defined $leftFreqIndex))
-    {
-	$errorCodeNumber = 101;
-	$errorMessage = "Frequency combination \"0\" (frequency of bigrams containing left token) missing!\n";
-    }
-
-    if (!(defined $rightFreqIndex))
-    {
-	$errorCodeNumber = 102;
-	$errorMessage = "Frequency combination \"1\" (frequency of bigrams containing right token) missing!\n";
-    }
+    measure2d::initializeStatistic(@_);
 }
 
 
 # function to calculate the left fisher value!
 sub calculateStatistic
 {
-    my @numbers = @_;
-    my $jointFrequency = $numbers[$jointFreqIndex];
-    my $leftFrequency  = $numbers[$leftFreqIndex];
-    my $rightFrequency = $numbers[$rightFreqIndex];
-
-    # joint frequency should be greater than equal to zero 
-    if ($jointFrequency < 0)
-    {
-	$errorCodeNumber = 200;
-	$errorMessage = "Frequency value ($jointFrequency) must not be negative.";
+    #  The parameters passed into calculateStatistic
+    #  need to be passed into getObservedValues for it 
+    #  to calculate the Observed values. If there is a 
+    #  problem with the observed values, this function 
+    #  will return, causing the measure to abort its 
+    #  computations and return with a zero code.
+    
+    if( !( ($n11, $n12, $n21, $n22) = measure2d::getObservedValues(@_) ) ) {
 	return(0);
     }
 
-    # joint frequency should be less than or equal to totalBigrams
-    if ($jointFrequency > $totalBigrams)
-    {
-	$errorCodeNumber = 201;
-	$errorMessage = "Frequency value ($jointFrequency) must not exceed total number of bigrams.";
-	return(0);
-    }
+    #  Get the total number of bigrams; no need to check 
+    #  if this is correct because this value was already 
+    #  checked and computed in measure2d::initalizeStatistic.
+    #  getTotalBigrams simply reads an existing value. 
 
-    # joint frequency should be less than or equal to the marginal totals
-    if ($jointFrequency > $leftFrequency || $jointFrequency > $rightFrequency)
-    {
-	$errorCodeNumber = 202;
-	$errorMessage = "Frequency value of ngram ($jointFrequency) must not exceed the marginal totals.";
-	return(0);
-    }
+    my $npp = measure2d::getTotalBigrams();
 
-    # left frequency should be greater than or equal to zero 
-    if ($leftFrequency < 0)
-    {
-	$errorCodeNumber = 210;
-	$errorMessage = "Marginal total value ($leftFrequency) must not be negative.";
-	return(0);
-    }
-
-    # left frequency should be less than or equal to totalBigrams
-    if ($leftFrequency > $totalBigrams)
-    {
-	$errorCodeNumber = 211;
-	$errorMessage = "Marginal total value ($leftFrequency) must not exceed total number of bigrams.";
-	return(0);
-    }
-
-    # right frequency should be greater than or equal to zero 
-    if ($rightFrequency < 0)
-    {
-	$errorCodeNumber = 220;
-	$errorMessage = "Marginal total value ($rightFrequency) must not be negative.";
-	return(0);
-    }
-
-    # right frequency should be less than or equal to totalBigrams
-    if ($rightFrequency > $totalBigrams)
-    {
-	$errorCodeNumber = 221;
-	$errorMessage = "Marginal total value ($rightFrequency) must not exceed total number of bigrams.";
-	return(0);
-    }
-
-    # now the actual calculation!
-
-    my $n11 = $jointFrequency;
-    my $npp = $totalBigrams;
-    my $n1p = $leftFrequency;
-    my $np1 = $rightFrequency;
-    my $n2p = $npp - $n1p;
-    my $np2 = $npp - $np1;
-
+    #  Get the marginal frequencies;
+    
+    my ($n1p, $np1, $n2p, $np2) = measure2d::getMarginalTotals();
+       
     # we shall have two	arrays one for the numerator and one for the
     # denominator. the arrays will contain the factorial upper limits. we
     # shall be arrange these two arrays	in descending order. while doing the
@@ -208,11 +132,10 @@ sub calculateStatistic
     my $probability = 0;
     my $i;
     my $j;
+
     # we shall calculate for n11 = 0. thereafter we shall just multiply	and
     # divide the result	for 0 with correct numbers to obtain result for	i,
     # i>0, i<=n11!! :o)
-
-    ########### this part by Nitin O Varma
 
     $final_Limit = $n11;
     $n11 = 0;
@@ -228,7 +151,6 @@ sub calculateStatistic
         $n22 = $n2p - $n21;
     }
 
-    ########### end of part by Nitin O Varma
 
     my @denominator = sort { $b	<=> $a } ($npp,	$n22, $n12, $n21, $n11);
 
@@ -296,14 +218,13 @@ sub calculateStatistic
 	}
     }
 
-    # $product now has the hypergeometric probability for n11 =	0. add it to
-    # the cumulative probability
+    # $product now has the hypergeometric probability for 
+    # n11 = 0. add it to the cumulative probability
     $probability += $product;
 
-    # Bridget Thomson McInnes October 15 2003
-    # I set i <= final_Limit rather than n11 because we want to sum the 
-    # hypergeometric probabilities where the count in n11 is less and or 
-    # equal to the observed value.
+    # I set i <= final_Limit because we want to sum the 
+    # hypergeometric probabilities where the count in 
+    # n11 is less and or equal to the observed value.
  
     # now for the rest of n11's	!!
     
@@ -324,8 +245,6 @@ sub calculateStatistic
 	$probability +=	$product; # !! :o)
     }
 
-
-    # Bridget Thomson McInnes October 15 2003
     # So now we would return the probability rather than 1 - probability
     return ($probability);
 }
@@ -334,18 +253,14 @@ sub calculateStatistic
 # error code. useful if the error can be recovered from!
 sub errorCode 
 { 
-    my $temp = $errorCodeNumber;
-    $errorCodeNumber = 0;
-    return($temp); 
+    return measure2d::errorCode();
 }
 
 # function to return the error message of the last operation and reset
 # the message string. useful if error can be recovered from!
 sub errorString
 {
-    my $temp = $errorMessage;
-    $errorMessage = "";
-    return($temp);
+    return measure2d::errorString();
 }
 
 # function to return the name of this statistic

@@ -1,10 +1,10 @@
 
-	Welcome to the Ngram Statistics Package, version 0.65 
+	Welcome to the Ngram Statistics Package, version 0.67 
         -----------------------------------------------------
 
- 	     	        December 30, 2003
+ 	     	          March 5, 2004
 
- 		      Copyright (C) 2000-2003
+ 		      Copyright (C) 2000-2004
 
   	   	 Ted Pedersen (tpederse@d.umn.edu)
 		 University of Minnesota, Duluth
@@ -46,15 +46,15 @@ On Unix/Linux, NSP should be included in your PATH. This is how I set my
 .cshrc file to include NSP if I have downloaded from sourceforge or from
 Ted Pedersen's home page. 
 
-set path = ($HOME/nsp-v0.65 $path)
-set path = ($HOME/nsp-v0.65/Measures $path)
-set path = ($HOME/nsp-v0.65/Utils $path)
+set path = ($HOME/nsp-v0.67 $path)
+set path = ($HOME/nsp-v0.67/Measures $path)
+set path = ($HOME/nsp-v0.67/Utils $path)
 
 If I have downloaded from CPAN, I set these paths as follows:
 
-set path = ($HOME/Text-NSP-0.65 $path)
-set path = ($HOME/Text-NSP-0.65/Measures $path)
-set path = ($HOME/Text-NSP-0.65/Utils $path)
+set path = ($HOME/Text-NSP-0.67 $path)
+set path = ($HOME/Text-NSP-0.67/Measures $path)
+set path = ($HOME/Text-NSP-0.67/Utils $path)
 
 After doing this, you should be able to run any of the NSP programs from  
 any directory. 
@@ -78,7 +78,7 @@ NSP without needing to set any paths explicitly.
 If you do not have such authority, you can install into a directory of  
 your own choosing by running (for example):
 
-perl Makefile.PL PREFIX=/home/cs/mydirectory/NSP65
+perl Makefile.PL PREFIX=/home/cs/mydirectory/NSP67
 make
 make test
 make install

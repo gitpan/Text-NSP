@@ -25,6 +25,8 @@ Measures/dice.pm
 Measures/leftFisher.pm
 Measures/ll.pm
 Measures/ll3.pm
+Measures/measure2d.pm
+Measures/measure3d.pm
 Measures/odds.pm
 Measures/phi.pm
 Measures/pmi.pm

@@ -223,6 +223,14 @@ There is some shared code in the /Measures that could be put into a single
 directory and then inherited by each measure. This would make it easier to 
 write new Measures, and to maintain the existing ones. 
 
+=head2 NBYN.pl 
+
+make nbyn.pl program distribution ready (Amruta). This program
+takes marginal totals as input, and produces the internal 
+cell counts that led to these marginals (but that are not shown
+in NSP output). This is useful for converting count.pl output
+for testing in another system (SAS, for example). 
+
 =head1 AUTHOR
 
 Ted Pedersen, tpederse@d.umn.edu

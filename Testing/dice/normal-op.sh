@@ -48,7 +48,6 @@ echo ""
 /bin/rm -f error.out
 /bin/rm -f test-2.out
 
-
 # input file
 set TESTFILE = "test-2.sub-1-b.cnt"
 

@@ -48,7 +48,6 @@ echo ""
 /bin/rm -f error.out
 /bin/rm -f test-1.out
 
-
 # Subtest 2: what happens when all three frequency values are not
 # available to x2
 

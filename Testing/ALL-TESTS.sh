@@ -3,7 +3,7 @@
 
 foreach dir (combig count dice leftFisher \
              ll ll3 odds phi pmi rank rightFisher statistic tmi tmi3 \
-             tscore x2) 
+             tscore x2 huge-count huge-combine sort-bigrams split-data) 
 
 	cd $dir
 	./normal-op.sh 

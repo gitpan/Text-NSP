@@ -2,7 +2,7 @@
 
 README for Ngram Statistics Package
 
-Last Updated for Version 0.63, December 29, 2003
+Last Updated for Version 0.67, March 9, 2004
 
 =head1 SYNOPSIS
 
@@ -36,7 +36,7 @@ this score. The statistical score computed for each Ngram can be used to
 decide whether or not there is enough evidence to reject the null 
 hypothesis (that the Ngram is not a collocation) for that Ngram. 
 
-Three Utility programs are found in Utils/ and take as their input 
+Various utility programs are found in Utils/ and take as their input 
 the results (output) from count.pl and/or statistic.pl.
 
 Utils/rank.pl takes as input two files output by statistic.pl and   
@@ -66,8 +66,14 @@ that they do not depend on the order. So one could then go on to measure
 how much the words "fine" and "wine" are associated without respect to 
 their order. 
 
-This README continues with an introduction to the basic definitions of
-tokens, the tokenization process and the Ngram formation process. This
+Utils/huge-count.pl allows a user to run count.pl on much larger corpora. 
+It essentially divides a corpora into pieces, and then uses count.pl to 
+count piece, and then recombines the counts to get the final output. 
+huge-count.pl also uses Utils/huge-combine.pl, Utils/split-data.pl, and 
+Utils/sort-bigrams.pl.
+
+This README continues with an introduction to the basic definitions 
+of tokens, the tokenization process and the Ngram formation process. This
 is followed by a description of the two main programs in this suite 
 (count.pl and statistic.pl) and brief notes one how one could typically  
 use each of them. The programs rank.pl, kocos.pl, and combig.pl are 
