@@ -215,17 +215,24 @@ while(<BIG>)
 	{
 		$bigrams{$score}="";
 	}
-	$bigrams{$score}.=$big_string."#";
+	if($big_string=~/<\|\|>/)
+	{
+		print STDERR "ERROR($0):
+	Detected internal separator string <||> at line $line_num in BIGRAM
+	file <$bigfile>.\n";
+		exit 1;
+	}
+	$bigrams{$score}.=$big_string."<||>";
 }
 
 print "$total\n";
 foreach $score (sort {$b <=> $a} keys %bigrams)
 {
-	# remove last #
-	if($bigrams{$score}=~/#$/) { chop $bigrams{$score}; }
+	# remove last <||>
+	if($bigrams{$score}=~/<\|\|>$/) { $bigrams{$score}=~s/<\|\|>$//; }
 
 	# get all bigrams with this score
-	@big_strings=split(/#/,$bigrams{$score});
+	@big_strings=split(/<\|\|>/,$bigrams{$score});
 	foreach $bigram (@big_strings)
 	{
 		# subtract the removed bigram counts if 
@@ -325,11 +332,11 @@ Type 'perldoc sort-bigrams.pl' to view detailed documentation of this program.\n
 #version information
 sub showversion()
 {
-        print "sort-bigrams.pl      -       Version 0.02";
+        print "sort-bigrams.pl      -       Version 0.03";
         print "
 Sorts a given bigram file in the descending order of the bigram scores.\n";
         print "Copyright (C) 2004, Amruta Purandare & Ted Pedersen.\n";
-        print "Date of Last Update:     03/04/2004\n";
+        print "Date of Last Update:     06/14/2004\n";
 }
 
 #############################################################################

@@ -543,3 +543,24 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-1.out
+
+# Subtest 6: what happens when the tokens include internal marker <||>
+# Test added by Amruta during version 0.71
+
+echo "Subtest 6"
+echo ""
+echo "Test:   statistic.pl ll test-1.out test-1.sub-6.cnt"
+statistic.pl ll test-1.out test-1.sub-6.cnt >& error.out
+
+diff error.out test-1.sub-6.reqd > difference
+if(-z difference) then
+	echo "Status: OK\!\! Output error message matches target error message (as provided in test-1.sub-6.reqd)"
+else
+	echo "Status: ERROR\!\! Following differences exist between error.out and test-1.sub-6.reqd :"
+    cat difference
+endif
+
+echo ""
+
+/bin/rm -f difference error.out test-1.out
+

@@ -33,7 +33,7 @@ WriteMakefile(
 
 # Version Number
 
-    'VERSION'	 	=> '0.67', 
+    'VERSION'	 	=> '0.71', 
 
 # List any required Perl modules
 
@@ -241,6 +241,8 @@ html:
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/Usage.html --infile=Docs/Usage.pod --title="NSP Usage"
 
 # general documentation to man/man3
+
+	@$(MKPATH) $(SITEPREFIX)/man/man3
 
 	@echo "Installing man page documentation in $(SITEPREFIX)/man/man3"
 

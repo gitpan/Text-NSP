@@ -58,14 +58,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 #version        date            programmer      List of changes     change-id
 #
-# 0.67		02/19/2004	Amruta		Used stat scores     ADP.67.1
+# 0.69		06/14/2004	Amruta		Changed the internal   ADP.71
+#						N-gram separator # 
+#						to <||>
+#
+# 0.67		02/19/2004	Amruta		Used stat scores      ADP.67.1
 #						as keys of the hash
 #						instead of the N-grams
 #						This reduces the memory
 #						consumption when large
 #						#Ngrams have same scores
 #          
-# 0.57          07/01/2003      Ted         (1) if destination file  TDP.57.3
+# 0.57          07/01/2003      Ted         (1) if destination file   TDP.57.3
 #		                                found, check for 
 #                                               source before proceeding
 ###############################################################################
@@ -506,11 +510,27 @@ while(<SRC>)
 
 #   $STATISTIC{$ngramString} = sprintf $floatFormat, $statisticValue;
     $statScore = sprintf $floatFormat, $statisticValue;
-    # the keys of the hash are now the stat scores while 
-    # values are all N-grams separated by # that have that score
 
-    $STATISTIC{$statScore}.=$ngramString."#";
+    # ADP.71.1 start
+    # changing separator # to <||>
+#   $STATISTIC{$statScore}.=$ngramString."#";
     # ADP.67.1 end
+
+    # as noticed by some users, use of # as a separator between the
+    # N-gram strings causes problems when tokens include #
+
+    # in version 0.71, we changed the separator # to <||> which is a
+    # more rare sequence to appear in the tokens
+    # also, we issue now an error message when this sequence <||> does
+    # appear within the ngramString
+    if($ngramString=~/<\|\|>/)
+    {
+	print STDERR "Detected sequence <||> within Ngram - $ngramString.
+statistic.pl will not behave as expected.\n";
+	exit 1;
+    }
+    $STATISTIC{$statScore}.=$ngramString."<||>";
+    # ADP.71.1 end
 
 }
 
@@ -618,10 +638,17 @@ sub unformattedPrinting
 	# if exceeded the showing limit for the rank, quit!
 	if ( ( $show > 0 ) && ( $show < $rank ) ) { last; }
 
-	# N-grams stored in STATISTIC are separated by #
-	# removing last #
-	if($STATISTIC{$score}=~/#$/) { chop $STATISTIC{$score}; }
-	@ngramStrings=split(/#/,$STATISTIC{$score});
+	# ADP.71.2 start
+	# changed separator mark # to <||>
+
+	# N-grams stored in STATISTIC are separated by <||>
+	# removing last <||>
+#	if($STATISTIC{$score}=~/#$/) { chop $STATISTIC{$score}; }
+#	@ngramStrings=split(/#/,$STATISTIC{$score});
+	if($STATISTIC{$score}=~/<\|\|>$/) { $STATISTIC{$score}=~s/<\|\|>$//; }
+        @ngramStrings=split(/<\|\|>/,$STATISTIC{$score});
+	# ADP.71.2 end
+
 	foreach $ngramString (@ngramStrings)
 	{
 		@tokens=split(/<>/,$ngramString);
@@ -707,9 +734,14 @@ sub formattedPrinting
 	# if exceeded the showing limit for the rank, quit!
 	if ( ( $show > 0 ) && ( $show < $rank ) ) { last; }
 	
-	if($STATISTIC{$score}=~/#$/) { chop $STATISTIC{$score}; }
+	# ADP.71.3 start
+	# changed separator # to <||>
+	#if($STATISTIC{$score}=~/#$/) { chop $STATISTIC{$score}; }
+	if($STATISTIC{$score}=~/<\|\|>$/) { $STATISTIC{$score}=~s/<\|\|>$//; }
 
-	@ngramStrings=split(/#/,$STATISTIC{$score});
+	#@ngramStrings=split(/#/,$STATISTIC{$score});
+	@ngramStrings=split(/<\|\|>/,$STATISTIC{$score});
+	# ADP.71.3 end
 
 	foreach $ngramString (@ngramStrings)
 	{
@@ -850,8 +882,12 @@ sub formattedPrinting
 	# if exceeded the showing limit for the rank, quit!
         if ( ( $show > 0 ) && ( $show < $rank ) ) { last; }
 
-	if($STATISTIC{$score} =~ /#$/) { chop $STATISTIC{$score}; }
-	@ngramStrings=split(/#/, $STATISTIC{$score});
+	# ADP.71.4 start
+	# if($STATISTIC{$score} =~ /#$/) { chop $STATISTIC{$score}; }
+	if($STATISTIC{$score} =~ /<\|\|>$/) { $STATISTIC{$score}=~s/<\|\|>$//; }
+	# @ngramStrings=split(/#/, $STATISTIC{$score});
+	@ngramStrings=split(/<\|\|>/, $STATISTIC{$score});
+	# ADP.71.4 end
 
 	foreach $ngramString (@ngramStrings)
 	{
@@ -1061,9 +1097,9 @@ sub showHelp
 # function to show version number
 sub showVersion
 {
-    print "statistic.pl     -      version 0.67\n";
-    print "Copyright (C) 2000-2003, Ted Pedersen, Satanjeev Banerjee, Amruta Purandare\n";
-    print "Date of Last Update: 03/04/04\n";
+    print "statistic.pl     -      version 0.69\n";
+    print "Copyright (C) 2000-2004, Ted Pedersen, Satanjeev Banerjee, Amruta Purandare\n";
+    print "Date of Last Update: 06/14/2004\n";
 }
 
 # function to output "ask for help" message when the user's goofed up!

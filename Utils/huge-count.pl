@@ -72,6 +72,21 @@ Specify a file containing Perl regular expressions of non-token sequences
 that are removed prior to tokenization. This will be provided to the 
 count.pl's --nontoken option.
 
+--stop STOPFILE
+
+Specify a file of Perl regex/s containing the list of stop words to be 
+omitted from the output BIGRAMS. Stop list can be used in two modes -
+
+AND mode declared with '@stop.mode = AND' on the 1st line of the STOPFILE
+
+or
+
+OR mode declared using '@stop.mode = OR' on the 1st line of the STOPFILE.
+
+In AND mode, bigrams whose both constituent words are stop words are removed
+while, in OR mode, bigrams whose either or both constituent words are 
+stopwords are removed from the output.
+
 =head4 --window W
 
 Tokens appearing within W positions from each other (with at most W-2 
@@ -763,6 +778,10 @@ OPTIONS:
 	Specify a file containing Perl regular expressions of non-token
 	sequences that are removed prior to tokenization.
 
+--stop STOPFILE
+	Specify a file containing Perl regular expressions of stop words
+	that are to be removed from the output bigrams.
+
 --window W
 	Specify the window size for counting.
 
@@ -788,10 +807,10 @@ Type 'perldoc huge-count.pl' to view detailed documentation of huge-count.\n";
 #version information
 sub showversion()
 {
-        print "huge-count.pl      -       Version 0.02\n";
+        print "huge-count.pl      -       Version 0.03\n";
         print "Efficiently runs count.pl on a huge data.\n";
         print "Copyright (C) 2004, Amruta Purandare & Ted Pedersen.\n";
-        print "Date of Last Update:     03/04/2004\n";
+        print "Date of Last Update:     03/30/2004\n";
 }
 
 #############################################################################

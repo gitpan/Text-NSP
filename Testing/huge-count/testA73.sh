@@ -7,10 +7,11 @@ huge-count.pl --token token.regex --nontoken nontoken.regex --stop stoplist test
 
 # testing count
 
-diff test-A73.output/test-A73.data1.bigrams test-A7.reqd/test-A7.data1.bigrams > var1
-diff test-A73.output/test-A73.data2.bigrams test-A7.reqd/test-A7.data2.bigrams > var2
-diff test-A73.output/test-A73.data3.bigrams test-A7.reqd/test-A7.data3.bigrams > var3
-diff test-A73.output/test-A73.data4.bigrams test-A7.reqd/test-A7.data4.bigrams > var4
+foreach i (1 2 3 4)
+	sort test-A73.output/test-A73.data$i.bigrams > t0
+	sort test-A7.reqd/test-A7.data$i.bigrams > t1
+	diff t0 t1 > var$i
+end
 
 if(-z var1 && -z var2 && -z var3 && -z var4) then
         echo "Test Ok";
@@ -26,7 +27,7 @@ else
         cat var4;
 endif
 
-/bin/rm -f var1 var2 var3 var4
+/bin/rm -f var1 var2 var3 var4 t0 t1
 
 # testing final output
 

@@ -4,7 +4,10 @@ Testing for statistic.pl
 Satanjeev Banerjee
 bane0025@d.umn.edu
 
-12th February, 2002
+Amruta Purandare
+pura0010@d.umn.edu
+
+June 14, 2004
 
 1. Introduction: 
 ----------------
@@ -121,6 +124,17 @@ is provided, it would be impossible to execute (since the ngram
 frequency is missing). In this situation, statistic.pl provides a
 warning that the frequency cut-off requested is being ignored. This
 subtest checks for this warning. 
+
+2.1.6 Subtest 6:
+----------------
+
+Tests if statistic.pl correctly detects the error when tokens include
+the marker sequence <||>. This marker is internally used to separate
+N-gram strings stored according to their statistic scores. The hash
+structure we use stores all N-grams with a particular score separated
+by <||> sequence in a hash. Having <||> within any N-gram tokens 
+results into program malfunctioning. Hence, in such case, the program
+is expected to abort with error message as shown in test-1.sub-6.reqd
 
 2.2. Phase 2: Testing statistic.pl's behaviour under normal operation: 
 ----------------------------------------------------------------------
