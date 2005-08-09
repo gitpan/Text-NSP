@@ -31,6 +31,12 @@ Bridget Thomson McInnes <bthomson@d.umn.edu>
 This measure currently only defined for bigram data stored in 2x2 
 contingency table. 
 
+A user reported observing some cases of overflow in Fisher's exact test in
+the Ngram Statistics Package (both the left and right variations). My own
+conclusion is that there is a bit of rounding error at work here, since we
+are summing together a potentially large number of hyper-geometric
+probabilities to arrive at the value. 
+
 =head1 SEE ALSO
 
 Mailing List: http://groups.yahoo.com/ngram
@@ -57,18 +63,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 package	leftFisher;
 
+use Config;
+use File::Spec;
+
 #  Make sure that measure2d.pm is available in the PATH. First
 #  we check in the directory you are running from, and then we
 #  look through the system path. If the module is not found anywhere
 #  then abort. 
 
 my $module = "measure2d.pm"; my $modulename = "measure2d.pm";
+my $path_sep = $Config::Config{path_sep};
 
 if( !( -f $modulename ) ) {
     my $found = 0;
     #  Check each of the PATHS to see if the module is there
-    foreach (split(/:/, $ENV{PATH})) {
- 	$module = $_ . "/" . $modulename;
+    foreach (split(/$path_sep/, $ENV{PATH})) {
+ 	$module = File::Spec->catfile($_, $modulename);
 	if ( -f $module ) { $found = 1; last; }
     }
     # if still not found anywhere, quit!

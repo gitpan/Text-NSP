@@ -69,9 +69,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #						consumption when large
 #						#Ngrams have same scores
 #          
-# 0.57          07/01/2003      Ted         (1) if destination file   TDP.57.3
+# 0.57      	07/01/2003  	Ted         (1) if destination file   TDP.57.3
 #		                                found, check for 
 #                                               source before proceeding
+# 
+# 0.72      	08/02/2005      Ted             Made use of Config and
+#                                               File::Spec modules to
+#                                               detect system dependent
+#                                               PATH variable separator 
+#                                               character - : or ; and
+#                                               system dependent file
+#                                               separator character - / or \.
+#                                               Similar changes made to
+#                                               all the .pm files in
+#                                               Measures sub-directory
 ###############################################################################
 #-----------------------------------------------------------------------------
 #                              Start of Program
@@ -79,6 +90,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 # we have to use commandline options, so use the necessary package!
 use Getopt::Long;
+
+use Config;
+use File::Spec;
 
 # first check if no commandline options have been provided... in which case
 # print out the usage notes!
@@ -218,16 +232,19 @@ if ( $pathComponents[$#pathComponents] eq "pm" )
 $importname = $statistic;
 $statistic = $importname . ".pm";
 
+my $path_sep = $Config::Config{path_sep};
+
 # if statistic file not present in currect directory, then search in the path
 if ( !( -f $statistic ) )
 {
-    my @directories = split (/:/, $ENV{PATH});
+    my @directories = split (/$path_sep/, $ENV{PATH});
     my $dir;
     my $found = 0;
 
     foreach $dir (@directories)
     {
-	$statistic = $dir . "/" . $importname . ".pm";
+        $statistic = File::Spec->catfile($dir, "$importname.pm");
+
 	if ( -f $statistic ) 
 	{ 
 	    $found = 1;

@@ -1,10 +1,10 @@
 
-	Welcome to the Ngram Statistics Package, version 0.71 
+	Welcome to the Ngram Statistics Package, version 0.73 
         -----------------------------------------------------
 
- 	     	          June 16, 2004
+ 	     	          August 9, 2005
 
- 		      Copyright (C) 2000-2004
+ 		      Copyright (C) 2000-2005
 
   	   	 Ted Pedersen (tpederse@d.umn.edu)
 		 University of Minnesota, Duluth
@@ -46,15 +46,15 @@ On Unix/Linux, NSP should be included in your PATH. This is how I set my
 .cshrc file to include NSP if I have downloaded from sourceforge or from
 Ted Pedersen's home page. 
 
-set path = ($HOME/nsp-v0.71 $path)
-set path = ($HOME/nsp-v0.71/Measures $path)
-set path = ($HOME/nsp-v0.71/Utils $path)
+set path = ($HOME/nsp-v0.73 $path)
+set path = ($HOME/nsp-v0.73/Measures $path)
+set path = ($HOME/nsp-v0.73/Utils $path)
 
 If I have downloaded from CPAN, I set these paths as follows:
 
-set path = ($HOME/Text-NSP-0.71 $path)
-set path = ($HOME/Text-NSP-0.71/Measures $path)
-set path = ($HOME/Text-NSP-0.71/Utils $path)
+set path = ($HOME/Text-NSP-0.73 $path)
+set path = ($HOME/Text-NSP-0.73/Measures $path)
+set path = ($HOME/Text-NSP-0.73/Utils $path)
 
 After doing this, you should be able to run any of the NSP programs from  
 any directory. 

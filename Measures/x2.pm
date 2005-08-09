@@ -14,6 +14,36 @@ data and what would be expected if <word1> and <word2> were independent.
 The higher the score, the less evidence there is in favor of concluding  
 that the words are independent. 
 
+
+Assume that the frequency count data associated with a bigram  
+<word1><word2> is stored in a 2x2 contingency table:
+
+          word2   ~word2
+  word1    n11      n12 | n1p
+ ~word1    n21      n22 | n2p
+           --------------
+           np1      np2   npp
+
+where n11 is the number of times <word1><word2> occur together, and
+n12 is the number of times <word1> occurs with some word other than
+word2, and n1p is the number of times in total that word1 occurs as
+the first word in a bigram. 
+
+The expected values for the internal cells are calculated by taking the 
+product of their associated marginals and dividing by the sample size, 
+for example:
+
+          np1 * n1p
+   m11=   ---------
+            npp
+
+Then the deviation between observed and expected values for each internal 
+cell is computed to arrive at the Pearson's Chi-Squared test value:
+
+ Pearson's Chi-Squared = 2 * [((n11 - m11)/m11)^2 + ((n12 - m12)/m12)^2 + 
+                              ((n21 - m21)/m21)^2 + ((n22 -m22)/m22)^2] 
+
+
 =head1 AUTHORS
 
 Ted Pedersen <tpederse@d.umn.edu>
@@ -52,6 +82,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 =cut
 
 package x2;
+use Config;
+use File::Spec;
 
 #  Make sure that measure2d.pm is available in the PATH. First
 #  we check in the directory you are running from, and then we
@@ -59,12 +91,13 @@ package x2;
 #  then abort. 
 
 my $module = "measure2d.pm"; my $modulename = "measure2d.pm";
+my $path_sep = $Config::Config{path_sep};
 
 if( !( -f $modulename ) ) {
     my $found = 0;
     #  Check each of the PATHS to see if the module is there
-    foreach (split(/:/, $ENV{PATH})) {
- 	$module = $_ . "/" . $modulename;
+    foreach (split(/$path_sep/, $ENV{PATH})) {
+ 	$module = File::Spec->catfile($_, $modulename);
 	if ( -f $module ) { $found = 1; last; }
     }
     # if still not found anywhere, quit!

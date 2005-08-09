@@ -5,12 +5,15 @@ phi.pm
 
 =head1 SYNOPSIS
 
-Statistical library package to calculate the Phi Coefficient. This
-package should be used with statistic.pl and rank.pl.
+Statistical library package to calculate the square of the Phi   
+Coefficient. This package should be used with statistic.pl and rank.pl.
 
 =head1 DESCRIPTION
 
-Assume that the frequency count data associated with a bigram 
+This function computes the the square of the traditional formulation of  
+the Phi Coefficient. 
+
+Assume that the frequency count data associated with a bigram  
 <word1><word2> is stored in a 2x2 contingency table:
 
           word2   ~word2
@@ -24,7 +27,19 @@ n12 is the number of times <word1> occurs with some word other than
 word2, and n1p is the number of times in total that word1 occurs as
 the first word in a bigram. 
 
-PHI COEFFCIENT = ((n11 * n22) - (n21 * n22))^2/ (n1p * np1 * np2 * n2p)
+ PHI^2 = ((n11 * n22) - (n21 * n21))^2/(n1p * np1 * np2 * n2p)
+
+Note that the value of PHI^2 is equivalent to  
+Pearson's Chi-Squared test multiplied by the sample size, that is:
+
+ Chi-Squared = npp * PHI^2
+
+We use PHI^2 rather than PHI since PHI^2 was employed for collocation 
+identification in: 
+
+Church, K. (1991) Concordances for Parallel Text, Seventh Annual   
+Conference of the UW Centre for the New OED and Text Research, Oxford,  
+England.
 
 =head1 AUTHORS
 
@@ -62,6 +77,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 =cut
 
 package phi;
+use Config;
+use File::Spec;
 
 #  Make sure that measure2d.pm is available in the PATH. First
 #  we check in the directory you are running from, and then we
@@ -69,12 +86,13 @@ package phi;
 #  then abort. 
 
 my $module = "measure2d.pm"; my $modulename = "measure2d.pm";
+my $path_sep = $Config::Config{path_sep};
 
 if( !( -f $modulename ) ) {
     my $found = 0;
     #  Check each of the PATHS to see if the module is there
-    foreach (split(/:/, $ENV{PATH})) {
- 	$module = $_ . "/" . $modulename;
+    foreach (split(/$path_sep/, $ENV{PATH})) {
+ 	$module = File::Spec->catfile($_, $modulename);
 	if ( -f $module ) { $found = 1; last; }
     }
     # if still not found anywhere, quit!

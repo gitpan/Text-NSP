@@ -59,6 +59,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ## Banerjee
 
 package ll3;
+use Config;
+use File::Spec;
 
 #  Make sure that measure3d.pm is available in the PATH. First
 #  we check in the directory you are running from, and then we
@@ -66,12 +68,13 @@ package ll3;
 #  then abort. 
 
 my $module = "measure3d.pm"; my $modulename = "measure3d.pm";
+my $path_sep = $Config::Config{path_sep};
 
 if( !( -f $modulename ) ) {
     my $found = 0;
     #  Check each of the PATHS to see if the module is there
-    foreach (split(/:/, $ENV{PATH})) {
- 	$module = $_ . "/" . $modulename;
+    foreach (split(/$path_sep/, $ENV{PATH})) {
+ 	$module = File::Spec->catfile($_, $modulename);
 	if ( -f $module ) { $found = 1; last; }
     }
     # if still not found anywhere, quit!

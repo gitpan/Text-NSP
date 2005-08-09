@@ -33,7 +33,7 @@ WriteMakefile(
 
 # Version Number
 
-    'VERSION'	 	=> '0.71', 
+    'VERSION'	 	=> '0.73', 
 
 # List any required Perl modules
 

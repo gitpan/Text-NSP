@@ -196,12 +196,17 @@ A small code snippet to ensure that it is included is as follows:
  #  Check to see if the statistic.pm module can see the
  #  measure3d.pm module ... if not see if it can be found.
 
+ use Config;
+ use File::Spec;
+ 
+ my $path_sep = $Config::Config{path_sep};
+
  my $module = "measure3d.pm"; my $modulename = "measure3d.pm";
  if( !( -f $modulename ) ) {
     my $found = 0;
     #  Check each of the PATHS to see if the module is there
-    foreach (split(/:/, $ENV{PATH})) {
- 	$module = $_ . "/" . $modulename;
+    foreach (split(/$path_sep/, $ENV{PATH})) {
+    $module = File::Spec->catfile($_, $modulename);
 	if ( -f $module ) { $found = 1; last; }
     }
     # if still not found anywhere, quit!
