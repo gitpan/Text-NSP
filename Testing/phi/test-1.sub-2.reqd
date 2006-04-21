@@ -1,4 +1,1 @@
-Error from statistic library!
-  Error code: 102
-  Error message: Frequency combination "1" (frequency of bigrams containing right token) missing!
-
+Frequency combination "1" (frequency of bigram) missing!

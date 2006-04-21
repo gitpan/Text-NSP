@@ -1,3 +1,1 @@
-Error from statistic library!
-  Error code: 1
-  Error message: This statistic is only available for bigrams!
+Error: This measure is only defined for bigrams

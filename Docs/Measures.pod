@@ -8,59 +8,59 @@ A list and description of the measures of association included in NSP
 
 =head1  DESCRIPTION
 
-=head2 1) ll.pm		Log-Likelihood Ratio 
+=head2 1) ll.pm         Log-Likelihood Ratio
 
-This is the among the more widely used tests for finding strongly  
+This is the among the more widely used tests for finding strongly
 associated bigrams. The following provides a theoretical argument
 in its favor:
 
  @article{Dunning93,
         author = {Dunning, T.},
-        title = {Accurate Methods for the Statistics of 
-			Surprise and Coincidence},
+        title = {Accurate Methods for the Statistics of
+                        Surprise and Coincidence},
         journal = {Computational Linguistics},
         volume = {19},
         number = {1},
         year = {1993},
         pages = {61-74}}
-		
 
-=head2 2) ll3.pm 		Log likelihood Ratio for Trigrams
 
-This is our only test for trigrams. It extends directly from ll.pm. 
+=head2 2) ll3.pm                Log likelihood Ratio for Trigrams
 
-=head2 3) pmi.pm 		Pointwise Mutual Information 
+This is our only test for trigrams. It extends directly from ll.pm.
 
-Widely used, maybe not the best choice however. The Manning and Schutze  
+=head2 3) pmi.pm                Pointwise Mutual Information
+
+Widely used, maybe not the best choice however. The Manning and Schutze
 textbook, "Foundations of Statistical Natural Language Processing", MIT
-Press, presents various of the arguments against its use. 
+Press, presents various of the arguments against its use.
 
 
-=head2 4) dice.pm 		Dice Coefficient  
+=head2 4) dice.pm               Dice Coefficient
 
-Very closely related to PMI. Has some of the same drawbacks. Nice general 
+Very closely related to PMI. Has some of the same drawbacks. Nice general
 discussion of this measure can be found here:
 
 @article{SmadjaMH96,
         author = {Smadja, F. and McKeown, K. and Hatzivassiloglou, V.},
-        title = {Translating Collocations for Bilingual Lexicons: A 
-		Statistical Approach},
+        title = {Translating Collocations for Bilingual Lexicons: A
+                Statistical Approach},
         journal = {Computational Linguistics},
         volume = {22},
         number = {1},
         year = {1996},
         pages = {1-38}}
 
-=head2 5) leftFisher.pm 	Fisher's Exact Test (left sided) 
+=head2 5) leftFisher.pm         Fisher's Exact Test (left sided)
 
-Docs/FAQ.txt discusses Fisher's Exact Test in some depth. You can see a 
+Docs/FAQ.txt discusses Fisher's Exact Test in some depth. You can see a
 more detailed treatment of it at:
 
  @inproceedings{Pedersen96,
         author = {Pedersen, T.},
         title = {Fishing For Exactness},
-        booktitle = {Proceedings of the South Central SAS User's 
-		Group (SCSUG-96) Conference},
+        booktitle = {Proceedings of the South Central SAS User's
+                Group (SCSUG-96) Conference},
         year = {1996},
         pages = {188--200},
         month ={October},
@@ -69,15 +69,15 @@ more detailed treatment of it at:
 Available from http://www.d.umn.edu/~tpederse/pubs.html
 
 
-=head2 6) rightFisher.pm	Fisher's exact test (right sided) 
+=head2 6) rightFisher.pm        Fisher's exact test (right sided)
 
 Essentially a mirror image of the left sided test. The left sided test
 is recommended over the right for identifying significant bigrams. See
-Docs/FAQ.txt for a discussion of this point. 
+Docs/FAQ.txt for a discussion of this point.
 
-=head2 7) x2.pm 		Pearson's Chi-Squared Test
+=head2 7) x2.pm                 Pearson's Chi-Squared Test
 
-There are very good reasons to fear using tests of association with 
+There are very good reasons to fear using tests of association with
 collocation data, since the counts are both large and skewed. One
 sanity check you can make is to compare the scores found by ll.pm and
 x2.pm. If they are not too different from one another, then you are
@@ -89,17 +89,17 @@ rank-script.sh ll x2 input-file
 
 will produce a correlation score. If that value is high then you can be
 fairly confident that things are ok and your tests (either ll or x2 are
-valid). 
-	
-=head2 8) tmi.pm 		"True" Mutual Information 
+valid).
+
+=head2 8) tmi.pm                "True" Mutual Information
 
 This is very closely related to ll.pm, and essentially only differs by
-a scaling factor. Note that the values produced by tmi.pm are very 
+a scaling factor. Note that the values produced by tmi.pm are very
 small (.0000...) so you'll need to use more than the default level of
 precision (which is 4 digits). Consider --precision 8, for example.
 
 
-=head2 9) phi.pm		Phi Coefficient (2 variables - bigrams)
+=head2 9) phi.pm                Phi Coefficient (2 variables - bigrams)
 
 This implementation is based on the description of Phi in:
 
@@ -107,7 +107,7 @@ This implementation is based on the description of Phi in:
         author = {Gale, W. and Church, K.},
         title = {A Program for Aligning Sentences in Bilingual Corpora},
         booktitle = {Proceedings of the 29th Annual Meeting of the
-		Association for Computational Linguistics},
+                Association for Computational Linguistics},
         address = {Berkeley, CA},
         year = {1991}}
 
@@ -122,7 +122,7 @@ It is defined as:
 
  ((n11 * n22) - (n21 * n22))^2/ n1p * np1 * n2p * np2
 
-=head2 10) tscore.pm		t-Score 
+=head2 10) tscore.pm            t-Score
 
 This implementation is based on the description of the t-score in:
 
@@ -130,7 +130,7 @@ This implementation is based on the description of the t-score in:
         author={Church, K. and Gale, W. and Hanks, P. and Hindle, D. },
         title={Using Statistics in Lexical Analysis},
         booktitle={Lexical Acquisition: Exploiting On-Line Resources
-			to Build a Lexicon},
+                        to Build a Lexicon},
         editor={Zernik, U.},
         year={1991},
         address={Hillsdale, NJ},
@@ -151,18 +151,18 @@ where m11 = n1p * np1/npp
 
 In words, this means the observed frequency of the bigram minus the
 expected count of the bigram, divided by the square root of the observed
-value. 
+value.
 
-=head2 11) odds.pm		Odds Ratio (2 variables - bigrams)
+=head2 11) odds.pm              Odds Ratio (2 variables - bigrams)
 
-Widely used in many realms, not so much in finding collocations. 
+Widely used in many realms, not so much in finding collocations.
 Essentially takes the ratio of the cross products of the elements
 in a 2-d table. If the table is:
 
 n11 n12
 n21 n22
 
-the odds ratio = n11*n22/n21*n12 
+the odds ratio = n11*n22/n21*n12
 
 =head1 AUTHORS
 
@@ -172,7 +172,7 @@ the odds ratio = n11*n22/n21*n12
 
  Date of last update,  July 25, 2003 by TDP
 
-We welcome additional contributions - please check out Docs/NewStats.txt  
+We welcome additional contributions - please check out Docs/NewStats.txt
 for information on how to implement measures.
 
 =head1 BUGS
@@ -187,11 +187,11 @@ for information on how to implement measures.
 
 Copyright (C) 2003 Ted Pedersen, Satanjeev Banerjee, and Amruta Purandare
 
-Permission is granted to copy, distribute and/or modify this  document  
-under the terms of the GNU Free Documentation License, Version 1.2 or  any  
-later version published by the Free Software Foundation; with no  
+Permission is granted to copy, distribute and/or modify this  document
+under the terms of the GNU Free Documentation License, Version 1.2 or  any
+later version published by the Free Software Foundation; with no
 Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
 
-Note: a copy of the GNU Free Documentation License is available on the web   
-at L<http://www.gnu.org/copyleft/fdl.html> and is included in this    
-distribution as FDL.txt. 
+Note: a copy of the GNU Free Documentation License is available on the web
+at L<http://www.gnu.org/copyleft/fdl.html> and is included in this
+distribution as FDL.txt.

@@ -1,7 +1,7 @@
 NAME
     README for Ngram Statistics Package
 
-    Last Updated for Version 0.67, March 9, 2004
+    Last Updated for Version 0.91, February 19, 2006
 
 SYNOPSIS
     This document provides a general introduction to the Ngram Statistics
@@ -20,11 +20,11 @@ DESCRIPTION
 
     NSP consists of two core programs and three utilities:
 
-    Program count.pl takes flat text files as input and generates a list of
+    Program bin/count.pl takes flat text files as input and generates a list of
     all the Ngrams that occur in those files. The Ngrams, along with their
     frequencies, are output in descending order of their frequency.
 
-    Program statistic.pl takes as input a list of Ngrams with their
+    Program bin/statistic.pl takes as input a list of Ngrams with their
     frequencies (in the format output by count.pl) and runs a user-selected
     statistical measure of association to compute a "score" for each Ngram.
     The Ngrams, along with their scores, are output in descending order of
@@ -32,10 +32,10 @@ DESCRIPTION
     decide whether or not there is enough evidence to reject the null
     hypothesis (that the Ngram is not a collocation) for that Ngram.
 
-    Various utility programs are found in Utils/ and take as their input the
+    Various utility programs are found in bin/Utils/ and take as their input the
     results (output) from count.pl and/or statistic.pl.
 
-    Utils/rank.pl takes as input two files output by statistic.pl and
+    bin/Utils/rank.pl takes as input two files output by statistic.pl and
     computes the Spearman's rank correlation coefficient on the Ngrams that
     are common to both files. Typically the two files should be produced by
     applying statistic.pl on the same Ngram count file but by using two
@@ -45,7 +45,7 @@ DESCRIPTION
     the same order, -1 that the two orderings are exactly opposite to each
     other and 0 that they are not related.
 
-    Utils/kocos.pl takes as input a file output by count.pl or statistic.pl
+    bin/Utils/kocos.pl takes as input a file output by count.pl or statistic.pl
     and uses that to identify kth order co-occurrences of a given word. A
     kth order co-occurrence of a target WORD is a word that co-occurs with a
     (k-1)th co-occurrence of the given target WORD. So A is a 2nd order
@@ -55,18 +55,18 @@ DESCRIPTION
     and "York" are second order co-occurrences because they both co-occur
     with "New".
 
-    Utils/combig.pl will take the output of count.pl and find unordered
+    bin/Utils/combig.pl will take the output of count.pl and find unordered
     counts of bigrams. Normally count.pl treats bigrams like "fine wine" and
     "wine fine" as distinct. combig.pl (combine bigram) will adjust the
     counts such that they do not depend on the order. So one could then go
     on to measure how much the words "fine" and "wine" are associated
     without respect to their order.
 
-    Utils/huge-count.pl allows a user to run count.pl on much larger
+    bin/Utils/huge-count.pl allows a user to run count.pl on much larger
     corpora. It essentially divides a corpora into pieces, and then uses
     count.pl to count piece, and then recombines the counts to get the final
-    output. huge-count.pl also uses Utils/huge-combine.pl,
-    Utils/split-data.pl, and Utils/sort-bigrams.pl.
+    output. huge-count.pl also uses bin/Utils/huge-combine.pl,
+    bin/Utils/split-data.pl, and bin/Utils/sort-bigrams.pl.
 
     This README continues with an introduction to the basic definitions of
     tokens, the tokenization process and the Ngram formation process. This
@@ -160,7 +160,7 @@ DESCRIPTION
 
     3.2.1.3. Resulting tokens:
 
-        why       s         the    
+        why       s         the
         stock     falling   ?
 
     3.2.1.4. Explanation:
@@ -320,7 +320,7 @@ DESCRIPTION
 
     Then, the following are all the bigrams with a window size of 3:
 
-        why<>s<>               why<>the<>         s<>the<>    
+        why<>s<>               why<>the<>         s<>the<>
         s<>stock<>             the<>stock<>       the<>falling<>
         stock<>falling<>       stock<>?<>         falling<>?<>
 
@@ -419,10 +419,10 @@ DESCRIPTION
 
     The following are some of the examples of valid non-token definitions.
 
-     /<\/?s|p>/ : will remove xml tags like <s>, <p>, </s>, </p>. 
+     /<\/?s|p>/ : will remove xml tags like <s>, <p>, </s>, </p>.
 
-     /\[\w+\]/  : will remove all words which appear in square brackets like  
-                   [p], [item], [123] and so on. 
+     /\[\w+\]/  : will remove all words which appear in square brackets like
+                   [p], [item], [123] and so on.
 
     count.pl will first remove any string from the input data that matches
     the non-token regular expression, and only then will match the remaining
@@ -441,22 +441,22 @@ DESCRIPTION
 
     Further assume that count.pl is run like so:
 
-     count.pl test.cnt test.txt 
+     count.pl test.cnt test.txt
 
     Thus, test.cnt will have all the bigrams found in file test.txt using a
     window size of 2 and using the two default tokens as above. Following
     then are the contents of file test.cnt:
 
      11
-     line<>of<>2 3 2 
-     of<>text<>2 2 2 
-     second<>line<>1 1 3 
-     line<>and<>1 3 1 
-     and<>a<>1 1 1 
-     a<>third<>1 1 1 
-     first<>line<>1 1 3 
-     third<>line<>1 1 3 
-     text<>second<>1 1 1 
+     line<>of<>2 3 2
+     of<>text<>2 2 2
+     second<>line<>1 1 3
+     line<>and<>1 3 1
+     and<>a<>1 1 1
+     a<>third<>1 1 1
+     first<>line<>1 1 3
+     third<>line<>1 1 3
+     text<>second<>1 1 1
 
     The number on the first line, 11, indicates that there were total 11
     bigrams in the input file.
@@ -481,20 +481,20 @@ DESCRIPTION
     Similar output is obtained for trigrams. Assume again that the input
     file is above, and assume that count.pl is run thusly:
 
-     count.pl --ngram 3 test.cnt test.txt 
+     count.pl --ngram 3 test.cnt test.txt
 
     The output test.cnt file is as follows:
 
      10
-     line<>of<>text<>2 3 2 2 2 2 2 
-     and<>a<>third<>1 1 1 1 1 1 1 
-     third<>line<>of<>1 1 3 2 1 1 2 
-     second<>line<>and<>1 1 3 1 1 1 1 
-     line<>and<>a<>1 3 1 1 1 1 1 
-     a<>third<>line<>1 1 1 2 1 1 1 
-     text<>second<>line<>1 1 1 2 1 1 1 
-     of<>text<>second<>1 1 1 1 1 1 1 
-     first<>line<>of<>1 1 3 2 1 1 2 
+     line<>of<>text<>2 3 2 2 2 2 2
+     and<>a<>third<>1 1 1 1 1 1 1
+     third<>line<>of<>1 1 3 2 1 1 2
+     second<>line<>and<>1 1 3 1 1 1 1
+     line<>and<>a<>1 3 1 1 1 1 1
+     a<>third<>line<>1 1 1 2 1 1 1
+     text<>second<>line<>1 1 1 2 1 1 1
+     of<>text<>second<>1 1 1 1 1 1 1
+     first<>line<>of<>1 1 3 2 1 1 2
 
     Once again, the number on the first line says that there are 10 trigrams
     in the input text file. The first trigram in the list is
@@ -555,27 +555,27 @@ DESCRIPTION
     above exactly in the order the frequency values occur in the main
     output. Thus for instance, running the program like so:
 
-     count.pl --get_freq_combo freq_combo.txt test.cnt test.txt 
+     count.pl --get_freq_combo freq_combo.txt test.cnt test.txt
 
     Assuming that test.txt file is the one shown above, the following output
     is created in file freq_combo.txt:
 
-     0 1 
-     0 
-     1 
+     0 1
+     0
+     1
 
     and the following output in file test.cnt:
 
      11
-     line<>of<>2 3 2 
-     of<>text<>2 2 2 
-     second<>line<>1 1 3 
-     line<>and<>1 3 1 
-     and<>a<>1 1 1 
-     a<>third<>1 1 1 
-     first<>line<>1 1 3 
-     third<>line<>1 1 3 
-     text<>second<>1 1 1 
+     line<>of<>2 3 2
+     of<>text<>2 2 2
+     second<>line<>1 1 3
+     line<>and<>1 3 1
+     and<>a<>1 1 1
+     a<>third<>1 1 1
+     first<>line<>1 1 3
+     third<>line<>1 1 3
+     text<>second<>1 1 1
 
     Recall that since the option --ngram is not being used, the default
     value of n, 2, is being used here. After each bigram in the test.cnt
@@ -587,30 +587,30 @@ DESCRIPTION
 
     Similarly, running the program thus:
 
-     count.pl --ngram 3 --get_freq_combo freq_combo.txt test.cnt test.txt 
+     count.pl --ngram 3 --get_freq_combo freq_combo.txt test.cnt test.txt
 
     produces the following output in freq_combo.txt:
 
-     0 1 2 
-     0 
-     1 
-     2 
-     0 1 
-     0 2 
-     1 2 
+     0 1 2
+     0
+     1
+     2
+     0 1
+     0 2
+     1 2
 
     and the following output in file test.cnt
 
      10
-     line<>of<>text<>2 3 2 2 2 2 2 
-     and<>a<>third<>1 1 1 1 1 1 1 
-     third<>line<>of<>1 1 3 2 1 1 2 
-     second<>line<>and<>1 1 3 1 1 1 1 
-     line<>and<>a<>1 3 1 1 1 1 1 
-     a<>third<>line<>1 1 1 2 1 1 1 
-     text<>second<>line<>1 1 1 2 1 1 1 
-     of<>text<>second<>1 1 1 1 1 1 1 
-     first<>line<>of<>1 1 3 2 1 1 2 
+     line<>of<>text<>2 3 2 2 2 2 2
+     and<>a<>third<>1 1 1 1 1 1 1
+     third<>line<>of<>1 1 3 2 1 1 2
+     second<>line<>and<>1 1 3 1 1 1 1
+     line<>and<>a<>1 3 1 1 1 1 1
+     a<>third<>line<>1 1 1 2 1 1 1
+     text<>second<>line<>1 1 1 2 1 1 1
+     of<>text<>second<>1 1 1 1 1 1 1
+     first<>line<>of<>1 1 3 2 1 1 2
 
     The seven numbers after each trigram in file test.cnt correspond
     respectively to f(0, 1, 2), f(0), f(1), f(2), f(0, 1), f(0, 2) and f(1,
@@ -640,15 +640,15 @@ DESCRIPTION
     this produces the following test.cnt file:
 
      10
-     line<>of<>text<>2 3 2 2 
-     and<>a<>third<>1 1 1 1 
-     third<>line<>of<>1 1 3 2 
-     second<>line<>and<>1 1 3 1 
-     line<>and<>a<>1 3 1 1 
-     a<>third<>line<>1 1 1 2 
-     text<>second<>line<>1 1 1 2 
-     of<>text<>second<>1 1 1 1 
-     first<>line<>of<>1 1 3 2 
+     line<>of<>text<>2 3 2 2
+     and<>a<>third<>1 1 1 1
+     third<>line<>of<>1 1 3 2
+     second<>line<>and<>1 1 3 1
+     line<>and<>a<>1 3 1 1
+     a<>third<>line<>1 1 1 2
+     text<>second<>line<>1 1 1 2
+     of<>text<>second<>1 1 1 1
+     first<>line<>of<>1 1 3 2
 
     Observe that the only difference between this output and the default
     output is that instead of reporting 7 frequency values per ngram, only
@@ -755,7 +755,7 @@ DESCRIPTION
 
     (6) regex modifiers like i or g which come after the end slash like:
 
-     /regex/i 
+     /regex/i
      /regex/g
 
     are not supported. See FAQ.txt for an explanation.
@@ -809,7 +809,7 @@ DESCRIPTION
     will first remove all nontokens from the input file. Hence the tokenized
     text from which the bigrams will be created will be =>
 
-            this is a test written for count.pl 
+            this is a test written for count.pl
             their them together wither tithe
 
     Since the StopFile contains /the/ all tokens which include 'the' are
@@ -818,7 +818,7 @@ DESCRIPTION
      their<>them<>
      them<>together<>
      together<>wither<>
-     wither<>tithe<> 
+     wither<>tithe<>
 
     will all be removed. This is because each word in each bigram contains
     "the" and the default stop mode is AND. Note that if there was a bigram
@@ -838,7 +838,7 @@ DESCRIPTION
      count<>.<>1 1 1
      written<>for<>1 1 1
      pl<>their<>1 1 1
-                
+
     case (b) StopFile stopfile.txt => /^the/
 
     ----------------------------------------
@@ -877,7 +877,7 @@ DESCRIPTION
      wither<>tithe<>1 1 1
      together<>wither<>1 1 1
 
-     case (c) StopFile stopfile.txt => @stop.mode=OR 
+     case (c) StopFile stopfile.txt => @stop.mode=OR
                                       /the$/
 
     ------------------------------------------------
@@ -895,7 +895,7 @@ DESCRIPTION
     As the StopFile contains /the$/ all tokens which end in 'the' are stop
     words. Thus, in the bigram
 
-     wither<>tithe<> 
+     wither<>tithe<>
 
     "tithe" will match the stoplist since it ends with "the". However, this
     bigram will be eliminated since the stop mode is OR (meaning that if
@@ -1013,15 +1013,15 @@ DESCRIPTION
             test.dice is the name of the output file in which the results
                       of applying the dice coefficient will be stored.
             test.cnt  is the name of the input file containing the Ngrams
-                      and their various frequency values. 
+                      and their various frequency values.
 
-    A Perl package with filename dice.pm is searched for, first in the
-    current directory and then in all directories pointed to by the system
-    path (not the Perl @INC path). Instead of writing just "dice" on the
-    command line, one may also write the file name "dice.pm".
+    A Perl package with filename dice.pm is searched for in the Perl @INC
+    path. Instead of writing just "dice" on the command line, one may also
+    write the file name "dice.pm", or the full measure name
+    "Text::NSP::Measures::2D::Dice".
 
-    Once such a file is found, it is exported into statistic.pl and two
-    tests are done to see if this file has the minimum requirements for a
+    Once such a file is found, it is exported into statistic.pl and tests
+    are done to see if this file has the minimum requirements for a
     statistical library (more details below). If these tests fail,
     statistic.pl stops with an error message. Otherwise the library is
     initialized and then for each Ngram in file test.cnt, its frequency
@@ -1032,15 +1032,15 @@ DESCRIPTION
     For example, assume our input test.cnt file is this:
 
      11
-     line<>of<>2 3 2 
-     of<>text<>2 2 2 
-     second<>line<>1 1 3 
-     line<>and<>1 3 1 
-     and<>a<>1 1 1 
-     a<>third<>1 1 1 
-     first<>line<>1 1 3 
-     third<>line<>1 1 3 
-     text<>second<>1 1 1 
+     line<>of<>2 3 2
+     of<>text<>2 2 2
+     second<>line<>1 1 3
+     line<>and<>1 3 1
+     and<>a<>1 1 1
+     a<>third<>1 1 1
+     first<>line<>1 1 3
+     third<>line<>1 1 3
+     text<>second<>1 1 1
 
     Thus there are 11 bigrams, the first of which is "line<>of<>", the
     second "of<>text<>" etc.
@@ -1186,30 +1186,33 @@ DESCRIPTION
 
     The bigram measures are:
 
-     1) Dice Coefficient (dice.pm)
-     2) Fishers exact test - left sided (leftFisher.pm)
-     3) Fishers exact test - right sided (rightFisher.pm)
-     4) Log-likelihood ratio (ll.pm)
-     5) Mutual Information (tmi.pm)
-     6) Pointwise Mutual Information (pmi.pm)
-     7) Odds Ratio (odds.pm)
-     8) Phi Coefficient (phi.pm)
-     9) T-score (tscore.pm)
-     10) Pearson's Chi Squared Test (x2.pm)
+     1) Dice Coefficient (Text::NSP::Measures::2D::Dice)
+     2) Fishers exact test - left sided (Text::NSP::Measures::2D::Fisher::left)
+     3) Fishers exact test - right sided (Text::NSP::Measures::2D::Fisher::right)
+     3) Fishers twotailed test - right sided (Text::NSP::Measures::2D::Fisher::twotailed)
+     4) Log-likelihood ratio (Text::NSP::Measures::2D::MI::ll)
+     5) Mutual Information (Text::NSP::Measures::2D::MI::tmi)
+     6) Pointwise Mutual Information (Text::NSP::Measures::2D::MI::pmi)
+     7) Odds Ratio (Text::NSP::Measures::2D::odds)
+     8) Phi Coefficient (Text::NSP::Measures::2D::CHI::phi)
+     9) T-score (Text::NSP::Measures::2D::CHI::tscore)
+     10) Pearson's Chi Squared Test (Text::NSP::Measures::2D::CHI::x2)
 
-    The trigram measure is:
+    The trigram measures are:
 
-     1) Log-likelihood ratio (ll3.pm)
+     1) Log-likelihood ratio (Text::NSP::Measures::3D::MI::ll)
+     2) Mutual Information (Text::NSP::Measures::3D::MI::tmi)
+
 
     Any of these measures can be used as follows:
 
-     statistic.pl XXXX output.txt input.txt 
+     statistic.pl XXXX output.txt input.txt
 
-    where XXXX is the name of the .pm file (as in XXXX.pm)
+    where XXXX is the name of the measure.
 
     More information on how to write a new statistic library is provided in
-    file Docs/NewStats.txt. A few additional details about the Measures can
-    be found in docs/Measures.pod.
+    the documentation (perldoc) of Text::NSP::Measures. A few additional
+    details about the Measures can be found in their respective perldocs.
 
   7. Referencing:
     If you write a paper that has used NSP in some way, we'd certainly be
@@ -1218,9 +1221,9 @@ DESCRIPTION
 
      @inproceedings{BanerjeeP03,
             author = {Banerjee, S. and Pedersen, T.},
-            title = {The Design, Implementation, and Use of the 
-                    {N}gram {S}tatistic {P}ackage},     
-            booktitle = {Proceedings of the Fourth International 
+            title = {The Design, Implementation, and Use of the
+                    {N}gram {S}tatistic {P}ackage},
+            booktitle = {Proceedings of the Fourth International
                     Conference on Intelligent Text Processing and
                     Computational Linguistics},
             year = {2003},
