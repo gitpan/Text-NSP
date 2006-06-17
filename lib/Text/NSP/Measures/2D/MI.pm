@@ -50,6 +50,10 @@ TMI =   (1/npp)*[n11 * log(n11/m11)/log 2 + n12 * log(n12/m12)/log 2 +
 
 PMI =   log (n11/m11)/log 2
 
+=item Poisson Stirling Measures
+
+PS =   n11*(log (n11/m11)-1)
+
 =back
 
 All these methods use the ratio of the observed values to expected values,
@@ -75,7 +79,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 
 =item calculateStatistic() - This method calls the
@@ -241,7 +245,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: MI.pm,v 1.16 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: MI.pm,v 1.19 2006/06/15 16:53:03 saiyam_kohli Exp $
 
 =head1 BUGS
 

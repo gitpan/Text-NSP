@@ -1,15 +1,15 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::Fisher::twotailed  - Statistical library package
+Text::NSP::Measures::2D::Fisher2::twotailed  - Statistical library package
 to calculate twotailed sided Fishers exact test.
 
 =head1 SYNOPSIS
 
 =head3 Basic Usage
 
-  use Text::NSP::Measures::2D::Fisher::twotailed;
+  use Text::NSP::Measures::2D::Fisher2::twotailed;
 
-  my $twotailedFisher = Text::NSP::Measures::2D::Fisher::twotailed->new();
+  my $twotailedFisher = Text::NSP::Measures::2D::Fisher2::twotailed->new();
 
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
@@ -29,6 +29,19 @@ to calculate twotailed sided Fishers exact test.
 
 
 =head1 DESCRIPTION
+
+This module provides a naive implementation of the fishers twotailed
+sided exact tests. That is the implementation does not have any
+optimizations for performance. This will compute the factorials and
+the hypergeometric measures using direct multiplications.
+
+This measure should be used if you need exact values without any
+rounding errors, and you are not worried about the performance of
+the measure, otherwise use the implementations under the
+Text::NSP::Measures::2D::Fisher module. To use this implementation,
+you will have to specify the entire module name. Usage:
+
+statistic.pl Text::NSP::Measures::Fisher2::twotailed dest.txt source.cnt
 
 Assume that the frequency count data associated with a bigram
 <word1><word2> is stored in a 2x2 contingency table:
@@ -73,7 +86,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::Fisher2);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 
 =item calculateStatistic()
@@ -81,14 +94,10 @@ $VERSION = '0.91';
 This method calculates the ll value
 
 INPUT PARAMS  : $count_values       .. Reference of an array containing
-                                       the count valuescomputed by the
+                                       the count values computed by the
                                        count.pl program.
 
-RETURN VALUES : $observed           .. Observed contingency table counts.
-                $marginal           .. Marginal totals for the cobtingency tables
-                $probability        .. Reference to a hash containg hypergeometric
-                                       probabilities for all the possible contingency
-                                       tables
+RETURN VALUES : $twotailed          .. Twotailed Fisher value.
 
 =cut
 
@@ -180,7 +189,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: twotailed.pm,v 1.2 2006/03/25 04:21:27 saiyam_kohli Exp $
+Last updated: $Id: twotailed.pm,v 1.6 2006/06/14 23:59:45 saiyam_kohli Exp $
 
 =head1 BUGS
 

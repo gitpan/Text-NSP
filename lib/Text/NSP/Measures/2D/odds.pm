@@ -53,6 +53,8 @@ Thus, ODDS RATIO = n11*n22/n21*n12
 if n21 and/or n12 is 0, then each zero value is "smoothed" to one to
 avoid a zero in the denominator.
 
+=over
+
 =cut
 
 
@@ -69,14 +71,19 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 
-# method to calculate the odds ratio value!
-# INPUT PARAMS  : $values    .. Reference of an array containing
-#                               the values indicated by the
-#                               frequency combination array.
-# RETURN VALUES : $odds      .. Odds ratio for this bigram.
+=item calculateStatistic() - method to calculate the odds ratio value!
+
+INPUT PARAMS  : $count_values       .. Reference of an hash containing
+                                       the count values computed by the
+                                       count.pl program.
+
+RETURN VALUES : $odds               .. Odds ratio for this bigram.
+
+=cut
+
 sub calculateStatistic
 {
   my $self = shift;
@@ -111,9 +118,14 @@ sub calculateStatistic
 
 
 
-# method to return the name of this statistic
-# INPUT PARAMS  : none
-# RETURN VALUES : $name      .. Name of the measure.
+=item getStatisticName() - Returns the name of this statistic
+
+INPUT PARAMS  : none
+
+RETURN VALUES : $name      .. Name of the measure.
+
+=cut
+
 sub getStatisticName
 {
   my ($self) = @_;
@@ -125,6 +137,8 @@ sub getStatisticName
 1;
 __END__
 
+
+=back
 
 =head1 AUTHOR
 
@@ -145,20 +159,20 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: odds.pm,v 1.11 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: odds.pm,v 1.15 2006/06/15 16:53:03 saiyam_kohli Exp $
 
 =head1 BUGS
 
 
 =head1 SEE ALSO
 
-@inproceedings{ blaheta01unsupervised,
-                author = {D. BLAHETA and M. JOHNSON},
-                title = {Unsupervised learning of multi-word verbs},
-                booktitle = {}Proceedings of the 39th Annual Meeting of the ACL},
-                year = {2001},
-                pages =  {54-60},
-                url = L<http://www.cog.brown.edu/~mj/papers/2001/dpb-colloc01.pdf> }
+  @inproceedings{ blaheta01unsupervised,
+                  author = {D. BLAHETA and M. JOHNSON},
+                  title = {Unsupervised learning of multi-word verbs},
+                  booktitle = {}Proceedings of the 39th Annual Meeting of the ACL},
+                  year = {2001},
+                  pages =  {54-60},
+                  url = L<http://www.cog.brown.edu/~mj/papers/2001/dpb-colloc01.pdf> }
 
 L<http://groups.yahoo.com/group/ngram/>
 

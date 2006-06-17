@@ -76,7 +76,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::Fisher);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 
 =item calculateStatistic() - This method calculates the right Fisher value
@@ -85,10 +85,7 @@ INPUT PARAMS  : $count_values       .. Reference of an hash containing
                                        the count values computed by the
                                        count.pl program.
 
-RETURN VALUES : $observed           .. Observed contingency table counts.
-                $probability        .. Reference to a hash containg hypergeometric
-                                       probabilities for all the possible contingency
-                                       tables
+RETURN VALUES : $right              .. Right Fisher value.
 
 =cut
 
@@ -233,23 +230,23 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: right.pm,v 1.5 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: right.pm,v 1.9 2006/06/15 16:53:04 saiyam_kohli Exp $
 
 =head1 BUGS
 
 
 =head1 SEE ALSO
 
-@inproceedings{Pedersen96,
-        author = {Pedersen, T.},
-        title = {Fishing For Exactness},
-        booktitle = {Proceedings of the South Central SAS User's
-                     Group (SCSUG-96) Conference},
-        year = {1996},
-        pages = {188--200},
-        month ={October},
-        address = {Austin, TX}
-        url = L<http://www.d.umn.edu/~tpederse/pubs.html>}
+  @inproceedings{Pedersen96,
+          author = {Pedersen, T.},
+          title = {Fishing For Exactness},
+          booktitle = {Proceedings of the South Central SAS User's
+                      Group (SCSUG-96) Conference},
+          year = {1996},
+          pages = {188--200},
+          month ={October},
+          address = {Austin, TX}
+          url = L<http://www.d.umn.edu/~tpederse/pubs.html>}
 
 L<http://groups.yahoo.com/group/ngram/>
 

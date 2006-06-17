@@ -35,7 +35,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: statistic.pl,v 1.11 2006/03/25 06:43:40 saiyam_kohli Exp $
+Last updated: $Id: statistic.pl,v 1.17 2006/06/15 00:25:32 saiyam_kohli Exp $
 
 =head1 BUGS
 
@@ -130,7 +130,7 @@ if ( $#ARGV == -1 )
 
 # now get the options!
 GetOptions("version", "help", "format", "frequency=i", "rank=i", "precision=i",
-     "score=f", "extended", "ngram=i", "get_freq_combo=s", "set_freq_combo=s");
+     "score=f", "extended", "ngram=i", "get_freq_combo=s", "set_freq_combo=s", "pmi_exp=f" );
 
 # if help has been requested, print out help!
 if ( defined $opt_help )
@@ -181,6 +181,74 @@ else
 {
     getDefaultFreqCombos();
 }
+
+if($ngram==2)
+{
+  my $string;
+  for (my $i = 0; $i < $combIndex; $i++)
+  {
+    $string = join (" ", @{$freqComb[$i]}[1..$freqComb[$i][0]]);
+    if ($string eq "0 1")  { $n11FreqIndex = $i; }
+    elsif ($string eq "0") { $np1FreqIndex  = $i; }
+    elsif ($string eq "1") { $n1pFreqIndex = $i; }
+  }
+  # if these frequency values are not being reported then flag an error.
+  if (!(defined $n11FreqIndex))
+  {
+    $errorMessage = "Frequency combination \"0 1\" (frequency of bigram) missing!\n";
+    die($errorMessage);
+  }
+  if (!(defined $np1FreqIndex))
+  {
+    $errorMessage = "Frequency combination \"0\" (frequency of bigram) missing!\n";
+    die($errorMessage);
+  }
+  if (!(defined $n1pFreqIndex))
+  {
+    $errorMessage = "Frequency combination \"1\" (frequency of bigram) missing!\n";
+    die($errorMessage);
+  }
+}
+
+
+if ($ngram eq 3)
+{
+    for ($i = 0; $i < $combIndex; $i++)
+    {
+        $str="";
+        foreach(@{$freqComb[$i]}[1..$freqComb[$i][0]]) { $str.=$_."#"; }
+        if($str eq "0#1#2#") {  $n111Index=$i; }
+        if($str eq "0#")     {  $n1ppIndex=$i; }
+        if($str eq "1#")     {  $np1pIndex=$i; }
+        if($str eq "2#")     {  $npp1Index=$i; }
+        if($str eq "0#1#")   {  $n11pIndex=$i; }
+        if($str eq "1#2#")   {  $np11Index=$i; }
+        if($str eq "0#2#")   {  $n1p1Index=$i; }
+    }
+    if (!(defined $n111Index)) { $errorCodeNumber = 100; $errorMessage = "Frequency combination \"0 1 2\" missing!\n";
+                                 die($errorMessage);
+                               }
+    if (!(defined $n1ppIndex)) { $errorCodeNumber = 101; $errorMessage = "Frequency combination \"0\" missing!\n";
+                                 die($errorMessage);
+                               }
+    if (!(defined $np1pIndex)) { $errorCodeNumber = 102; $errorMessage = "Frequency combination \"1\" missing!\n";
+                                 die($errorMessage);
+                               }
+    if (!(defined $npp1Index)) { $errorCodeNumber = 103; $errorMessage = "Frequency combination \"2\" missing!\n";
+                                 die($errorMessage);
+                               }
+    if (!(defined $n11pIndex)) { $errorCodeNumber = 104; $errorMessage = "Frequency combination \"0 1\" missing!\n";
+                                 die($errorMessage);
+                               }
+    if (!(defined $np11Index)) { $errorCodeNumber = 105; $errorMessage = "Frequency combination \"1 2\" missing!\n";
+                                 die($errorMessage);
+                               }
+    if (!(defined $n1p1Index)) { $errorCodeNumber = 106; $errorMessage = "Frequency combination \"0 2\" missing!\n";
+                                 die($errorMessage);
+                               }
+}
+
+
 
 if (defined $opt_get_freq_combo)
 {
@@ -264,25 +332,18 @@ if($statistic =~ /::/)
   $includename = File::Spec->catfile(@statComponents);
   $usename = $statistic;
 }
-elsif($statistic eq "ll"||$statistic eq "pmi"||$statistic eq "tmi")
+elsif($statistic eq "ll"||$statistic eq "pmi" || $statistic eq "tmi"
+      || $statistic eq "ps")
 {
-  if($statistic eq "pmi")
-  {
-    if($ngram eq 2)
-    {
-      $usename = 'Text::NSP::Measures::'.$ngram.'D::MI::'.$statistic;
-      $includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','MI',$statistic.'.pm');
-    }
-    else
-    {
-      print STDERR "Error: This measure is only defined for bigrams";
-      exit;
-    }
-  }
-  else
+  if($ngram eq 2 || $ngram eq 3)
   {
     $usename = 'Text::NSP::Measures::'.$ngram.'D::MI::'.$statistic;
     $includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','MI',$statistic.'.pm');
+  }
+  else
+  {
+    print STDERR "Error: This measure is only defined for bigrams & trigrams";
+    exit;
   }
 }
 elsif($statistic eq "x2"||$statistic eq "phi"||$statistic eq "tscore")
@@ -333,7 +394,20 @@ elsif($statistic eq "ll3"||$statistic eq "tmi3")
     exit;
   }
 }
-else
+elsif($statistic eq "dice" || $statistic eq "jaccard")
+{
+  if($ngram eq 2)
+  {
+    $usename = 'Text::NSP::Measures::'.$ngram.'D::Dice::'.$statistic;
+    $includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','Dice',$statistic.'.pm');
+  }
+  else
+  {
+    print STDERR "Error: This measure is only defined for bigrams";
+    exit;
+  }
+}
+elsif($statistic eq "odds")
 {
   if($ngram eq 2)
   {
@@ -346,12 +420,45 @@ else
     exit;
   }
 }
+else
+{
+  if($ngram eq 2)
+  {
+    $usename = 'Text::NSP::Measures::'.$ngram.'D::'.$statistic;
+    $includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D',$statistic.'.pm');
+  }
+  elsif($ngram eq 3)
+  {
+    $usename = 'Text::NSP::Measures::'.$ngram.'D::'.$statistic;
+    $includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D',$statistic.'.pm');
+  }
+  else
+  {
+    print STDERR "Measure not defined for $ngram-grams\n";
+    exit;
+  }
+}
 
 #Create the object for the measure
 require $includename;
 #import $usename;
 my $measure = $usename->new();
 
+if($statistic eq 'pmi')
+{
+  if(defined $opt_pmi_exp)
+  {
+    $measure->initializeStatistic($opt_pmi_exp);
+  }
+}
+else
+{
+  $measure->initializeStatistic();
+  if(defined $opt_pmi_exp)
+  {
+    print STDERR "The --pmi_exp parameter is not valid for the selected measure.\n";
+  }
+}
 
 # now get hold of the destination filename
 $destination = shift;
@@ -505,72 +612,27 @@ while(<SRC>)
     if (defined $opt_frequency && $numbers[$ngramFreqIndex] < $opt_frequency) { next; }
 
 
-if($ngram==2)
-{
-  my $string;
-  for (my $i = 0; $i < $combIndex; $i++)
-  {
-    $string = join (" ", @{$freqComb[$i]}[1..$freqComb[$i][0]]);
-    if ($string eq "0 1")  { $n11FreqIndex = $i; }
-    elsif ($string eq "0") { $np1FreqIndex  = $i; }
-    elsif ($string eq "1") { $n1pFreqIndex = $i; }
-  }
-  # if these frequency values are not being reported then flag an error.
-  if (!(defined $n11FreqIndex))
-  {
-    $errorMessage = "Frequency combination \"0 1\" (frequency of bigram) missing!\n";
-    die($errorMessage);
-  }
-  if (!(defined $np1FreqIndex))
-  {
-    $errorMessage = "Frequency combination \"0\" (frequency of bigram) missing!\n";
-    die($errorMessage);
-  }
-  if (!(defined $n1pFreqIndex))
-  {
-    $errorMessage = "Frequency combination \"1\" (frequency of bigram) missing!\n";
-    die($errorMessage);
-  }
-    %values = (n11=>$numbers[$n11FreqIndex],
-               n1p=>$numbers[$n1pFreqIndex],
-               np1=>$numbers[$np1FreqIndex],
-               npp=>$totalNgrams);
-    $totalNgramCount += $numbers[$n11FreqIndex];
-}
-
-
-if ($ngram eq 3)
-{
-    for ($i = 0; $i < $combIndex; $i++)
+    if ($ngram eq 2)
     {
-        $str="";
-        foreach(@{$freqComb[$i]}[1..$freqComb[$i][0]]) { $str.=$_."#"; }
-        if($str eq "0#1#2#") {  $n111Index=$i; }
-        if($str eq "0#")     {  $n1ppIndex=$i; }
-        if($str eq "1#")     {  $np1pIndex=$i; }
-        if($str eq "2#")     {  $npp1Index=$i; }
-        if($str eq "0#1#")   {  $n11pIndex=$i; }
-        if($str eq "1#2#")   {  $np11Index=$i; }
-        if($str eq "0#2#")   {  $n1p1Index=$i; }
+      %values = (n11=>$numbers[$n11FreqIndex],
+                n1p=>$numbers[$n1pFreqIndex],
+                np1=>$numbers[$np1FreqIndex],
+                npp=>$totalNgrams);
+      $totalNgramCount += $numbers[$n11FreqIndex];
     }
-    if (!(defined $n111Index)) { $errorCodeNumber = 100; $errorMessage = "Frequency combination \"0 1 2\" missing!\n"; }
-    if (!(defined $n1ppIndex)) { $errorCodeNumber = 101; $errorMessage = "Frequency combination \"0\" missing!\n";   }
-    if (!(defined $np1pIndex)) { $errorCodeNumber = 102; $errorMessage = "Frequency combination \"1\" missing!\n";   }
-    if (!(defined $npp1Index)) { $errorCodeNumber = 103; $errorMessage = "Frequency combination \"2\" missing!\n";   }
-    if (!(defined $n11pIndex)) { $errorCodeNumber = 104; $errorMessage = "Frequency combination \"0 1\" missing!\n"; }
-    if (!(defined $np11Index)) { $errorCodeNumber = 105; $errorMessage = "Frequency combination \"1 2\" missing!\n"; }
-    if (!(defined $n1p1Index)) { $errorCodeNumber = 106; $errorMessage = "Frequency combination \"0 2\" missing!\n";
-}
-    %values = ( n111=>$numbers[$n111Index],
-                n1pp=>$numbers[$n1ppIndex],
-                np1p=>$numbers[$np1pIndex],
-                npp1=>$numbers[$npp1Index],
-                n11p=>$numbers[$n11pIndex],
-                n1p1=>$numbers[$n1p1Index],
-                np11=>$numbers[$np11Index],
-                nppp=>$totalNgrams);
-     $totalNgramCount = $numbers[$n111Index];
-}
+    elsif($ngram eq 3)
+    {
+      %values = ( n111=>$numbers[$n111Index],
+                  n1pp=>$numbers[$n1ppIndex],
+                  np1p=>$numbers[$np1pIndex],
+                  npp1=>$numbers[$npp1Index],
+                  n11p=>$numbers[$n11pIndex],
+                  n1p1=>$numbers[$n1p1Index],
+                  np11=>$numbers[$np11Index],
+                  nppp=>$totalNgrams);
+      $totalNgramCount = $numbers[$n111Index];
+    }
+
     # ------------------------------------------------------------------
     # ADP.67.1 start
     # we don't need to store the Ngram tokens and scores separately in

@@ -78,13 +78,13 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::CHI);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 
 =item calculateStatistic() - method to calculate the Phi Coefficient
 
 INPUT PARAMS  : $count_values       .. Reference of an hash containing
-                                       the count valuescomputed by the
+                                       the count values computed by the
                                        count.pl program.
 
 RETURN VALUES : $phi                .. phi value for this bigram.
@@ -162,21 +162,21 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: phi.pm,v 1.5 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: phi.pm,v 1.9 2006/06/15 16:53:02 saiyam_kohli Exp $
 
 =head1 BUGS
 
 
 =head1 SEE ALSO
 
-@inproceedings{GaleC91,
-        author = {Gale, W. and Church, K.},
-        title = {A Program for Aligning Sentences in Bilingual Corpora},
-        booktitle = {Proceedings of the 29th Annual Meeting of the
-                     Association for Computational Linguistics},
-        address = {Berkeley, CA},
-        year = {1991}
-        url = L<http://www.cs.mu.oz.au/acl/J/J93/J93-1004.pdf>}
+  @inproceedings{GaleC91,
+          author = {Gale, W. and Church, K.},
+          title = {A Program for Aligning Sentences in Bilingual Corpora},
+          booktitle = {Proceedings of the 29th Annual Meeting of the
+                      Association for Computational Linguistics},
+          address = {Berkeley, CA},
+          year = {1991}
+          url = L<http://www.cs.mu.oz.au/acl/J/J93/J93-1004.pdf>}
 
 
 L<http://groups.yahoo.com/group/ngram/>

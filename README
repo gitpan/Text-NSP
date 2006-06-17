@@ -20,9 +20,9 @@ DESCRIPTION
 
     NSP consists of two core programs and three utilities:
 
-    Program bin/count.pl takes flat text files as input and generates a list of
-    all the Ngrams that occur in those files. The Ngrams, along with their
-    frequencies, are output in descending order of their frequency.
+    Program bin/count.pl takes flat text files as input and generates a list
+    of all the Ngrams that occur in those files. The Ngrams, along with
+    their frequencies, are output in descending order of their frequency.
 
     Program bin/statistic.pl takes as input a list of Ngrams with their
     frequencies (in the format output by count.pl) and runs a user-selected
@@ -32,8 +32,8 @@ DESCRIPTION
     decide whether or not there is enough evidence to reject the null
     hypothesis (that the Ngram is not a collocation) for that Ngram.
 
-    Various utility programs are found in bin/Utils/ and take as their input the
-    results (output) from count.pl and/or statistic.pl.
+    Various utility programs are found in bin/Utils/ and take as their input
+    the results (output) from count.pl and/or statistic.pl.
 
     bin/Utils/rank.pl takes as input two files output by statistic.pl and
     computes the Spearman's rank correlation coefficient on the Ngrams that
@@ -45,15 +45,15 @@ DESCRIPTION
     the same order, -1 that the two orderings are exactly opposite to each
     other and 0 that they are not related.
 
-    bin/Utils/kocos.pl takes as input a file output by count.pl or statistic.pl
-    and uses that to identify kth order co-occurrences of a given word. A
-    kth order co-occurrence of a target WORD is a word that co-occurs with a
-    (k-1)th co-occurrence of the given target WORD. So A is a 2nd order
-    co-occurrence of X if X occurs with B and B occurs with A. Put more
-    concretely in "New York", "New" and "York" co-occur (the are 1st order
-    co-occurrences). In "New Jack", "New" and "Jack" co-occur. Thus, "Jack"
-    and "York" are second order co-occurrences because they both co-occur
-    with "New".
+    bin/Utils/kocos.pl takes as input a file output by count.pl or
+    statistic.pl and uses that to identify kth order co-occurrences of a
+    given word. A kth order co-occurrence of a target WORD is a word that
+    co-occurs with a (k-1)th co-occurrence of the given target WORD. So A is
+    a 2nd order co-occurrence of X if X occurs with B and B occurs with A.
+    Put more concretely in "New York", "New" and "York" co-occur (the are
+    1st order co-occurrences). In "New Jack", "New" and "Jack" co-occur.
+    Thus, "Jack" and "York" are second order co-occurrences because they
+    both co-occur with "New".
 
     bin/Utils/combig.pl will take the output of count.pl and find unordered
     counts of bigrams. Normally count.pl treats bigrams like "fine wine" and
@@ -81,9 +81,9 @@ DESCRIPTION
     user-provided, or, if not provided, are assumed to be the following two
     regular expressions:
 
-     \w+        -> this matches a contiguous sequence of alpha-numeric characters
+      \w+        -> this matches a contiguous sequence of alpha-numeric characters
 
-     [\.,;:\?!] -> this matches a single punctuation mark
+      [\.,;:\?!] -> this matches a single punctuation mark
 
     For example, assume the following is a line of text:
 
@@ -97,7 +97,7 @@ DESCRIPTION
 
     Now assume that the user provides the following lone regular expression:
 
-     [a-zA-Z]+  -> this matches a contiguous sequence of alphabetic characters
+      [a-zA-Z]+  -> this matches a contiguous sequence of alphabetic characters
 
     Then, we get the following tokens:
 
@@ -422,7 +422,7 @@ DESCRIPTION
      /<\/?s|p>/ : will remove xml tags like <s>, <p>, </s>, </p>.
 
      /\[\w+\]/  : will remove all words which appear in square brackets like
-                   [p], [item], [123] and so on.
+             [p], [item], [123] and so on.
 
     count.pl will first remove any string from the input data that matches
     the non-token regular expression, and only then will match the remaining
@@ -791,13 +791,13 @@ DESCRIPTION
 
     Consider an input file count.input =>
 
-            [ptr] <s> this is a test written for count.pl </s> [/ptr]
-            their them together wither tithe
+      [ptr] <s> this is a test written for count.pl </s> [/ptr]
+      their them together wither tithe
 
     NontokenFile nontoken.regex =>
 
-            /\[\/?\w+\]/
-            /<\/?\w+>/
+      /\[\/?\w+\]/
+      /<\/?\w+>/
 
     case (a) StopFile stopfile.txt => /the/
     ----------------------------------------
@@ -809,8 +809,8 @@ DESCRIPTION
     will first remove all nontokens from the input file. Hence the tokenized
     text from which the bigrams will be created will be =>
 
-            this is a test written for count.pl
-            their them together wither tithe
+      this is a test written for count.pl
+      their them together wither tithe
 
     Since the StopFile contains /the/ all tokens which include 'the' are
     eliminated. Thus, the bigrams:
@@ -878,7 +878,7 @@ DESCRIPTION
      together<>wither<>1 1 1
 
      case (c) StopFile stopfile.txt => @stop.mode=OR
-                                      /the$/
+              /the$/
 
     ------------------------------------------------
 
@@ -1009,7 +1009,7 @@ DESCRIPTION
 
     statistic.pl dice test.dice test.cnt
 
-     where: dice      is the name of the statistic library to be loaded.
+      where: dice      is the name of the statistic library to be loaded.
             test.dice is the name of the output file in which the results
                       of applying the dice coefficient will be stored.
             test.cnt  is the name of the input file containing the Ngrams
@@ -1018,7 +1018,7 @@ DESCRIPTION
     A Perl package with filename dice.pm is searched for in the Perl @INC
     path. Instead of writing just "dice" on the command line, one may also
     write the file name "dice.pm", or the full measure name
-    "Text::NSP::Measures::2D::Dice".
+    "Text::NSP::Measures::2D::Dice::dice".
 
     Once such a file is found, it is exported into statistic.pl and tests
     are done to see if this file has the minimum requirements for a
@@ -1031,16 +1031,16 @@ DESCRIPTION
 
     For example, assume our input test.cnt file is this:
 
-     11
-     line<>of<>2 3 2
-     of<>text<>2 2 2
-     second<>line<>1 1 3
-     line<>and<>1 3 1
-     and<>a<>1 1 1
-     a<>third<>1 1 1
-     first<>line<>1 1 3
-     third<>line<>1 1 3
-     text<>second<>1 1 1
+      11
+      line<>of<>2 3 2
+      of<>text<>2 2 2
+      second<>line<>1 1 3
+      line<>and<>1 3 1
+      and<>a<>1 1 1
+      a<>third<>1 1 1
+      first<>line<>1 1 3
+      third<>line<>1 1 3
+      text<>second<>1 1 1
 
     Thus there are 11 bigrams, the first of which is "line<>of<>", the
     second "of<>text<>" etc.
@@ -1048,16 +1048,16 @@ DESCRIPTION
     Running statistic.pl thusly: statistic.pl dice test.dice test.cnt will
     produce the following test.dice file:
 
-     11
-     of<>text<>1 1.0000 2 2 2
-     and<>a<>1 1.0000 1 1 1
-     a<>third<>1 1.0000 1 1 1
-     text<>second<>1 1.0000 1 1 1
-     line<>of<>2 0.8000 2 3 2
-     third<>line<>3 0.5000 1 1 3
-     line<>and<>3 0.5000 1 3 1
-     second<>line<>3 0.5000 1 1 3
-     first<>line<>3 0.5000 1 1 3
+      11
+      of<>text<>1 1.0000 2 2 2
+      and<>a<>1 1.0000 1 1 1
+      a<>third<>1 1.0000 1 1 1
+      text<>second<>1 1.0000 1 1 1
+      line<>of<>2 0.8000 2 3 2
+      third<>line<>3 0.5000 1 1 3
+      line<>and<>3 0.5000 1 3 1
+      second<>line<>3 0.5000 1 1 3
+      first<>line<>3 0.5000 1 1 3
 
     Once again, the first number is the total number of bigrams - 11. On the
     next line is the highest ranked bigram "of<>text<>". The first number
@@ -1089,7 +1089,7 @@ DESCRIPTION
     package are implemented such that they produce/accept the frequency
     values in the same order. So for an ngram,
 
-                            word1<>word2<>...wordn-1<>
+                word1<>word2<>...wordn-1<>
 
     "the first frequency value reported is f(0,1,...n-1); this is the
     frequency of the Ngram itself. This is followed by n frequency values
@@ -1108,11 +1108,11 @@ DESCRIPTION
     So the bigram output of count.pl/bigram input to any statistical library
     will be something like -
 
-                    word1<>word2<>f(0,1)<>f(0)<>f(1)
+        word1<>word2<>f(0,1)<>f(0)<>f(1)
 
     Or you can also view this as
 
-                    word1<>word2<>n11<>n1p<>np1
+          word1<>word2<>n11<>n1p<>np1
 
     where n1p,np1 represent marginal totals in a 2x2 contingency table.
 
@@ -1186,27 +1186,30 @@ DESCRIPTION
 
     The bigram measures are:
 
-     1) Dice Coefficient (Text::NSP::Measures::2D::Dice)
-     2) Fishers exact test - left sided (Text::NSP::Measures::2D::Fisher::left)
-     3) Fishers exact test - right sided (Text::NSP::Measures::2D::Fisher::right)
-     3) Fishers twotailed test - right sided (Text::NSP::Measures::2D::Fisher::twotailed)
-     4) Log-likelihood ratio (Text::NSP::Measures::2D::MI::ll)
-     5) Mutual Information (Text::NSP::Measures::2D::MI::tmi)
-     6) Pointwise Mutual Information (Text::NSP::Measures::2D::MI::pmi)
-     7) Odds Ratio (Text::NSP::Measures::2D::odds)
-     8) Phi Coefficient (Text::NSP::Measures::2D::CHI::phi)
-     9) T-score (Text::NSP::Measures::2D::CHI::tscore)
-     10) Pearson's Chi Squared Test (Text::NSP::Measures::2D::CHI::x2)
+      1) Dice Coefficient (Text::NSP::Measures::2D::Dice::dice)
+      2) Fishers exact test - left sided (Text::NSP::Measures::2D::Fisher::left)
+      3) Fishers exact test - right sided (Text::NSP::Measures::2D::Fisher::right)
+      4) Fishers twotailed test - right sided (Text::NSP::Measures::2D::Fisher::twotailed)
+      5) Jaccard Coefficient (Text::NSP::Measures::2D::Dice::jaccard)
+      6) Log-likelihood ratio (Text::NSP::Measures::2D::MI::ll)
+      7) Mutual Information (Text::NSP::Measures::2D::MI::tmi)
+      8) Odds Ratio (Text::NSP::Measures::2D::odds)
+      9) Pointwise Mutual Information (Text::NSP::Measures::2D::MI::pmi)
+      10) Phi Coefficient (Text::NSP::Measures::2D::CHI::phi)
+      11) Pearson's Chi Squared Test (Text::NSP::Measures::2D::CHI::x2)
+      12) Poisson Stirling Measure (Text::NSP::Measure::2D::MI::ps)
+      13) T-score (Text::NSP::Measures::2D::CHI::tscore)
 
     The trigram measures are:
 
-     1) Log-likelihood ratio (Text::NSP::Measures::3D::MI::ll)
-     2) Mutual Information (Text::NSP::Measures::3D::MI::tmi)
-
+      1) Log-likelihood ratio (Text::NSP::Measures::3D::MI::ll)
+      2) Mutual Information (Text::NSP::Measures::3D::MI::tmi)
+      3) Pointwise Mutual Information (Text::NSP::Measures::3D::MI::pmi)
+      4) Poisson Stirling Measure (Text::NSP::Measure::3D::MI::ps)
 
     Any of these measures can be used as follows:
 
-     statistic.pl XXXX output.txt input.txt
+      statistic.pl XXXX output.txt input.txt
 
     where XXXX is the name of the measure.
 
@@ -1222,11 +1225,11 @@ DESCRIPTION
      @inproceedings{BanerjeeP03,
             author = {Banerjee, S. and Pedersen, T.},
             title = {The Design, Implementation, and Use of the
-                    {N}gram {S}tatistic {P}ackage},
-            booktitle = {Proceedings of the Fourth International
-                    Conference on Intelligent Text Processing and
-                    Computational Linguistics},
-            year = {2003},
+        {N}gram {S}tatistic {P}ackage},
+      booktitle = {Proceedings of the Fourth International
+        Conference on Intelligent Text Processing and
+        Computational Linguistics},
+      year = {2003},
             month ={February},
             address = {Mexico City}}
 
@@ -1264,8 +1267,10 @@ AUTHORS
 
     Amruta Purandare, pura0010@d.umn.edu
 
+    Saiyam Kohli, kohli003@d.umn.edu
+
 BUGS
-    Date of Last Update 11/30/03 by Ted
+    Date of Last Update 02/19/06 by Saiyam
 
 SEE ALSO
      home page:    http://www.d.umn.edu/~tpederse/nsp.html
@@ -1295,15 +1300,27 @@ SEE ALSO
     * Mailing List : http://groups.yahoo.com/group/ngram/
 
 COPYRIGHT
-    Copyright (C) 2003 Ted Pedersen, Satanjeev Banerjee, and Amruta
-    Purandare
+    Copyright (C) 2000-2006, Ted Pedersen, Satanjeev Banerjee, Amruta
+    Purandare, Bridget Thomson-McInnes and Saiyam Kohli
 
-    Permission is granted to copy, distribute and/or modify this document
-    under the terms of the GNU Free Documentation License, Version 1.2 or
-    any later version published by the Free Software Foundation; with no
-    Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+    This program is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the
+    Free Software Foundation; either version 2 of the License, or (at your
+    option) any later version.
 
-    Note: a copy of the GNU Free Documentation License is available on the
-    web at <http://www.gnu.org/copyleft/fdl.html> and is included in this
-    distribution as FDL.txt.
+    This program is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to
+
+        The Free Software Foundation, Inc.,
+        59 Temple Place - Suite 330,
+        Boston, MA  02111-1307, USA.
+
+    Note: a copy of the GNU General Public License is available on the web
+    at <http://www.gnu.org/licenses/gpl.txt> and is included in this
+    distribution as GPL.txt.
 

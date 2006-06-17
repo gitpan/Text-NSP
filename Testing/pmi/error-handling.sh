@@ -34,7 +34,7 @@ echo "Test:   statistic.pl --ngram 3 pmi test-1.out $TESTFILE"
 statistic.pl --ngram 3 pmi test-1.out $TESTFILE >& error.out
 
 # compare the error output with the required output
-diff error.out $TARGETFILE > difference
+diff test-1.out $TARGETFILE > difference
 if (-z difference) then
     echo "Status: OK\!\! Output error message matches target error message (as provided in $TARGETFILE)"
 else

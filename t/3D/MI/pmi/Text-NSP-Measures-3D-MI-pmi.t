@@ -8,18 +8,18 @@ END {print "not ok 1\n" unless $loaded;}
 use Text::NSP::Measures;
 use Text::NSP::Measures::3D;
 use Text::NSP::Measures::3D::MI;
-use Text::NSP::Measures::3D::MI::tmi;
+use Text::NSP::Measures::3D::MI::pmi;
 $loaded = 1;
 print "ok 1\n";
 
 ######################### End of black magic.
 
-############ Create Object for tmi
+############ Create Object for pmi
 
-$tmi = Text::NSP::Measures::3D::MI::tmi->new();
-if($tmi)
+$pmi = Text::NSP::Measures::3D::MI::pmi->new();
+if($pmi)
 {
-    $err = $tmi->{errorCodeNumber};
+    $err = $pmi->{errorCodeNumber};
     if($err)
     {
         print "not ok 2\n";
@@ -38,7 +38,7 @@ else
 
 ############ Computing TMI value for some count values.
 
-$tmi_value = $tmi->calculateStatistic(  n111=>10,
+$pmi_value = $pmi->calculateStatistic(  n111=>10,
                                         n1pp=>40,
                                         np1p=>45,
                                         npp1=>42,
@@ -47,12 +47,12 @@ $tmi_value = $tmi->calculateStatistic(  n111=>10,
                                         np11=>21,
                                         nppp=>100);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err)
 {
     print "not ok 3\n";
 }
-elsif($tmi_value >= 0.080667 && $tmi_value <= 0.0806672)
+elsif($pmi_value >= 0.40354186 && $pmi_value <= 0.40354187)
 {
     print "ok 3\n";
 }
@@ -60,6 +60,7 @@ else
 {
     print "not ok 3\n";
 }
+
 ############Error Code check for missing values
 
 %count_values = ( n1pp=>40,
@@ -70,9 +71,9 @@ else
                   np11=>21,
                   nppp=>100);
 
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 200)
 {
   print "ok 4\n";
@@ -91,9 +92,9 @@ else
                   n1p1=>23,
                   np11=>21,
                   nppp=>100);
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 200)
 {
   print "ok 5\n";
@@ -112,9 +113,9 @@ else
                   np11=>21,
                   nppp=>100);
 
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 200)
 {
   print "ok 6\n";
@@ -134,9 +135,9 @@ else
                   np11=>21,
                   nppp=>100);
 
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 200)
 {
   print "ok 7\n";
@@ -156,9 +157,9 @@ else
                   np11=>21,
                   nppp=>100);
 
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 200)
 {
   print "ok 8\n";
@@ -179,9 +180,9 @@ else
                   np11=>21,
                   nppp=>100);
 
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 200)
 {
   print "ok 9\n";
@@ -202,9 +203,9 @@ else
                   n1p1=>23,
                   nppp=>100);
 
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 200)
 {
   print "ok 10\n";
@@ -224,9 +225,9 @@ else
                   n1p1=>23,
                   np11=>21);
 
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 200)
 {
   print "ok 11\n";
@@ -248,9 +249,9 @@ else
                   np11=>21,
                   nppp=>100);
 
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 201)
 {
   print "ok 12\n";
@@ -271,9 +272,9 @@ else
                   np11=>21,
                   nppp=>100);
 
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 204)
 {
   print "ok 13\n";
@@ -295,9 +296,9 @@ else
                   np11=>21,
                   nppp=>-100);
 
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 200)
 {
   print "ok 14\n";
@@ -319,9 +320,9 @@ else
                   np11=>21,
                   nppp=>100);
 
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 202)
 {
   print "ok 15\n";
@@ -343,9 +344,9 @@ else
                   np11=>21,
                   nppp=>100);
 
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 202)
 {
   print "ok 16\n";
@@ -354,7 +355,6 @@ else
 {
   print"not ok 16\n";
 }
-
 
 ############Error Code check invalid values
 
@@ -367,9 +367,9 @@ else
                   np11=>21,
                   nppp=>100);
 
-$value = $tmi->calculateStatistic(%count_values);
+$value = $pmi->calculateStatistic(%count_values);
 
-$err = $tmi->getErrorCode();
+$err = $pmi->getErrorCode();
 if($err == 203)
 {
   print "ok 17\n";
@@ -391,8 +391,8 @@ else
                   np11=>21,
                   nppp=>100);
 
-$value = $tmi->calculateStatistic(%count_values);
-$err = $tmi->getErrorCode();
+$value = $pmi->calculateStatistic(%count_values);
+$err = $pmi->getErrorCode();
 if($err==202)
 {
     print "ok 18\n";
@@ -401,4 +401,3 @@ else
 {
     print "not ok 18\n";
 }
-

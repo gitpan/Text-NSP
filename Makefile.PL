@@ -12,7 +12,7 @@ my @sh_to_install = qw( kocos-script.sh rank-script.sh combig-script.sh );
 WriteMakefile(
     NAME              => 'Text::NSP',
     VERSION_FROM      => 'lib/Text/NSP.pm', # finds $VERSION
-    PREREQ_PM         => {}, # e.g., Module::Name => 1.1
+    PREREQ_PM         => {},
     CONFIGURE         => \&configSub,
     EXE_FILES         => [
                            map ("bin/$_", @required_to_install),
@@ -65,7 +65,7 @@ html:
 	@echo "Installing the Ngram Statistics Package, V $(VERSION)..."
 	@echo " ...into $(SITEPREFIX) (/doc /bin /lib /man) "
 	@echo "Make sure that the following are in your PATH:"
-	@echo "     $(INSTALLSITEBIN)"
+	@echo "     $(INSTALLBIN)"
 	@echo "and the following in your PERL5LIB:"
 	@echo "     $(INSTALLSITELIB)"
 	@echo "*****************************************************"
@@ -81,7 +81,8 @@ html:
 
 	@echo "Installing measures documentation in $(SITEPREFIX)/doc/html"
 
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/dice.html --infile=lib/Text/NSP/Measures/2D/dice.pm --title="NSP Dice Coefficient"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/dice.html --infile=lib/Text/NSP/Measures/2D/Dice/dice.pm --title="NSP Dice Coefficient"
+	@pod2html --outfile=$(SITEPREFIX)/doc/html/jaccard.html --infile=lib/Text/NSP/Measures/2D/Dice/jaccard.pm --title="NSP Jaccard Coefficient"
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/ll.html --infile=lib/Text/NSP/Measures/2D/MI/ll.pm --title="NSP Log Likelihood Ratio"
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/odds.html --infile=lib/Text/NSP/Measures/2D/odds.pm --title="NSP Odds Ratio"
 	@pod2html --outfile=$(SITEPREFIX)/doc/html/phi.html --infile=lib/Text/NSP/Measures/2D/CHI/phi.pm --title="NSP Phi Coefficient"

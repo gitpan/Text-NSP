@@ -72,13 +72,13 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::CHI);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 
 =item calculateStatistic() - method to calculate the tscore Coefficient
 
 INPUT PARAMS  : $count_values       .. Reference of an hash containing
-                                       the count valuescomputed by the
+                                       the count values computed by the
                                        count.pl program.
 
 RETURN VALUES : $tscore             .. tscore value for this bigram.
@@ -151,23 +151,23 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: tscore.pm,v 1.4 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: tscore.pm,v 1.8 2006/06/15 16:53:02 saiyam_kohli Exp $
 
 =head1 BUGS
 
 
 =head1 SEE ALSO
 
- @incollection {ChurchGHH91,
-        author={Church, K. and Gale, W. and Hanks, P. and Hindle, D. },
-        title={Using Statistics in Lexical Analysis},
-        booktitle={Lexical Acquisition: Exploiting On-Line Resources
-                    to Build a Lexicon},
-        editor={Zernik, U.},
-        year={1991},
-        address={Hillsdale, NJ},
-        publisher={Lawrence Erlbaum Associates}
-        url = L<http://www.patrickhanks.com/papers/usingStats.pdf>}
+  @incollection {ChurchGHH91,
+          author={Church, K. and Gale, W. and Hanks, P. and Hindle, D. },
+          title={Using Statistics in Lexical Analysis},
+          booktitle={Lexical Acquisition: Exploiting On-Line Resources
+                      to Build a Lexicon},
+          editor={Zernik, U.},
+          year={1991},
+          address={Hillsdale, NJ},
+          publisher={Lawrence Erlbaum Associates}
+          url = L<http://www.patrickhanks.com/papers/usingStats.pdf>}
 
 L<http://groups.yahoo.com/group/ngram/>
 

@@ -52,10 +52,18 @@ tmi = [n111/nppp * log(n111/m111) + n112/nppp * log(n112/m112) +
         n211/nppp * log(n211/m211) + n212/nppp * log(n212/m212) +
         n221/nppp * log(n221/m221) + n222/nppp * log(n222/m222)]
 
+=item Pointwise Mutual Information
+
+pmi =   log (n111/m111)
+
+=item Poisson Stirling Measure
+
+ps = n111 * ( log(n111/m111) - 1)
+
 =back
 
 All these methods use the ratio of the observed values to expected values,
-for computations, and thus have common error checks, sothey have been grouped
+for computations, and thus have common error checks, so they have been grouped
 togrther.
 
 =head2 Methods
@@ -78,7 +86,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::3D);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 
 =item calculateStatistic($count_values) - This method calls
@@ -280,7 +288,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: MI.pm,v 1.4 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: MI.pm,v 1.7 2006/06/15 16:53:05 saiyam_kohli Exp $
 
 =head1 BUGS
 

@@ -26,8 +26,10 @@ $Test::Harness::verbose = shift
 
 my @testfiles = ( "Text-NSP.t",
                   "Text-NSP-Measures.t",
+                  "2D/Text-NSP-Measures-2D.t",
                   "2D/MI/ll/Text-NSP-Measures-2D-MI-ll.t",
                   "2D/MI/pmi/Text-NSP-Measures-2D-MI-pmi.t",
+                  "2D/MI/ps/Text-NSP-Measures-2D-MI-ps.t",
                   "2D/MI/tmi/Text-NSP-Measures-2D-MI-tmi.t",
                   "2D/MI/Text-NSP-Measures-2D-MI.t",
                   "2D/chi/x2/Text-NSP-Measures-2D-CHI-x2.t",
@@ -36,6 +38,7 @@ my @testfiles = ( "Text-NSP.t",
                   "2D/chi/Text-NSP-Measures-2D-CHI.t",
                   "2D/dice/Text-NSP-Measures-2D-dice.t",
                   "2D/odds/Text-NSP-Measures-2D-odds.t",
+                  "2D/jaccard/Text-NSP-Measures-2D-jaccard.t",
                   "2D/Fisher/left/Text-NSP-Measures-2D-Fisher-left.t",
                   "2D/Fisher/right/Text-NSP-Measures-2D-Fisher-right.t",
                   "2D/Fisher/twotailed/Text-NSP-Measures-2D-Fisher-twotailed.t",
@@ -43,6 +46,8 @@ my @testfiles = ( "Text-NSP.t",
                   "3D/MI/Text-NSP-Measures-3D-MI.t",
                   "3D/MI/ll/Text-NSP-Measures-3D-MI-ll.t",
                   "3D/MI/tmi/Text-NSP-Measures-3D-MI-tmi.t",
+                  "3D/MI/pmi/Text-NSP-Measures-3D-MI-pmi.t",
+                  "3D/MI/ps/Text-NSP-Measures-3D-MI-ps.t",
 );
 
 use Test::Harness;

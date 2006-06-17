@@ -4,39 +4,40 @@
 # conditions.
 
 # ---------------------------------------
-# Script was originally written by Bano 
+# Script was originally written by Bano
 # ----------------------------------------------------------------------------
-# 				changelog 	
+# 				changelog
 #
-# version	Date		Updater	 Changes done		   ChangeId	
+# version	Date		Updater	 Changes done		   ChangeId
 
-# 0.53		01/09/2003	Amruta	 fixed the problem of 	    ADP.53.1	
-#					 missing sort operations 
-#					 before test result 
+# 0.53		01/09/2003	Amruta	 fixed the problem of 	    ADP.53.1
+#					 missing sort operations
+#					 before test result
 #					 comparisions
 # -----------------------------------------------------------------------------
 
 # library file for whole testing
 set LIB = "test_2.pm"
+set PERL5LIB = `pwd`
 
-if (!(-e $LIB)) then 
-    echo "File $LIB does not exist... aborting" 
+if (!(-e $LIB)) then
+    echo "File $LIB does not exist... aborting"
     exit
 endif
 
 # Subtest 1: check to see if set_freq_combo and get_freq_combo is
 # working or not!
 
-echo "Subtest 1" 
+echo "Subtest 1"
 echo ""
 
-# input file 
+# input file
 set TESTFILE = "test-2.sub-1-a.cnt"
 
-# check if this file exists. if not, quit!  
+# check if this file exists. if not, quit!
 if (!(-e $TESTFILE)) then
-    echo "File $TESTFILE does not exist... aborting" 
-    exit 
+    echo "File $TESTFILE does not exist... aborting"
+    exit
 endif
 
 # freq combo file
@@ -44,8 +45,8 @@ set FREQCOMBFILE = "test-2.sub-1-a.freq_combo.txt"
 
 # check if this file exists. if not, quit!
 if (!(-e $FREQCOMBFILE)) then
-    echo "File $FREQCOMBFILE does not exist... aborting" 
-    exit 
+    echo "File $FREQCOMBFILE does not exist... aborting"
+    exit
 endif
 
 # test-2.sub-1-a.cnt has trigrams in it but without all the frequency
@@ -53,7 +54,7 @@ endif
 # get_freq_combo to see if we are getting the right combinations!
 
 # required output file
-set TARGETFILE = "test-2.sub-1-a.reqd"   
+set TARGETFILE = "test-2.sub-1-a.reqd"
 
 if (!(-e $TARGETFILE)) then
     echo "File $TARGETFILE does not exist... aborting"
@@ -61,12 +62,12 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --ngram 3 --set_freq_combo $FREQCOMBFILE --get_freq_combo freq.out $LIB test-2.out $TESTFILE" 
-statistic.pl --ngram 3 --set_freq_combo $FREQCOMBFILE --get_freq_combo freq.out $LIB test-2.out $TESTFILE 
+echo "Test:   statistic.pl --ngram 3 --set_freq_combo $FREQCOMBFILE --get_freq_combo freq.out $LIB test-2.out $TESTFILE"
+statistic.pl --ngram 3 --set_freq_combo $FREQCOMBFILE --get_freq_combo freq.out $LIB test-2.out $TESTFILE
 
 # compare the actual output with the required output
 # --------
-# ADP.53.1 
+# ADP.53.1
 # --------
 sort test-2.out > t1
 sort $TARGETFILE > t2
@@ -94,21 +95,21 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-2.out
-/bin/rm -f freq.out 
+/bin/rm -f freq.out
 
 
 # Subtest 2: check to see if --frequency is working or not
 
-echo "Subtest 2" 
+echo "Subtest 2"
 echo ""
 
-# input file 
+# input file
 set TESTFILE = "test-2.sub-2.cnt"
 
-# check if this file exists. if not, quit!  
+# check if this file exists. if not, quit!
 if (!(-e $TESTFILE)) then
-    echo "File $TESTFILE does not exist... aborting" 
-    exit 
+    echo "File $TESTFILE does not exist... aborting"
+    exit
 endif
 
 # subtest 2 a
@@ -126,7 +127,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --frequency 2 $LIB test-2.out $TESTFILE" 
+echo "Test:   statistic.pl --frequency 2 $LIB test-2.out $TESTFILE"
 statistic.pl --frequency 2 $LIB test-2.out $TESTFILE
 
 # compare the actual output with the required output
@@ -149,7 +150,7 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-2.out
-/bin/rm -f freq.out 
+/bin/rm -f freq.out
 
 # subtest 2 b
 
@@ -165,7 +166,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --frequency 3 $LIB test-2.out $TESTFILE" 
+echo "Test:   statistic.pl --frequency 3 $LIB test-2.out $TESTFILE"
 statistic.pl --frequency 3 $LIB test-2.out $TESTFILE
 
 # compare the actual output with the required output
@@ -188,22 +189,22 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-2.out
-/bin/rm -f freq.out 
+/bin/rm -f freq.out
 
 
 
 # Subtest 3: check to see if --rank is working or not
 
-echo "Subtest 3" 
+echo "Subtest 3"
 echo ""
 
-# input file 
+# input file
 set TESTFILE = "test-2.sub-2.cnt"
 
-# check if this file exists. if not, quit!  
+# check if this file exists. if not, quit!
 if (!(-e $TESTFILE)) then
-    echo "File $TESTFILE does not exist... aborting" 
-    exit 
+    echo "File $TESTFILE does not exist... aborting"
+    exit
 endif
 
 # subtest 3 a
@@ -220,7 +221,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --rank 6 $LIB test-2.out $TESTFILE" 
+echo "Test:   statistic.pl --rank 6 $LIB test-2.out $TESTFILE"
 statistic.pl --rank 6 $LIB test-2.out $TESTFILE
 
 # compare the actual output with the required output
@@ -243,7 +244,7 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-2.out
-/bin/rm -f freq.out 
+/bin/rm -f freq.out
 
 # subtest 3 b
 
@@ -258,7 +259,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --rank 3 $LIB test-2.out $TESTFILE" 
+echo "Test:   statistic.pl --rank 3 $LIB test-2.out $TESTFILE"
 statistic.pl --rank 3 $LIB test-2.out $TESTFILE
 
 # compare the actual output with the required output
@@ -281,27 +282,27 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-2.out
-/bin/rm -f freq.out 
+/bin/rm -f freq.out
 
 
 
 # Subtest 4: check to see if --precision is working or not
 
-echo "Subtest 4" 
+echo "Subtest 4"
 echo ""
 
-# input file 
+# input file
 set TESTFILE = "test-2.sub-2.cnt"
 
-# check if this file exists. if not, quit!  
+# check if this file exists. if not, quit!
 if (!(-e $TESTFILE)) then
-    echo "File $TESTFILE does not exist... aborting" 
-    exit 
+    echo "File $TESTFILE does not exist... aborting"
+    exit
 endif
 
 # subtest 4 a
 
-# try with precision 0. should get no places of decimal. 
+# try with precision 0. should get no places of decimal.
 
 # required output file
 set TARGETFILE = "test-2.sub-4-a.reqd"
@@ -312,7 +313,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --precision 0 $LIB test-2.out $TESTFILE" 
+echo "Test:   statistic.pl --precision 0 $LIB test-2.out $TESTFILE"
 statistic.pl --precision 0 $LIB test-2.out $TESTFILE
 
 # compare the actual output with the required output
@@ -335,7 +336,7 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-2.out
-/bin/rm -f freq.out 
+/bin/rm -f freq.out
 
 # subtest 4 b
 
@@ -350,7 +351,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --precision 5 $LIB test-2.out $TESTFILE" 
+echo "Test:   statistic.pl --precision 5 $LIB test-2.out $TESTFILE"
 statistic.pl --precision 5 $LIB test-2.out $TESTFILE
 
 # compare the actual output with the required output
@@ -373,7 +374,7 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-2.out
-/bin/rm -f freq.out 
+/bin/rm -f freq.out
 
 # subtest 4 c
 
@@ -388,7 +389,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --precision 10 $LIB test-2.out $TESTFILE" 
+echo "Test:   statistic.pl --precision 10 $LIB test-2.out $TESTFILE"
 statistic.pl --precision 10 $LIB test-2.out $TESTFILE
 
 # compare the actual output with the required output
@@ -411,7 +412,7 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-2.out
-/bin/rm -f freq.out 
+/bin/rm -f freq.out
 
 
 # Subtest 5: check to see if --score is working is working or not
@@ -419,18 +420,18 @@ echo ""
 echo "Subtest 5"
 echo ""
 
-# input file 
+# input file
 set TESTFILE = "test-2.sub-2.cnt"
 
-# check if this file exists. if not, quit!  
+# check if this file exists. if not, quit!
 if (!(-e $TESTFILE)) then
-    echo "File $TESTFILE does not exist... aborting" 
-    exit 
+    echo "File $TESTFILE does not exist... aborting"
+    exit
 endif
 
 # subtest 5 a
 
-# try with score cutoff 0.8 
+# try with score cutoff 0.8
 
 # required output file
 set TARGETFILE = "test-2.sub-5-a.reqd"
@@ -441,7 +442,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --score 0.8 $LIB test-2.out $TESTFILE" 
+echo "Test:   statistic.pl --score 0.8 $LIB test-2.out $TESTFILE"
 statistic.pl --score 0.8 $LIB test-2.out $TESTFILE
 
 # compare the actual output with the required output
@@ -464,7 +465,7 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-2.out
-/bin/rm -f freq.out 
+/bin/rm -f freq.out
 
 # subtest 5 b
 
@@ -479,7 +480,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --score 1.2 $LIB test-2.out $TESTFILE" 
+echo "Test:   statistic.pl --score 1.2 $LIB test-2.out $TESTFILE"
 statistic.pl --score 1.2 $LIB test-2.out $TESTFILE
 
 # compare the actual output with the required output
@@ -502,7 +503,7 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-2.out
-/bin/rm -f freq.out 
+/bin/rm -f freq.out
 
 
 # Subtest 6: check to see if --format is working or not
@@ -510,13 +511,13 @@ echo ""
 echo "Subtest 6"
 echo ""
 
-# input file 
+# input file
 set TESTFILE = "test-2.sub-2.cnt"
 
-# check if this file exists. if not, quit!  
+# check if this file exists. if not, quit!
 if (!(-e $TESTFILE)) then
-    echo "File $TESTFILE does not exist... aborting" 
-    exit 
+    echo "File $TESTFILE does not exist... aborting"
+    exit
 endif
 
 # required output file
@@ -528,7 +529,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --format $LIB test-2.out $TESTFILE" 
+echo "Test:   statistic.pl --format $LIB test-2.out $TESTFILE"
 statistic.pl --format $LIB test-2.out $TESTFILE
 
 # compare the actual output with the required output
@@ -551,7 +552,7 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-2.out
-/bin/rm -f freq.out 
+/bin/rm -f freq.out
 
 
 # Subtest 7: check to see if --extended is working or not
@@ -559,16 +560,16 @@ echo ""
 echo "Subtest 7"
 echo ""
 
-# input file 
+# input file
 set TESTFILE = "test-2.sub-7.cnt"
 
-# check if this file exists. if not, quit!  
+# check if this file exists. if not, quit!
 if (!(-e $TESTFILE)) then
-    echo "File $TESTFILE does not exist... aborting" 
-    exit 
+    echo "File $TESTFILE does not exist... aborting"
+    exit
 endif
 
-# subtest 7 a 
+# subtest 7 a
 
 # first check with the --extended switch in place
 
@@ -581,7 +582,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --extended $LIB test-2.out $TESTFILE" 
+echo "Test:   statistic.pl --extended $LIB test-2.out $TESTFILE"
 statistic.pl --extended $LIB test-2.out $TESTFILE
 
 # compare the actual output with the required output
@@ -604,7 +605,7 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-2.out
-/bin/rm -f freq.out 
+/bin/rm -f freq.out
 
 # subtest 7 b
 
@@ -619,7 +620,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl $LIB test-2.out $TESTFILE" 
+echo "Test:   statistic.pl $LIB test-2.out $TESTFILE"
 statistic.pl $LIB test-2.out $TESTFILE
 
 # compare the actual output with the required output
@@ -642,7 +643,7 @@ echo ""
 /bin/rm -f difference
 /bin/rm -f error.out
 /bin/rm -f test-2.out
-/bin/rm -f freq.out 
+/bin/rm -f freq.out
 /bin/rm -f t1
 /bin/rm -f t2
 

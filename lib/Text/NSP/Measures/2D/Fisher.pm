@@ -91,7 +91,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 
 =item calculateStatistic() -This method calls the
@@ -101,7 +101,7 @@ for any errors that might cause the Fishers Exact test measures to
 fail.
 
 INPUT PARAMS  : $count_values       .. Reference of an array containing
-                                       the count valuescomputed by the
+                                       the count values computed by the
                                        count.pl program.
 
 RETURN VALUES : $observed           .. Observed contingency table counts.
@@ -345,7 +345,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: Fisher.pm,v 1.14 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: Fisher.pm,v 1.17 2006/06/14 23:59:45 saiyam_kohli Exp $
 
 =head1 BUGS
 

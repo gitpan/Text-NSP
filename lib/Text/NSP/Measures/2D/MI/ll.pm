@@ -82,12 +82,12 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::MI);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 =item calculateStatistic() - This method calculates the ll value
 
 INPUT PARAMS  : $count_values       .. Reference of an hash containing
-                                       the count valuescomputed by the
+                                       the count values computed by the
                                        count.pl program.
 
 RETURN VALUES : $loglikelihood      .. Loglikelihood value for this bigram.
@@ -164,36 +164,36 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: ll.pm,v 1.15 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: ll.pm,v 1.19 2006/06/15 16:53:04 saiyam_kohli Exp $
 
 =head1 BUGS
 
 
 =head1 SEE ALSO
 
-@article{Dunning93,
-          author = {Dunning, T.},
-          title = {Accurate Methods for the Statistics of
-        Surprise and Coincidence},
-          journal = {Computational Linguistics},
-          volume = {19},
-          number = {1},
-          year = {1993},
-          pages = {61-74}
-          url = L<http://www.comp.lancs.ac.uk/ucrel/papers/tedstats.pdf>}
+  @article{Dunning93,
+            author = {Dunning, T.},
+            title = {Accurate Methods for the Statistics of
+                    Surprise and Coincidence},
+            journal = {Computational Linguistics},
+            volume = {19},
+            number = {1},
+            year = {1993},
+            pages = {61-74}
+            url = L<http://www.comp.lancs.ac.uk/ucrel/papers/tedstats.pdf>}
 
-@inproceedings{moore:2004:EMNLP,
-              author    = {Moore, Robert C.},
-              title     = {On Log-Likelihood-Ratios and the Significance of Rare
-            Events },
-              booktitle = {Proceedings of EMNLP 2004},
-              editor = {Dekang Lin and Dekai Wu},
-              year      = 2004,
-              month     = {July},
-              address   = {Barcelona, Spain},
-              publisher = {Association for Computational Linguistics},
-              pages     = {333--340}
-              url = L<http://acl.ldc.upenn.edu/acl2004/emnlp/pdf/Moore.pdf>}
+  @inproceedings{moore:2004:EMNLP,
+                author    = {Moore, Robert C.},
+                title     = {On Log-Likelihood-Ratios and the Significance of Rare
+                            Events },
+                booktitle = {Proceedings of EMNLP 2004},
+                editor = {Dekang Lin and Dekai Wu},
+                year      = 2004,
+                month     = {July},
+                address   = {Barcelona, Spain},
+                publisher = {Association for Computational Linguistics},
+                pages     = {333--340}
+                url = L<http://acl.ldc.upenn.edu/acl2004/emnlp/pdf/Moore.pdf>}
 
 L<http://groups.yahoo.com/group/ngram/>
 

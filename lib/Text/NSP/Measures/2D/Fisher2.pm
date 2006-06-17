@@ -1,3 +1,99 @@
+=head1 NAME
+
+Text::NSP::Measures::2D::Fisher  - Statistical library package that provides
+methods to compute the Fishers exact tests.
+
+=head1 SYNOPSIS
+
+=head3 Basic Usage
+
+  use Text::NSP::Measures::2D::Fisher::left;
+
+  my $leftFisher = Text::NSP::Measures::2D::Fisher::left->new();
+
+  my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
+
+  $leftFisher_value = $leftFisher->calculateStatistic( n11=>$n11,
+                                                       n1p=>$n1p,
+                                                       np1=>$np1,
+                                                       npp=>$npp);
+
+  if( ($errorCode = $leftFisher->getErrorCode()))
+  {
+    print STDERR $erroCode." - ".$leftFisher->getErrorMessage();
+  }
+  else
+  {
+    print $leftFisher->getStatisticName."value for bigram is ".$leftFisher_value;
+  }
+
+
+=head1 DESCRIPTION
+
+This module provides a framework for the naive implementation of the
+fishers exact tests. That is the implementation does not have any
+optimizations for performance. This will compute the factorials for
+the hypergeometric probabilities using direct multiplications.
+
+This measure should be used if you need exact values without any
+rounding errors, and you are not worried about the performance of
+the measure, otherwise use the implementations under the
+Text::NSP::Measures::2D::Fisher module.
+
+To use this implementation, you will have to specify the entire
+module name. Usage:
+
+statistic.pl Text::NSP::Measures::Fisher2::left dest.txt source.cnt
+
+
+Assume that the frequency count data associated with a bigram
+<word1><word2> is stored in a 2x2 contingency table:
+
+          word2   ~word2
+  word1    n11      n12 | n1p
+ ~word1    n21      n22 | n2p
+           --------------
+           np1      np2   npp
+
+where n11 is the number of times <word1><word2> occur together, and
+n12 is the number of times <word1> occurs with some word other than
+word2, and n1p is the number of times in total that word1 occurs as
+the first word in a bigram.
+
+The fishers exact tests are calculated by fixing the marginal totals
+and computing the hypergeometric probabilities for all the possible
+contingency tables,
+
+A left sided test is calculated by adding the probabilities of all
+the possible two by two contingency tables formed by fixing the
+marginal totals and changing the value of n11 to less than the given
+value. A left sided Fisher's Exact Test tells us how likely it is to
+randomly sample a table where n11 is less than observed. In other words,
+it tells us how likely it is to sample an observation where the two words
+are less dependent than currently observed.
+
+A right sided test is calculated by adding the probabilities of all
+the possible two by two contingency tables formed by fixing the
+marginal totals and changing the value of n11 to greater than or
+equal to the given value. A right sided Fisher's Exact Test tells us
+how likely it is to randomly sample a table where n11 is greater
+than observed. In other words, it tells us how likely it is to sample
+an observation where the two words are more dependent than currently
+observed.
+
+A twotailed fishers test is calculated by adding the probabilities of
+all the contingency tables with probabilities less than the probability
+of the observed table. The twotailed fishers test tells us how likely
+it would be to observe an contingency table which is less probable than
+the current table.
+
+=head2 Methods
+
+=over
+
+=cut
+
+
 package Text::NSP::Measures::2D::Fisher2;
 
 
@@ -11,7 +107,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 
 =item calculateStatistic()
@@ -19,7 +115,7 @@ $VERSION = '0.91';
 This method calculates the ll value
 
 INPUT PARAMS  : $count_values       .. Reference of an array containing
-                                       the count valuescomputed by the
+                                       the count values computed by the
                                        count.pl program.
 
 RETURN VALUES : $observed           .. Observed contingency table counts.
@@ -246,7 +342,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: Fisher2.pm,v 1.2 2006/03/25 04:21:24 saiyam_kohli Exp $
+Last updated: $Id: Fisher2.pm,v 1.7 2006/06/15 16:53:03 saiyam_kohli Exp $
 
 =head1 BUGS
 

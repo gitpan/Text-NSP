@@ -11,6 +11,7 @@ echo ""
 
 # input file
 set TESTFILE = "test-1.sub-1.cnt"
+set PERL5LIB = pwd
 
 # check if this file exists. if not, quit!
 if (!(-e $TESTFILE)) then
@@ -33,7 +34,7 @@ endif
 # should be an error as defined in test-1.sub-1-a.reqd.
 
 # required output file
-set TARGETFILE = "test-1.sub-1-a.reqd"   
+set TARGETFILE = "test-1.sub-1-a.reqd"
 
 if (!(-e $TARGETFILE)) then
     echo "File $TARGETFILE does not exist... aborting"
@@ -41,7 +42,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl $LIB test-1.out $TESTFILE" 
+echo "Test:   statistic.pl $LIB test-1.out $TESTFILE"
 statistic.pl $LIB test-1.out $TESTFILE >& error.out
 
 # compare the error output with the required output
@@ -74,7 +75,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --ngram 4 $LIB test-1.out $TESTFILE" 
+echo "Test:   statistic.pl --ngram 4 $LIB test-1.out $TESTFILE"
 statistic.pl --ngram 4 $LIB test-1.out $TESTFILE >& error.out
 
 # compare the error output with the required output
@@ -106,7 +107,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --ngram 3 $LIB test-1.out $TESTFILE" 
+echo "Test:   statistic.pl --ngram 3 $LIB test-1.out $TESTFILE"
 statistic.pl --ngram 3 $LIB test-1.out $TESTFILE >& error.out
 
 # compare the error output with the required output
@@ -168,7 +169,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --ngram 3 $LIB test-1.out $TESTFILE" 
+echo "Test:   statistic.pl --ngram 3 $LIB test-1.out $TESTFILE"
 statistic.pl --ngram 3 $LIB test-1.out $TESTFILE >& error.out
 
 # compare the error output with the required output
@@ -187,7 +188,7 @@ echo ""
 /bin/rm -f test-1.out
 
 
-# subtest 2 b 
+# subtest 2 b
 
 # there shouldnt be any problems if we use --set_freq_combo test-1.sub-2.freq_combo.txt
 
@@ -207,7 +208,7 @@ if (!(-e $FREQCOMBFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --ngram 3 --set_freq_comb $FREQCOMBFILE $LIB test-1.out $TESTFILE" 
+echo "Test:   statistic.pl --ngram 3 --set_freq_comb $FREQCOMBFILE $LIB test-1.out $TESTFILE"
 statistic.pl --ngram 3 --set_freq_comb $FREQCOMBFILE $LIB test-1.out $TESTFILE >& error.out
 
 # compare the error output with the required output
@@ -268,7 +269,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --ngram 3 $LIB test-1.out $TESTFILE" 
+echo "Test:   statistic.pl --ngram 3 $LIB test-1.out $TESTFILE"
 statistic.pl --ngram 3 $LIB test-1.out $TESTFILE >& error.out
 
 # compare the error output with the required output
@@ -308,7 +309,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --ngram 3 $LIB test-1.out $TESTFILE" 
+echo "Test:   statistic.pl --ngram 3 $LIB test-1.out $TESTFILE"
 statistic.pl --ngram 3 $LIB test-1.out $TESTFILE >& error.out
 
 # compare the error output with the required output
@@ -348,7 +349,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --ngram 3 $LIB test-1.out $TESTFILE" 
+echo "Test:   statistic.pl --ngram 3 $LIB test-1.out $TESTFILE"
 statistic.pl --ngram 3 $LIB test-1.out $TESTFILE >& error.out
 
 # compare the error output with the required output
@@ -389,7 +390,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --ngram 3 $LIB test-1.out $TESTFILE" 
+echo "Test:   statistic.pl --ngram 3 $LIB test-1.out $TESTFILE"
 statistic.pl --ngram 3 $LIB test-1.out $TESTFILE >& error.out
 
 # compare the error output with the required output
@@ -434,7 +435,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl $LIB" 
+echo "Test:   statistic.pl $LIB"
 statistic.pl $LIB >& error.out
 
 # compare the error output with the required output
@@ -464,7 +465,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl $LIB test-1.out" 
+echo "Test:   statistic.pl $LIB test-1.out"
 statistic.pl $LIB test-1.out >& error.out
 
 # compare the error output with the required output
@@ -497,7 +498,7 @@ if (!(-e $TESTFILE)) then
     exit
 endif
 
-# freq combo file 
+# freq combo file
 set FREQCOMBFILE = "test-1.sub-5.freq_comb.txt"
 
 if (!(-e $FREQCOMBFILE)) then
@@ -505,7 +506,7 @@ if (!(-e $FREQCOMBFILE)) then
     exit
 endif
 
-# library file 
+# library file
 set LIB = "test_1_sub_3_d.pm"
 
 if (!(-e $LIB)) then

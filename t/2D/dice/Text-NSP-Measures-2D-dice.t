@@ -7,7 +7,7 @@ BEGIN { $| = 1; print "1..30\n"; }
 END {print "not ok 1\n" unless $loaded;}
 use Text::NSP::Measures;
 use Text::NSP::Measures::2D;
-use Text::NSP::Measures::2D::dice;
+use Text::NSP::Measures::2D::Dice::dice;
 $loaded = 1;
 print "ok 1\n";
 
@@ -15,7 +15,7 @@ print "ok 1\n";
 
 ############ Create Object for dice
 
-$dice = Text::NSP::Measures::2D::dice->new();
+$dice = Text::NSP::Measures::2D::Dice::dice->new();
 if($dice)
 {
     $err = $dice->{errorCodeNumber};

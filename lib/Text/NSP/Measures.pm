@@ -40,18 +40,62 @@ what constitutes a "token" can be defined by the user.
 
 The measures that have been implemented in this distribution are:
 
-      1.) Loglikelihood (for Bigrams and Trigrams)
-      2.) True Mutual Information (for Bigrams and Trigrams)
-      3.) Pointwise Mutual Information
-      4.) Chi-squared Measure
-      5.) Phi Coefficient
-      6.) T-Score
-      7.) Dice Coefficient
-      8.) Odds Ratio
-      9.) Fishers Exact Tests (Left, Right and TwoTailed)
+=over
+
+=item 1) MI (Mutual Information based Measures)
+
+=over
+
+=item a) Loglikelihood (for Bigrams and Trigrams)
+
+=item b) True Mutual Information (for Bigrams and Trigrams)
+
+=item c) Pointwise Mutual Information (for Bigrams and Trigrams)
+
+=item d) Poisson Stirling Measure (for Bigrams and Trigrams)
+
+=back
+
+=item 2) CHI (Measures belonging to the CHI family)
+
+=over
+
+=item a) Chi-squared Measure
+
+=item b) Phi Coefficient
+
+=item c) T-Score
+
+=back
+
+=item 3) Dice (Measures belonging to the Dice family)
+
+=over
+
+=item a) Dice Coefficient
+
+=item b) Jaccard Measure
+
+=back
+
+=item 4) Fishers Exact Tests
+
+=over
+
+=item a) Left Fishers Exact Test
+
+=item b) Right Fishers Exact Test
+
+=item c) Two-Tailed Fishers Exact Test
+
+=back
+
+=item 5) Odds Ratio
+
+=back
 
 Further discussion about these measures is in their respective
-implementations.
+documentations.
 
 =head2 Writing your own association measures
 
@@ -270,7 +314,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::MI);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 sub calculateStatistic
 {
@@ -441,7 +485,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 
 =item new() - In case user tries to create an object of the abstract
@@ -460,11 +504,48 @@ sub new
   if ($class eq 'Text::NSP::Measures')
   {
     $this->{errorMessage} .= "\nError (${class}::new()) - ";
-    $this->{errorMessage} .= "This class is intended to be an abstract base class for measures";
+    $this->{errorMessage} .= "This class is intended to be an abstract base class for measures.";
+    $this->{errorMessage} .= "It cannot be instantiated.\n";
     $this->{errorCodeNumber} = 100;
   }
   return $this;
 }
+
+
+=item initializeStatistic() - Provides an empty method which is called in case
+                              the measures do not override this method. If you
+                              need some measure specific initialization, override
+                              this method in yhe implementation of your measure.
+
+INPUT PARAMS  : none
+
+RETURN VALUES : none
+
+=cut
+
+sub initializeStatistic
+{
+}
+
+
+
+=item calculateStatistic() - Provides an empty framework. Your Measure should
+                             override this method.
+INPUT PARAMS  : none
+
+RETURN VALUES : none
+
+=cut
+
+sub calculateStatistic
+{
+  my $self = shift;
+  $self->{errorMessage} .= "\nError calculateStatistic() - ";
+  $self->{errorMessage} .= "Mandatory function calculateStatistic() not defined";
+  $self->{errorMessage} .= "Your implementation should override this method. Aborting....\n";
+  $self->{errorCodeNumber} = 101;
+}
+
 
 
 =item getErrorCode() - Returns the error code in the last operation if

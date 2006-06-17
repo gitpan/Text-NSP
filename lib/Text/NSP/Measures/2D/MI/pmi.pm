@@ -57,6 +57,26 @@ that bigram if it were independent (m11).
 
  PMI =   log (n11/m11)
 
+ The Pointwise Mutual Information tends to overestimate bigrams with low
+ observed frequency counts. To prevent this sometimes a variation of pmi
+ is used which increases the influence of the observed frequency.
+
+ PMI = log((n11^$exp)/m11)
+
+ The $exp is 1 by default, so by default the measure will compute the
+ Pointwise Mutual Information for the given bigram. To use a variation of
+ the measure, users can pass the $exp parameter using the --pmi_exp
+ command line option in statistic.pl or by passing the $exp to the
+ initializeStatistic() method from their program.
+
+ The usage for statistic.pl is
+
+ statistic.pl pmi out_pmi.stt out.cnt    - for Point Wise Mutual Information
+                                           $exp is 1 in this case.
+
+ statistic.pl --pmi_exp 2 pmi out_pmi2.stt out.cnt   - for the variant with
+                                                       $exp set to 2.
+
 =head2 Methods
 
 =over
@@ -75,15 +95,33 @@ use warnings;
 
 our ($VERSION, @ISA);
 
+our $exp = 1;
+
 @ISA = qw(Text::NSP::Measures::2D::MI);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
+
+
+=item initializeStatistic() -Initialization of the pmi_exp parameter if required
+
+INPUT PARAMS  : none
+
+RETURN VALUES : none
+
+=cut
+
+sub initializeStatistic
+{
+  my $self = shift;
+  $exp = shift;
+}
+
 
 
 =item calculateStatistic() - This method calculates the pmi value
 
 INPUT PARAMS  : $count_values       .. Reference of a hash containing
-                                       the count valuescomputed by the
+                                       the count values computed by the
                                        count.pl program.
 
 RETURN VALUES : $pmi                .. PMI value for this bigram.
@@ -106,7 +144,7 @@ sub calculateStatistic
   }
 
   #  Now the calculations!
-  my $pmi = $self->computePMI($observed->{n11},$expected->{m11});
+  my $pmi = $self->computePMI($observed->{n11}**$exp,$expected->{m11});
 
   $Text::NSP::Measures::2D::marginals = undef;
 
@@ -155,22 +193,22 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: pmi.pm,v 1.15 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: pmi.pm,v 1.20 2006/06/15 16:53:04 saiyam_kohli Exp $
 
 =head1 BUGS
 
 
 =head1 SEE ALSO
 
-@inproceedings{ church89word,
-    author = {Kenneth W. Church and Patrick Hanks},
-    title = {Word association norms, mutual information, and Lexicography},
-    booktitle = {Proceedings of the 27th. Annual Meeting of the Association for Computational Linguistics},
-    publisher = {Association for Computational Linguistics},
-    address = {Vancouver, B.C.},
-    pages = {76--83},
-    year = {1989},
-    url = L<http://acl.ldc.upenn.edu/J/J90/J90-1003.pdf> }
+  @inproceedings{ church89word,
+      author = {Kenneth W. Church and Patrick Hanks},
+      title = {Word association norms, mutual information, and Lexicography},
+      booktitle = {Proceedings of the 27th. Annual Meeting of the Association for Computational Linguistics},
+      publisher = {Association for Computational Linguistics},
+      address = {Vancouver, B.C.},
+      pages = {76--83},
+      year = {1989},
+      url = L<http://acl.ldc.upenn.edu/J/J90/J90-1003.pdf> }
 
 
 L<http://groups.yahoo.com/group/ngram/>

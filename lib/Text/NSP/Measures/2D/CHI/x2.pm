@@ -83,13 +83,13 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::CHI);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 
 =item calculateStatistic() - method to calculate the Chi-squared value.
 
 INPUT PARAMS  : $count_values       .. Reference of an hash containing
-                                       the count valuescomputed by the
+                                       the count values computed by the
                                        count.pl program.
 
 RETURN VALUES : $x2                .. x2 value for this bigram.
@@ -166,7 +166,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: x2.pm,v 1.4 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: x2.pm,v 1.7 2006/06/14 23:59:45 saiyam_kohli Exp $
 
 =head1 BUGS
 

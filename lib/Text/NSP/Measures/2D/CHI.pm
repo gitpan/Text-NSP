@@ -79,7 +79,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 =item calculateStatistic() - This method calls the
 computeObservedValues() and the computeExpectedValues() methods to
@@ -198,7 +198,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: CHI.pm,v 1.5 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: CHI.pm,v 1.7 2006/05/27 17:37:21 saiyam_kohli Exp $
 
 =head1 BUGS
 

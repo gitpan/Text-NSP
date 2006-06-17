@@ -70,14 +70,14 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::3D::MI);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 
 =item calculateStatistic($count_values) - This method calculates
 the tmi value
 
 INPUT PARAMS  : $count_values   .. Reference of an hash containing
-                                   the count valuescomputed by the
+                                   the count values computed by the
                                    count.pl program.
 
 RETURN VALUES : $tmi            .. TMI value for this trigram.
@@ -157,25 +157,25 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: tmi.pm,v 1.3 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: tmi.pm,v 1.7 2006/06/15 16:53:05 saiyam_kohli Exp $
 
 =head1 BUGS
 
 
 =head1 SEE ALSO
 
-@inproceedings{moore:2004:EMNLP,
-              author    = {Moore, Robert C.},
-              title     = {On Log-Likelihood-Ratios and the Significance of Rare
-            Events },
-              booktitle = {Proceedings of EMNLP 2004},
-              editor = {Dekang Lin and Dekai Wu},
-              year      = 2004,
-              month     = {July},
-              address   = {Barcelona, Spain},
-              publisher = {Association for Computational Linguistics},
-              pages     = {333--340}
-              url = L<http://acl.ldc.upenn.edu/acl2004/emnlp/pdf/Moore.pdf>}
+  @inproceedings{moore:2004:EMNLP,
+                author    = {Moore, Robert C.},
+                title     = {On Log-Likelihood-Ratios and the Significance of Rare
+                             Events },
+                booktitle = {Proceedings of EMNLP 2004},
+                editor = {Dekang Lin and Dekai Wu},
+                year      = 2004,
+                month     = {July},
+                address   = {Barcelona, Spain},
+                publisher = {Association for Computational Linguistics},
+                pages     = {333--340}
+                url = L<http://acl.ldc.upenn.edu/acl2004/emnlp/pdf/Moore.pdf>}
 
 L<http://groups.yahoo.com/group/ngram/>
 

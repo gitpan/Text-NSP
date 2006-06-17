@@ -1,68 +1,86 @@
-Changes from NSP version 0.73 to 0.91
--------------------------------------
+Changes from NSP version 0.91 to 0.93
+--------------------------------------
 
 Saiyam Kohli, kohli003@d.umn.edu
 University of Minnesota, Duluth
 
-February 7, 2006
+June 11, 2006
 
 Measures
 --------
 
-Complete rewrite of Measures from scratch using Object Oriented Perl.
+A couple of new measures have been added. These are
 
-All the measures have now been moved from the Measures directory to the lib
-directory and have been rearranged according to the following hierarchy:
+  1) Jaccard Coefficient
 
-Text::NSP
-Text::NSP::Measures
-Text::NSP::Measures::2D
-Text::NSP::Measures::2D::MI
-Text::NSP::Measures::2D::MI::ll
-Text::NSP::Measures::2D::MI::pmi
-Text::NSP::Measures::2D::MI::tmi
-Text::NSP::Measures::2D::CHI::x2
-Text::NSP::Measures::2D::CHI::phi
-Text::NSP::Measures::2D::CHI::tscore
-Text::NSP::Measures::2D::Fisher::left
-Text::NSP::Measures::2D::Fisher::right
-Text::NSP::Measures::2D::Fisher::twotailed
-Text::NSP::Measures::2D::Fisher2::left
-Text::NSP::Measures::2D::Fisher2::right
-Text::NSP::Measures::2D::Fisher2::twotailed
-Text::NSP::Measures::2D::odds
-Text::NSP::Measures::2D::dice
-Text::NSP::Measures::3D
-Text::NSP::Measures::3D::MI
-Text::NSP::Measures::3D::MI::ll
-Text::NSP::Measures::3D::MI::pmi
-Text::NSP::Measures::3D::MI::tmi
+    The Jaccard Coefficient is the ratio of number of times the words
+    occur together to the number of times atleast any one of the words
+    occur. It is defined as:
 
-Similar measures have been grouped together, and the error checks and
-computations common to these measures have been moved to the base class for
-these measures. The error codes have also been reoragnised, with every mearure
-familiy getting a particular range of error codes, the details are available in
-the Text::NSP documentation.
+          n11
+    ---------------
+    n11 + n12 + n21
 
-We are now using hashes instead of arrays to store the data related to a
-continhency table(observed/expected counts) internally.
+    The Jaccard coefficient can also be computed by applying a
+    transformation to the dice coefficient. The transformation is:
 
-The overflow errors in the rightFisher and leftFisher measures have been
-resolved and a new measure for the twotailed Fishers exact test has been added.
+      $jaccard = $dice/(2-($dice)
+
+    We use this computation instead of the one mentioned earlier. We have
+    grouped dice and jaccard under one family.
+
+
+    This measure is only available for bigrams.
+
+  2) Poisson Stirling Measure
+
+    The poisson stirling measure is a negative lograthimic approximation
+    of the poisson-likelihood measure. It uses the stirlings firmula to
+    approximate the factorial in poisson-likelihood measure. The measure
+    is computed as follows.
+
+    Posson-Stirling = n11 * ( log(n11) - log(m11) - 1)
+
+    which is same as
+
+    Posson-Stirling = n11 * ( log(n11/m11) - 1)
+
+    This measure is available for bigrams as well as trigrams.
+
+
+Apart from this Pointwise Mutual Information has been modified so that it
+takes in a parameter named pmi_exp. This parameter is used to increase the
+weight of the observed frequency count. This is useful because PMI tends to
+overestimate the bigrams with lower observed frequency counts. Now the PMI
+measure is computed as:
+
+ PMI = log((n11^$exp)/m11)
+
+The $exp is 1 by default, so the measure will compute the
+Pointwise Mutual Information for the given bigram. To use a variation
+of the measure, users can pass the $exp parameter using the --pmi_exp
+command line option in statistic.pl. To modify the $exp from within a
+program users can call the initializeStatistic method, otherwise $exp
+will be taken to be 1 by default. Usage:
+
+ $pmi->initializeStatistic(2)
+
+The pmi measure has also been extented for trigrams.
 
 
 Programs
 --------
 
-Changes to statistic.pl have been made to get it working with the new
-implementation of measures.
+statistic.pl has been modified to take in a new command line parameter
+for the PMI measure, this parameter is used to initialize the $exp
+variable in PMI. If this option is not specified $exp is initialized
+to 1. The option is discarded with a warning message if it is specified
+for any other measure.
 
-Now statistic.pl searches for the Measure modules using PERL5LIB environment
-variable instead of PATH. Some changes were made to make the commnadline
-interface backwards compatibile, that is the systems that were using NSP-0.73
-(specifically statistic.pl) will keep on working with the new NSP-0.91, without
-any changes.
+ The usage for statistic.pl is
 
-Other changes include printing all the error messaged to STDERR and also a check
-to ensure that the sum of all the obseved bigram counts is less than the total
-bigram count.
+ statistic.pl pmi out_pmi.stt out.cnt    - for Point Wise Mutual Information
+                                           $exp is 1 in this case.
+
+ statistic.pl --pmi_exp 2 pmi out_pmi2.stt out.cnt   - for the variant with
+                                                       $exp set to 2.

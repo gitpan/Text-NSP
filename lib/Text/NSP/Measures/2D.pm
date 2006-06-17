@@ -131,7 +131,7 @@ our ($VERSION, @ISA, $marginals, @EXPORT);
 
 @ISA = qw(Text::NSP::Measures);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 =item new() - This method creates and returns an object for the
               measures(constructor)
@@ -180,8 +180,6 @@ sub new
 }
 
 
-
-
 =item computeObservedValues() - A method to compute observed values,
 and also to verify that the computed Observed values are correct,
 That is they are positive, less than the marginal totals and the
@@ -199,7 +197,7 @@ RETURN VALUES : $observed         .. Reference to an hash consisting
 
 =cut
 
-sub computeObservedValues()
+sub computeObservedValues
 {
   my ($self,$values) = @_;
 
@@ -493,19 +491,10 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: 2D.pm,v 1.18 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: 2D.pm,v 1.23 2006/06/15 16:53:04 saiyam_kohli Exp $
 
 =head1 BUGS
 
-
-=head1 SEE ALSO
-
-L<http://groups.yahoo.com/group/ngram/>
-
-L<http://www.d.umn.edu/~tpederse/nsp.html>
-
-
-=head1 COPYRIGHT
 
 =head1 SEE ALSO
 

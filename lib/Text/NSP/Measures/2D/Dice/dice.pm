@@ -1,15 +1,15 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::dice  - Statistical library
+Text::NSP::Measures::2D::Dice::dice  - Statistical library
 package to calculate the Dice Coefficient.
 
 =head1 SYNOPSIS
 
 =head3 Basic Usage
 
-  use Text::NSP::Measures::2D::dice;
+  use Text::NSP::Measures::2D::Dice::dice;
 
-  my $dice = Text::NSP::Measures::2D::dice->new();
+  my $dice = Text::NSP::Measures::2D::Dice::dice->new();
 
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
@@ -50,13 +50,22 @@ The Dice Coefficient is defined as :
     ---------
     np1 + n1p
 
+The Jaccard coefficient can also be computed by applying a
+transformation to the dice coefficient:
+
+$jaccard = $dice/(2-$dice)
+
+=head2 Methods
+
+=over
+
 =cut
 
 
-package Text::NSP::Measures::2D::dice;
+package Text::NSP::Measures::2D::Dice::dice;
 
 
-use Text::NSP::Measures::2D;
+use Text::NSP::Measures::2D::Dice;
 use strict;
 use Carp;
 use warnings;
@@ -64,51 +73,39 @@ use warnings;
 
 our ($VERSION, @ISA);
 
-@ISA = qw(Text::NSP::Measures::2D);
+@ISA = qw(Text::NSP::Measures::2D::Dice);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 
-# method to calculate the dice coefficient value!
-# INPUT PARAMS  : $values    .. Reference of an array containing
-#                               the values indicated by the
-#                               frequency combination array.
-# RETURN VALUES : $dice      .. Dice Coefficient value for this bigram.
+=item calculateStatistic() - method to calculate the dice coefficient value
+
+INPUT PARAMS  : $count_values       .. Reference of an hash containing
+                                       the count values computed by the
+                                       count.pl program.
+
+RETURN VALUES : $dice               .. Dice Coefficient value for this bigram.
+
+=cut
+
 sub calculateStatistic
 {
   my $self = shift;
   my %values = @_;
-  my $observed;
 
-  # computes and returns the observed from the frequency
-  # combination values. returns 0 if there is an error in
-  # the computation or the values are inconsistent.
-  if( !($observed = $self->computeObservedValues(\%values)) ) {
-      return(0);
-  }
-
-  if(!defined $Text::NSP::Measures::2D::marginals)
-  {
-    if( !($Text::NSP::Measures::2D::marginals = $self->computeMarginalTotals(\%values)))
-    {
-      return;
-    }
-  }
-
-  my $marginal = $Text::NSP::Measures::2D::marginals;
-
-  my $dice = 2 * $observed->{n11} / ($marginal->{n1p} + $marginal->{np1});
-
-  $Text::NSP::Measures::2D::marginals = undef;
-
-  return ($dice);
+  #compute and return the dice coefficient.
+  return $self->SUPER::calculateStatistic(\%values);
 }
 
 
+=item getStatisticName() - Returns the name of this statistic
 
-# method to return the name of this statistic
-# INPUT PARAMS  : none
-# RETURN VALUES : $name      .. Name of the measure.
+INPUT PARAMS  : none
+
+RETURN VALUES : $name      .. Name of the measure.
+
+=cut
+
 sub getStatisticName
 {
   my ($self)=@_;
@@ -120,6 +117,8 @@ sub getStatisticName
 1;
 __END__
 
+
+=back
 
 =head1 AUTHOR
 
@@ -140,23 +139,23 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: dice.pm,v 1.11 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: dice.pm,v 1.3 2006/06/15 16:53:03 saiyam_kohli Exp $
 
 =head1 BUGS
 
 
 =head1 SEE ALSO
 
-@article{SmadjaMH96,
-        author = {Smadja, F. and McKeown, K. and Hatzivassiloglou, V.},
-        title = {Translating Collocations for Bilingual Lexicons: A
-                 Statistical Approach},
-        journal = {Computational Linguistics},
-        volume = {22},
-        number = {1},
-        year = {1996},
-        pages = {1-38}
-        url = L<http://www.cs.mu.oz.au/acl/J/J96/J96-1001.pdf>}
+  @article{SmadjaMH96,
+          author = {Smadja, F. and McKeown, K. and Hatzivassiloglou, V.},
+          title = {Translating Collocations for Bilingual Lexicons: A
+                  Statistical Approach},
+          journal = {Computational Linguistics},
+          volume = {22},
+          number = {1},
+          year = {1996},
+          pages = {1-38}
+          url = L<http://www.cs.mu.oz.au/acl/J/J96/J96-1001.pdf>}
 
 L<http://groups.yahoo.com/group/ngram/>
 

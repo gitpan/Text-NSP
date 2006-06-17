@@ -27,7 +27,7 @@ some degree of error handling that verifies the data.
 
   if( ($errorCode = $ll->getErrorCode()))
   {
-     STDERR $erroCode." - ".$ll->getErrorMessage();
+    print STDERR $erroCode." - ".$ll->getErrorMessage();
   }
   else
   {
@@ -116,7 +116,7 @@ our ($VERSION, @ISA, $marginals, @EXPORT);
 
 @ISA = qw(Text::NSP::Measures);
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 =item new() - This method creates and returns an object for the
 measures(constructor)
@@ -148,9 +148,6 @@ sub new
   bless $this, $class;
   return $this;
 }
-
-
-
 
 
 =item computeObservedValues($count_values) - A method to
@@ -652,7 +649,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: 3D.pm,v 1.7 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: 3D.pm,v 1.11 2006/06/15 16:53:04 saiyam_kohli Exp $
 
 =head1 BUGS
 

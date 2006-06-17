@@ -70,7 +70,7 @@ The following table decrribes the error codes use in the
 implementation,
 
 
-Erorr codes common to all the association measures.
+Error codes common to all the association measures.
 
 100 - Trying to create an object of a abstract class.
 
@@ -117,7 +117,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw();
 
-$VERSION = '0.91';
+$VERSION = '0.93';
 
 =item new() - In case user tries to create an object of the abstract
               class, this method is here to handle the error and print
@@ -171,7 +171,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: NSP.pm,v 1.18 2006/04/20 22:26:19 saiyam_kohli Exp $
+Last updated: $Id: NSP.pm,v 1.20 2006/05/27 17:37:21 saiyam_kohli Exp $
 
 =head1 BUGS
 
