@@ -1,7 +1,7 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::Fisher::twotailed  - Statistical library package
-to calculate twotailed sided Fishers exact test.
+Text::NSP::Measures::2D::Fisher::twotailed - Perl module implementation of the two-sided
+                                             Fisher's exact test.
 
 =head1 SYNOPSIS
 
@@ -73,7 +73,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::Fisher);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item calculateStatistic() - This method calculates the twotailed
@@ -176,7 +176,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: twotailed.pm,v 1.9 2006/06/15 16:53:04 saiyam_kohli Exp $
+Last updated: $Id: twotailed.pm,v 1.10 2006/06/17 18:03:23 saiyam_kohli Exp $
 
 =head1 BUGS
 

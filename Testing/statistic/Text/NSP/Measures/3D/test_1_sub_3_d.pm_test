@@ -1,12 +1,10 @@
-package Text::NSP::Measures::3D::test_1_sub_3_a;
+package Text::NSP::Measures::3D::test_1_sub_3_d;
 use Text::NSP::Measures::3D;
 use strict;
 
 our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::3D);
-
-$VERSION = '0.93';
 
 sub new
 {
@@ -43,5 +41,8 @@ sub new
   return $this;
 }
 
+
+sub initializeStatistic { return 0; }
+sub calculateStatistic { return 0; }
 
 1;

@@ -1,7 +1,8 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::CHI::x2  - Statistical library package to
-calculate Pearson's Chi Squared test.
+Text::NSP::Measures::2D::CHI::x2  - Perl module that implements Pearson's
+                                    chi squared measure of association for
+                                    bigrams.
 
 =head1 SYNOPSIS
 
@@ -83,7 +84,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::CHI);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item calculateStatistic() - method to calculate the Chi-squared value.
@@ -166,7 +167,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: x2.pm,v 1.7 2006/06/14 23:59:45 saiyam_kohli Exp $
+Last updated: $Id: x2.pm,v 1.8 2006/06/17 18:03:19 saiyam_kohli Exp $
 
 =head1 BUGS
 

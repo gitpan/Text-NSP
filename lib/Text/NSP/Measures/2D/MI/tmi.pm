@@ -1,7 +1,7 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::MI::tmi - Perl implementation for True Mutual
-Information.
+Text::NSP::Measures::2D::MI::tmi - Perl module that implements for True Mutual
+                                   Information.
 
 =head1 SYNOPSIS
 
@@ -79,7 +79,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::MI);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item calculateStatistic() - This method calculates the tmi value
@@ -165,7 +165,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: tmi.pm,v 1.19 2006/06/15 16:53:04 saiyam_kohli Exp $
+Last updated: $Id: tmi.pm,v 1.20 2006/06/17 18:03:23 saiyam_kohli Exp $
 
 =head1 BUGS
 

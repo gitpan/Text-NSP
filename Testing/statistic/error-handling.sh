@@ -565,3 +565,22 @@ echo ""
 
 /bin/rm -f difference error.out test-1.out
 
+/bin/mv -f test_1_sub_3_a.pm test_1_sub_3_a.pm_test
+/bin/mv -f test_1_sub_3_b.pm test_1_sub_3_b.pm_test
+/bin/mv -f test_1_sub_3_c.pm test_1_sub_3_c.pm_test
+/bin/mv -f test_1_sub_3_d.pm test_1_sub_3_d.pm_test
+/bin/mv -f test_2.pm test_2.pm_test
+
+/bin/mv -f Text/NSP/Measures/2D/test_1_sub_3_a.pm Text/NSP/Measures/2D/test_1_sub_3_a.pm_test
+/bin/mv -f Text/NSP/Measures/2D/test_1_sub_3_b.pm Text/NSP/Measures/2D/test_1_sub_3_b.pm_test
+/bin/mv -f Text/NSP/Measures/2D/test_1_sub_3_c.pm Text/NSP/Measures/2D/test_1_sub_3_c.pm_test
+/bin/mv -f Text/NSP/Measures/2D/test_1_sub_3_d.pm Text/NSP/Measures/2D/test_1_sub_3_d.pm_test
+/bin/mv -f Text/NSP/Measures/2D/test_2.pm Text/NSP/Measures/2D/test_2.pm_test
+/bin/mv -f Text/NSP/Measures/2D/test-1.pm Text/NSP/Measures/2D/test-1.pm_test
+
+/bin/mv -f Text/NSP/Measures/3D/test_1_sub_3_a.pm Text/NSP/Measures/3D/test_1_sub_3_a.pm_test
+/bin/mv -f Text/NSP/Measures/3D/test_1_sub_3_b.pm Text/NSP/Measures/3D/test_1_sub_3_b.pm_test
+/bin/mv -f Text/NSP/Measures/3D/test_1_sub_3_c.pm Text/NSP/Measures/3D/test_1_sub_3_c.pm_test
+/bin/mv -f Text/NSP/Measures/3D/test_1_sub_3_d.pm Text/NSP/Measures/3D/test_1_sub_3_d.pm_test
+/bin/mv -f Text/NSP/Measures/3D/test_2.pm Text/NSP/Measures/3D/test_2.pm_test
+

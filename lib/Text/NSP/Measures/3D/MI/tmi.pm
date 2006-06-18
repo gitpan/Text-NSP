@@ -1,7 +1,7 @@
 =head1 NAME
 
-Text::NSP::Measures::3D::MI::tmi -Perl implementation for True Mutual
-Information for trigrams.
+Text::NSP::Measures::3D::MI::tmi - Perl implementation for True Mutual
+                                   Information for trigrams.
 
 =head1 SYNOPSIS
 
@@ -70,7 +70,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::3D::MI);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item calculateStatistic($count_values) - This method calculates
@@ -157,7 +157,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: tmi.pm,v 1.7 2006/06/15 16:53:05 saiyam_kohli Exp $
+Last updated: $Id: tmi.pm,v 1.8 2006/06/17 18:03:23 saiyam_kohli Exp $
 
 =head1 BUGS
 

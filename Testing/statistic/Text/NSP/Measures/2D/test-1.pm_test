@@ -1,12 +1,10 @@
-package Text::NSP::Measures::2D::test_2;
+package Text::NSP::Measures::2D::test_2_sub_3_a;
 use Text::NSP::Measures::2D;
 use strict;
 
 our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D);
-
-$VERSION = '0.93';
 
 sub new
 {
@@ -44,28 +42,4 @@ sub new
 }
 
 
-sub initializeStatistic {}
-
-sub calculateStatistic
-{
-  my $self = shift;
-  my %values = @_;
-  my $number=0;
-  my $NewMeasure=0;
-  my $key;
-
-  foreach $key (keys %values)
-  {
-    if($key !~ /npp/)
-    {
-      $NewMeasure += $values{$key};
-      $number++;
-    }
-  }
-  return($NewMeasure / (2 * $number));
-}
-
 1;
-
-
-

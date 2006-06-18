@@ -1,7 +1,7 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::Dice::jaccard  - Statistical library
-package to calculate the Jaccard Coefficient.
+Text::NSP::Measures::2D::Dice::jaccard - Perl module that implements
+                                         the jaccard coefficient.
 
 =head1 SYNOPSIS
 
@@ -79,7 +79,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::Dice);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item calculateStatistic() - method to calculate the jaccard coefficient value
@@ -151,7 +151,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: jaccard.pm,v 1.5 2006/06/15 16:53:03 saiyam_kohli Exp $
+Last updated: $Id: jaccard.pm,v 1.6 2006/06/17 18:03:22 saiyam_kohli Exp $
 
 =head1 BUGS
 

@@ -1,7 +1,7 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::Fisher2::right  - Statistical library package
-to calculate right sided Fishers exact test.
+Text::NSP::Measures::2D::Fisher2::right - Perl module implementation of the right sided
+                                          Fisher's exact test.
 
 =head1 SYNOPSIS
 
@@ -89,7 +89,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::Fisher2);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item calculateStatistic()
@@ -237,7 +237,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: right.pm,v 1.6 2006/06/14 23:59:45 saiyam_kohli Exp $
+Last updated: $Id: right.pm,v 1.7 2006/06/17 18:03:23 saiyam_kohli Exp $
 
 =head1 BUGS
 

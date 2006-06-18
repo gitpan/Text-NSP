@@ -1,7 +1,7 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::CHI::phi  - Statistical library package to
-calculate the square of the Phi Coefficient.
+Text::NSP::Measures::2D::CHI::phi - Perl module that implements Phi coefficient
+                                    measure for bigrams.
 
 =head1 SYNOPSIS
 
@@ -78,7 +78,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::CHI);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item calculateStatistic() - method to calculate the Phi Coefficient
@@ -162,7 +162,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: phi.pm,v 1.9 2006/06/15 16:53:02 saiyam_kohli Exp $
+Last updated: $Id: phi.pm,v 1.10 2006/06/17 18:03:19 saiyam_kohli Exp $
 
 =head1 BUGS
 

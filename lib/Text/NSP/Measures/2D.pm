@@ -131,7 +131,7 @@ our ($VERSION, @ISA, $marginals, @EXPORT);
 
 @ISA = qw(Text::NSP::Measures);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 =item new() - This method creates and returns an object for the
               measures(constructor)
@@ -491,7 +491,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: 2D.pm,v 1.23 2006/06/15 16:53:04 saiyam_kohli Exp $
+Last updated: $Id: 2D.pm,v 1.24 2006/06/17 18:03:19 saiyam_kohli Exp $
 
 =head1 BUGS
 

@@ -1,7 +1,10 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::MI - Perl module that provides error checks for
-Loglieklihood, Total Mutual Information, Pointwise Mutual Information.
+Text::NSP::Measures::3D::MI - Perl module that provides error checks and
+                              framework to implement Loglieklihood,
+                              Total Mutual Information, Pointwise Mutual
+                              Information and Poisson Stirling Measure
+                              for trigrams.
 
 =head1 SYNOPSIS
 
@@ -86,7 +89,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::3D);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item calculateStatistic($count_values) - This method calls
@@ -288,7 +291,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: MI.pm,v 1.7 2006/06/15 16:53:05 saiyam_kohli Exp $
+Last updated: $Id: MI.pm,v 1.8 2006/06/17 18:03:23 saiyam_kohli Exp $
 
 =head1 BUGS
 

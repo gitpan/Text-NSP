@@ -1,7 +1,7 @@
 =head1 NAME
 
 Text::NSP::Measures::2D::MI::pmi - Perl module that implements Pointwise
-Mutual Information.
+                                   Mutual Information.
 
 =head1 SYNOPSIS
 
@@ -99,7 +99,7 @@ our $exp = 1;
 
 @ISA = qw(Text::NSP::Measures::2D::MI);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item initializeStatistic() -Initialization of the pmi_exp parameter if required
@@ -193,7 +193,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: pmi.pm,v 1.20 2006/06/15 16:53:04 saiyam_kohli Exp $
+Last updated: $Id: pmi.pm,v 1.21 2006/06/17 18:03:23 saiyam_kohli Exp $
 
 =head1 BUGS
 

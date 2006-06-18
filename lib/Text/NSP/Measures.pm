@@ -314,7 +314,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::MI);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 sub calculateStatistic
 {
@@ -485,7 +485,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item new() - In case user tries to create an object of the abstract

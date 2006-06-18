@@ -1,6 +1,8 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::CHI
+Text::NSP::Measures::2D::CHI - Perl module that provides error checks
+                               for the Pearsons chi squared, phi coefficient
+                               and the Tscore measures.
 
 =head1 SYNOPSIS
 
@@ -79,7 +81,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 =item calculateStatistic() - This method calls the
 computeObservedValues() and the computeExpectedValues() methods to
@@ -198,7 +200,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: CHI.pm,v 1.7 2006/05/27 17:37:21 saiyam_kohli Exp $
+Last updated: $Id: CHI.pm,v 1.8 2006/06/17 18:03:19 saiyam_kohli Exp $
 
 =head1 BUGS
 

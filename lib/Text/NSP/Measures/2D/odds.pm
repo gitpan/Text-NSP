@@ -1,7 +1,7 @@
 =head1 NAME
 
-Text::NSP::MEASURES::2D::odds   -Statistical library package
-to calculate the Odds Ratio.
+Text::NSP::Measures::2D::odds - Perl module to compute the Odds
+                                ratio for bigrams.
 
 =head1 SYNOPSIS
 
@@ -71,7 +71,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item calculateStatistic() - method to calculate the odds ratio value!
@@ -159,7 +159,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: odds.pm,v 1.15 2006/06/15 16:53:03 saiyam_kohli Exp $
+Last updated: $Id: odds.pm,v 1.16 2006/06/17 18:03:19 saiyam_kohli Exp $
 
 =head1 BUGS
 

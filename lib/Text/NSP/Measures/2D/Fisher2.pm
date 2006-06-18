@@ -1,7 +1,7 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::Fisher  - Statistical library package that provides
-methods to compute the Fishers exact tests.
+Text::NSP::Measures::2D::Fisher2 - Perl module that provides methods
+                                   to compute the Fishers exact tests.
 
 =head1 SYNOPSIS
 
@@ -107,7 +107,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item calculateStatistic()
@@ -342,7 +342,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: Fisher2.pm,v 1.7 2006/06/15 16:53:03 saiyam_kohli Exp $
+Last updated: $Id: Fisher2.pm,v 1.8 2006/06/17 18:03:19 saiyam_kohli Exp $
 
 =head1 BUGS
 

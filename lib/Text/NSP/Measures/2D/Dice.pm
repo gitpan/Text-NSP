@@ -1,8 +1,8 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::Dice  - Statistical library
-package that provides the framework for the Dice and
-Jaccard coefficients.
+Text::NSP::Measures::2D::Dice  - Perl module that provides the
+                                framework to implement the Dice and
+                                Jaccard coefficients.
 
 =head1 SYNOPSIS
 
@@ -81,7 +81,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 =item calculateStatistic() - method to calculate the dice coefficient value
 
@@ -151,7 +151,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: Dice.pm,v 1.3 2006/06/15 16:53:03 saiyam_kohli Exp $
+Last updated: $Id: Dice.pm,v 1.4 2006/06/17 18:03:19 saiyam_kohli Exp $
 
 =head1 BUGS
 

@@ -6,8 +6,6 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::3D);
 
-$VERSION = '0.93';
-
 sub new
 {
   my $class = shift;

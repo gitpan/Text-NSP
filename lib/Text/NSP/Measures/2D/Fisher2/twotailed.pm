@@ -1,7 +1,7 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::Fisher2::twotailed  - Statistical library package
-to calculate twotailed sided Fishers exact test.
+Text::NSP::Measures::2D::Fisher2::twotailed - Perl module implementation of the two-sided
+                                             Fisher's exact test.
 
 =head1 SYNOPSIS
 
@@ -31,7 +31,7 @@ to calculate twotailed sided Fishers exact test.
 =head1 DESCRIPTION
 
 This module provides a naive implementation of the fishers twotailed
-sided exact tests. That is the implementation does not have any
+exact tests. That is the implementation does not have any
 optimizations for performance. This will compute the factorials and
 the hypergeometric measures using direct multiplications.
 
@@ -86,7 +86,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::Fisher2);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item calculateStatistic()
@@ -189,7 +189,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: twotailed.pm,v 1.6 2006/06/14 23:59:45 saiyam_kohli Exp $
+Last updated: $Id: twotailed.pm,v 1.7 2006/06/17 18:03:23 saiyam_kohli Exp $
 
 =head1 BUGS
 

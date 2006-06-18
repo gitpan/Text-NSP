@@ -1,7 +1,7 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::Dice::dice  - Statistical library
-package to calculate the Dice Coefficient.
+Text::NSP::Measures::2D::Dice::dice - Perl module to compute Dice coefficient
+                                      for bigrams.
 
 =head1 SYNOPSIS
 
@@ -75,7 +75,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::Dice);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item calculateStatistic() - method to calculate the dice coefficient value
@@ -139,7 +139,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: dice.pm,v 1.3 2006/06/15 16:53:03 saiyam_kohli Exp $
+Last updated: $Id: dice.pm,v 1.4 2006/06/17 18:03:22 saiyam_kohli Exp $
 
 =head1 BUGS
 

@@ -1,7 +1,8 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::tscore  - Statistical library package to
-calculate the T-score.
+Text::NSP::Measures::2D::CHI::tscore  - Perl module that implements T-score
+                                        measure of association for bigrams.
+
 
 =head1 SYNOPSIS
 
@@ -72,7 +73,7 @@ our ($VERSION, @ISA);
 
 @ISA = qw(Text::NSP::Measures::2D::CHI);
 
-$VERSION = '0.93';
+$VERSION = '0.95';
 
 
 =item calculateStatistic() - method to calculate the tscore Coefficient
@@ -151,7 +152,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: tscore.pm,v 1.8 2006/06/15 16:53:02 saiyam_kohli Exp $
+Last updated: $Id: tscore.pm,v 1.9 2006/06/17 18:03:19 saiyam_kohli Exp $
 
 =head1 BUGS
 

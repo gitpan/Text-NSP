@@ -5,6 +5,7 @@ lib/Text/NSP/Measures/2D/MI.pm
 lib/Text/NSP/Measures/2D/MI/ll.pm
 lib/Text/NSP/Measures/2D/MI/pmi.pm
 lib/Text/NSP/Measures/2D/MI/tmi.pm
+lib/Text/NSP/Measures/2D/MI/ps.pm
 lib/Text/NSP/Measures/2D/CHI.pm
 lib/Text/NSP/Measures/2D/CHI/x2.pm
 lib/Text/NSP/Measures/2D/CHI/phi.pm
@@ -13,6 +14,10 @@ lib/Text/NSP/Measures/2D/Fisher.pm
 lib/Text/NSP/Measures/2D/Fisher/left.pm
 lib/Text/NSP/Measures/2D/Fisher/right.pm
 lib/Text/NSP/Measures/2D/Fisher/twotailed.pm
+lib/Text/NSP/Measures/2D/Fisher2.pm
+lib/Text/NSP/Measures/2D/Fisher2/left.pm
+lib/Text/NSP/Measures/2D/Fisher2/right.pm
+lib/Text/NSP/Measures/2D/Fisher2/twotailed.pm
 lib/Text/NSP/Measures/2D/Dice.pm
 lib/Text/NSP/Measures/2D/Dice/dice.pm
 lib/Text/NSP/Measures/2D/Dice/jaccard.pm
@@ -21,6 +26,8 @@ lib/Text/NSP/Measures/3D.pm
 lib/Text/NSP/Measures/3D/MI.pm
 lib/Text/NSP/Measures/3D/MI/ll.pm
 lib/Text/NSP/Measures/3D/MI/tmi.pm
+lib/Text/NSP/Measures/3D/MI/ps.pm
+lib/Text/NSP/Measures/3D/MI/pmi.pm
 bin/statistic.pl
 bin/count.pl
 bin/utils/combig.pl
