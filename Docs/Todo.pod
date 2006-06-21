@@ -56,16 +56,16 @@ corpora.
 The web is a huge source of text, and we could get counts for words 
 or ngrams from the web (probably using something like Perl LWP module). 
 
-Rather than running count on a particular body of text (as is the case 
-now) we'd probably have to run count such that it looked for counts for a 
-specific set of words as found on the web. Simply running count.pl on the  
-entire www wouldn't really make sense. So perhaps we would run count on  
-one sample to get a list of the word types/ngrams that we are interested  
-in, and then run count on the www to find out their respective counts.
+Rather than running count.pl on a particular body of text (as is the case 
+now) we'd probably have to run count.pl such that it looked for counts for 
+a  specific set of words as found on the web. Simply running count.pl on 
+the  entire www wouldn't really make sense. So perhaps we would run count 
+on one sample to get a list of the word types/ngrams that we are  
+interested  in, and then run count on the www to find out their 
+respective counts.
 
 [Our interest in this has been inspired by both Peter Turney (ACL-02 
 paper) and Frank Keller (EMNLP-02 paper).] 
-
 
 =head2 UNICODE SUPPORT
 
@@ -104,7 +104,6 @@ need to define more precisely what "overly long" is) is being processed
 decide if they want to continue with this, or possibly terminate 
 processing and reformat the input file.
 
-
 =head2 GENERALIZE --newLine in count.pl
 
 The --newLine switch tells count.pl that Ngrams may not cross over end of 
@@ -119,35 +118,6 @@ For example we could have the switch --dontCross "\n\.,;\?" which would
 prevent ngrams from crossing the newline, the fullstop, the comma, the 
 semicolon and the question mark.
 
-
-=head2 ERROR CHECKS in statistic.pl
-
-statistic.pl does not check that sample size equals the sum of values 
-in the first column (the ngram counts). 
-
-For example, the file below shows that there are 100 bigrams in the
-sample. But if you sum the values of the number of times "in the" and
-"on my" occur, you get 110! 
-
- 100
- in<>the<>90 100 200
- on<>my<>20 30 40
-
-We could also check that the counts of the individual words in the Ngram 
-do not exceed that of the Ngram itself. For example,
-
- 100
- in<>the<>90 10 20
- on<>my<>20 30 40
-
-This says that the bigram "in the" occurs 90 times, but that "in" 
-is the first word in bigram 10 times, and "the" is the second word
-in a bigram 20 times. This can't be.
-
-Both of these would be nice to check, and would act as a safety net for  
-count.pl.
-
-
 =head2 RECURSE LIKE OPTION THAT CREATES MULTIPLE COUNT FILES
 
 Our current --recurse option creates a single count output file for
@@ -159,13 +129,12 @@ created for it.
 For example, suppose we have the directory /txts that contains the
 files text1 and text2. 
 
-count.pl --recurse output txts
+ count.pl --recurse output txts
 
 output will consist of the combined counts from txts/text1 and txts/text2.
 
 This new option would count these files separately and produce separate 
 count output files. 
-
 
 =head2 OTHER CUTOFFS FOR count.pl
 
@@ -178,10 +147,18 @@ high frequent ngrams will be made up of stop words.
 What about a percentage cutoff? In other words, eliminate the least (or 
 most) frequent ngrams? 
 
+=head2 AUTOMATIC CREATION OF STOPLISTS
+
+It would be useful to allow NSP to automatically create a stoplist based 
+on a combination of frequency counts and/or scores like tf/idf. While 
+tf/idf depends on the idea of a document, we would simply chunk up a 
+large corpus into 100 token long pieces, and consider each piece a 
+document, and consider stop words those words that occur in some number of 
+these chunks. 
 
 =head2 SUPPORT FOR STDIN/STDOUT 
 
-Right now count.pl and statistic.pl operature such that the output file
+Right now count.pl and statistic.pl operate such that the output file
 is designated first, followed by the input file. 
 
 For example,
@@ -210,6 +187,14 @@ count.pl and statistic.pl (see point above) as well as STDIN STDOUT.
 options that a user could specify this way (such as a default token 
 definition, home directory, etc.)
 
+=head2 EXTEND huge-count.pl to Ngrams
+
+At present huge-count.pl is only able to count bigrams. It would be very 
+useful to extend it so that it could count Ngrams in general. Also, there 
+is no support for windowing provided at present, so the bigrams it counts 
+must be adjacent. It would be desirable to support windowing for bigrams 
+and Ngrams generally. 
+
 =head2 ERROR RETURN CODES
 
 At present all programs simply exit when they encounter an error. We will 
@@ -217,11 +202,11 @@ return an error code that can be detected by the calling program, so that
 abnormal termination is clear. This affects count.pl and statistic.pl 
 particularly, but will also be changed in rank.pl, combig.pl and kocos.pl. 
 
-=head2 REDUCE REDUNDANT CODE IN MEASURES
+=head2 MODULAR COUNTING
 
-There is some shared code in the /Measures that could be put into a single 
-directory and then inherited by each measure. This would make it easier to 
-write new Measures, and to maintain the existing ones. 
+There is a certain amount of redundant code in count.pl, huge-count.pl and 
+kocos.pl. It would be useful to make these more modular, to allow for 
+inheritance and code sharing, as well as the use of objects (potentially). 
 
 =head2 NBYN.pl 
 
@@ -235,7 +220,7 @@ for testing in another system (SAS, for example).
 
 Ted Pedersen, tpederse@d.umn.edu
 
-Last updated 12/30/03 by TDP
+Last updated 06/21/06 by TDP
 
 =head1 BUGS
 
@@ -247,7 +232,7 @@ Last updated 12/30/03 by TDP
 
 =head1 COPYRIGHT
 
-Copyright (C) 2003 Ted Pedersen
+Copyright (C) 2000-2006 Ted Pedersen
 
 Permission is granted to copy, distribute and/or modify this  document  
 under the terms of the GNU Free Documentation License, Version 1.2 or  any  

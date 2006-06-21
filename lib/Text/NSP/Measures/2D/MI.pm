@@ -11,20 +11,20 @@ Text::NSP::Measures::2D::MI - Perl module that provides error checks
 
   use Text::NSP::Measures::2D::MI::ll;
 
-  my $ll = Text::NSP::Measures::2D::MI::ll->new();
+  my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $ll_value = $ll->calculateStatistic( n11=>10,
-                                       n1p=>20,
-                                       np1=>20,
-                                       npp=>60);
+  $ll_value = calculateStatistic( n11=>$n11,
+                                      n1p=>$n1p,
+                                      np1=>$np1,
+                                      npp=>$npp);
 
-  if( ($errorCode = $ll->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$ll->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $ll->getStatisticName."value for bigram is ".$ll_value;
+    print getStatisticName."value for bigram is ".$ll_value."\n"";
   }
 
 =head1 DESCRIPTION
@@ -75,17 +75,25 @@ use Text::NSP::Measures::2D;
 use strict;
 use Carp;
 use warnings;
+# use subs(calculateStatistic);
+require Exporter;
 
-our ($VERSION, @ISA);
+our ($VERSION, @EXPORT, @ISA);
 
-@ISA = qw(Text::NSP::Measures::2D);
+@ISA  = qw(Exporter);
 
-$VERSION = '0.95';
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName
+             $errorCodeNumber $errorMessage
+             $n11 $n12 $n21 $n22 $m11 $m12 $m21 $m22
+             $npp $np1 $np2 $n2p $n1p);
+
+$VERSION = '0.97';
 
 
-=item calculateStatistic() - This method calls the
+=item getValues() - This method calls the computeMarginalTotals(),
 computeObservedValues() and the computeExpectedValues() methods to
-compute the observed and expected values. It checks thes values for
+compute the observed and expected values. It checks these values for
 any errors that might cause the Loglikelihood, TMI & PMI measures to
 fail.
 
@@ -95,46 +103,35 @@ INPUT PARAMS  : $count_values           .. Reference of an hash containing
                                            count.pl program.
 
 
-RETURN VALUES : $observed, $expected    .. Observed and expected values for the
-                                           given counts.
+RETURN VALUES : 1/undef           ..returns '1' to indicate success
+                                    and an undefined(NULL) value to indicate
+                                    faliure.
 
 =cut
 
-sub calculateStatistic
+sub getValues
 {
-  my ($self,$values)=@_;
+  my ($values)=@_;
 
-  my $observed;
-  my $expected;
+  if(!(Text::NSP::Measures::2D::computeMarginalTotals($values)) ){
+    return;
+  }
 
-  if( !($observed = $self->computeObservedValues($values)) ) {
+  if( !(Text::NSP::Measures::2D::computeObservedValues($values)) ) {
       return;
   }
 
-  if( !($expected = $self->computeExpectedValues($values)) ) {
+  if( !(Text::NSP::Measures::2D::computeExpectedValues($values)) ) {
       return;
   }
-
-  my $n11; my $n12; my $n21; my $n22;
-  my $m11; my $m12; my $m21; my $m22;
-
-  $n11 = $observed->{n11};
-  $n12 = $observed->{n12};
-  $n21 = $observed->{n21};
-  $n22 = $observed->{n22};
-
-  $m11 = $expected->{m11};
-  $m12 = $expected->{m12};
-  $m21 = $expected->{m21};
-  $m22 = $expected->{m22};
 
   # dont want ($nxy / $mxy) to be 0 or less! flag error if so and return;
   if ( $n11 )
   {
     if ($m11 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (1,1) must not be zero";
-      $self->{errorCodeNumber} = 211;
+      $errorMessage = "Expected value in cell (1,1) must not be zero";
+      $errorCodeNumber = 211;
       return;
     }
   }
@@ -142,52 +139,58 @@ sub calculateStatistic
   {
     if ($m12 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (1,2) must not be zero";
-      $self->{errorCodeNumber} = 211;         return;
+      $errorMessage = "Expected value in cell (1,2) must not be zero";
+      $errorCodeNumber = 211;
+      return;
     }
   }
   if ( $n21 )
   {
     if ($m21 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (2,1) must not be zero";
-      $self->{errorCodeNumber} = 211;     return;
+      $errorMessage = "Expected value in cell (2,1) must not be zero";
+      $errorCodeNumber = 211;
+      return;
     }
   }
   if ( $n22 )
   {
     if ($m22 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (2,2) must not be zero";
-      $self->{errorCodeNumber} = 211;     return;
+      $errorMessage = "Expected value in cell (2,2) must not be zero";
+      $errorCodeNumber = 211;
+      return;
     }
   }
   if (($n11 / $m11) < 0)
   {
-    $self->{errorMessage} = "About to take log of negative value for cell (1,1)";
-    $self->{errorCodeNumber} = 212;     return;
+    $errorMessage = "About to take log of negative value for cell (1,1)";
+    $errorCodeNumber = 212;
+    return;
   }
   if (($n12 / $m12) < 0)
   {
-    $self->{errorMessage} = "About to take log of negative value for cell (1,2)";
-    $self->{errorCodeNumber} = 212;     return;
+    $errorMessage = "About to take log of negative value for cell (1,2)";
+    $errorCodeNumber = 212;
+    return;
   }
   if (($n21 / $m21) < 0)
   {
-    $self->{errorMessage} = "About to take log of negative value for cell (2,1)";
-    $self->{errorCodeNumber} = 212;     return;
+    $errorMessage = "About to take log of negative value for cell (2,1)";
+    $errorCodeNumber = 212;
+    return;
   }
   if (($n22 / $m22) < 0)
   {
-    $self->{errorMessage} = "About to take log of negative value for cell (2,2)";
-    $self->{errorCodeNumber} = 212;     return;
+    $errorMessage = "About to take log of negative value for cell (2,2)";
+    $errorCodeNumber = 212;
+    return;
   }
 
-  my @values = ($observed,$expected);
-
-  #  Everything looks good so we can return the expected values
-  return @values;
+  #  Everything looks good so we can return 1
+  return 1;
 }
+
 
 
 
@@ -205,7 +208,6 @@ RETURN VALUES : log(n/m)   ..the log of the ratio of
 
 sub computePMI
 {
-  my $self = shift;
   my $n = shift;
   my $m = shift;
   my $val = $n/$m;
@@ -246,7 +248,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: MI.pm,v 1.20 2006/06/17 18:03:19 saiyam_kohli Exp $
+Last updated: $Id: MI.pm,v 1.23 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

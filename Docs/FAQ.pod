@@ -478,7 +478,7 @@ TDP 11/30/2003
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2004 Ted Pedersen
+Copyright (C) 2000-2006 Ted Pedersen
 
 Permission is granted to copy, distribute and/or modify this  document  
 under the terms of the GNU Free Documentation License, Version 1.2 or  any  

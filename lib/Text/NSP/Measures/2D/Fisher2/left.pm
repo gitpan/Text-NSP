@@ -83,18 +83,21 @@ use Text::NSP::Measures::2D::Fisher2;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
+
+our ($VERSION, @EXPORT, @ISA);
+
+@ISA  = qw(Exporter);
+
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
+
+$VERSION = '0.97';
 
 
-our ($VERSION, @ISA);
-
-@ISA = qw(Text::NSP::Measures::2D::Fisher2);
-
-$VERSION = '0.95';
-
-
-=item calculateStatistic()
-
-This method calculates the ll value
+=item calculateStatistic() - This method computes the left sided Fishers
+                             exact test.
 
 INPUT PARAMS  : $count_values       .. Reference of an array containing
                                        the count values computed by the
@@ -106,29 +109,26 @@ RETURN VALUES : $left               .. Left Fisher value.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
 
-  my $observed;
-  my $marginal;
   my $probabilities;
 
   # computes and returns the observed and marginal values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !(($observed, $marginal) = $self->SUPER::calculateStatistic(\%values)) )
+  if( !(Text::NSP::Measures::2D::Fisher2::getValues(\%values)) )
   {
     return;
   }
 
-  my $final_limit = $observed->{n11};
-  my $n11 = $marginal->{n1p}+$marginal->{np1}-$marginal->{npp};
+  my $final_limit = $n11;
+  my $n11 = $n1p + $np1 - $npp;
   if($n11<0)
   {
     $n11 = 0;
   }
 
-  if( !($probabilities = $self->computeDistribution($observed, $marginal, $n11, $final_limit)))
+  if( !($probabilities = Text::NSP::Measures::2D::Fisher2::computeDistribution($n11, $final_limit)))
   {
       return;
   }
@@ -140,7 +140,7 @@ sub calculateStatistic
 
   foreach $key_n11 (sort { $a <=> $b } keys %$probabilities)
   {
-    if($key_n11>$observed->{n11})
+    if($key_n11>$final_limit)
     {
       last;
     }
@@ -151,9 +151,7 @@ sub calculateStatistic
 }
 
 
-=item getStatisticName()
-
-Returns the name of this statistic
+=item getStatisticName() - Returns the name of this statistic
 
 INPUT PARAMS  : none
 
@@ -192,7 +190,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: left.pm,v 1.7 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: left.pm,v 1.9 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

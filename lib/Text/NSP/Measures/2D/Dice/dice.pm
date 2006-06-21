@@ -9,22 +9,20 @@ Text::NSP::Measures::2D::Dice::dice - Perl module to compute Dice coefficient
 
   use Text::NSP::Measures::2D::Dice::dice;
 
-  my $dice = Text::NSP::Measures::2D::Dice::dice->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $dice_value = $dice->calculateStatistic( n11=>$n11,
+  $dice_value = calculateStatistic( n11=>$n11,
                                       n1p=>$n1p,
                                       np1=>$np1,
                                       npp=>$npp);
 
-  if( ($errorCode = $dice->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$dice->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $dice->getStatisticName."value for bigram is ".$dice_value;
+    print getStatisticName."value for bigram is ".$dice_value."\n"";
   }
 
 
@@ -69,13 +67,17 @@ use Text::NSP::Measures::2D::Dice;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::2D::Dice);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 
 =item calculateStatistic() - method to calculate the dice coefficient value
@@ -90,11 +92,10 @@ RETURN VALUES : $dice               .. Dice Coefficient value for this bigram.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
 
   #compute and return the dice coefficient.
-  return $self->SUPER::calculateStatistic(\%values);
+  return Text::NSP::Measures::2D::Dice::computeVal(\%values);
 }
 
 
@@ -139,7 +140,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: dice.pm,v 1.4 2006/06/17 18:03:22 saiyam_kohli Exp $
+Last updated: $Id: dice.pm,v 1.6 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

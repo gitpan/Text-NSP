@@ -9,22 +9,20 @@ Text::NSP::Measures::2D::Fisher::left - Perl module implementation of the left s
 
   use Text::NSP::Measures::2D::Fisher::left;
 
-  my $leftFisher = Text::NSP::Measures::2D::Fisher::left->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $leftFisher_value = $leftFisher->calculateStatistic( n11=>$n11,
-                                                       n1p=>$n1p,
-                                                       np1=>$np1,
-                                                       npp=>$npp);
+  $left_value = calculateStatistic( n11=>$n11,
+                                      n1p=>$n1p,
+                                      np1=>$np1,
+                                      npp=>$npp);
 
-  if( ($errorCode = $leftFisher->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$leftFisher->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage();
   }
   else
   {
-    print $leftFisher->getStatisticName."value for bigram is ".$leftFisher_value;
+    print getStatisticName."value for bigram is ".$left_value;
   }
 
 
@@ -70,18 +68,21 @@ use Text::NSP::Measures::2D::Fisher;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
+
+our ($VERSION, @EXPORT, @ISA);
+
+@ISA  = qw(Exporter);
+
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
+
+$VERSION = '0.97';
 
 
-our ($VERSION, @ISA);
-
-@ISA = qw(Text::NSP::Measures::2D::Fisher);
-
-$VERSION = '0.95';
-
-
-=item calculateStatistic()
-
-This method calculates the ll value
+=item calculateStatistic() - This method computes the left sided Fishers
+                             exact test.
 
 INPUT PARAMS  : $count_values       .. Reference of an array containing
                                        the count values computed by the
@@ -93,30 +94,25 @@ RETURN VALUES : $left               .. Left Fisher value.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
-
-  my $observed;
   my $probabilities;
 
   # computes and returns the observed and marginal values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !($observed = $self->SUPER::calculateStatistic(\%values)) )
+  if( !(Text::NSP::Measures::2D::Fisher::getValues(\%values)) )
   {
     return;
   }
 
-  my $marginals = $Text::NSP::Measures::2D::marginals;
-
-  my $final_limit = $observed->{n11};
-  my $n11 = $marginals->{n1p}+$marginals->{np1}-$marginals->{npp};
-  if($n11<0)
+  my $final_limit = $n11;
+  my $n11_start = $n1p + $np1 - $npp;
+  if($n11_start<0)
   {
-    $n11 = 0;
+    $n11_start = 0;
   }
 
-  if( !($probabilities = $self->computeDistribution($observed, $marginals, $n11, $final_limit)))
+  if( !($probabilities = Text::NSP::Measures::2D::Fisher::computeDistribution($n11_start, $final_limit)))
   {
       return;
   }
@@ -128,14 +124,12 @@ sub calculateStatistic
 
   foreach $key_n11 (sort { $a <=> $b } keys %$probabilities)
   {
-    if($key_n11>$observed->{n11})
+    if($key_n11>$final_limit)
     {
       last;
     }
     $leftfisher += exp($probabilities->{$key_n11});
   }
-
-  $Text::NSP::Measures::2D::marginals = undef;
 
   return $leftfisher;
 }
@@ -182,7 +176,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: left.pm,v 1.10 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: left.pm,v 1.12 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

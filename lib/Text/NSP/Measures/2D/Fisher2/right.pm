@@ -9,22 +9,20 @@ Text::NSP::Measures::2D::Fisher2::right - Perl module implementation of the righ
 
   use Text::NSP::Measures::2D::Fisher2::right;
 
-  my $rightFisher = Text::NSP::Measures::2D::Fisher2::right->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $rightFisher_value = $rightFisher->calculateStatistic( n11=>$n11,
-                                                       n1p=>$n1p,
-                                                       np1=>$np1,
-                                                       npp=>$npp);
+  $right_value = calculateStatistic( n11=>$n11,
+                                      n1p=>$n1p,
+                                      np1=>$np1,
+                                      npp=>$npp);
 
-  if( ($errorCode = $rightFisher->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$rightFisher->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage();
   }
   else
   {
-    print $rightFisher->getStatisticName."value for bigram is ".$rightFisher_value;
+    print getStatisticName."value for bigram is ".$right_value;
   }
 
 
@@ -83,18 +81,21 @@ use Text::NSP::Measures::2D::Fisher2;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
+
+our ($VERSION, @EXPORT, @ISA);
+
+@ISA  = qw(Exporter);
+
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
+
+$VERSION = '0.97';
 
 
-our ($VERSION, @ISA);
-
-@ISA = qw(Text::NSP::Measures::2D::Fisher2);
-
-$VERSION = '0.95';
-
-
-=item calculateStatistic()
-
-This method calculates the ll value
+=item calculateStatistic() - This method computes the right sided Fishers
+                             exact test.
 
 INPUT PARAMS  : $count_values       .. Reference of an array containing
                                        the count values computed by the
@@ -106,36 +107,35 @@ RETURN VALUES : $right              .. Right Fisher value.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
 
-  my $observed;
-  my $marginal;
+
   my $probabilities;
   my $left_flag = 0;
 
   # computes and returns the observed and marginal values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !(($observed, $marginal) = $self->SUPER::calculateStatistic(\%values)) )
+  if( !(Text::NSP::Measures::2D::Fisher2::getValues(\%values)) )
   {
     return;
   }
 
-  my $final_limit = ($marginal->{n1p} < $marginal->{np1}) ? $marginal->{n1p} : $marginal->{np1};
+  my $final_limit = ($n1p < $np1) ? $n1p : $np1;
 
-  my $n11 = $marginal->{n1p}+$marginal->{np1}-$marginal->{npp};
-  if($n11<$observed->{n11})
+  my $n11_org = $n11;
+  my $n11_start = $n1p + $np1 - $npp;
+  if($n11_start < $n11)
   {
-    $n11 = $observed->{n11};
+    $n11_start = $n11;
   }
 
 
   # to make the computations faster, we check which would require less computations
   # computing the leftfisher value and subtracting it from 1 or directly computing
   # the right fisher value.
-  my $left_final_limit = $observed->{n11}-1;
-  my $left_n11 = $marginal->{n1p}+$marginal->{np1}-$marginal->{npp};
+  my $left_final_limit = $n11-1;
+  my $left_n11 = $n1p + $np1 - $npp;
   if($left_n11<0)
   {
     $left_n11 = 0;
@@ -144,10 +144,10 @@ sub calculateStatistic
   # if computing the left fisher values first will take lesser amount of time them
   # we set a flag for later reference and then compute the leftfisher score for
   # n11-1 and then subtract the total score from one to get the right fisher value.
-  if(($left_final_limit - $left_n11) < ($final_limit - $n11))
+  if(($left_final_limit - $left_n11) < ($final_limit - $n11_start))
   {
     $left_flag = 1;
-    if( !($probabilities = $self->computeDistribution($observed, $marginal, $left_n11, $left_final_limit)))
+    if( !($probabilities = Text::NSP::Measures::2D::Fisher2::computeDistribution($left_n11, $left_final_limit)))
     {
         return;
     }
@@ -156,7 +156,7 @@ sub calculateStatistic
   #else we compute the value normally and simply sum to get the rightfisher value.
   else
   {
-    if( !($probabilities = $self->computeDistribution($observed, $marginal, $n11, $final_limit)))
+    if( !($probabilities = Text::NSP::Measures::2D::Fisher2::computeDistribution($n11_start, $final_limit)))
     {
         return;
     }
@@ -170,14 +170,14 @@ sub calculateStatistic
   {
     if($left_flag)
     {
-      if($key_n11>=$observed->{n11})
+      if($key_n11 >= $n11_org)
       {
         last;
       }
     }
     else
     {
-      if($key_n11<$observed->{n11})
+      if($key_n11 < $n11_org)
       {
         last;
       }
@@ -196,9 +196,7 @@ sub calculateStatistic
 }
 
 
-=item getStatisticName()
-
-Returns the name of this statistic
+=item getStatisticName() - Returns the name of this statistic
 
 INPUT PARAMS  : none
 
@@ -237,7 +235,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: right.pm,v 1.7 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: right.pm,v 1.9 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

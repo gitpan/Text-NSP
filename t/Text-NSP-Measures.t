@@ -8,11 +8,11 @@ print "ok 1\n";
 
 #####################
 
-############ Create Object
+############ Check if class is abstract.
 
-my $obj = Text::NSP::Measures->new();
-my $err = $obj->{errorCodeNumber};
-if($err == 100)
+calculateStatistic();
+$errorCode = getErrorCode();
+if($errorCode == 101)
 {
     print "ok 2\n";
 }

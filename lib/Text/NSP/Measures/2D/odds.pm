@@ -7,25 +7,25 @@ Text::NSP::Measures::2D::odds - Perl module to compute the Odds
 
 =head3 Basic Usage
 
-  use Text::NSP::Measures::2D::odds;
-
-  my $odds = Text::NSP::Measures::2D::odds->new();
+ use Text::NSP::Measures::2D::odds;
 
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $odds_value = $odds->calculateStatistic( n11=>$n11,
+  $odds_value = calculateStatistic( n11=>$n11,
                                       n1p=>$n1p,
                                       np1=>$np1,
                                       npp=>$npp);
 
-  if( ($errorCode = $odds->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$odds->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $odds->getStatisticName."value for bigram is ".$odds_value;
+    print getStatisticName."value for bigram is ".$odds_value."\n"";
   }
+
+
 
 =head1 DESCRIPTION
 
@@ -65,13 +65,17 @@ use Text::NSP::Measures::2D;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::2D);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 
 =item calculateStatistic() - method to calculate the odds ratio value!
@@ -86,32 +90,34 @@ RETURN VALUES : $odds               .. Odds ratio for this bigram.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
 
-  my $observed;
+  # computes and returns the marginal totals from the frequency
+  # combination values. returns undef if there is an error in
+  # the computation or the values are inconsistent.
+  if(!(Text::NSP::Measures::2D::computeMarginalTotals(\%values)) ){
+    return;
+  }
 
   # computes and returns the observed from the frequency
   # combination values. returns 0 if there is an error in
   # the computation or the values are inconsistent.
-  if( !($observed = $self->computeObservedValues(\%values)) ) {
+  if( !(Text::NSP::Measures::2D::computeObservedValues(\%values)) ) {
       return(0);
   }
 
   # Add-one smoothing to avoid zero denominator
 
-  if ($observed->{n21} == 0)
+  if ($n21 == 0)
   {
-    $observed->{n21} = 1;
+    $n21 = 1;
   }
-  if ($observed->{n12} == 0)
+  if ($n12 == 0)
   {
-    $observed->{n12} = 1;
+    $n12 = 1;
   }
 
-  my $odds = (($observed->{n11}*$observed->{n22}) / ($observed->{n12}*$observed->{n21}));
-
-  $Text::NSP::Measures::2D::marginals = undef;
+  my $odds = (($n11*$n22) / ($n12*$n21));
 
   return ($odds);
 }
@@ -128,7 +134,6 @@ RETURN VALUES : $name      .. Name of the measure.
 
 sub getStatisticName
 {
-  my ($self) = @_;
   return "Odds Ratio";
 }
 
@@ -159,7 +164,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: odds.pm,v 1.16 2006/06/17 18:03:19 saiyam_kohli Exp $
+Last updated: $Id: odds.pm,v 1.18 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

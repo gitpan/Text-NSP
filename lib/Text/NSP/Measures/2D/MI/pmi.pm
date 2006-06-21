@@ -9,22 +9,20 @@ Text::NSP::Measures::2D::MI::pmi - Perl module that implements Pointwise
 
   use Text::NSP::Measures::2D::MI::pmi;
 
-  my $pmi = Text::NSP::Measures::2D::MI::pmi->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $pmi_value = $pmi->calculateStatistic( n11=>$n11,
+  $pmi_value = calculateStatistic( n11=>$n11,
                                       n1p=>$n1p,
                                       np1=>$np1,
                                       npp=>$npp);
 
-  if( ($errorCode = $pmi->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$pmi->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $pmi->getStatisticName."value for bigram is ".$pmi_value;
+    print getStatisticName."value for bigram is ".$pmi_value."\n"";
   }
 
 =head1 DESCRIPTION
@@ -91,15 +89,19 @@ use Text::NSP::Measures::2D::MI;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA, $exp);
 
-our ($VERSION, @ISA);
+$exp = 1;
 
-our $exp = 1;
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::2D::MI);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 
 =item initializeStatistic() -Initialization of the pmi_exp parameter if required
@@ -112,7 +114,6 @@ RETURN VALUES : none
 
 sub initializeStatistic
 {
-  my $self = shift;
   $exp = shift;
 }
 
@@ -130,23 +131,17 @@ RETURN VALUES : $pmi                .. PMI value for this bigram.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
-
-  my $observed;
-  my $expected;
 
   # computes and returns the observed and expected values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !(($observed, $expected) = $self->SUPER::calculateStatistic(\%values)) ) {
-    return(0);
+  if( !(Text::NSP::Measures::2D::MI::getValues(\%values)) ) {
+    return;
   }
 
   #  Now the calculations!
-  my $pmi = $self->computePMI($observed->{n11}**$exp,$expected->{m11});
-
-  $Text::NSP::Measures::2D::marginals = undef;
+  my $pmi = Text::NSP::Measures::2D::MI::computePMI($n11**$exp,$m11);
 
   return($pmi/log(2));
 }
@@ -193,7 +188,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: pmi.pm,v 1.21 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: pmi.pm,v 1.23 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

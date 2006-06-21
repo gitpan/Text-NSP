@@ -10,20 +10,20 @@ Text::NSP::Measures - Perl modules for computing association scores of
 
   use Text::NSP::Measures::2D::MI::ll;
 
-  my $ll = Text::NSP::Measures::2D::MI::ll->new();
+  my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $ll_value = $ll->calculateStatistic( n11=>10,
-                                       n1p=>20,
-                                       np1=>20,
-                                       npp=>60);
+  $ll_value = calculateStatistic( n11=>$n11,
+                                      n1p=>$n1p,
+                                      np1=>$np1,
+                                      npp=>$npp);
 
-  if( ($errorCode = $ll->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$ll->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $ll->getStatisticName."value for bigram is ".$ll_value;
+    print getStatisticName."value for bigram is ".$ll_value."\n"";
   }
 
 =head1 DESCRIPTION
@@ -107,10 +107,9 @@ implement methods that retrieve observed frequency counts, marginal
 totals, and also compute expected values. They also provide error
 checks for these counts.
 
-You can either write your new measure as a new module, using Perl's
-Object Oriented concepts, or you can simply write a perl program. Here
-we will describe how to write a new measure using Object Oriented
-Perl.
+You can either write your new measure as a new module, or you can
+simply write a perl program. Here we will describe how to write a
+new measure as a perl module Perl.
 
 =over 4
 
@@ -120,6 +119,8 @@ Perl.
 To create a new Perl module for the measure issue the following
 command (replace 'NewMeasure' with the name of your measure):
 
+=over
+
 h2xs -AXc -n Text::NSP::Measures::2D::NewMeasure
 (for bigram measures)
 
@@ -128,7 +129,11 @@ h2xs -AXc -n Text::NSP::Measures::2D::NewMeasure
 h2xs -AXc -n Text::NSP::Measures::3D::NewMeasure
 (for trigram measures)
 
+=back
+
 This will create a new folder namely...
+
+=over
 
 Text-NSP-Measures-2D-NewMeasure (for bigram)
 
@@ -136,12 +141,15 @@ Text-NSP-Measures-2D-NewMeasure (for bigram)
 
 Text-NSP-Measures-3D-NewMeasure (for trigram)
 
+=back
 
 This will create an empty framework for the new association measure.
 Once you are done completing the changes you will have to install the
 module before you can use it.
 
 To make changes to the module open:
+
+=over
 
 Text-NSP-Measures-2D-NewMeasure/lib/Text/NSP/Measures/2D/NewMeasure/
 NewMeasure.pm
@@ -151,6 +159,8 @@ NewMeasure.pm
 Text-NSP-Measures-3D-NewMeasure/lib/Text/NSP/Measures/3D/NewMeasure/
 NewMeasure.pm
 
+=back
+
 in your favorite text editor, and do as follows.
 
 =item 2
@@ -159,67 +169,84 @@ Let us say you have named your module NewMeasure. The first line of
 the file should declare that it is a package. Thus the first line of
 the file NewMeasure.pm should be...
 
-   package Text::NSP::Measures::2D::NewMeasure; (for bigram measures)
+=over
 
-                     or
+package Text::NSP::Measures::2D::NewMeasure; (for bigram measures)
 
-   package Text::NSP::Measures::3D::NewMeasure; (for trigram measures)
+                  or
 
-=item 3
+package Text::NSP::Measures::3D::NewMeasure; (for trigram measures)
+
+=back
 
 To inherit the functionality from the 2D or 3D module you need to
 include it in your NewMeasure.pm module.
 
 A small code snippet to ensure that it is included is as follows:
 
-=over 3
+=over
 
 =item 1 For Bigrams
 
-  use Text::NSP::Measures::2D;
-
-  my @ISA;
-
-  @ISA = qw(Text::NSP::Measures::2D);
+use Text::NSP::Measures::2D::MI;
 
 =item 2 For Trigrams
 
-  use Text::NSP::Measures::3D;
-
-  my @ISA;
-
-  @ISA = qw(Text::NSP::Measures::3D);
+use Text::NSP::Measures::2D::MI;
 
 =back
 
-=item 4
+You also need to insert the following lines to make sure that the required
+functions are visible to the programs using your module. Thses lines are
+same for bigrams and trigrams. The "no warnings 'redefine';" statement is
+used to suppress perl warnings about method overriding.
 
+=over
+
+use strict;
+use Carp;
+use warnings;
+no warnings 'redefine';
+require Exporter;
+
+our ($VERSION, @EXPORT, @ISA);
+
+@ISA  = qw(Exporter);
+
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
+
+=back
+
+=item 3
 You need to implement at least one method in your package
 
-   i)  calculateStatistic()
+=over
 
-This method is passed an reference of a hash containing the
-frequency values for an Ngram as found in the input Ngram file.
+=item i)  calculateStatistic()
+
+=back
+
+This method is passed reference to a hash containing the
+frequency values for a Ngram as found in the input Ngram file.
 
 method calculateStatistic() is expected to return a (possibly
-floating) value as the value of the statistical measure calculated
+floating point) value as the value of the statistical measure calculated
 using the frequency values passed to it.
 
-The first line of code in calculateStatistic should be
-
-  my $self = shift;
-
-this will store the reference of the object for the measure which was
-used to invoke calculateStatistic().
-
 There exist three methods in the modules Text::NSP::Measures::2d and
-Text::NSP::Measures::3D in order to help calculate the bigram
+Text::NSP::Measures::3D in order to help calculate the ngram
 statistic.
 
-   1.  computeObservedValues($frequencies);
-   2.  computeExpectedValues($frequencies);
-   3.  computeMarginalTotals($frequencies);
+=over
 
+=item 1.  computeMarginalTotals($frequencies);
+
+=item 2.  computeObservedValues($frequencies);
+
+=item 3.  computeExpectedValues($frequencies);
+
+=back
 
 These methods return the observed and expected values of the cells in
 the contingency table. A 2D contingency table looks like:
@@ -237,64 +264,91 @@ observed values are represented using m11, m12, m21, m22, here m11
 represents the expected value for the cell (1,1), m12 for the cell
 (1,2) and so on.
 
-The method computeObservedValues will return the observed values for
-the given Ngram. The observed values are stored in a hash and the
-reference to  the hash is returned. If it does not then there existed
-an error in the calculation of these values and zero should be
-returned. An example of how this can be used is as follows:
-
-  my $self = shift;
-  my %values = @_;
-
-  if( !($observed = $self->computeObservedValues(\%values) ) )
-  {
-    return(0);
-  }
-
-where @_ is the parameters passed to calculateStatistic. And $self
-contains a reference to the measures object. The method returns
-referrence to a hash. This hash contains the key value pairs for the
-observed values. You can use these values in your code by:
-
-    $observed->{n11}
-    $observed->{n12} and so on for each cell in the contingency table.
-
-The method computeExpectedValues will return the list of expected
-values from the given Ngram. If it does not then there was an error in
-the calculation of these values and zero should be returned. An
-example of how this can be used is as follows:
-
-  my $self = shift;
-  my %values = @_;
-
-  if( !($expected = $self->computeExpectedValues(\%values) ) )
-  {
-          return(0);
-  }
-
-To use the expected values, you can
-
-      $expected->{m11}
-      $expected->{m12} and so on for the respective expected values
-
-
-Similarly the computeMarginalTotals method computes the marginal
+Before calling either computeObservedValues() or computeExpectedValues()
+you MUST call computeMarginalTotals(), since these methods require the
+marginal to be set. The computeMarginalTotals method computes the marginal
 totals in the contingency table based on the observed frequencies. It
-also returns 0 in case of some error. An example of usage for the
-computeMarginalTotals() method is
+returns an undefined value in case of some error. In case success it
+returns '1'. An example of usage for the computeMarginalTotals() method is
 
-  my $self = shift;
-  my %values = @_;
+=over
 
-  if( !($marginal = $self->computeMarginalTotals(\%values) ) )
-  {
-          return(0);
+my %values = @_;
+
+if(!(Text::NSP::Measures::2D::computeMarginalTotals(\%values)) ){
+  return;
+}
+
+=back
+
+@_ is the parameters passed to calculateStatistic. After this call the
+marginal totals will be available in the following variables
+
+=over
+
+=item 1. For bigrams
+         $npp , $n1p, $np1, $n2p, $np2
+
+=item 1. For trigrams
+             $nppp, $n1pp, $np1p, $npp1, $n11p, $n1p1, $np11, $n2pp,
+             $np2p, $npp2
+
+=back
+
+computeObservedValues() computes the observed values of a ngram, It can be
+called using the following code snippet. Please remember that you should call
+computeMarginalTotals() before calling computeObservedValues().
+
+=over
+
+  if( !(Text::NSP::Measures::2D::computeObservedValues(\%values)) ) {
+      return;
   }
 
-To use the returned values you can use
+=back
 
-      $marginal->{m11}
-      $marginal->{m12} and so on for the respective marginal values
+%value is the same hash that was initialized earlier for computeMarginalTotals.
+
+If succesfull it returns 1 otherwise an undefined value is retuened. The
+computed observed values will be available in the following variables:
+
+=over
+
+=item 1. For bigrams
+         $n11 , $n12, $n21, $n22
+
+=item 1. For trigrams
+             $n111, $n112, $n121, $n122, $n211, $n212, $n221, $n222,
+
+=back
+
+Similarly, computeExpectedValues() computes the expected values for each of
+the cells in the contingency table. You should call computeMarginalTotals()
+before calling computeExpectedValues(). The following code snippet
+demonstrates its usage.
+
+=over
+
+if( !(Text::NSP::Measures::2D::computeExpectedValues()) ) {
+    return;
+}
+
+=back
+
+If succesfull it returns 1 otherwise an undefined value is retuened. The
+computed expected values will be available in the following variables:
+
+=over
+
+=item 1. For bigrams
+         $m11 , $m12, $m21, $m22
+
+=item 1. For trigrams
+             $m111, $m112, $m121, $m122, $m211, $m212, $m221, $m222,
+
+=back
+
+=item 4
 
 The last lines of a module should always return true, to achieve this
 make sure that the last two lines of the are:
@@ -303,45 +357,6 @@ make sure that the last two lines of the are:
   __END__
 
 Please see, that you can put in documentation after these lines.
-
-To tie it all together here is an example of a measure that computes
-the sum of ngram frequency counts.
-
-use Text::NSP::Measures::2D;
-use strict;
-
-our ($VERSION, @ISA);
-
-@ISA = qw(Text::NSP::Measures::2D::MI);
-
-$VERSION = '0.95';
-
-sub calculateStatistic
-{
-  my $self = shift;
-  my %values = @_;
-
-  my $observed;
-
-  # computes and returns the observed and expected values from
-  # the frequency combination values. returns 0 if there is an
-  # error in the computation or the values are inconsistent.
-  if( !($observed = $self->computeObservedValues(\%values)) ) {
-    return;
-  }
-
-  #  Now for the actual calculation of the association measure
-  my $NewMeasure = 0;
-
-  $NewMeasure += $observed->{n11};
-  $NewMeasure += $observed->{n12};
-  $NewMeasure += $observed->{n21};
-  $NewMeasure += $observed->{n22};
-
-  return ( $NewMeasure );
-}
-
-
 
 =item 5
 
@@ -353,16 +368,16 @@ implemented. These are:
    iii) getErrorMessage
    iv) getStatisticName()
 
-Whenever an object of the measure is created the constructor
-will invoke the initializeStatistic() method, if there is no
-need for any specific initialization in the measure you need
-not define this method, and the initialization will be handled
-by the Text::NSP::Measures modules initializeStatistic() method.
+statistical.pl calls initializeStatistic before calling any
+other method, if there is no need for any specific initialization
+in the measure you need not define this method, and the
+initialization will be handled by the Text::NSP::Measures modules
+initializeStatistic() method.
 
 The getErrorCode method is called immediately after every call to
 method calculateStatistic(). This method is used to return the
 errorCode, if any, in the previous operations. To view all the
-possible errorcodes and the corresponding error message please reffer
+possible errorcodes and the corresponding error message please refer
 to the Text::NSP documentation (perldoc Text::NSP).You can create new
 errorcodes in your measure, if the existing errorcodes are not
 sufficient.
@@ -379,9 +394,7 @@ An example of this is below:
 
   sub getErrorCode
   {
-    my $self = shift;
-
-    my $code = $self->SUPER::getErrorCode();
+    my $code = Text::NSP::Measures::getErrorCode();
 
     #your code here
 
@@ -390,9 +403,7 @@ An example of this is below:
 
   sub getErrorMessage
   {
-    my $self = shift;
-
-    my $message = $self->SUPER::getErrorMessage();
+    my $message = Text::NSP::MeasuresgetErrorMessage();
 
     #your code here
 
@@ -443,6 +454,73 @@ make sure that you have already installed the Text-NSP package.
 
 =back
 
+=head2 An Example
+
+To tie it all together here is an example of a measure that computes
+the sum of ngram frequency counts.
+
+=over
+
+package Text::NSP::Measures::2D::sum;
+
+
+use Text::NSP::Measures::2D::MI::2D;
+use strict;
+use Carp;
+use warnings;
+no warnings 'redefine';
+require Exporter;
+
+our ($VERSION, @EXPORT, @ISA);
+
+@ISA  = qw(Exporter);
+
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
+
+$VERSION = '0.01';
+
+sub calculateStatistic
+{
+  my %values = @_;
+
+  # computes and returns the marginal totals from the frequency
+  # combination values. returns undef if there is an error in
+  # the computation or the values are inconsistent.
+  if(!(Text::NSP::Measures::2D::computeMarginalTotals($values)) ){
+    return;
+  }
+
+  # computes and returns the observed and marginal values from
+  # the frequency combination values. returns 0 if there is an
+  # error in the computation or the values are inconsistent.
+  if( !(Text::NSP::Measures::2D::computeObservedValues($values)) ) {
+      return;
+  }
+
+
+  #  Now for the actual calculation of the association measure
+  my $NewMeasure = 0;
+
+  $NewMeasure += $n11;
+  $NewMeasure += $n12;
+  $NewMeasure += $n21;
+  $NewMeasure += $n22;
+
+  return ( $NewMeasure );
+}
+
+sub getStatisticName
+{
+  return "Sum";
+}
+
+1;
+__END__
+
+
+=back
+
 =head2 Errors to look out for:
 
 =over 4
@@ -476,46 +554,26 @@ This statement is present at the end of the module:
 package Text::NSP::Measures;
 
 
+use Text::NSP;
 use strict;
 use Carp;
 use warnings;
+require Exporter;
 
+our ($VERSION, @ISA, @EXPORT, $errorCodeNumber, $errorMessage);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName
+             $errorCodeNumber $errorMessage);
 
-$VERSION = '0.95';
-
-
-=item new() - In case user tries to create an object of the abstract
-class, this method is here to handle the error and print a small help.
-
-# INPUT PARAMS  : none
-
-# RETURN VALUES : none
-
-=cut
-
-sub new
-{
-  my $class = shift;
-  my $this = {};
-  if ($class eq 'Text::NSP::Measures')
-  {
-    $this->{errorMessage} .= "\nError (${class}::new()) - ";
-    $this->{errorMessage} .= "This class is intended to be an abstract base class for measures.";
-    $this->{errorMessage} .= "It cannot be instantiated.\n";
-    $this->{errorCodeNumber} = 100;
-  }
-  return $this;
-}
-
+$VERSION = '0.97';
 
 =item initializeStatistic() - Provides an empty method which is called in case
                               the measures do not override this method. If you
                               need some measure specific initialization, override
-                              this method in yhe implementation of your measure.
+                              this method in the implementation of your measure.
 
 INPUT PARAMS  : none
 
@@ -525,6 +583,8 @@ RETURN VALUES : none
 
 sub initializeStatistic
 {
+  undef $errorCodeNumber;
+  undef $errorMessage;
 }
 
 
@@ -539,11 +599,10 @@ RETURN VALUES : none
 
 sub calculateStatistic
 {
-  my $self = shift;
-  $self->{errorMessage} .= "\nError calculateStatistic() - ";
-  $self->{errorMessage} .= "Mandatory function calculateStatistic() not defined";
-  $self->{errorMessage} .= "Your implementation should override this method. Aborting....\n";
-  $self->{errorCodeNumber} = 101;
+  $errorMessage .= "Error calculateStatistic() - ";
+  $errorMessage .= "Mandatory function calculateStatistic() not defined.\n";
+  $errorMessage .= "Your implementation should override this method. Aborting....\n";
+  $errorCodeNumber = 101;
 }
 
 
@@ -559,9 +618,8 @@ any and resets the errorcode to 0.
 
 sub getErrorCode
 {
-  my ($self) = @_;
-  my $temp = $self->{errorCodeNumber};
-  $self->{errorCodeNumber} = undef;
+  my $temp = $errorCodeNumber;
+  undef $errorCodeNumber;
   return $temp;
 }
 
@@ -578,14 +636,22 @@ operation if any and resets the string to ''.
 
 sub getErrorMessage
 {
-  my ($self) = @_;
-  my $temp = $self->{errorMessage};
-  $self->{errorMessage} = undef;
+  my $temp = $errorMessage;
+  undef $errorMessage;
   return($temp);
 }
 
 
 
+
+=item getStatisticName() - Provides an empty method which is called in case
+                              the measures do not override this method.
+
+INPUT PARAMS  : none
+
+RETURN VALUES : none
+
+=cut
 
 sub getStatisticName
 {

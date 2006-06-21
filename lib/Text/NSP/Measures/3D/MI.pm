@@ -12,24 +12,22 @@ Text::NSP::Measures::3D::MI - Perl module that provides error checks and
 
   use Text::NSP::Measures::3D::MI::ll;
 
-  my $ll = Text::NSP::Measures::3D::MI::ll->new();
+  $ll_value = calculateStatistic( n111=>10,
+                                  n1pp=>40,
+                                  np1p=>45,
+                                  npp1=>42,
+                                  n11p=>20,
+                                  n1p1=>23,
+                                  np11=>21,
+                                  nppp=>100);
 
-  $ll_value = $ll->calculateStatistic( n111=>10,
-                                       n1pp=>40,
-                                       np1p=>45,
-                                       npp1=>42,
-                                       n11p=>20,
-                                       n1p1=>23,
-                                       np11=>21,
-                                       nppp=>100);
-
-  if( ($errorCode = $ll->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$ll->getErrorMessage();
+    print STDERR $erroCode." - ".getErrorMessage()."\n";
   }
   else
   {
-    print $ll->getStatisticName."value for bigram is ".$ll_value;
+    print getStatisticName."value for bigram is ".$ll_value."\n";
   }
 
 =head1 DESCRIPTION
@@ -83,158 +81,171 @@ use Text::NSP::Measures::3D;
 use strict;
 use Carp;
 use warnings;
+# use subs(calculateStatistic);
+require Exporter;
+
+our ($VERSION, @EXPORT, @ISA);
+
+@ISA  = qw(Exporter);
+
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName
+             $n111 $n112 $n121 $n122 $n211 $n212 $n221 $n222
+             $m111 $m112 $m121 $m122 $m211 $m212 $m221 $m222
+             $nppp $n1pp $np1p $npp1 $n11p $n1p1 $np11 $n2pp
+             $np2p $npp2 $errorCodeNumber $errorMessage
+             getValues computePMI);
 
 
-our ($VERSION, @ISA);
-
-@ISA = qw(Text::NSP::Measures::3D);
-
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 
-=item calculateStatistic($count_values) - This method calls
-the computeObservedValues() and the computeExpectedValues()
-methods to compute the observed and expected values. It
-checks thes values for any errors that might cause the
-Loglikelihood, TMI and PMI measures to fail.
+=item getValues($count_values) - This method calls
+computeMarginalTotals the computeObservedValues() and
+the computeExpectedValues() methods to compute the
+observed and expected values. It checks thes values
+for any errors that might cause the Loglikelihood,
+TMI and PMI measures to fail.
 
 INPUT PARAMS  : $count_values           .. Reference of an hash containing
                                            the count values computed by the
                                            count.pl program.
 
-RETURN VALUES : $observed, $expected    .. Observed and expected values for the
-                                           given counts.
+RETURN VALUES : 1/undef           ..returns '1' to indicate success
+                                    and an undefined(NULL) value to indicate
+                                    faliure.
+
 =cut
 
-sub calculateStatistic
+sub getValues
 {
-  my ($self,$values)=@_;
+  my ($values)=@_;
 
-  my $observed;
-  my $expected;
-
-  if( !($observed = $self->computeObservedValues($values)) ) {
+  if( !(Text::NSP::Measures::3D::computeMarginalTotals($values)) ) {
       return;
   }
 
-  if( !($expected = $self->computeExpectedValues($values)) ) {
+  if( !(Text::NSP::Measures::3D::computeObservedValues($values)) ) {
+      return;
+  }
+
+  if( !(Text::NSP::Measures::3D::computeExpectedValues($values)) ) {
       return;
   }
 
   # dont want ($nxy / $mxy) to be 0 or less! flag error if so and return;
-  if ( $observed->{n111} )
+  if ( $n111 )
   {
-    if ($expected->{m111} == 0)
+    if ($m111 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (1,1,1) must not be zero";
-      $self->{errorCodeNumber} = 211;
+      $errorMessage = "Expected value in cell (1,1,1) must not be zero";
+      $errorCodeNumber = 211;
       return;
     }
   }
-  if ( $observed->{n112} )
+  if ( $n112 )
   {
-    if ($expected->{m112} == 0)
+    if ($m112 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (1,1,2) must not be zero";
-      $self->{errorCodeNumber} = 211;         return;
+      $errorMessage = "Expected value in cell (1,1,2) must not be zero";
+      $errorCodeNumber = 211;         return;
     }
   }
-  if ( $observed->{n121} )
+  if ( $n121 )
   {
-    if ($expected->{m121} == 0)
+    if ($m121 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (1,2,1) must not be zero";
-      $self->{errorCodeNumber} = 211;     return;
+      $errorMessage = "Expected value in cell (1,2,1) must not be zero";
+      $errorCodeNumber = 211;     return;
     }
   }
-  if ( $observed->{n122} )
+  if ( $n122 )
   {
-    if ($expected->{m122} == 0)
+    if ($m122 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (1,2,2) must not be zero";
-      $self->{errorCodeNumber} = 211;     return;
+      $errorMessage = "Expected value in cell (1,2,2) must not be zero";
+      $errorCodeNumber = 211;     return;
     }
   }
-  if ( $observed->{n211} )
+  if ( $n211 )
   {
-    if ($expected->{m211} == 0)
+    if ($m211 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (2,1,1) must not be zero";
-      $self->{errorCodeNumber} = 211;
+      $errorMessage = "Expected value in cell (2,1,1) must not be zero";
+      $errorCodeNumber = 211;
       return;
     }
   }
-  if ( $observed->{n212} )
+  if ( $n212 )
   {
-    if ($expected->{m212} == 0)
+    if ($m212 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (2,1,2) must not be zero";
-      $self->{errorCodeNumber} = 211;         return;
+      $errorMessage = "Expected value in cell (2,1,2) must not be zero";
+      $errorCodeNumber = 211;         return;
     }
   }
-  if ( $observed->{n221} )
+  if ( $n221 )
   {
-    if ($expected->{m221} == 0)
+    if ($m221 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (2,2,1) must not be zero";
-      $self->{errorCodeNumber} = 211;     return;
+      $errorMessage = "Expected value in cell (2,2,1) must not be zero";
+      $errorCodeNumber = 211;     return;
     }
   }
-  if ( $observed->{n222} )
+  if ( $n222 )
   {
-    if ($expected->{m222} == 0)
+    if ($m222 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (2,2,2) must not be zero";
-      $self->{errorCodeNumber} = 211;     return;
+      $errorMessage = "Expected value in cell (2,2,2) must not be zero";
+      $errorCodeNumber = 211;
+      return;
     }
   }
 
 
-  if (($observed->{n111} / $expected->{m111}) < 0)
+  if (($n111 / $m111) < 0)
   {
-    $self->{errorMessage} = "About to take log of negative value for cell (1,1,1)";
-    $self->{errorCodeNumber} = 212;     return;
+    $errorMessage = "About to take log of negative value for cell (1,1,1)";
+    $errorCodeNumber = 212;     return;
   }
-  if (($observed->{n112} / $expected->{m112}) < 0)
+  if (($n112 / $m112) < 0)
   {
-    $self->{errorMessage} = "About to take log of negative value for cell (1,1,2)";
-    $self->{errorCodeNumber} = 212;     return;
+    $errorMessage = "About to take log of negative value for cell (1,1,2)";
+    $errorCodeNumber = 212;     return;
   }
-  if (($observed->{n121} / $expected->{m121}) < 0)
+  if (($n121 / $m121) < 0)
   {
-    $self->{errorMessage} = "About to take log of negative value for cell (1,2,1)";
-    $self->{errorCodeNumber} = 212;     return;
+    $errorMessage = "About to take log of negative value for cell (1,2,1)";
+    $errorCodeNumber = 212;     return;
   }
-  if (($observed->{n122} / $expected->{m122}) < 0)
+  if (($n122 / $m122) < 0)
   {
-    $self->{errorMessage} = "About to take log of negative value for cell (1,2,2)";
-    $self->{errorCodeNumber} = 212;     return;
+    $errorMessage = "About to take log of negative value for cell (1,2,2)";
+    $errorCodeNumber = 212;     return;
   }
-  if (($observed->{n211} / $expected->{m211}) < 0)
+  if (($n211 / $m211) < 0)
   {
-    $self->{errorMessage} = "About to take log of negative value for cell (2,1,1)";
-    $self->{errorCodeNumber} = 212;     return;
+    $errorMessage = "About to take log of negative value for cell (2,1,1)";
+    $errorCodeNumber = 212;     return;
   }
-  if (($observed->{n212} / $expected->{m212}) < 0)
+  if (($n212 / $m212) < 0)
   {
-    $self->{errorMessage} = "About to take log of negative value for cell (2,1,2)";
-    $self->{errorCodeNumber} = 212;     return;
+    $errorMessage = "About to take log of negative value for cell (2,1,2)";
+    $errorCodeNumber = 212;     return;
   }
-  if (($observed->{n221} / $expected->{m221}) < 0)
+  if (($n221 / $m221) < 0)
   {
-    $self->{errorMessage} = "About to take log of negative value for cell (2,2,1)";
-    $self->{errorCodeNumber} = 212;     return;
+    $errorMessage = "About to take log of negative value for cell (2,2,1)";
+    $errorCodeNumber = 212;     return;
   }
-  if (($observed->{n222} / $expected->{m222}) < 0)
+  if (($n222 / $m222) < 0)
   {
-    $self->{errorMessage} = "About to take log of negative value for cell (2,2,2)";
-    $self->{errorCodeNumber} = 212;     return;
+    $errorMessage = "About to take log of negative value for cell (2,2,2)";
+    $errorCodeNumber = 212;     return;
   }
 
-
-  my @values = ($observed,$expected);
-  #  Everything looks good so we can return the expected values
-  return @values;
+  #  Everything looks good so we can return 1
+  return 1;
 }
 
 
@@ -250,9 +261,9 @@ RETURN VALUES : lognm   .. the log of the ratio of
                            value.
 
 =cut
+
 sub computePMI
 {
-  my $self = shift;
   my $n = shift;
   my $m = shift;
   my $val = $n/$m;
@@ -271,6 +282,8 @@ sub computePMI
 1;
 __END__
 
+
+=back
 
 =head1 AUTHOR
 
@@ -291,7 +304,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: MI.pm,v 1.8 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: MI.pm,v 1.11 2006/06/21 11:10:53 saiyam_kohli Exp $
 
 =head1 BUGS
 

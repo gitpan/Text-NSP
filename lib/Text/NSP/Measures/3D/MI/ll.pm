@@ -9,25 +9,24 @@ Text::NSP::Measures::3D::MI::ll - Perl module that implements Loglikelihood
 
   use Text::NSP::Measures::3D::MI::ll;
 
-  my $ll = Text::NSP::Measures::3D::MI::ll->new();
+  $ll_value = calculateStatistic( n111=>10,
+                                  n1pp=>40,
+                                  np1p=>45,
+                                  npp1=>42,
+                                  n11p=>20,
+                                  n1p1=>23,
+                                  np11=>21,
+                                  nppp=>100);
 
-  $ll_value = $ll->calculateStatistic( n111=>10,
-                                       n1pp=>40,
-                                       np1p=>45,
-                                       npp1=>42,
-                                       n11p=>20,
-                                       n1p1=>23,
-                                       np11=>21,
-                                       nppp=>100);
-
-  if( ($errorCode = $ll->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$ll->getErrorMessage();
+    print STDERR $erroCode." - ".getErrorMessage()."\n";
   }
   else
   {
-    print $ll->getStatisticName."value for bigram is ".$ll_value;
+    print getStatisticName."value for bigram is ".$ll_value."\n";
   }
+
 
 =head1 DESCRIPTION
 
@@ -66,13 +65,17 @@ use Text::NSP::Measures::3D::MI;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::3D::MI);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 =item calculateStatistic($count_values) - This method calculates
 the ll value
@@ -87,16 +90,12 @@ RETURN VALUES : $loglikelihood      .. Loglikelihood value for this trigram.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
 
-  my $observed;
-  my $expected;
-
-  # computes and returns the observed and expected values from
+  # computes and sets the observed and expected values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !(($observed, $expected) = $self->SUPER::calculateStatistic(\%values)) ) {
+  if( !(Text::NSP::Measures::3D::MI::getValues(\%values)) ) {
     return;
   }
 
@@ -104,16 +103,14 @@ sub calculateStatistic
   my $logLikelihood = 0;
 
   # dont want ($nxy / $mxy) to be 0 or less! flag error if so!
-  $logLikelihood += $observed->{n111} * $self->computePMI( $observed->{n111}, $expected->{m111} );
-  $logLikelihood += $observed->{n112} * $self->computePMI( $observed->{n112}, $expected->{m112} );
-  $logLikelihood += $observed->{n121} * $self->computePMI( $observed->{n121}, $expected->{m121} );
-  $logLikelihood += $observed->{n122} * $self->computePMI( $observed->{n122}, $expected->{m122} );
-  $logLikelihood += $observed->{n211} * $self->computePMI( $observed->{n211}, $expected->{m211} );
-  $logLikelihood += $observed->{n212} * $self->computePMI( $observed->{n212}, $expected->{m212} );
-  $logLikelihood += $observed->{n221} * $self->computePMI( $observed->{n221}, $expected->{m221} );
-  $logLikelihood += $observed->{n222} * $self->computePMI( $observed->{n222}, $expected->{m222} );
-
-  $Text::NSP::Measures::3D::marginals = undef;
+  $logLikelihood += $n111 * Text::NSP::Measures::3D::MI::computePMI( $n111, $m111 );
+  $logLikelihood += $n112 * Text::NSP::Measures::3D::MI::computePMI( $n112, $m112 );
+  $logLikelihood += $n121 * Text::NSP::Measures::3D::MI::computePMI( $n121, $m121 );
+  $logLikelihood += $n122 * Text::NSP::Measures::3D::MI::computePMI( $n122, $m122 );
+  $logLikelihood += $n211 * Text::NSP::Measures::3D::MI::computePMI( $n211, $m211 );
+  $logLikelihood += $n212 * Text::NSP::Measures::3D::MI::computePMI( $n212, $m212 );
+  $logLikelihood += $n221 * Text::NSP::Measures::3D::MI::computePMI( $n221, $m221 );
+  $logLikelihood += $n222 * Text::NSP::Measures::3D::MI::computePMI( $n222, $m222 );
 
   return ( 2 * $logLikelihood );
 }
@@ -126,6 +123,7 @@ INPUT PARAMS  : none
 RETURN VALUES : $name      .. Name of the measure.
 
 =cut
+
 sub getStatisticName
 {
     return "Loglikelihood";
@@ -136,6 +134,8 @@ sub getStatisticName
 1;
 __END__
 
+
+=back
 
 =head1 AUTHOR
 
@@ -156,7 +156,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: ll.pm,v 1.7 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: ll.pm,v 1.9 2006/06/21 11:10:53 saiyam_kohli Exp $
 
 =head1 BUGS
 

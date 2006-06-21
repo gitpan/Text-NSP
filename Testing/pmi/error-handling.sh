@@ -22,7 +22,7 @@ endif
 # during the initialization step, since pmi is for bigrams only!
 
 # required output file
-set TARGETFILE = "test-1.sub-1.reqd"   
+set TARGETFILE = "test-1.sub-1.reqd"
 
 if (!(-e $TARGETFILE)) then
     echo "File $TARGETFILE does not exist... aborting"
@@ -30,7 +30,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --ngram 3 pmi test-1.out $TESTFILE" 
+echo "Test:   statistic.pl --ngram 3 pmi test-1.out $TESTFILE"
 statistic.pl --ngram 3 pmi test-1.out $TESTFILE >& error.out
 
 # compare the error output with the required output
@@ -73,7 +73,7 @@ if (!(-e $FREQCOMBFILE)) then
     exit
 endif
 
-# test-1.sub-2.cnt has bigrams in it, but only 2 of the three required frequency values. 
+# test-1.sub-2.cnt has bigrams in it, but only 2 of the three required frequency values.
 
 # required output file
 set TARGETFILE = "test-1.sub-2.reqd"
@@ -84,7 +84,7 @@ if (!(-e $TARGETFILE)) then
 endif
 
 # now the test!
-echo "Test:   statistic.pl --set_freq_combo $FREQCOMBFILE pmi test-1.out $TESTFILE" 
+echo "Test:   statistic.pl --set_freq_combo $FREQCOMBFILE pmi test-1.out $TESTFILE"
 statistic.pl --set_freq_combo $FREQCOMBFILE pmi test-1.out $TESTFILE >& error.out
 
 # compare the error output with the required output

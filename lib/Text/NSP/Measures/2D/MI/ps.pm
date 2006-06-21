@@ -9,22 +9,20 @@ Text::NSP::Measures::2D::MI::ps - Perl module that implements Poisson-Stirling
 
   use Text::NSP::Measures::2D::MI::ps;
 
-  my $ps = Text::NSP::Measures::2D::MI::ps->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $ps_value = $ps->calculateStatistic( n11=>$n11,
+  $ps_value = calculateStatistic( n11=>$n11,
                                       n1p=>$n1p,
                                       np1=>$np1,
                                       npp=>$npp);
 
-  if( ($errorCode = $ps->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$ps->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $ps->getStatisticName."value for bigram is ".$ps_value;
+    print getStatisticName."value for bigram is ".$ps_value."\n"";
   }
 
 =head1 DESCRIPTION
@@ -81,13 +79,17 @@ use Text::NSP::Measures::2D::MI;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::2D::MI);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 =item calculateStatistic() - This method calculates the ps value
 
@@ -101,16 +103,12 @@ RETURN VALUES : $poissonStirling      .. Poisson-Stirling value for this bigram.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
-
-  my $observed;
-  my $expected;
 
   # computes and returns the observed and expected values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !(($observed, $expected) = $self->SUPER::calculateStatistic(\%values)) ) {
+  if( !(Text::NSP::Measures::2D::MI::getValues(\%values)) ) {
     return;
   }
 
@@ -118,9 +116,7 @@ sub calculateStatistic
   my $poissonStirling = 0;
 
   # dont want ($nxy / $mxy) to be 0 or less! flag error if so!
-  $poissonStirling = $observed->{n11} * ($self->computePMI($observed->{n11},$expected->{m11}) - 1);
-
-  $Text::NSP::Measures::2D::marginals = undef;
+  $poissonStirling = $n11 * (Text::NSP::Measures::2D::MI::computePMI($n11,$m11) - 1);
 
   return $poissonStirling;
 }
@@ -166,7 +162,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: ps.pm,v 1.6 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: ps.pm,v 1.8 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

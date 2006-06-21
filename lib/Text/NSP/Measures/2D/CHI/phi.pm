@@ -9,22 +9,20 @@ Text::NSP::Measures::2D::CHI::phi - Perl module that implements Phi coefficient
 
   use Text::NSP::Measures::2D::CHI::phi;
 
-  my $phi = Text::NSP::Measures::2D::CHI::phi->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $phi_value = $phi->calculateStatistic( n11=>$n11,
+  $phi_value = calculateStatistic( n11=>$n11,
                                       n1p=>$n1p,
                                       np1=>$np1,
                                       npp=>$npp);
 
-  if( ($errorCode = $phi->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$phi->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $phi->getStatisticName."value for bigram is ".$phi_value;
+    print getStatisticName."value for bigram is ".$phi_value."\n"";
   }
 
 =head1 DESCRIPTION
@@ -72,13 +70,17 @@ use Text::NSP::Measures::2D::CHI;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::2D::CHI);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 
 =item calculateStatistic() - method to calculate the Phi Coefficient
@@ -93,28 +95,22 @@ RETURN VALUES : $phi                .. phi value for this bigram.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
-
-  my $observed;
-  my $expected;
 
   # computes and returns the observed and expected values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !(($observed, $expected) = $self->SUPER::calculateStatistic(\%values)) ) {
+  if( !(Text::NSP::Measures::2D::CHI::getValues(\%values)) ) {
     return;
   }
 
   #  Now calculate the phi coefficient
   my $phi = 0;
 
-  $phi += $self->computeVal($observed->{n11}, $expected->{m11});
-  $phi += $self->computeVal($observed->{n12}, $expected->{m12});
-  $phi += $self->computeVal($observed->{n21}, $expected->{m21});
-  $phi += $self->computeVal($observed->{n22}, $expected->{m22});
-
-  $Text::NSP::Measures::2D::marginals = undef;
+  $phi += Text::NSP::Measures::2D::CHI::computeVal($n11, $m11);
+  $phi += Text::NSP::Measures::2D::CHI::computeVal($n12, $m12);
+  $phi += Text::NSP::Measures::2D::CHI::computeVal($n21, $m21);
+  $phi += Text::NSP::Measures::2D::CHI::computeVal($n22, $m22);
 
   return $phi/$values{npp};
 }
@@ -131,7 +127,6 @@ RETURN VALUES : $name      .. Name of the measure.
 
 sub getStatisticName
 {
-  my ($self)=@_;
   return "Phi Coefficient";
 }
 
@@ -162,7 +157,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: phi.pm,v 1.10 2006/06/17 18:03:19 saiyam_kohli Exp $
+Last updated: $Id: phi.pm,v 1.12 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

@@ -8,24 +8,22 @@ Text::NSP::Measures::2D - Perl module that provides basic framework
 
 =head3 Basic Usage
 
-  use Text::NSP::Measures::2D::MI::ll;
-
-  my $ll = Text::NSP::Measures::2D::MI::ll->new();
+ use Text::NSP::Measures::2D::MI::ll;
 
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $ll_value = $ll->calculateStatistic( n11=>$n11,
+  $ll_value = calculateStatistic( n11=>$n11,
                                       n1p=>$n1p,
                                       np1=>$np1,
                                       npp=>$npp);
 
-  if( ($errorCode = $ll->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$ll->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $ll->getStatisticName."value for bigram is ".$ll_value;
+    print getStatisticName."value for bigram is ".$ll_value."\n"";
   }
 
 
@@ -36,10 +34,10 @@ measures of association. The methods in this module retrieve observed
 bigram frequency counts, marginal totals, and also compute expected
 values. They also provide error checks for these counts.
 
-With bigram or 2d measures we use an hash to store the 2x2 contingency
-table to store the frequency counts associated with each word in the
-bigram, as well as the number of times the bigram occurs. A
-contingency table looks like
+With bigram or 2d measures we use variables with corresponding names
+to store the 2x2 contingency table to store the frequency counts
+associated with each word in the bigram, as well as the number of
+times the bigram occurs. A contingency table looks like
 
             |word2  | not-word2|
             --------------------
@@ -55,16 +53,15 @@ Marginal Frequencies:
   n2p = the number of bigrams where the first word is not word1.
   np2 = the number of bigrams where the second word is not word2.
 
-  These marginal totals are stored in a hash. These values may then be
-  referred to as follows (if the hash name is $marginal):
+  These marginal totals are stored in variables which have names
+  corresponding to the cell they represent. These values may then be
+  referred to as follows:
 
-        $marginal->{n1p},
-        $marginal->{np1},
-        $marginal->{n2p},
-        $marginal->{np2},
-        $marginal->{npp}
-
-  where the keys are n1p, np1, n2p, np2 and npp.
+        $n1p,
+        $np1,
+        $n2p,
+        $np2,
+        $npp
 
 Observed Frequencies:
 
@@ -76,16 +73,14 @@ Observed Frequencies:
   n22 = number of bigrams where word1 is not in the first position and
         word2 is not in the second position.
 
-  The observed frequencies are also stored in a hash. These values may
-  then be referred to as follows (if the hash name is $observed):
+  The observed frequencies are also stored in variables with corresponding names.
+  These values may then be referred to as follows:
 
 
-        $observed->{n11},
-        $observed->{n12},
-        $observed->{n21},
-        $observed->{n22}
-
-  where the keys are n11, n12, n21 and n22.
+        $n11,
+        $n12,
+        $n21,
+        $n22
 
 Expected Frequencies:
 
@@ -103,10 +98,10 @@ Expected Frequencies:
 
   Similarly the expected values are stored as
 
-        $expected->{m11},
-        $expected->{m12},
-        $expected->{m21},
-        $expected->{m22}
+        $m11,
+        $m12,
+        $m21,
+        $m22
 
 =head2 Methods
 
@@ -122,62 +117,26 @@ use Text::NSP::Measures;
 use strict;
 use Carp;
 use warnings;
-use Exporter;            # Gain export capabilities
+require Exporter;
+
+our ($VERSION, @ISA, @EXPORT);
+
+@ISA  = qw(Exporter);
+
+our ($n11, $n12, $n21, $n22);
+our ($m11, $m12, $m21, $m22);
+our ($npp, $n1p, $np1, $n2p, $np2);
+# $npp = -1; $n1p = -1; $np1 = -1;
+# $n2p = -1; $np2 = -1;
 
 
-our ($VERSION, @ISA, $marginals, @EXPORT);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName
+             $errorCodeNumber $errorMessage
+             $n11 $n12 $n21 $n22 $m11 $m12 $m21 $m22
+             $npp $np1 $np2 $n2p $n1p);
 
-@EXPORT = qw($marginals);      # Export $a and @b by default
-
-@ISA = qw(Text::NSP::Measures);
-
-$VERSION = '0.95';
-
-=item new() - This method creates and returns an object for the
-              measures(constructor)
-
-
-INPUT PARAMS  : none
-
-RETURN VALUES : $this      .. Reference to the new object of
-                              the measure.
-
-=cut
-
-sub new
-{
-  my $class = shift;
-  my $this = {};
-
-  $class = ref $class || $class;
-
-  $this->{errorMessage} = '';
-  $this->{errorCodeNumber} = 0;
-  $this->{traceOutput} = '';
-  if ($class eq 'Text::NSP::Measures::2D::MI')
-  {
-    $this->{errorMessage} .= "\nError (${class}::new()) - ";
-    $this->{errorMessage} .= "This class is intended to be an abstract base class.";
-    $this->{errorMessage} .= "Your class should override it.";
-    $this->{errorCodeNumber} = 100;
-  }
-  elsif ($class eq 'Text::NSP::Measures::2D::CHI')
-  {
-    $this->{errorMessage} .= "\nError (${class}::new()) - ";
-    $this->{errorMessage} .= "This class is intended to be an abstract base class.";
-    $this->{errorMessage} .= "Your class should override it.";
-    $this->{errorCodeNumber} = 100;
-  }
-  elsif ($class eq 'Text::NSP::Measures::2D::Fisher')
-  {
-    $this->{errorMessage} .= "\nError (${class}::new()) - ";
-    $this->{errorMessage} .= "This class is intended to be an abstract base class.";
-    $this->{errorMessage} .= "Your class should override it.";
-    $this->{errorCodeNumber} = 100;
-  }
-  bless $this, $class;
-  return $this;
-}
+$VERSION = '0.97';
 
 
 =item computeObservedValues() - A method to compute observed values,
@@ -190,75 +149,47 @@ INPUT PARAMS  : $count_values     .. Reference to an hash consisting
                                      of the count values passed to
                                      the calcualteStatistic() method.
 
-RETURN VALUES : $observed         .. Reference to an hash consisting
-                                     of the observed values computed
-                                     from the marginal totals.
-                                     (n11,n12,n21,n22)
-
+RETURN VALUES : 1/undef           ..returns '1' to indicate success
+                                    and an undefined(NULL) value to indicate
+                                    faliure.
 =cut
 
 sub computeObservedValues
 {
-  my ($self,$values) = @_;
-
-  #temporary local variables to store the cell values
-  #of the contingency table
-  my $n11= -1; my $n12; my $n21; my $n22;
-
-  #temporary local variables to store the marginal totals
-  my $npp; my $n1p; my $np1; my $n2p; my $np2;
+  my ($values) = @_;
 
   if(!defined $values->{n11})
   {
-    $self->{errorMessage} = "Required frequency count (1,1) not passed";
-    $self->{errorCodeNumber} = 200;
+    $errorMessage = "Required frequency count (1,1) not passed";
+    $errorCodeNumber = 200;
     return;
   }
   else
   {
-    $n11=$values->{n11};
+    $n11 = $values->{n11};
   }
   # joint frequency should be greater than equal to zero
   if ($n11 < 0)
   {
-    $self->{errorMessage} = "Frequency value 'n11' must not be negative.";
-    $self->{errorCodeNumber} = 201;
+    $errorMessage = "Frequency value 'n11' must not be negative.";
+    $errorCodeNumber = 201;
     return;
   }
-
-  # get the marginal totals.
-  $marginals = undef;
-  if(!defined $marginals)
-  {
-    if( !($marginals = $self->computeMarginalTotals($values)))
-    {
-      return;
-    }
-  }
-
-  #initialize the temporary local variables using the
-  #marginal totals just computed
-  $npp = $marginals->{npp};
-  $n1p = $marginals->{n1p};
-  $np1 = $marginals->{np1};
-  $n2p = $marginals->{n2p};
-  $np2 = $marginals->{np2};
-
 
   # joint frequency (n11) should be less than or equal to the
   # total number of bigrams (npp)
   if($n11 > $npp)
   {
-    $self->{errorMessage} = "Frequency value 'n11' must not exceed total number of bigrams.";
-    $self->{errorCodeNumber} = 202;
+    $errorMessage = "Frequency value 'n11' must not exceed total number of bigrams.";
+    $errorCodeNumber = 202;
     return;
   }
 
   # joint frequency should be less than or equal to the marginal totals
   if ($n11 > $np1 || $n11 > $n1p)
   {
-    $self->{errorMessage} = "Frequency value of ngram 'n11' must not exceed the marginal totals.";
-    $self->{errorCodeNumber} = 202;
+    $errorMessage = "Frequency value of ngram 'n11' must not exceed the marginal totals.";
+    $errorCodeNumber = 202;
     return;
   }
 
@@ -270,33 +201,26 @@ sub computeObservedValues
 
   if ($n12 < 0)
   {
-    $self->{errorMessage} = "Frequency value 'n12' must not be negative.";
-    $self->{errorCodeNumber} = 201;
+    $errorMessage = "Frequency value 'n12' must not be negative.";
+    $errorCodeNumber = 201;
     return;
   }
 
   if ($n21 < 0)
   {
-    $self->{errorMessage} = "Frequency value 'n21' must not be negative.";
-    $self->{errorCodeNumber} = 201;
+    $errorMessage = "Frequency value 'n21' must not be negative.";
+    $errorCodeNumber = 201;
     return;
   }
 
   if ($n22 < 0)
   {
-    $self->{errorMessage} = "Frequency value 'n22' must not be negative.";
-    $self->{errorCodeNumber} = 201;
+    $errorMessage = "Frequency value 'n22' must not be negative.";
+    $errorCodeNumber = 201;
     return;
   }
 
-  #initialize the hash to store and return the observed counts just computed.
-  my %observed_values=();
-  $observed_values{n11}=$n11;
-  $observed_values{n12}=$n12;
-  $observed_values{n21}=$n21;
-  $observed_values{n22}=$n22;
-
-  return (\%observed_values);
+  return 1;
 }
 
 
@@ -304,55 +228,23 @@ sub computeObservedValues
 =item computeExpectedValues() - A method to compute expected values.
 
 
-INPUT PARAMS  : $count_values     .. Reference to an hash consisting
-                                     of the count output.
+INPUT PARAMS  :none
 
-RETURN VALUES : $expected         .. Reference to an hash consisting
-                                     of the expected values computed
-                                     from the marginal totals.
-                                     (m11,m12,m21,m22)
+RETURN VALUES : 1/undef           ..returns '1' to indicate success
+                                    and an undefined(NULL) value to indicate
+                                    faliure.
 
 =cut
 
 sub computeExpectedValues
 {
-  my ($self, $values)=@_;
-
-  # get the marginal totals.
-  if(!defined $marginals)
-  {
-    if( !($marginals = $self->computeMarginalTotals($values)))
-    {
-      return;
-    }
-  }
-
-  #temporary local variables to store the marginal totals
-  my $npp; my $n1p; my $np1; my $n2p; my $np2;
-
-  #initialize the temporary local variables using the
-  #marginal totals just computed
-  $npp = $marginals->{npp};
-  $n1p = $marginals->{n1p};
-  $np1 = $marginals->{np1};
-  $n2p = $marginals->{n2p};
-  $np2 = $marginals->{np2};
-
   #  calculate the expected values
-  my $m11 = $n1p * $np1 / $npp;
-  my $m12 = $n1p * $np2 / $npp;
-  my $m21 = $n2p * $np1 / $npp;
-  my $m22 = $n2p * $np2 / $npp;
+  $m11 = $n1p * $np1 / $npp;
+  $m12 = $n1p * $np2 / $npp;
+  $m21 = $n2p * $np1 / $npp;
+  $m22 = $n2p * $np2 / $npp;
 
-  #alls well so initialize the hash with the expected values
-  #thus computed and return it.
-  my %ex_values = ();
-  $ex_values{m11}=$m11;
-  $ex_values{m12}=$m12;
-  $ex_values{m21}=$m21;
-  $ex_values{m22}=$m22;
-
-  return (\%ex_values);
+  return 1;
 }
 
 
@@ -365,44 +257,39 @@ INPUT PARAMS  : $count_values     .. Reference to an hash consisting
                                      of the frequency combination
                                      output.
 
-RETURN VALUES : $marginals        .. Reference to an hash consisting
-                                     of the marginal totals computed
-                                     from the freq combination output.
+RETURN VALUES : 1/undef           ..returns '1' to indicate success
+                                    and an undefined(NULL) value to indicate
+                                    faliure.
 
 =cut
 
 sub computeMarginalTotals
 {
 
-  my ($self, $values)=@_;
+  my ($values)=@_;
 
-  #temporary local variable to store the total bigram count.
-  my $npp;
-
-  my %marginal_values = ();
   if(!defined $values->{npp})
   {
-    $self->{errorMessage} = "Total bigram count not passed";
-    $self->{errorCodeNumber} = 200;
+    $errorMessage = "Total bigram count not passed";
+    $errorCodeNumber = 200;
     return;
   }
   elsif($values->{npp}<=0)
   {
-    $self->{errorMessage} = "Total bigram count cannot be less than to zero";
-    $self->{errorCodeNumber} = 204;
+    $errorMessage = "Total bigram count cannot be less than to zero";
+    $errorCodeNumber = 204;
     return;
   }
   else
   {
     $npp = $values->{npp};
-    $marginal_values{npp} = $npp;
   }
 
-  my $n1p = -1;
+  $n1p=-1;
   if(!defined $values->{n1p})
   {
-    $self->{errorMessage} = "Required Marginal total (1,p) count not passed";
-    $self->{errorCodeNumber} = 200;
+    $errorMessage = "Required Marginal total (1,p) count not passed";
+    $errorCodeNumber = 200;
     return;
   }
   else
@@ -412,25 +299,25 @@ sub computeMarginalTotals
   # right frequency (n1p) should be greater than or equal to zero
   if ($n1p < 0)
   {
-    $self->{errorMessage} = "Marginal total value 'n1p' must not be negative.";
-    $self->{errorCodeNumber} = 204;
+    $errorMessage = "Marginal total value 'n1p' must not be negative.";
+    $errorCodeNumber = 204;
     return;
   }
   # right frequency (n1p) should be less than or equal to the total
   # number of bigrams (npp)
   if ($n1p > $npp)
   {
-    $self->{errorMessage} = "Marginal total value 'n1p' must not exceed total number of bigrams.";
-    $self->{errorCodeNumber} = 203;
+    $errorMessage = "Marginal total value 'n1p' must not exceed total number of bigrams.";
+    $errorCodeNumber = 203;
     return;
   }
 
 
-  my $np1 = -1;
+  $np1 = -1;
   if(!defined $values->{np1})
   {
-    $self->{errorMessage} = "Required Marginal total (p,1) count not passed";
-    $self->{errorCodeNumber} = 200;
+    $errorMessage = "Required Marginal total (p,1) count not passed";
+    $errorCodeNumber = 200;
     return;
   }
   else
@@ -440,29 +327,23 @@ sub computeMarginalTotals
   # left frequency (np1) should be greater than or equal to zero
   if ($np1 < 0)
   {
-    $self->{errorMessage} = "Marginal total value 'np1' must not be negative.";
-    $self->{errorCodeNumber} = 204;
+    $errorMessage = "Marginal total value 'np1' must not be negative.";
+    $errorCodeNumber = 204;
     return;
   }
   # left frequency (np1) should be less than or equal to the total
   #  number of bigrams (npp)
   if ($np1 > $npp)
   {
-    $self->{errorMessage} = "Marginal total value 'np1' must not exceed total number of bigrams.";
-    $self->{errorCodeNumber} = 203;
+    $errorMessage = "Marginal total value 'np1' must not exceed total number of bigrams.";
+    $errorCodeNumber = 203;
     return;
   }
 
-  my $np2 = $npp - $np1;
-  my $n2p = $npp - $n1p;
+  $np2 = $npp - $np1;
+  $n2p = $npp - $n1p;
 
-  #initialize the hash with the rest of the marginal totals
-  #and return a referrence to this hash.
-  $marginal_values{n1p}=$n1p;
-  $marginal_values{np1}=$np1;
-  $marginal_values{n2p}=$n2p;
-  $marginal_values{np2}=$np2;
-  return \%marginal_values;
+  return 1;
 }
 
 
@@ -491,7 +372,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: 2D.pm,v 1.24 2006/06/17 18:03:19 saiyam_kohli Exp $
+Last updated: $Id: 2D.pm,v 1.27 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

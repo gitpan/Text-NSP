@@ -2,19 +2,17 @@
 
 BEGIN { $| = 1; print "1..2\n"; }
 END {print "not ok 1\n" unless $loaded;}
-use Text::NSP::Measures;
-use Text::NSP::Measures::2D;
 use Text::NSP::Measures::2D::Fisher;
 $loaded = 1;
 print "ok 1\n";
 
 #####################
 
-############ Create Object
+############ Check if class is abstract.
 
-my $obj = Text::NSP::Measures::2D::Fisher->new();
-my $err = $obj->{errorCodeNumber};
-if($err == 100)
+calculateStatistic();
+$errorCode = getErrorCode();
+if($errorCode == 101)
 {
     print "ok 2\n";
 }

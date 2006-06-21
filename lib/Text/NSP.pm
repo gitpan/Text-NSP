@@ -10,22 +10,20 @@ Text::NSP - The Ngram Statistic Package allows a user to count
 
   use Text::NSP::Measures::2D::MI::ll;
 
-  my $ll = Text::NSP::Measures::2D::MI::ll->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $ll_value = $ll->calculateStatistic( n11=>10,
-                                      n1p=>20,
-                                      np1=>20,
-                                      npp=>60);
+  $ll_value = calculateStatistic( n11=>$n11,
+                                      n1p=>$n1p,
+                                      np1=>$np1,
+                                      npp=>$npp);
 
-  if( ($errorCode = $ll->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$ll->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $ll->getStatisticName."value for bigram is ".$ll_value;
+    print getStatisticName."value for bigram is ".$ll_value."\n"";
   }
 
 =head1 DESCRIPTION
@@ -112,38 +110,11 @@ use strict;
 use Carp;
 use warnings;
 
-
 our ($VERSION, @ISA);
 
-@ISA = qw();
+@ISA  = qw(Exporter);
 
-$VERSION = '0.95';
-
-=item new() - In case user tries to create an object of the abstract
-              class, this method is here to handle the error and print
-              a small help.
-
-# INPUT PARAMS  : none
-
-# RETURN VALUES : none
-
-=cut
-
-sub new
-{
-  my $class = shift;
-  my $this = {};
-  if ($class eq 'Text::NSP')
-  {
-    $this->{errorMessage} .= "\nError (${class}::new()) - ";
-    $this->{errorMessage} .= "This class is intended to be an abstract
-base class for count and measure modules";
-    $this->{errorCodeNumber} = 100;
-  }
-  return $this;
-}
-
-
+$VERSION = '0.97';
 
 1;
 
@@ -171,7 +142,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: NSP.pm,v 1.21 2006/06/17 18:03:22 saiyam_kohli Exp $
+Last updated: $Id: NSP.pm,v 1.23 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

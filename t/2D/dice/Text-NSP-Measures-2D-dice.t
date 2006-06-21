@@ -3,58 +3,34 @@
 
 ##################### We start with some black magic to print on failure.
 
-BEGIN { $| = 1; print "1..30\n"; }
+BEGIN { $| = 1; print "1..29\n"; }
 END {print "not ok 1\n" unless $loaded;}
-use Text::NSP::Measures;
-use Text::NSP::Measures::2D;
 use Text::NSP::Measures::2D::Dice::dice;
 $loaded = 1;
 print "ok 1\n";
 
 ######################### End of black magic.
 
-############ Create Object for dice
-
-$dice = Text::NSP::Measures::2D::Dice::dice->new();
-if($dice)
-{
-    $err = $dice->{errorCodeNumber};
-    if($err)
-    {
-        print "not ok 2\n";
-    }
-    else
-    {
-        print "ok 2\n";
-    }
-}
-else
-{
-    print "not ok 2\n";
-}
-
-
-
 ############ Computing dice value for some count values.
 
 my @bigram_count = (10, 20, 20,60);
 
-$dice_value = $dice->calculateStatistic(n11 => 10,
+$dice_value = calculateStatistic(n11 => 10,
                                     n1p => 20,
                                     np1 => 20,
                                     npp => 60);
-$err = $dice->getErrorCode();
+$err = getErrorCode();
 if($err)
 {
-    print "not ok 3\n";
+    print "not ok 2\n";
 }
 elsif($dice_value == 0.5)
 {
-    print "ok 3\n";
+    print "ok 2\n";
 }
 else
 {
-    print "not ok 3\n";
+    print "not ok 2\n";
 }
 ############Error Code check for missing values
 
@@ -62,16 +38,16 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $dice->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $dice->getErrorCode();
+$err = getErrorCode();
 if($err == 200)
 {
-  print "ok 4\n";
+  print "ok 3\n";
 }
 else
 {
-  print"not ok 4\n";
+  print"not ok 3\n";
 }
 
 ############Error Code check for missing values
@@ -80,9 +56,26 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $dice->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $dice->getErrorCode();
+$err = getErrorCode();
+if($err == 200)
+{
+  print "ok 4\n";
+}
+else
+{
+  print"not ok 4\n";
+}
+############Error Code check for missing values
+
+%count_values = (n11=>10,
+                 n1p => 20,
+                 np1 => 20);
+
+$value = calculateStatistic(%count_values);
+
+$err = getErrorCode();
 if($err == 200)
 {
   print "ok 5\n";
@@ -91,23 +84,6 @@ else
 {
   print"not ok 5\n";
 }
-############Error Code check for missing values
-
-%count_values = (n11=>10,
-                 n1p => 20,
-                 np1 => 20);
-
-$value = $dice->calculateStatistic(%count_values);
-
-$err = $dice->getErrorCode();
-if($err == 200)
-{
-  print "ok 6\n";
-}
-else
-{
-  print"not ok 6\n";
-}
 ############Error Code check for -ve values
 
 %count_values = (n11 => -10,
@@ -115,10 +91,29 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $dice->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $dice->getErrorCode();
+$err = getErrorCode();
 if($err == 201)
+{
+  print "ok 6\n";
+}
+else
+{
+  print"not ok 6\n";
+}
+
+############Error Code check for -ve values
+
+%count_values = (n11 => 10,
+                 n1p => -20,
+                 np1 => 20,
+                 npp => 60);
+
+$value = calculateStatistic(%count_values);
+
+$err = getErrorCode();
+if($err == 204)
 {
   print "ok 7\n";
 }
@@ -130,13 +125,13 @@ else
 ############Error Code check for -ve values
 
 %count_values = (n11 => 10,
-                 n1p => -20,
+                 n1p => 20,
                  np1 => 20,
-                 npp => 60);
+                 npp => -60);
 
-$value = $dice->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $dice->getErrorCode();
+$err = getErrorCode();
 if($err == 204)
 {
   print "ok 8\n";
@@ -146,17 +141,17 @@ else
   print"not ok 8\n";
 }
 
-############Error Code check for -ve values
+############Error Code check invalid values
 
-%count_values = (n11 => 10,
+%count_values = (n11 => 80,
                  n1p => 20,
                  np1 => 20,
-                 npp => -60);
+                 npp => 60);
 
-$value = $dice->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $dice->getErrorCode();
-if($err == 204)
+$err = getErrorCode();
+if($err == 202)
 {
   print "ok 9\n";
 }
@@ -167,14 +162,14 @@ else
 
 ############Error Code check invalid values
 
-%count_values = (n11 => 80,
+%count_values = (n11 => 30,
                  n1p => 20,
                  np1 => 20,
                  npp => 60);
 
-$value = $dice->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $dice->getErrorCode();
+$err = getErrorCode();
 if($err == 202)
 {
   print "ok 10\n";
@@ -182,25 +177,6 @@ if($err == 202)
 else
 {
   print"not ok 10\n";
-}
-
-############Error Code check invalid values
-
-%count_values = (n11 => 30,
-                 n1p => 20,
-                 np1 => 20,
-                 npp => 60);
-
-$value = $dice->calculateStatistic(%count_values);
-
-$err = $dice->getErrorCode();
-if($err == 202)
-{
-  print "ok 11\n";
-}
-else
-{
-  print"not ok 11\n";
 }
 
 
@@ -211,49 +187,49 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $dice->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $dice->getErrorCode();
+$err = getErrorCode();
 if($err == 203)
 {
-  print "ok 12\n";
+  print "ok 11\n";
 }
 else
 {
-  print"not ok 12\n";
+  print"not ok 11\n";
   print $err;
 }
 
 ############## Checking Error code for -ve observed frequency
 
-$value = $dice->calculateStatistic(n11 => 10,
+$value = calculateStatistic(n11 => 10,
                                     n1p => 20,
                                     np1 => 11,
                                     npp => 20);
-$err = $dice->getErrorCode();
+$err = getErrorCode();
 if($err==201)
+{
+    print "ok 12\n";
+}
+else
+{
+    print "not ok 12\n";
+}
+
+############## Checking measure value for a contingency table with a zero observed value
+
+$value = calculateStatistic(n11 => 10,
+                                    n1p => 20,
+                                    np1 => 20,
+                                    npp => 30);
+$err = getErrorCode();
+if($value==0.5)
 {
     print "ok 13\n";
 }
 else
 {
     print "not ok 13\n";
-}
-
-############## Checking measure value for a contingency table with a zero observed value
-
-$value = $dice->calculateStatistic(n11 => 10,
-                                    n1p => 20,
-                                    np1 => 20,
-                                    npp => 30);
-$err = $dice->getErrorCode();
-if($value==0.5)
-{
-    print "ok 14\n";
-}
-else
-{
-    print "not ok 14\n";
 }
 
 ############## Checking measure value for actual bigram data
@@ -265,12 +241,32 @@ $n11 = 3972;
 $n1p = 23189;
 $np1 = 22641;
 
-$value = $dice->calculateStatistic(n11 => $n11,
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
+$err = getErrorCode();
 if($value < 0.173336243 and $value > 0.173336242)
+{
+    print "ok 14\n";
+}
+else
+{
+    print "not ok 14\n";
+}
+
+##############
+
+$npp = 567835;
+$n11 = 2298;
+$n1p = 4624;
+$np1 = 8677;
+$value = calculateStatistic(n11 => $n11,
+                                    n1p => $n1p,
+                                    np1 => $np1,
+                                    npp => $npp);
+$err = getErrorCode();
+if($value < 0.34553793 and $value > 0.34553792)
 {
     print "ok 15\n";
 }
@@ -281,16 +277,16 @@ else
 
 ##############
 
-$npp = 567835;
-$n11 = 2298;
-$n1p = 4624;
-$np1 = 8677;
-$value = $dice->calculateStatistic(n11 => $n11,
+$npp = 8293549;
+$n11 = 44796;
+$n1p = 179966;
+$np1 = 433831;
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.34553793 and $value > 0.34553792)
+$err = getErrorCode();
+if($value < 0.1459635678 and $value > 0.1459635677)
 {
     print "ok 16\n";
 }
@@ -302,15 +298,15 @@ else
 ##############
 
 $npp = 8293549;
-$n11 = 44796;
-$n1p = 179966;
+$n11 = 40666;
+$n1p = 432943;
 $np1 = 433831;
-$value = $dice->calculateStatistic(n11 => $n11,
+$value = calculateStatistic( n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.1459635678 and $value > 0.1459635677)
+$err = getErrorCode();
+if($value < 0.093832995 and $value > 0.093832994)
 {
     print "ok 17\n";
 }
@@ -322,15 +318,15 @@ else
 ##############
 
 $npp = 8293549;
-$n11 = 40666;
-$n1p = 432943;
+$n11 = 37397;
+$n1p = 143010;
 $np1 = 433831;
-$value = $dice->calculateStatistic( n11 => $n11,
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.093832995 and $value > 0.093832994)
+$err = getErrorCode();
+if($value < 0.12966138 and $value > 0.129661379)
 {
     print "ok 18\n";
 }
@@ -342,15 +338,15 @@ else
 ##############
 
 $npp = 8293549;
-$n11 = 37397;
-$n1p = 143010;
+$n11 = 32660;
+$n1p = 454949;
 $np1 = 433831;
-$value = $dice->calculateStatistic(n11 => $n11,
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.12966138 and $value > 0.129661379)
+$err = getErrorCode();
+if($value < 0.073494004 and $value > 0.073494003)
 {
     print "ok 19\n";
 }
@@ -362,15 +358,15 @@ else
 ##############
 
 $npp = 8293549;
-$n11 = 32660;
+$n11 = 25919;
 $n1p = 454949;
-$np1 = 433831;
-$value = $dice->calculateStatistic(n11 => $n11,
+$np1 = 169091;
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.073494004 and $value > 0.073494003)
+$err = getErrorCode();
+if($value < 0.0830684 and $value > 0.08306839)
 {
     print "ok 20\n";
 }
@@ -382,15 +378,15 @@ else
 ##############
 
 $npp = 8293549;
-$n11 = 25919;
+$n11 = 17042;
 $n1p = 454949;
-$np1 = 169091;
-$value = $dice->calculateStatistic(n11 => $n11,
+$np1 = 185958;
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.0830684 and $value > 0.08306839)
+$err = getErrorCode();
+if($value < 0.0531808828 and $value > 0.0531808827)
 {
     print "ok 21\n";
 }
@@ -402,15 +398,15 @@ else
 ##############
 
 $npp = 8293549;
-$n11 = 17042;
-$n1p = 454949;
-$np1 = 185958;
-$value = $dice->calculateStatistic(n11 => $n11,
+$n11 = 16862;
+$n1p = 186141;
+$np1 = 433831;
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.0531808828 and $value > 0.0531808827)
+$err = getErrorCode();
+if($value < 0.054396005 and $value > 0.0543960049)
 {
     print "ok 22\n";
 }
@@ -422,15 +418,15 @@ else
 ##############
 
 $npp = 8293549;
-$n11 = 16862;
-$n1p = 186141;
-$np1 = 433831;
-$value = $dice->calculateStatistic(n11 => $n11,
+$n11 = 16115;
+$n1p = 52569;
+$np1 = 432944;
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.054396005 and $value > 0.0543960049)
+$err = getErrorCode();
+if($value < 0.0663834 and $value > 0.06638339)
 {
     print "ok 23\n";
 }
@@ -442,15 +438,15 @@ else
 ##############
 
 $npp = 8293549;
-$n11 = 16115;
-$n1p = 52569;
-$np1 = 432944;
-$value = $dice->calculateStatistic(n11 => $n11,
+$n11 = 16089;
+$n1p = 432943;
+$np1 = 34837;
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.0663834 and $value > 0.06638339)
+$err = getErrorCode();
+if($value < 0.06878875 and $value > 0.06878874)
 {
     print "ok 24\n";
 }
@@ -462,15 +458,15 @@ else
 ##############
 
 $npp = 8293549;
-$n11 = 16089;
+$n11 = 15800;
 $n1p = 432943;
-$np1 = 34837;
-$value = $dice->calculateStatistic(n11 => $n11,
+$np1 = 432944;
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.06878875 and $value > 0.06878874)
+$err = getErrorCode();
+if($value < 0.03649437 and $value > 0.036494369)
 {
     print "ok 25\n";
 }
@@ -482,15 +478,15 @@ else
 ##############
 
 $npp = 8293549;
-$n11 = 15800;
-$n1p = 432943;
-$np1 = 432944;
-$value = $dice->calculateStatistic(n11 => $n11,
+$n11 = 15459;
+$n1p = 54930;
+$np1 = 433831;
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.03649437 and $value > 0.036494369)
+$err = getErrorCode();
+if($value < 0.063257912 and $value > 0.063257911)
 {
     print "ok 26\n";
 }
@@ -502,15 +498,15 @@ else
 ##############
 
 $npp = 8293549;
-$n11 = 15459;
-$n1p = 54930;
-$np1 = 433831;
-$value = $dice->calculateStatistic(n11 => $n11,
+$n11 = 14206;
+$n1p = 454949;
+$np1 = 52569;
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.063257912 and $value > 0.063257911)
+$err = getErrorCode();
+if($value < 0.0559822509 and $value > 0.0559822508)
 {
     print "ok 27\n";
 }
@@ -522,15 +518,15 @@ else
 ##############
 
 $npp = 8293549;
-$n11 = 14206;
-$n1p = 454949;
-$np1 = 52569;
-$value = $dice->calculateStatistic(n11 => $n11,
+$n11 = 14075;
+$n1p = 432943;
+$np1 = 59565;
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.0559822509 and $value > 0.0559822508)
+$err = getErrorCode();
+if($value < 0.057156432 and $value > 0.0571564319)
 {
     print "ok 28\n";
 }
@@ -542,41 +538,21 @@ else
 ##############
 
 $npp = 8293549;
-$n11 = 14075;
+$n11 = 14070;
 $n1p = 432943;
-$np1 = 59565;
-$value = $dice->calculateStatistic(n11 => $n11,
+$np1 = 34669;
+$value = calculateStatistic(n11 => $n11,
                                     n1p => $n1p,
                                     np1 => $np1,
                                     npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.057156432 and $value > 0.0571564319)
+$err = getErrorCode();
+if($value < 0.0601781 and $value > 0.060178096)
 {
     print "ok 29\n";
 }
 else
 {
     print "not ok 29\n";
-}
-
-##############
-
-$npp = 8293549;
-$n11 = 14070;
-$n1p = 432943;
-$np1 = 34669;
-$value = $dice->calculateStatistic(n11 => $n11,
-                                    n1p => $n1p,
-                                    np1 => $np1,
-                                    npp => $npp);
-$err = $dice->getErrorCode();
-if($value < 0.0601781 and $value > 0.060178096)
-{
-    print "ok 30\n";
-}
-else
-{
-    print "not ok 30\n";
 }
 
 ##############

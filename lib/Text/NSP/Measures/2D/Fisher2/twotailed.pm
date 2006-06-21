@@ -9,22 +9,20 @@ Text::NSP::Measures::2D::Fisher2::twotailed - Perl module implementation of the 
 
   use Text::NSP::Measures::2D::Fisher2::twotailed;
 
-  my $twotailedFisher = Text::NSP::Measures::2D::Fisher2::twotailed->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $twotailedFisher_value = $twotailedFisher->calculateStatistic( n11=>$n11,
-                                                       n1p=>$n1p,
-                                                       np1=>$np1,
-                                                       npp=>$npp);
+  $twotailed_value = calculateStatistic( n11=>$n11,
+                                      n1p=>$n1p,
+                                      np1=>$np1,
+                                      npp=>$npp);
 
-  if( ($errorCode = $twotailedFisher->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$twotailedFisher->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage();
   }
   else
   {
-    print $twotailedFisher->getStatisticName."value for bigram is ".$twotailedFisher_value;
+    print getStatisticName."value for bigram is ".$twotailed_value;
   }
 
 
@@ -80,18 +78,21 @@ use Text::NSP::Measures::2D::Fisher2;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
+
+our ($VERSION, @EXPORT, @ISA);
+
+@ISA  = qw(Exporter);
+
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
+
+$VERSION = '0.97';
 
 
-our ($VERSION, @ISA);
-
-@ISA = qw(Text::NSP::Measures::2D::Fisher2);
-
-$VERSION = '0.95';
-
-
-=item calculateStatistic()
-
-This method calculates the ll value
+=item calculateStatistic() - This method computes the right sided Fishers
+                             exact test.
 
 INPUT PARAMS  : $count_values       .. Reference of an array containing
                                        the count values computed by the
@@ -103,30 +104,29 @@ RETURN VALUES : $twotailed          .. Twotailed Fisher value.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
 
-  my $observed;
-  my $marginal;
   my $probabilities;
 
   # computes and returns the observed and marginal values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !(($observed, $marginal) = $self->SUPER::calculateStatistic(\%values)) )
+  if( !(Text::NSP::Measures::2D::Fisher2::getValues(\%values)) )
   {
     return;
   }
 
-  my $final_limit = ($marginal->{n1p} < $marginal->{np1}) ? $marginal->{n1p} : $marginal->{np1};
 
-  my $n11 = $marginal->{n1p}+$marginal->{np1}-$marginal->{npp};
-  if($n11<0)
+  my $final_limit = ($n1p < $np1) ? $n1p : $np1;
+  my $n11_org = $n11;
+
+  my $n11_start = $n1p + $np1 - $npp;
+  if($n11_start<0)
   {
-    $n11 = 0;
+    $n11_start = 0;
   }
 
-  if( !($probabilities = $self->computeDistribution($observed, $marginal, $n11, $final_limit)))
+  if( !($probabilities = Text::NSP::Measures::2D::Fisher2::computeDistribution($n11_start, $final_limit)))
   {
       return;
   }
@@ -137,9 +137,9 @@ sub calculateStatistic
 
   foreach $value (sort { $a <=> $b } values %$probabilities)
   {
-    if($value > $probabilities->{$observed->{n11}})
+    if($value > $probabilities->{$n11_org})
     {
-      last;
+      next;
     }
     $ttfisher += $value;
   }
@@ -189,7 +189,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: twotailed.pm,v 1.7 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: twotailed.pm,v 1.9 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

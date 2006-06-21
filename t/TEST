@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl -w
+#!/usr/local/bin/perl
 
 use strict;
 
@@ -23,7 +23,7 @@ unshift(@INC, "../blib/lib", "../blib/arch");
 
 $Test::Harness::verbose = shift
   if $ARGV[0] =~ /^\d+$/ || $ARGV[0] eq "-v";
-
+no warnings 'redefine';
 my @testfiles = ( "Text-NSP.t",
                   "Text-NSP-Measures.t",
                   "2D/Text-NSP-Measures-2D.t",

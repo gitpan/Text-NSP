@@ -3,59 +3,35 @@
 
 ##################### We start with some black magic to print on failure.
 
-BEGIN { $| = 1; print "1..13\n"; }
+BEGIN { $| = 1; print "1..12\n"; }
 END {print "not ok 1\n" unless $loaded;}
-use Text::NSP::Measures;
-use Text::NSP::Measures::2D;
-use Text::NSP::Measures::2D::MI;
 use Text::NSP::Measures::2D::MI::ps;
 $loaded = 1;
 print "ok 1\n";
 
 ######################### End of black magic.
 
-############ Create Object for ps
-
-$ps = Text::NSP::Measures::2D::MI::ps->new();
-if($ps)
-{
-    $err = $ps->{errorCodeNumber};
-    if($err)
-    {
-        print "not ok 2\n";
-    }
-    else
-    {
-        print "ok 2\n";
-    }
-}
-else
-{
-    print "not ok 2\n";
-}
-
-
 
 ############ Computing PMI value for some count values.
 
 my @bigram_count = (10, 20, 20,60);
 
-$value = $ps->calculateStatistic(n11 => 10,
+$value = calculateStatistic(n11 => 10,
                                     n1p => 20,
                                     np1 => 20,
                                     npp => 60);
-$err = $ps->getErrorCode();
+$err = getErrorCode();
 if($err)
 {
-    print "not ok 3\n";
+    print "not ok 2\n";
 }
 elsif($value >= -5.94534892 && $value <= -5.94534891)
 {
-    print "ok 3\n";
+    print "ok 2\n";
 }
 else
 {
-    print "not ok 3\n";
+    print "not ok 2\n";
 }
 
 ############Error Code check for missing values
@@ -64,16 +40,16 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $ps->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $ps->getErrorCode();
+$err = getErrorCode();
 if($err == 200)
 {
-  print "ok 4\n";
+  print "ok 3\n";
 }
 else
 {
-  print"not ok 4\n";
+  print"not ok 3\n";
 }
 
 ############Error Code check for missing values
@@ -82,9 +58,26 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $ps->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $ps->getErrorCode();
+$err = getErrorCode();
+if($err == 200)
+{
+  print "ok 4\n";
+}
+else
+{
+  print"not ok 4\n";
+}
+############Error Code check for missing values
+
+%count_values = (n11=>10,
+                 n1p => 20,
+                 np1 => 20);
+
+$value = calculateStatistic(%count_values);
+
+$err = getErrorCode();
 if($err == 200)
 {
   print "ok 5\n";
@@ -93,23 +86,6 @@ else
 {
   print"not ok 5\n";
 }
-############Error Code check for missing values
-
-%count_values = (n11=>10,
-                 n1p => 20,
-                 np1 => 20);
-
-$value = $ps->calculateStatistic(%count_values);
-
-$err = $ps->getErrorCode();
-if($err == 200)
-{
-  print "ok 6\n";
-}
-else
-{
-  print"not ok 6\n";
-}
 ############Error Code check for -ve values
 
 %count_values = (n11 => -10,
@@ -117,10 +93,29 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $ps->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $ps->getErrorCode();
+$err = getErrorCode();
 if($err == 201)
+{
+  print "ok 6\n";
+}
+else
+{
+  print"not ok 6\n";
+}
+
+############Error Code check for -ve values
+
+%count_values = (n11 => 10,
+                 n1p => -20,
+                 np1 => 20,
+                 npp => 60);
+
+$value = calculateStatistic(%count_values);
+
+$err = getErrorCode();
+if($err == 204)
 {
   print "ok 7\n";
 }
@@ -132,13 +127,13 @@ else
 ############Error Code check for -ve values
 
 %count_values = (n11 => 10,
-                 n1p => -20,
+                 n1p => 20,
                  np1 => 20,
-                 npp => 60);
+                 npp => -60);
 
-$value = $ps->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $ps->getErrorCode();
+$err = getErrorCode();
 if($err == 204)
 {
   print "ok 8\n";
@@ -148,17 +143,17 @@ else
   print"not ok 8\n";
 }
 
-############Error Code check for -ve values
+############Error Code check invalid values
 
-%count_values = (n11 => 10,
+%count_values = (n11 => 80,
                  n1p => 20,
                  np1 => 20,
-                 npp => -60);
+                 npp => 60);
 
-$value = $ps->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $ps->getErrorCode();
-if($err == 204)
+$err = getErrorCode();
+if($err == 202)
 {
   print "ok 9\n";
 }
@@ -169,14 +164,14 @@ else
 
 ############Error Code check invalid values
 
-%count_values = (n11 => 80,
+%count_values = (n11 => 30,
                  n1p => 20,
                  np1 => 20,
                  npp => 60);
 
-$value = $ps->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $ps->getErrorCode();
+$err = getErrorCode();
 if($err == 202)
 {
   print "ok 10\n";
@@ -184,25 +179,6 @@ if($err == 202)
 else
 {
   print"not ok 10\n";
-}
-
-############Error Code check invalid values
-
-%count_values = (n11 => 30,
-                 n1p => 20,
-                 np1 => 20,
-                 npp => 60);
-
-$value = $ps->calculateStatistic(%count_values);
-
-$err = $ps->getErrorCode();
-if($err == 202)
-{
-  print "ok 11\n";
-}
-else
-{
-  print"not ok 11\n";
 }
 
 
@@ -213,31 +189,31 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $ps->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $ps->getErrorCode();
+$err = getErrorCode();
 if($err == 203)
 {
-  print "ok 12\n";
+  print "ok 11\n";
 }
 else
 {
-  print"not ok 12\n";
+  print"not ok 11\n";
   print $err;
 }
 
 ############## Checking Error code for -ve observed frequency
 
-$value = $ps->calculateStatistic(n11 => 10,
+$value = calculateStatistic(n11 => 10,
                                     n1p => 20,
                                     np1 => 11,
                                     npp => 20);
-$err = $ps->getErrorCode();
+$err = getErrorCode();
 if($err==201)
 {
-    print "ok 13\n";
+    print "ok 12\n";
 }
 else
 {
-    print "not ok 13\n";
+    print "not ok 12\n";
 }

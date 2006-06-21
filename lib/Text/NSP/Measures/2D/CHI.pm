@@ -10,23 +10,20 @@ Text::NSP::Measures::2D::CHI - Perl module that provides error checks
 
   use Text::NSP::Measures::2D::CHI::x2;
 
-  my $x2 = Text::NSP::Measures::2D::CHI::x2->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $x2_value = $x2->calculateStatistic( n11=>$n11,
+  $x2_value = calculateStatistic( n11=>$n11,
                                       n1p=>$n1p,
                                       np1=>$np1,
                                       npp=>$npp);
 
-
-  if( ($errorCode = $x2->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$x2->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $x2->getStatisticName."value for bigram is ".$x2_value;
+    print getStatisticName."value for bigram is ".$x2_value."\n"";
   }
 
 =head1 DESCRIPTION
@@ -74,16 +71,22 @@ use Text::NSP::Measures::2D;
 use strict;
 use Carp;
 use warnings;
+# use subs(calculateStatistic);
 require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::2D);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName
+             $n11 $n12 $n21 $n22 $m11 $m12 $m21 $m22
+             $npp $np1 $np2 $n2p $n1p $errorCodeNumber
+             $errorMessage);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
-=item calculateStatistic() - This method calls the
+=item getValues() - This method calls the computeMarginalTotals(),
 computeObservedValues() and the computeExpectedValues() methods to
 compute the observed and expected values. It checks thes values for
 any errors that might cause the PHI and x2 measures to fail.
@@ -92,62 +95,67 @@ INPUT PARAMS  : $count_values           .. Reference of an hash containing
                                            the count values computed by the
                                            count.pl program.
 
-RETURN VALUES : $observed, $expected    .. Observed and expected values for the
-                                           given counts.
+RETURN VALUES : 1/undef           ..returns '1' to indicate success
+                                    and an undefined(NULL) value to indicate
+                                    faliure.
 
 =cut
 
-sub calculateStatistic
+sub getValues
 {
-  my ($self,$values)=@_;
+  my ($values)=@_;
 
-  my $observed;
-  my $expected;
+  if(!(Text::NSP::Measures::2D::computeMarginalTotals($values)) ) {
+    return;
+  }
 
-  if( !($observed = $self->computeObservedValues($values)) ) {
+  if( !(Text::NSP::Measures::2D::computeObservedValues($values)) ) {
       return;
   }
 
-  if( !($expected  = $self->computeExpectedValues($values)) ) {
+  if( !(Text::NSP::Measures::2D::computeExpectedValues($values)) ) {
       return;
   }
 
   # dont want ($nxy / $mxy) to be 0 or less! flag error if so and return;
-  if ( $observed->{n11} )
+  if ( $n11 )
   {
-    if ($expected->{m11} == 0)
+    if ($m11 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (1,1) must not be zero";
-      $self->{errorCodeNumber} = 221;
+      $errorMessage = "Expected value in cell (1,1) must not be zero";
+      $errorCodeNumber = 221;
       return;
     }
   }
-  if ( $observed->{n12} )
+  if ( $n12 )
   {
-    if ($expected->{m12} == 0)
+    if ($m12 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (1,2) must not be zero";
-      $self->{errorCodeNumber} = 221;         return;
+      $errorMessage = "Expected value in cell (1,2) must not be zero";
+      $errorCodeNumber = 221;
+      return;
     }
   }
-  if ( $observed->{n21} )
+  if ( $n21 )
   {
-    if ($expected->{m21} == 0)
+    if ($m21 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (2,1) must not be zero";
-      $self->{errorCodeNumber} = 221;     return;
+      $errorMessage = "Expected value in cell (2,1) must not be zero";
+      $errorCodeNumber = 221;
+      return;
     }
   }
-  if ( $observed->{n22} )
+  if ( $n22 )
   {
-    if ($expected->{m22} == 0)
+    if ($m22 == 0)
     {
-      $self->{errorMessage} = "Expected value in cell (2,2) must not be zero";
-      $self->{errorCodeNumber} = 221;     return;
+      $errorMessage = "Expected value in cell (2,2) must not be zero";
+      $errorCodeNumber = 221;
+      return;
     }
   }
-  #  Everything looks good so we can return the expected values
-  return $observed,$expected;
+  #  Everything looks good so we can return 1
+  return 1;
 }
 
 
@@ -167,7 +175,6 @@ RETURN VALUES : (n-m)^2/m  ..the log of the ratio of
 
 sub computeVal
 {
-  my $self = shift;
   my $n = shift;
   my $m = shift;
   return (($n-$m)**2)/$m;
@@ -200,7 +207,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: CHI.pm,v 1.8 2006/06/17 18:03:19 saiyam_kohli Exp $
+Last updated: $Id: CHI.pm,v 1.11 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

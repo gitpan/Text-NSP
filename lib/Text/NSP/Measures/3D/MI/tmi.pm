@@ -9,24 +9,22 @@ Text::NSP::Measures::3D::MI::tmi - Perl implementation for True Mutual
 
   use Text::NSP::Measures::3D::MI::tmi;
 
-  my $tmi = Text::NSP::Measures::3D::MI::tmi->new();
+  $tmi_value = calculateStatistic( n111=>10,
+                                  n1pp=>40,
+                                  np1p=>45,
+                                  npp1=>42,
+                                  n11p=>20,
+                                  n1p1=>23,
+                                  np11=>21,
+                                  nppp=>100);
 
-  $tmi_value = $tmi->calculateStatistic( n111=>10,
-                                         n1pp=>40,
-                                         np1p=>45,
-                                         npp1=>42,
-                                         n11p=>20,
-                                         n1p1=>23,
-                                         np11=>21,
-                                         nppp=>100);
-
-  if( ($errorCode = $tmi->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$tmi->getErrorMessage();
+    print STDERR $erroCode." - ".getErrorMessage()."\n";
   }
   else
   {
-    print $tmi->getStatisticName."value for bigram is ".$tmi_value;
+    print getStatisticName."value for bigram is ".$tmi_value."\n";
   }
 
 =head1 DESCRIPTION
@@ -64,13 +62,17 @@ use Text::NSP::Measures::3D::MI;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::3D::MI);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 
 =item calculateStatistic($count_values) - This method calculates
@@ -83,19 +85,15 @@ INPUT PARAMS  : $count_values   .. Reference of an hash containing
 RETURN VALUES : $tmi            .. TMI value for this trigram.
 
 =cut
+
 sub calculateStatistic
 {
-
-  my $self = shift;
   my %values = @_;
-
-  my $observed;
-  my $expected;
 
   # computes and returns the observed and expected values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !(($observed, $expected) = $self->SUPER::calculateStatistic(\%values)) ) {
+  if( !(Text::NSP::Measures::3D::MI::getValues(\%values)) ) {
     return(0);
   }
 
@@ -105,16 +103,14 @@ sub calculateStatistic
   my $tmi = 0;
 
   # dont want ($nxy / $mxy) to be 0 or less! flag error if so!
-  $tmi += $observed->{n111}/$values{nppp} * $self->computePMI( $observed->{n111}, $expected->{m111} )/ log 2;
-  $tmi += $observed->{n112}/$values{nppp} * $self->computePMI( $observed->{n112}, $expected->{m112} )/ log 2;
-  $tmi += $observed->{n121}/$values{nppp} * $self->computePMI( $observed->{n121}, $expected->{m121} )/ log 2;
-  $tmi += $observed->{n122}/$values{nppp} * $self->computePMI( $observed->{n122}, $expected->{m122} )/ log 2;
-  $tmi += $observed->{n211}/$values{nppp} * $self->computePMI( $observed->{n211}, $expected->{m211} )/ log 2;
-  $tmi += $observed->{n212}/$values{nppp} * $self->computePMI( $observed->{n212}, $expected->{m212} )/ log 2;
-  $tmi += $observed->{n221}/$values{nppp} * $self->computePMI( $observed->{n221}, $expected->{m221} )/ log 2;
-  $tmi += $observed->{n222}/$values{nppp} * $self->computePMI( $observed->{n222}, $expected->{m222} )/ log 2;
-
-  $Text::NSP::Measures::3D::marginals = undef;
+  $tmi += $n111/$nppp * Text::NSP::Measures::3D::MI::computePMI( $n111, $m111 )/ log 2;
+  $tmi += $n112/$nppp * Text::NSP::Measures::3D::MI::computePMI( $n112, $m112 )/ log 2;
+  $tmi += $n121/$nppp * Text::NSP::Measures::3D::MI::computePMI( $n121, $m121 )/ log 2;
+  $tmi += $n122/$nppp * Text::NSP::Measures::3D::MI::computePMI( $n122, $m122 )/ log 2;
+  $tmi += $n211/$nppp * Text::NSP::Measures::3D::MI::computePMI( $n211, $m211 )/ log 2;
+  $tmi += $n212/$nppp * Text::NSP::Measures::3D::MI::computePMI( $n212, $m212 )/ log 2;
+  $tmi += $n221/$nppp * Text::NSP::Measures::3D::MI::computePMI( $n221, $m221 )/ log 2;
+  $tmi += $n222/$nppp * Text::NSP::Measures::3D::MI::computePMI( $n222, $m222 )/ log 2;
 
   return ($tmi);
 }
@@ -127,9 +123,10 @@ INPUT PARAMS  : none
 RETURN VALUES : $name      .. Name of the measure.
 
 =cut
+
 sub getStatisticName
 {
-    return "Total Mutual Information";
+    return "True Mutual Information";
 }
 
 
@@ -137,6 +134,7 @@ sub getStatisticName
 1;
 __END__
 
+=back
 
 =head1 AUTHOR
 
@@ -157,7 +155,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: tmi.pm,v 1.8 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: tmi.pm,v 1.10 2006/06/21 11:10:53 saiyam_kohli Exp $
 
 =head1 BUGS
 

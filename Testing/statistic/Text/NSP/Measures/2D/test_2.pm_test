@@ -1,52 +1,22 @@
 package Text::NSP::Measures::2D::test_2;
 use Text::NSP::Measures::2D;
 use strict;
+use Carp;
+use warnings;
+no warnings 'redefine';
+require Exporter;
 
-our ($VERSION, @ISA);
+our ($VERSION, @EXPORT, @ISA);
 
-@ISA = qw(Text::NSP::Measures::2D);
+@ISA  = qw(Exporter);
 
-sub new
-{
-  my $class = shift;
-  my $this = {};
-
-  $class = ref $class || $class;
-
-  $this->{errorMessage} = '';
-  $this->{errorCodeNumber} = 0;
-  $this->{traceOutput} = '';
-  if ($class eq 'Text::NSP::Measures::2D::MI')
-  {
-    $this->{errorMessage} .= "\nError (${class}::new()) - ";
-    $this->{errorMessage} .= "This class is intended to be an abstract base class.";
-    $this->{errorMessage} .= "Your class should override it.";
-    $this->{errorCodeNumber} = 100;
-  }
-  elsif ($class eq 'Text::NSP::Measures::2D::CHI')
-  {
-    $this->{errorMessage} .= "\nError (${class}::new()) - ";
-    $this->{errorMessage} .= "This class is intended to be an abstract base class.";
-    $this->{errorMessage} .= "Your class should override it.";
-    $this->{errorCodeNumber} = 100;
-  }
-  elsif ($class eq 'Text::NSP::Measures::2D::Fisher')
-  {
-    $this->{errorMessage} .= "\nError (${class}::new()) - ";
-    $this->{errorMessage} .= "This class is intended to be an abstract base class.";
-    $this->{errorMessage} .= "Your class should override it.";
-    $this->{errorCodeNumber} = 100;
-  }
-  bless $this, $class;
-  return $this;
-}
-
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
 sub initializeStatistic {}
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
   my $number=0;
   my $NewMeasure=0;
@@ -64,6 +34,6 @@ sub calculateStatistic
 }
 
 1;
-
+__END__
 
 

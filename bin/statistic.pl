@@ -35,7 +35,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: statistic.pl,v 1.17 2006/06/15 00:25:32 saiyam_kohli Exp $
+Last updated: $Id: statistic.pl,v 1.18 2006/06/20 22:47:39 saiyam_kohli Exp $
 
 =head1 BUGS
 
@@ -332,6 +332,13 @@ if($statistic =~ /::/)
   $includename = File::Spec->catfile(@statComponents);
   $usename = $statistic;
 }
+# else
+# {
+#   foreach $dir (@INC)
+#   {
+#
+#   }
+# }
 elsif($statistic eq "ll"||$statistic eq "pmi" || $statistic eq "tmi"
       || $statistic eq "ps")
 {
@@ -439,21 +446,20 @@ else
   }
 }
 
-#Create the object for the measure
 require $includename;
 #import $usename;
-my $measure = $usename->new();
+import $usename;
 
 if($statistic eq 'pmi')
 {
   if(defined $opt_pmi_exp)
   {
-    $measure->initializeStatistic($opt_pmi_exp);
+    initializeStatistic($opt_pmi_exp);
   }
 }
 else
 {
-  $measure->initializeStatistic();
+  initializeStatistic();
   if(defined $opt_pmi_exp)
   {
     print STDERR "The --pmi_exp parameter is not valid for the selected measure.\n";
@@ -652,22 +658,22 @@ while(<SRC>)
     # ---------------
 
     # calculate the statistic and create the statistic hash.
-    my $statisticValue = $measure->calculateStatistic(%values); # function implemented by stat library
+    my $statisticValue = calculateStatistic(%values); # function implemented by stat library
     my $errorMessage='';
     # check for errors/warnings
-    if( ($errorCode = $measure->getErrorCode()))
+    if( ($errorCode = getErrorCode()))
     {
       if ($errorCode =~ /^1/) # error!
       {
         printf(STDERR "Error from statistic library!\n  Error code: %d\n", $errorCode);
-        $errorMessage = $measure->getErrorMessage();
+        $errorMessage = getErrorMessage();
         print STDERR "  Error message: $errorMessage\n" if( $errorMessage ne "");
         exit; # exit on error
       }
       if ($errorCode =~ /^2/) # warning!
       {
         printf(STDERR "Warning from statistic library!\n  Warning code: %d\n", $errorCode);
-        $errorMessage = $measure->getErrorMessage();
+        $errorMessage = getErrorMessage();
         print STDERR "  Warning message: $errorMessage\n" if( $errorMessage ne "");
         print STDERR "Skipping ngram $ngramString\n";
         next; # if warning, dont save the statistic value just computed
@@ -726,7 +732,11 @@ if($totalNgramCount > $totalNgrams)
 
 # but first print out some @ data if -extended is chosen
 
-$statisticName = (defined &getStatisticName) ? getStatisticName() : "$statistic";
+$statisticName = getStatisticName();
+if(!defined $statisticName)
+{
+  $statisticName =  $statistic;
+}
 
 if ( defined $opt_extended )
 {

@@ -9,22 +9,20 @@ Text::NSP::Measures::2D::Fisher - Perl module that provides methods
 
   use Text::NSP::Measures::2D::Fisher::left;
 
-  my $leftFisher = Text::NSP::Measures::2D::Fisher::left->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $leftFisher_value = $leftFisher->calculateStatistic( n11=>$n11,
-                                                       n1p=>$n1p,
-                                                       np1=>$np1,
-                                                       npp=>$npp);
+  $left_value = calculateStatistic( n11=>$n11,
+                                      n1p=>$n1p,
+                                      np1=>$np1,
+                                      npp=>$npp);
 
-  if( ($errorCode = $leftFisher->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$leftFisher->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage();
   }
   else
   {
-    print $leftFisher->getStatisticName."value for bigram is ".$leftFisher_value;
+    print getStatisticName."value for bigram is ".$left_value;
   }
 
 
@@ -85,16 +83,23 @@ use Text::NSP::Measures::2D;
 use strict;
 use Carp;
 use warnings;
+# use subs(calculateStatistic);
+require Exporter;
+
+our ($VERSION, @EXPORT, @ISA);
+
+@ISA  = qw(Exporter);
+
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName
+             $n11 $n12 $n21 $n22 $m11 $m12 $m21 $m22
+             $npp $np1 $np2 $n2p $n1p $errorCodeNumber
+             $errorMessage);
+
+$VERSION = '0.97';
 
 
-our ($VERSION, @ISA);
-
-@ISA = qw(Text::NSP::Measures::2D);
-
-$VERSION = '0.95';
-
-
-=item calculateStatistic() -This method calls the
+=item getValues() -This method calls the
 computeObservedValues() and the computeExpectedValues() methods to
 compute the observed and marginal total values. It checks thes values
 for any errors that might cause the Fishers Exact test measures to
@@ -104,41 +109,38 @@ INPUT PARAMS  : $count_values       .. Reference of an array containing
                                        the count values computed by the
                                        count.pl program.
 
-RETURN VALUES : $observed           .. Observed contingency table counts.
+RETURN VALUES : 1/undef           ..returns '1' to indicate success
+                                    and an undefined(NULL) value to indicate
+                                    faliure.
 
 =cut
 
-sub calculateStatistic
+sub getValues
 {
-  my $self = shift;
   my $values = shift;
 
-  my $observed;
+  # computes and returns the marginal totals from the frequency
+  # combination values. returns undef if there is an error in
+  # the computation or the values are inconsistent.
+  if(!(Text::NSP::Measures::2D::computeMarginalTotals($values)) ){
+    return;
+  }
 
   # computes and returns the observed and marginal values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !($observed = $self->computeObservedValues($values)) ) {
+  if( !(Text::NSP::Measures::2D::computeObservedValues($values)) ) {
       return;
   }
 
-  if(!defined $Text::NSP::Measures::2D::marginals)
-  {
-    if( !($Text::NSP::Measures::2D::marginals = $self->computeMarginalTotals($values)))
-    {
-      return;
-    }
-  }
-
-  return($observed);
+  return 1;
 }
 
 
-=item calculateDistribution() - This method calculates the ll value
+=item computeDistribution() - This method calculates the probabilities
+                              for all the possible tables
 
-INPUT PARAMS  : $observed           .. Observed contingency table counts.
-                $marginal           .. Marginal totals for the cobtingency tables
-                $n11_start          .. the value for the cell 1,1 in the first contingency
+INPUT PARAMS  : $n11_start          .. the value for the cell 1,1 in the first contingency
                                        table
                 $final_limit        .. the value of cell 1,1 in the last contingency table
                                        for which we have to compute the probability.
@@ -151,24 +153,8 @@ RETURN VALUES : $probability        .. Reference to a hash containg hypergeometr
 
 sub computeDistribution
 {
-  my $self = shift @_;
-  my $observed = shift @_;
-  my $marginal = shift @_;
   my $n11_start = shift @_;
   my $final_limit = shift @_;
-
-  # initialize the observed values variables.
-  my $n11 = $observed->{n11};
-  my $n12 = $observed->{n12};
-  my $n21 = $observed->{n21};
-  my $n22 = $observed->{n22};
-
-  # initialize the marginal total values variables.
-  my $npp = $marginal->{npp};
-  my $n1p = $marginal->{n1p};
-  my $np1 = $marginal->{np1};
-  my $n2p = $marginal->{n2p};
-  my $np2 = $marginal->{np2};
 
   # first sort the numerator array in the descending order.
   my @numerator = sort { $b <=> $a } ($n1p, $np1, $n2p, $np2);
@@ -250,7 +236,7 @@ sub computeDistribution
   $dLimits[$dIndex+1] = $denominator[4];
 
   # since, all the variables have been initialized, we start the computations.
-  $product = $self->computeHyperGeometric(\@dLimits, \@nLimits);
+  $product = computeHyperGeometric(\@dLimits, \@nLimits);
   $probability{$i} = $product;
   $prob = $probability{$i};
 
@@ -284,10 +270,8 @@ sub computeDistribution
 
 
 
-
 sub computeHyperGeometric
 {
-  my $self = shift @_;
   my $dLimits = shift @_;
   my $nLimits = shift @_;
   my $product = 0;
@@ -345,7 +329,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: Fisher.pm,v 1.18 2006/06/17 18:03:19 saiyam_kohli Exp $
+Last updated: $Id: Fisher.pm,v 1.20 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

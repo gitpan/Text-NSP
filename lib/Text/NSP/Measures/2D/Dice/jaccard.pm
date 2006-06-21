@@ -9,22 +9,20 @@ Text::NSP::Measures::2D::Dice::jaccard - Perl module that implements
 
   use Text::NSP::Measures::2D::Dice::jaccard;
 
-  my $jaccard = Text::NSP::Measures::2D::Dice::jaccard->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $jaccard_value = $jaccard->calculateStatistic( n11=>$n11,
+  $jaccard_value = calculateStatistic( n11=>$n11,
                                       n1p=>$n1p,
                                       np1=>$np1,
                                       npp=>$npp);
 
-  if( ($errorCode = $jaccard->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$jaccard->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $jaccard->getStatisticName."value for bigram is ".$jaccard_value;
+    print getStatisticName."value for bigram is ".$jaccard_value."\n"";
   }
 
 
@@ -73,13 +71,17 @@ use Text::NSP::Measures::2D::Dice;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::2D::Dice);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 
 =item calculateStatistic() - method to calculate the jaccard coefficient value
@@ -94,13 +96,15 @@ RETURN VALUES : $jaccard            .. Jaccard Coefficient value for this bigram
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
   my $dice;
   my $jaccard;
 
   #compute the dice coefficient
-  $dice = $self->SUPER::calculateStatistic(\%values);
+  if( !($dice = Text::NSP::Measures::2D::Dice::computeVal(\%values)) )
+  {
+    return;
+  }
 
   #compute the jaccard coefficient from the dice coefficient
   $jaccard = $dice/(2-$dice);
@@ -120,7 +124,6 @@ RETURN VALUES : $name      .. Name of the measure.
 
 sub getStatisticName
 {
-  my ($self)=@_;
   return "Jaccard Coefficient";
 }
 
@@ -151,7 +154,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: jaccard.pm,v 1.6 2006/06/17 18:03:22 saiyam_kohli Exp $
+Last updated: $Id: jaccard.pm,v 1.8 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

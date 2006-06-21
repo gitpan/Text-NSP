@@ -7,26 +7,23 @@ Text::NSP::Measures::2D::Fisher2 - Perl module that provides methods
 
 =head3 Basic Usage
 
-  use Text::NSP::Measures::2D::Fisher::left;
-
-  my $leftFisher = Text::NSP::Measures::2D::Fisher::left->new();
+  use Text::NSP::Measures::2D::Fisher2::left;
 
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $leftFisher_value = $leftFisher->calculateStatistic( n11=>$n11,
-                                                       n1p=>$n1p,
-                                                       np1=>$np1,
-                                                       npp=>$npp);
+  $left_value = calculateStatistic( n11=>$n11,
+                                      n1p=>$n1p,
+                                      np1=>$np1,
+                                      npp=>$npp);
 
-  if( ($errorCode = $leftFisher->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$leftFisher->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage();
   }
   else
   {
-    print $leftFisher->getStatisticName."value for bigram is ".$leftFisher_value;
+    print getStatisticName."value for bigram is ".$left_value;
   }
-
 
 =head1 DESCRIPTION
 
@@ -101,75 +98,77 @@ use Text::NSP::Measures::2D;
 use strict;
 use Carp;
 use warnings;
+# use subs(calculateStatistic);
+require Exporter;
+
+our ($VERSION, @EXPORT, @ISA);
+
+@ISA  = qw(Exporter);
+
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName
+             $n11 $n12 $n21 $n22 $m11 $m12 $m21 $m22
+             $npp $np1 $np2 $n2p $n1p $errorCodeNumber
+             $errorMessage);
+
+$VERSION = '0.97';
 
 
-our ($VERSION, @ISA);
-
-@ISA = qw(Text::NSP::Measures::2D);
-
-$VERSION = '0.95';
-
-
-=item calculateStatistic()
-
-This method calculates the ll value
+=item getValues() -This method calls the
+computeObservedValues() and the computeExpectedValues() methods to
+compute the observed and marginal total values. It checks thes values
+for any errors that might cause the Fishers Exact test measures to
+fail.
 
 INPUT PARAMS  : $count_values       .. Reference of an array containing
                                        the count values computed by the
                                        count.pl program.
 
-RETURN VALUES : $observed           .. Observed contingency table counts.
-                $marginal           .. Marginal totals for the cobtingency tables
-                $probability        .. Reference to a hash containg hypergeometric
-                                       probabilities for all the possible contingency
-                                       tables
+RETURN VALUES : 1/undef           ..returns '1' to indicate success
+                                    and an undefined(NULL) value to indicate
+                                    faliure.
 
 =cut
-sub calculateStatistic
+
+sub getValues
 {
-  my $self = shift;
   my $values = shift;
 
-  my $observed;
-  my $marginal;
+  # computes and returns the marginal totals from the frequency
+  # combination values. returns undef if there is an error in
+  # the computation or the values are inconsistent.
+  if(!(Text::NSP::Measures::2D::computeMarginalTotals($values)) ){
+    return;
+  }
 
   # computes and returns the observed and marginal values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !($observed = $self->computeObservedValues($values)) ) {
+  if( !(Text::NSP::Measures::2D::computeObservedValues($values)) ) {
       return;
   }
 
-  if( !($marginal = $self->computeMarginalTotals($values)) ) {
-      return;
-  }
-
-  my @values = ($observed,$marginal);
-
-  return(@values);
+  return 1;
 }
 
+=item computeDistribution() - This method calculates the probabilities
+                              for all the possible tables
+
+INPUT PARAMS  : $n11_start          .. the value for the cell 1,1 in the first contingency
+                                       table
+                $final_limit        .. the value of cell 1,1 in the last contingency table
+                                       for which we have to compute the probability.
+
+RETURN VALUES : $probability        .. Reference to a hash containg hypergeometric
+                                       probabilities for all the possible contingency
+                                       tables
+
+=cut
 
 sub computeDistribution
 {
-  my $self = shift @_;
-  my $observed = shift @_;
-  my $marginal = shift @_;
   my $n11_start = shift @_;
   my $final_limit = shift @_;
-
-  # initialize the observed values variables.
-  my $n11 = $observed->{n11};
-  my $n12 = $observed->{n12};
-  my $n21 = $observed->{n21};
-  my $n22 = $observed->{n22};
-
-  # initialize the marginal total values variables.
-  my $npp = $marginal->{npp};
-  my $n1p = $marginal->{n1p};
-  my $np1 = $marginal->{np1};
-  my $n2p = $marginal->{n2p};
-  my $np2 = $marginal->{np2};
 
   # declare some temporary variables for use in loops and computing the values.
   my $i;
@@ -201,7 +200,7 @@ sub computeDistribution
     $n22 = $n2p - $n21;
 
     # since, all the variables have been initialized, we start the computations.
-    $probability{$i} = $self->computeHyperGeometric($i,$n12,$n21,$n22,$npp,$n1p,$np1,$n2p,$np2);
+    $probability{$i} = computeHyperGeometric($i,$n12,$n21,$n22);
   }
   return (\%probability);
 }
@@ -209,16 +208,10 @@ sub computeDistribution
 
 sub computeHyperGeometric
 {
-  my $self = shift @_;
   my $n11 = shift @_;
   my $n12 = shift @_;
   my $n21 = shift @_;
   my $n22 = shift @_;
-  my $npp = shift @_;
-  my $np1 = shift @_;
-  my $n1p = shift @_;
-  my $n2p = shift @_;
-  my $np2 = shift @_;
 
   # declare some temporary variables for use in loops and computing the values.
   my $j=0;
@@ -323,6 +316,8 @@ sub computeHyperGeometric
 __END__
 
 
+=back
+
 =head1 AUTHOR
 
 Ted Pedersen,                University of Minnesota Duluth
@@ -342,7 +337,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: Fisher2.pm,v 1.8 2006/06/17 18:03:19 saiyam_kohli Exp $
+Last updated: $Id: Fisher2.pm,v 1.10 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

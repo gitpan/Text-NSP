@@ -5,45 +5,23 @@
 
 BEGIN { $| = 1; print "1..13\n"; }
 END {print "not ok 1\n" unless $loaded;}
-use Text::NSP::Measures;
-use Text::NSP::Measures::2D;
 use Text::NSP::Measures::2D::Dice::jaccard;
 $loaded = 1;
 print "ok 1\n";
+print "ok 2\n";
 
 ######################### End of black magic.
-
-############ Create Object for jaccard
-
-$jaccard = Text::NSP::Measures::2D::Dice::jaccard->new();
-if($jaccard)
-{
-    $err = $jaccard->{errorCodeNumber};
-    if($err)
-    {
-        print "not ok 2\n";
-    }
-    else
-    {
-        print "ok 2\n";
-    }
-}
-else
-{
-    print "not ok 2\n";
-}
-
 
 
 ############ Computing jaccard value for some count values.
 
 my @bigram_count = (10, 20, 20,60);
 
-$jaccard_value = $jaccard->calculateStatistic(n11 => 10,
+$jaccard_value = calculateStatistic(n11 => 10,
                                     n1p => 20,
                                     np1 => 20,
                                     npp => 60);
-$err = $jaccard->getErrorCode();
+$err = getErrorCode();
 if($err)
 {
     print "not ok 3\n";
@@ -63,9 +41,9 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $jaccard->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $jaccard->getErrorCode();
+$err = getErrorCode();
 if($err == 200)
 {
   print "ok 4\n";
@@ -81,9 +59,9 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $jaccard->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $jaccard->getErrorCode();
+$err = getErrorCode();
 if($err == 200)
 {
   print "ok 5\n";
@@ -98,9 +76,9 @@ else
                  n1p => 20,
                  np1 => 20);
 
-$value = $jaccard->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $jaccard->getErrorCode();
+$err = getErrorCode();
 if($err == 200)
 {
   print "ok 6\n";
@@ -116,9 +94,9 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $jaccard->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $jaccard->getErrorCode();
+$err = getErrorCode();
 if($err == 201)
 {
   print "ok 7\n";
@@ -135,9 +113,9 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $jaccard->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $jaccard->getErrorCode();
+$err = getErrorCode();
 if($err == 204)
 {
   print "ok 8\n";
@@ -154,9 +132,9 @@ else
                  np1 => 20,
                  npp => -60);
 
-$value = $jaccard->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $jaccard->getErrorCode();
+$err = getErrorCode();
 if($err == 204)
 {
   print "ok 9\n";
@@ -173,9 +151,9 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $jaccard->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $jaccard->getErrorCode();
+$err = getErrorCode();
 if($err == 202)
 {
   print "ok 10\n";
@@ -192,9 +170,9 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $jaccard->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $jaccard->getErrorCode();
+$err = getErrorCode();
 if($err == 202)
 {
   print "ok 11\n";
@@ -212,9 +190,9 @@ else
                  np1 => 20,
                  npp => 60);
 
-$value = $jaccard->calculateStatistic(%count_values);
+$value = calculateStatistic(%count_values);
 
-$err = $jaccard->getErrorCode();
+$err = getErrorCode();
 if($err == 203)
 {
   print "ok 12\n";
@@ -227,11 +205,11 @@ else
 
 ############## Checking Error code for -ve observed frequency
 
-$value = $jaccard->calculateStatistic(n11 => 10,
+$value = calculateStatistic(n11 => 10,
                                     n1p => 20,
                                     np1 => 11,
                                     npp => 20);
-$err = $jaccard->getErrorCode();
+$err = getErrorCode();
 if($err==201)
 {
     print "ok 13\n";

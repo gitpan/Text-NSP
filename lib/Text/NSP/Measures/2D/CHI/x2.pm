@@ -10,24 +10,21 @@ Text::NSP::Measures::2D::CHI::x2  - Perl module that implements Pearson's
 
   use Text::NSP::Measures::2D::CHI::x2;
 
-  my $x2 = Text::NSP::Measures::2D::CHI::x2->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $x2_value = $x2->calculateStatistic( n11=>$n11,
+  $x2_value = calculateStatistic( n11=>$n11,
                                       n1p=>$n1p,
                                       np1=>$np1,
                                       npp=>$npp);
 
-  if( ($errorCode = $x2->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$x2->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $x2->getStatisticName."value for bigram is ".$x2_value;
+    print getStatisticName."value for bigram is ".$x2_value."\n"";
   }
-
 
 =head1 DESCRIPTION
 
@@ -78,13 +75,17 @@ use Text::NSP::Measures::2D::CHI;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::2D::CHI);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 
 =item calculateStatistic() - method to calculate the Chi-squared value.
@@ -99,27 +100,21 @@ RETURN VALUES : $x2                .. x2 value for this bigram.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
-
-  my $observed;
-  my $expected;
 
   # computes and returns the observed and expected values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !(($observed, $expected) = $self->SUPER::calculateStatistic(\%values)) ) {
+  if( !(Text::NSP::Measures::2D::CHI::getValues(\%values)) ) {
     return;
   }
   #  Now calculate the xsquare
   my $Xsquare = 0;
 
-  $Xsquare += $self->computeVal($observed->{n11}, $expected->{m11});
-  $Xsquare += $self->computeVal($observed->{n12}, $expected->{m12});
-  $Xsquare += $self->computeVal($observed->{n21}, $expected->{m21});
-  $Xsquare += $self->computeVal($observed->{n22}, $expected->{m22});
-
-  $Text::NSP::Measures::2D::marginals = undef;
+  $Xsquare += Text::NSP::Measures::2D::CHI::computeVal($n11, $m11);
+  $Xsquare += Text::NSP::Measures::2D::CHI::computeVal($n12, $m12);
+  $Xsquare += Text::NSP::Measures::2D::CHI::computeVal($n21, $m21);
+  $Xsquare += Text::NSP::Measures::2D::CHI::computeVal($n22, $m22);
 
   return $Xsquare;
 }
@@ -136,7 +131,6 @@ RETURN VALUES : $name      .. Name of the measure.
 
 sub getStatisticName
 {
-  my ($self)=@_;
   return "Chi-squared test";
 }
 
@@ -167,7 +161,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: x2.pm,v 1.8 2006/06/17 18:03:19 saiyam_kohli Exp $
+Last updated: $Id: x2.pm,v 1.10 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

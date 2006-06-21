@@ -10,22 +10,20 @@ Text::NSP::Measures::2D::Dice  - Perl module that provides the
 
   use Text::NSP::Measures::2D::Dice::dice;
 
-  my $dice = Text::NSP::Measures::2D::Dice::dice->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $dice_value = $dice->calculateStatistic( n11=>$n11,
+  $dice_value = calculateStatistic( n11=>$n11,
                                       n1p=>$n1p,
                                       np1=>$np1,
                                       npp=>$npp);
 
-  if( ($errorCode = $dice->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$dice->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $dice->getStatisticName."value for bigram is ".$dice_value;
+    print getStatisticName."value for bigram is ".$dice_value."\n"";
   }
 
 
@@ -75,15 +73,19 @@ use Text::NSP::Measures::2D;
 use strict;
 use Carp;
 use warnings;
+# use subs(calculateStatistic);
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::2D);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
-=item calculateStatistic() - method to calculate the dice coefficient value
+=item computeVal() - method to calculate the dice coefficient value
 
 INPUT PARAMS  : $count_values       .. Reference of an hash containing
                                        the count values computed by the
@@ -93,32 +95,25 @@ RETURN VALUES : $dice               .. Dice Coefficient value for this bigram.
 
 =cut
 
-sub calculateStatistic
+sub computeVal
 {
-  my $self = shift;
   my $values = shift;
-  my $observed;
+
+  # computes and returns the marginal totals from the frequency
+  # combination values. returns undef if there is an error in
+  # the computation or the values are inconsistent.
+  if(!(Text::NSP::Measures::2D::computeMarginalTotals($values)) ){
+    return;
+  }
 
   # computes and returns the observed from the frequency
-  # combination values. returns 0 if there is an error in
+  # combination values. returns undef if there is an error in
   # the computation or the values are inconsistent.
-  if( !($observed = $self->computeObservedValues($values)) ) {
-      return(0);
-  }
-
-  if(!defined $Text::NSP::Measures::2D::marginals)
-  {
-    if( !($Text::NSP::Measures::2D::marginals = $self->computeMarginalTotals($values)))
-    {
+  if( !(Text::NSP::Measures::2D::computeObservedValues($values)) ) {
       return;
-    }
   }
 
-  my $marginal = $Text::NSP::Measures::2D::marginals;
-
-  my $dice = 2 * $observed->{n11} / ($marginal->{n1p} + $marginal->{np1});
-
-  $Text::NSP::Measures::2D::marginals = undef;
+  my $dice = 2 * $n11 / ($n1p + $np1);
 
   return ($dice);
 }
@@ -151,7 +146,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: Dice.pm,v 1.4 2006/06/17 18:03:19 saiyam_kohli Exp $
+Last updated: $Id: Dice.pm,v 1.6 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

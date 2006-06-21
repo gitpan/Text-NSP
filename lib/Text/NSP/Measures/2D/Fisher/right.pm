@@ -9,22 +9,20 @@ Text::NSP::Measures::2D::Fisher::right - Perl module implementation of the right
 
   use Text::NSP::Measures::2D::Fisher::right;
 
-  my $rightFisher = Text::NSP::Measures::2D::Fisher::right->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $rightFisher_value = $rightFisher->calculateStatistic( n11=>$n11,
-                                                       n1p=>$n1p,
-                                                       np1=>$np1,
-                                                       npp=>$npp);
+  $right_value = calculateStatistic( n11=>$n11,
+                                      n1p=>$n1p,
+                                      np1=>$np1,
+                                      npp=>$npp);
 
-  if( ($errorCode = $rightFisher->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$rightFisher->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage();
   }
   else
   {
-    print $rightFisher->getStatisticName."value for bigram is ".$rightFisher_value;
+    print getStatisticName."value for bigram is ".$right_value;
   }
 
 
@@ -70,13 +68,17 @@ use Text::NSP::Measures::2D::Fisher;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::2D::Fisher);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 
 =item calculateStatistic() - This method calculates the right Fisher value
@@ -91,37 +93,35 @@ RETURN VALUES : $right              .. Right Fisher value.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
 
-  my $observed;
   my $probabilities;
   my $left_flag = 0;
 
   # computes and returns the observed and marginal values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !($observed = $self->SUPER::calculateStatistic(\%values)) )
+  if( !(Text::NSP::Measures::2D::Fisher::getValues(\%values)) )
   {
     return;
   }
 
-  my $marginals = $Text::NSP::Measures::2D::marginals;
+  my $final_limit = ($n1p < $np1) ? $n1p : $np1;
+  my $n11_org = $n11;
 
-  my $final_limit = ($marginals->{n1p} < $marginals->{np1}) ? $marginals->{n1p} : $marginals->{np1};
-
-  my $n11 = $marginals->{n1p}+$marginals->{np1}-$marginals->{npp};
-  if($n11<$observed->{n11})
+  my $n11_start = $n1p + $np1 - $npp;
+  if($n11_start < $n11)
   {
-    $n11 = $observed->{n11};
+    $n11_start = $n11;
   }
 
 
   # to make the computations faster, we check which would require less computations
   # computing the leftfisher value and subtracting it from 1 or directly computing
-  # the right fisher value.
-  my $left_final_limit = $observed->{n11}-1;
-  my $left_n11 = $marginals->{n1p}+$marginals->{np1}-$marginals->{npp};
+  # the right fisher value. We do this since, generally for bigrams n11 is quite small
+  # so its much faster to compute the left Fisher value.
+  my $left_final_limit = $n11-1;
+  my $left_n11 = $n1p + $np1 - $npp;
   if($left_n11<0)
   {
     $left_n11 = 0;
@@ -130,10 +130,10 @@ sub calculateStatistic
   # if computing the left fisher values first will take lesser amount of time them
   # we set a flag for later reference and then compute the leftfisher score for
   # n11-1 and then subtract the total score from one to get the right fisher value.
-  if(($left_final_limit - $left_n11) < ($final_limit - $n11))
+  if(($left_final_limit - $left_n11) < ($final_limit - $n11_start))
   {
     $left_flag = 1;
-    if( !($probabilities = $self->computeDistribution($observed, $marginals, $left_n11, $left_final_limit)))
+    if( !($probabilities = Text::NSP::Measures::2D::Fisher::computeDistribution($left_n11, $left_final_limit)))
     {
         return;
     }
@@ -142,7 +142,7 @@ sub calculateStatistic
   #else we compute the value normally and simply sum to get the rightfisher value.
   else
   {
-    if( !($probabilities = $self->computeDistribution($observed, $marginals, $n11, $final_limit)))
+    if( !($probabilities = Text::NSP::Measures::2D::Fisher::computeDistribution($n11_start, $final_limit)))
     {
         return;
     }
@@ -156,14 +156,14 @@ sub calculateStatistic
   {
     if($left_flag)
     {
-      if($key_n11>=$observed->{n11})
+      if($key_n11 >= $n11_org)
       {
         last;
       }
     }
     else
     {
-      if($key_n11<$observed->{n11})
+      if($key_n11 < $n11_org)
       {
         last;
       }
@@ -184,8 +184,6 @@ sub calculateStatistic
       $rightfisher = 1 - $rightfisher;
     }
   }
-
-  $Text::NSP::Measures::2D::marginals = undef;
 
   return $rightfisher;
 }
@@ -230,7 +228,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: right.pm,v 1.10 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: right.pm,v 1.12 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

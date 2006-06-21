@@ -9,25 +9,24 @@ Text::NSP::Measures::3D::MI::ps - Perl module that implements
 
   use Text::NSP::Measures::3D::MI::ps;
 
-  my $ps = Text::NSP::Measures::3D::MI::ps->new();
+  $ps_value = calculateStatistic( n111=>10,
+                                  n1pp=>40,
+                                  np1p=>45,
+                                  npp1=>42,
+                                  n11p=>20,
+                                  n1p1=>23,
+                                  np11=>21,
+                                  nppp=>100);
 
-  $ps_value = $ps->calculateStatistic( n111=>10,
-                                       n1pp=>40,
-                                       np1p=>45,
-                                       npp1=>42,
-                                       n11p=>20,
-                                       n1p1=>23,
-                                       np11=>21,
-                                       nppp=>100);
-
-  if( ($errorCode = $ps->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$ps->getErrorMessage();
+    print STDERR $erroCode." - ".getErrorMessage()."\n";
   }
   else
   {
-    print $ps->getStatisticName."value for trigram is ".$ps_value;
+    print getStatisticName."value for bigram is ".$ps_value."\n";
   }
+
 
 =head1 DESCRIPTION
 
@@ -64,13 +63,17 @@ use Text::NSP::Measures::3D::MI;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::3D::MI);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 =item calculateStatistic() - This method calculates the ps value
 
@@ -84,16 +87,12 @@ RETURN VALUES : $poissonStirling      .. Poisson-Stirling value for this trigram
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
-
-  my $observed;
-  my $expected;
 
   # computes and returns the observed and expected values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !(($observed, $expected) = $self->SUPER::calculateStatistic(\%values)) ) {
+  if( !(Text::NSP::Measures::3D::MI::getValues(\%values)) ) {
     return;
   }
 
@@ -101,9 +100,7 @@ sub calculateStatistic
   my $poissonStirling = 0;
 
   # dont want ($nxy / $mxy) to be 0 or less! flag error if so!
-  $poissonStirling = $observed->{n111} * (log($observed->{n111}) - log($expected->{m111}) - 1);
-
-  $Text::NSP::Measures::3D::marginals = undef;
+  $poissonStirling = $n111 * (Text::NSP::Measures::3D::MI::computePMI($n111, $m111) - 1);
 
   return $poissonStirling;
 }
@@ -149,7 +146,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: ps.pm,v 1.5 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: ps.pm,v 1.7 2006/06/21 11:10:53 saiyam_kohli Exp $
 
 =head1 BUGS
 

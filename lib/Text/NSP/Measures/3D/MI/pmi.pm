@@ -9,25 +9,24 @@ Text::NSP::Measures::3D::MI::pmi - Perl module that implements Pointwise
 
   use Text::NSP::Measures::3D::MI::pmi;
 
-  my $pmi = Text::NSP::Measures::3D::MI::pmi->new();
+  $pmi_value = calculateStatistic( n111=>10,
+                                  n1pp=>40,
+                                  np1p=>45,
+                                  npp1=>42,
+                                  n11p=>20,
+                                  n1p1=>23,
+                                  np11=>21,
+                                  nppp=>100);
 
-  $pmi_value = $pmi->calculateStatistic( n111=>10,
-                                       n1pp=>40,
-                                       np1p=>45,
-                                       npp1=>42,
-                                       n11p=>20,
-                                       n1p1=>23,
-                                       np11=>21,
-                                       nppp=>100);
-
-  if( ($errorCode = $pmi->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$pmi->getErrorMessage();
+    print STDERR $erroCode." - ".getErrorMessage()."\n";
   }
   else
   {
-    print $pmi->getStatisticName."value for trigram is ".$pmi_value;
+    print getStatisticName."value for bigram is ".$pmi_value."\n";
   }
+
 
 =head1 DESCRIPTION
 
@@ -59,15 +58,19 @@ use Text::NSP::Measures::3D::MI;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA, $exp);
 
-our ($VERSION, @ISA);
+$exp=1;
 
-our $exp=1;
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::3D::MI);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 
 =item initializeStatistic() -Initialization of the pmi_exp parameter if required
@@ -80,7 +83,6 @@ RETURN VALUES : none
 
 sub initializeStatistic
 {
-  my $self = shift;
   $exp = shift;
 }
 
@@ -98,23 +100,17 @@ RETURN VALUES : $pmi                .. PMI value for this trigram.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
 
-  my $observed;
-  my $expected;
-
-  # computes and returns the observed and expected values from
+  # computes and sets the observed and expected values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !(($observed, $expected) = $self->SUPER::calculateStatistic(\%values)) ) {
+  if( !(Text::NSP::Measures::3D::MI::getValues(\%values)) ) {
     return(0);
   }
 
   #  Now the calculations!
-  my $pmi = $self->computePMI($observed->{n111}**$exp,$expected->{m111});
-
-  $Text::NSP::Measures::3D::marginals = undef;
+  my $pmi = Text::NSP::Measures::3D::MI::computePMI($n111**$exp, $m111);
 
   return($pmi/log(2));
 }
@@ -161,7 +157,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: pmi.pm,v 1.6 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: pmi.pm,v 1.8 2006/06/21 11:10:53 saiyam_kohli Exp $
 
 =head1 BUGS
 

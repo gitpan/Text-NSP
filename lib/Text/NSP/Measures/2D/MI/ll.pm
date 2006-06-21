@@ -9,22 +9,20 @@ Text::NSP::Measures::2D::MI::ll - Perl module that implements Loglikelihood
 
   use Text::NSP::Measures::2D::MI::ll;
 
-  my $ll = Text::NSP::Measures::2D::MI::ll->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $ll_value = $ll->calculateStatistic( n11=>$n11,
+  $ll_value = calculateStatistic( n11=>$n11,
                                       n1p=>$n1p,
                                       np1=>$np1,
                                       npp=>$npp);
 
-  if( ($errorCode = $ll->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$ll->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage();
   }
   else
   {
-    print $ll->getStatisticName."value for bigram is ".$ll_value;
+    print getStatisticName."value for bigram is ".$ll_value;
   }
 
 =head1 DESCRIPTION
@@ -76,13 +74,17 @@ use Text::NSP::Measures::2D::MI;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::2D::MI);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 =item calculateStatistic() - This method calculates the ll value
 
@@ -96,16 +98,13 @@ RETURN VALUES : $loglikelihood      .. Loglikelihood value for this bigram.
 
 sub calculateStatistic
 {
-  my $self = shift;
   my %values = @_;
 
-  my $observed;
-  my $expected;
-
-  # computes and returns the observed and expected values from
+  # computes and sets the observed and expected values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !(($observed, $expected) = $self->SUPER::calculateStatistic(\%values)) ) {
+  if( !Text::NSP::Measures::2D::MI::getValues(\%values) )
+  {
     return;
   }
 
@@ -113,12 +112,10 @@ sub calculateStatistic
   my $logLikelihood = 0;
 
   # dont want ($nxy / $mxy) to be 0 or less! flag error if so!
-  $logLikelihood += $observed->{n11} * $self->computePMI( $observed->{n11}, $expected->{m11} );
-  $logLikelihood += $observed->{n12} * $self->computePMI( $observed->{n12}, $expected->{m12} );
-  $logLikelihood += $observed->{n21} * $self->computePMI( $observed->{n21}, $expected->{m21} );
-  $logLikelihood += $observed->{n22} * $self->computePMI( $observed->{n22}, $expected->{m22} );
-
-  $Text::NSP::Measures::2D::marginals = undef;
+  $logLikelihood += $n11 * Text::NSP::Measures::2D::MI::computePMI( $n11, $m11 );
+  $logLikelihood += $n12 * Text::NSP::Measures::2D::MI::computePMI( $n12, $m12 );
+  $logLikelihood += $n21 * Text::NSP::Measures::2D::MI::computePMI( $n21, $m21 );
+  $logLikelihood += $n22 * Text::NSP::Measures::2D::MI::computePMI( $n22, $m22 );
 
   return ( 2 * $logLikelihood );
 }
@@ -134,7 +131,7 @@ RETURN VALUES : $name      .. Name of the measure.
 
 sub getStatisticName
 {
-    return "Loglikelihood";
+    return "Log-likelihood";
 }
 
 
@@ -164,7 +161,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: ll.pm,v 1.20 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: ll.pm,v 1.22 2006/06/21 11:10:52 saiyam_kohli Exp $
 
 =head1 BUGS
 

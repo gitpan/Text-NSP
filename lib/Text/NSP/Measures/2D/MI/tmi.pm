@@ -1,6 +1,6 @@
 =head1 NAME
 
-Text::NSP::Measures::2D::MI::tmi - Perl module that implements for True Mutual
+Text::NSP::Measures::2D::MI::tmi - Perl module that implements True Mutual
                                    Information.
 
 =head1 SYNOPSIS
@@ -9,22 +9,20 @@ Text::NSP::Measures::2D::MI::tmi - Perl module that implements for True Mutual
 
   use Text::NSP::Measures::2D::MI::tmi;
 
-  my $tmi = Text::NSP::Measures::2D::MI::tmi->new();
-
   my $npp = 60; my $n1p = 20; my $np1 = 20;  my $n11 = 10;
 
-  $tmi_value = $tmi->calculateStatistic( n11=>$n11,
+  $tmi_value = calculateStatistic( n11=>$n11,
                                       n1p=>$n1p,
                                       np1=>$np1,
                                       npp=>$npp);
 
-  if( ($errorCode = $tmi->getErrorCode()))
+  if( ($errorCode = getErrorCode()))
   {
-    print STDERR $erroCode." - ".$tmi->getErrorMessage();
+    print STDERR $errorCode." - ".getErrorMessage()."\n"";
   }
   else
   {
-    print $tmi->getStatisticName."value for bigram is ".$tmi_value;
+    print getStatisticName."value for bigram is ".$tmi_value."\n"";
   }
 
 =head1 DESCRIPTION
@@ -73,13 +71,17 @@ use Text::NSP::Measures::2D::MI;
 use strict;
 use Carp;
 use warnings;
+no warnings 'redefine';
+require Exporter;
 
+our ($VERSION, @EXPORT, @ISA);
 
-our ($VERSION, @ISA);
+@ISA  = qw(Exporter);
 
-@ISA = qw(Text::NSP::Measures::2D::MI);
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName);
 
-$VERSION = '0.95';
+$VERSION = '0.97';
 
 
 =item calculateStatistic() - This method calculates the tmi value
@@ -94,17 +96,12 @@ RETURN VALUES : $tmi                .. TMI value for this bigram.
 
 sub calculateStatistic
 {
-
-  my $self = shift;
   my %values = @_;
-
-  my $observed;
-  my $expected;
 
   # computes and returns the observed and expected values from
   # the frequency combination values. returns 0 if there is an
   # error in the computation or the values are inconsistent.
-  if( !(($observed, $expected) = $self->SUPER::calculateStatistic(\%values)) ) {
+  if( !(Text::NSP::Measures::2D::MI::getValues(\%values)) ) {
     return(0);
   }
 
@@ -114,12 +111,10 @@ sub calculateStatistic
   my $tmi = 0;
 
   # dont want ($nxy / $mxy) to be 0 or less! flag error if so!
-  $tmi += $observed->{n11}/$values{npp} * $self->computePMI( $observed->{n11}, $expected->{m11} )/ log 2;
-  $tmi += $observed->{n12}/$values{npp} * $self->computePMI( $observed->{n12}, $expected->{m12} )/ log 2;
-  $tmi += $observed->{n21}/$values{npp} * $self->computePMI( $observed->{n21}, $expected->{m21} )/ log 2;
-  $tmi += $observed->{n22}/$values{npp} * $self->computePMI( $observed->{n22}, $expected->{m22} )/ log 2;
-
-  $Text::NSP::Measures::2D::marginals = undef;
+  $tmi += $n11/$npp * Text::NSP::Measures::2D::MI::computePMI( $n11, $m11 )/ log 2;
+  $tmi += $n12/$npp * Text::NSP::Measures::2D::MI::computePMI( $n12, $m12 )/ log 2;
+  $tmi += $n21/$npp * Text::NSP::Measures::2D::MI::computePMI( $n21, $m21 )/ log 2;
+  $tmi += $n22/$npp * Text::NSP::Measures::2D::MI::computePMI( $n22, $m22 )/ log 2;
 
   return ($tmi);
 }
@@ -165,7 +160,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: tmi.pm,v 1.20 2006/06/17 18:03:23 saiyam_kohli Exp $
+Last updated: $Id: tmi.pm,v 1.22 2006/06/21 11:10:53 saiyam_kohli Exp $
 
 =head1 BUGS
 

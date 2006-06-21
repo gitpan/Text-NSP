@@ -1,7 +1,7 @@
-    Welcome to the Ngram Statistics Package, version 0.93
+    Welcome to the Ngram Statistics Package, version 0.97
     -----------------------------------------------------
 
-                     May 20, 2006
+			June 21, 2006
 
                    Copyright (C) 2000-2006
 
@@ -20,7 +20,7 @@ Dependencies:
 
 NSP is a suite of Perl programs. Unless you have really good reasons for
 not doing so, it would make sense to be using a  relatively  recent
-version of Perl. As of this writing that would be 5.8 or better.
+version of Perl. As of this writing that would be 5.8.5 or better.
 
 NSP has been developed on the Unix and Linux platforms, but is known to
 run on Windows. In theory it should run on any platform that supports
@@ -35,7 +35,7 @@ from the CPAN archive (http://search.cpan.org).
 
 Installation:
 
-If you have administrative privilages you can install Ngrams Statistics Package
+If you have administrative privileges you can install Ngram Statistics Package
 by running the following commands:
 
 perl Makefile.PL
@@ -49,7 +49,7 @@ set any environment variables explicitly.
 
 
 
-If you do not have administrative privilages, you can use the PREFIX variable to
+If you do not have administrative privileges, you can use the PREFIX variable to
 specify a directory to which you have write access, and you can use the LIB
 variable to specify the directory where the platform independent modules should
 be installed, Since NSP is platform independent it will be installed directly
@@ -66,12 +66,12 @@ This will install the executables(.pl and .sh) under ~/bin, perl modules under
 versions of the pod documents are also created as a part of this installation
 process, and can be found under the ~/html directory.
 
-To use Ngrams Statistics Package, you will need to set your PATH variable to
+To use Ngram Statistics Package, you will need to set your PATH variable to
 include ~/bin and PERL5LIB variable to include the ~/lib directory locations.
 These are displayed during the execution of make install, so please make a note
 of them and be sure to set your environment variables accordingly.
 
-You can also set the MANPATH environment variable to include ~/man directoryt,
+You can also set the MANPATH environment variable to include ~/man directory,
 so that the NSP documentation is also included in the man search.
 
 ===================================================================
@@ -100,16 +100,19 @@ Docs/             : directory of documentation
 
                     README.pod - complete description of NSP
                     FAQ.pod    - frequently asked questions
-                    NewStats.pod - how to implement new measures
                     Todo.pod   - our list of things to do
                     Usage.pod  - sample usages (very basic)
                     cicling2003.(ps|pdf) - overview of NSP design
+		    NSP-Class-diagram.(png|pdf) - UML of measure hierarchy
 
 bin/Utils/        : directory that contains several useful programs
 
                     rank.pl: compare two measures of association
                     kocos.pl: find kth order co-occurrences
                     combig.pl: find unordered counts of bigrams
+
+t/                : directory of test scripts that run when "make test"
+		    is issued. 
 
 Testing/          : directory of test scripts for each program in NSP.
                     You can run these to make sure your installation is
@@ -118,7 +121,12 @@ Testing/          : directory of test scripts for each program in NSP.
                     in which you can find a README.txt file that describes
                     the testing process. Please note that "make test" above
                     does *not* run these tests.  They must be run separately
-                          after installation is complete.
+                    after installation is complete. This style of testing
+                    has mostly been depricated, while we keep these tests
+	            running for the new versions, we are putting all of
+                    our news tests into t/. 
+
+lib/		  : directory where measures modules are found.
 
 GPL.txt           : copy of the GNU General Public License, the terms
                     under which NSP source code is distributed.
