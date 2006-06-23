@@ -1,7 +1,7 @@
-    Welcome to the Ngram Statistics Package, version 0.97
+    Welcome to the Ngram Statistics Package, version 0.99
     -----------------------------------------------------
 
-			June 21, 2006
+			June 23, 2006
 
                    Copyright (C) 2000-2006
 
@@ -19,8 +19,8 @@
 Dependencies:
 
 NSP is a suite of Perl programs. Unless you have really good reasons for
-not doing so, it would make sense to be using a  relatively  recent
-version of Perl. As of this writing that would be 5.8.5 or better.
+not doing so, it would make sense to be using a  relatively recent
+version of Perl. As of this writing that would be 5.8.5 or better. 
 
 NSP has been developed on the Unix and Linux platforms, but is known to
 run on Windows. In theory it should run on any platform that supports
@@ -46,8 +46,6 @@ make install
 This will install the module in system directories (like /usr/bin/ etc). In
 this case, it's very likely that you will be able to run NSP, without having to
 set any environment variables explicitly.
-
-
 
 If you do not have administrative privileges, you can use the PREFIX variable to
 specify a directory to which you have write access, and you can use the LIB
@@ -103,7 +101,7 @@ Docs/             : directory of documentation
                     Todo.pod   - our list of things to do
                     Usage.pod  - sample usages (very basic)
                     cicling2003.(ps|pdf) - overview of NSP design
-		    NSP-Class-diagram.(png|pdf) - UML of measure hierarchy
+                    NSP-Class-diagram.(png|pdf) - UML of measure hierarchy
 
 bin/Utils/        : directory that contains several useful programs
 

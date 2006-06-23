@@ -21,7 +21,7 @@ WriteMakefile(
                          ],
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
     (ABSTRACT_FROM  => 'lib/Text/NSP.pm', # retrieve abstract from module
-    AUTHOR         => 'Saiyam Kohli <kohli003@d.umn.edu>') : ()),
+    AUTHOR         => 'Ted Pedersen <tpederse@d.umn.edu>') : ()),
 );
 
 
@@ -69,65 +69,6 @@ html:
 	@echo "and the following in your PERL5LIB:"
 	@echo "     $(INSTALLSITELIB)"
 	@echo "*****************************************************"
-
-  # @ keeps make from repeating command
-
-  # create /doc/html and /doc/pod directory
-
-	@$(MKPATH) $(SITEPREFIX)/doc/html
-	@$(MKPATH) $(SITEPREFIX)/doc/pod
-
-  # measures documentation to html
-
-	@echo "Installing measures documentation in $(SITEPREFIX)/doc/html"
-
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/dice.html --infile=lib/Text/NSP/Measures/2D/Dice/dice.pm --title="NSP Dice Coefficient"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/jaccard.html --infile=lib/Text/NSP/Measures/2D/Dice/jaccard.pm --title="NSP Jaccard Coefficient"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/ll.html --infile=lib/Text/NSP/Measures/2D/MI/ll.pm --title="NSP Log Likelihood Ratio"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/odds.html --infile=lib/Text/NSP/Measures/2D/odds.pm --title="NSP Odds Ratio"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/phi.html --infile=lib/Text/NSP/Measures/2D/CHI/phi.pm --title="NSP Phi Coefficient"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/tmi.html --infile=lib/Text/NSP/Measures/2D/MI/tmi.pm --title="NSP True Mutual Information"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/pmi.html --infile=lib/Text/NSP/Measures/2D/MI/pmi.pm --title="NSP Pointwise Mutual Information"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/tscore.html --infile=lib/Text/NSP/Measures/2D/CHI/tscore.pm --title="NSP T-Score"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/x2.html --infile=lib/Text/NSP/Measures/2D/CHI/x2.pm --title="NSP Pearsons Chi Squared Tests"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/measure2d.html --infile=lib/Text/NSP/Measures/2D.pm --title="NSP 2D measures"
-
-	# program documentation to html
-
-	@echo "Installing program documentation in $(SITEPREFIX)/doc/html"
-
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/count.html --infile=bin/count.pl --title="NSP count"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/statistic.html --infile=bin/statistic.pl --title="NSP statistic"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/rank.html --infile=bin/utils/rank.pl --title="NSP rank"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/kocos.html --infile=bin/utils/kocos.pl --title="NSP kocos"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/combig.html --infile=bin/utils/combig.pl --title="NSP combig"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/huge-count.html --infile=bin/utils/huge-count.pl --title="NSP huge-count"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/huge-combine.html --infile=bin/utils/huge-combine.pl --title="NSP huge-combine"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/sort-bigrams.html --infile=bin/utils/sort-bigrams.pl --title="NSP sort-bigrams"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/split-data.html --infile=bin/utils/split-data.pl --title="NSP split-data"
-
-  # general documentation to html
-
-	@echo "Installing general documentation in $(SITEPREFIX)/doc/html"
-
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/FAQ.html --infile=Docs/FAQ.pod --title="NSP FAQ"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/NewStats.html --infile=Docs/NewStats.pod --title="NSP NewStats"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/Measures.html --infile=Docs/Measures.pod --title="NSP Measures"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/README.html --infile=Docs/README.pod --title="NSP README"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/Todo.html --infile=Docs/Todo.pod --title="NSP Todo"
-	@pod2html --outfile=$(SITEPREFIX)/doc/html/Usage.html --infile=Docs/Usage.pod --title="NSP Usage"
-
-
-  # general documentation to doc/pod
-
-	@echo "Installing pod documentation in $(SITEPREFIX)/doc/pod"
-
-	@$(CP) Docs/FAQ.pod $(SITEPREFIX)/doc/pod/FAQ.pod
-	@$(CP) Docs/NewStats.pod $(SITEPREFIX)/doc/pod/NewStats.pod
-	@$(CP) Docs/Measures.pod $(SITEPREFIX)/doc/pod/Measures.pod
-	@$(CP) Docs/README.pod $(SITEPREFIX)/doc/pod/README.pod
-	@$(CP) Docs/Todo.pod $(SITEPREFIX)/doc/pod/Todo.pod
-	@$(CP) Docs/Usage.pod $(SITEPREFIX)/doc/pod/Usage.pod
 
 END
   return ($postamble);
