@@ -1,4 +1,4 @@
-    Welcome to the Ngram Statistics Package, version 0.99
+    Welcome to the Ngram Statistics Package, version 1.01
     -----------------------------------------------------
 
 			June 23, 2006
@@ -18,9 +18,8 @@
 
 Dependencies:
 
-NSP is a suite of Perl programs. Unless you have really good reasons for
-not doing so, it would make sense to be using a  relatively recent
-version of Perl. As of this writing that would be 5.8.5 or better. 
+NSP is a suite of Perl programs. We require that you be using Perl 
+version 5.8.5 or better. 
 
 NSP has been developed on the Unix and Linux platforms, but is known to
 run on Windows. In theory it should run on any platform that supports
@@ -35,8 +34,8 @@ from the CPAN archive (http://search.cpan.org).
 
 Installation:
 
-If you have administrative privileges you can install Ngram Statistics Package
-by running the following commands:
+If you have administrative privileges you can install Ngram Statistics 
+Package by running the following commands:
 
 perl Makefile.PL
 make
@@ -44,33 +43,29 @@ make test
 make install
 
 This will install the module in system directories (like /usr/bin/ etc). In
-this case, it's very likely that you will be able to run NSP, without having to
-set any environment variables explicitly.
+this case, it's very likely that you will be able to run NSP, without having 
+to set any environment variables explicitly.
 
-If you do not have administrative privileges, you can use the PREFIX variable to
-specify a directory to which you have write access, and you can use the LIB
-variable to specify the directory where the platform independent modules should
-be installed, Since NSP is platform independent it will be installed directly
-under ~/lib. If you do not specify the LIB variable the NSP modules will be
-installed under a more complex directory structure.:
+If you do not have administrative privileges, you can use the PREFIX variable 
+to specify a directory to which you have write access, and you can use the  
+LIB variable to specify the directory where the platform independent  
+modules should be installed, Since NSP is platform independent it will be  
+installed directly under ~/lib. If you do not specify the LIB variable the  
+NSP modules will be installed under a more complex directory structure.:
 
 perl Makefile.PL PREFIX=/home/mydirectory/NSP LIB=/home/mydirectory/NSP/lib
 make
 make test
 make install
 
-This will install the executables(.pl and .sh) under ~/bin, perl modules under
-~/lib, documentation under ~/doc, and man pages under the ~/man directory. HTML
-versions of the pod documents are also created as a part of this installation
-process, and can be found under the ~/html directory.
+Executable files (.pl and .sh) will be installed in $PREFIX/bin, and Perl 
+modules will be installed in $LIB/lib. 
 
 To use Ngram Statistics Package, you will need to set your PATH variable to
-include ~/bin and PERL5LIB variable to include the ~/lib directory locations.
-These are displayed during the execution of make install, so please make a note
-of them and be sure to set your environment variables accordingly.
-
-You can also set the MANPATH environment variable to include ~/man directory,
-so that the NSP documentation is also included in the man search.
+include $PREFIX/bin and PERL5LIB variable to include the $LIB/lib  
+directory locations. These are displayed during the execution of make  
+install, so please make a note of them and be sure to set your  
+environment variables accordingly.
 
 ===================================================================
 
@@ -80,7 +75,7 @@ INSTALL           : this file
 
 README            : a plain text version of Docs/README.pod
 
-CHANGES           : a plain text version of Docs/ChangeLog-v0.63.txt
+CHANGES           : a plain text version of Docs/ChangeLog-v1.01.txt
 
                     (INSTALL, README, and CHANGES are names required
                      by CPAN, hence the naming/renaming)
