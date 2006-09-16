@@ -114,7 +114,7 @@ our ($VERSION, @ISA);
 
 @ISA  = qw(Exporter);
 
-$VERSION = '1.01';
+$VERSION = '1.03';
 
 1;
 
@@ -142,7 +142,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: NSP.pm,v 1.25 2006/06/23 13:03:33 tpederse Exp $
+Last updated: $Id: NSP.pm,v 1.26 2006/08/15 21:57:20 tpederse Exp $
 
 =head1 BUGS
 

@@ -30,6 +30,7 @@ Docs/ChangeLog-v0.95.txt
 Docs/ChangeLog-v0.97.txt
 Docs/ChangeLog-v0.99.txt
 Docs/ChangeLog-v1.01.txt
+Docs/ChangeLog-v1.03.txt
 Docs/cicling2003.pdf
 Docs/cicling2003.ps
 Docs/FAQ.pod
@@ -84,6 +85,7 @@ t/2D/Fisher/right/Text-NSP-Measures-2D-Fisher-right.t
 t/2D/Fisher/Text-NSP-Measures-2D-Fisher.t
 t/2D/Fisher/twotailed/Text-NSP-Measures-2D-Fisher-twotailed.t
 t/2D/jaccard/Text-NSP-Measures-2D-jaccard.t
+t/2D/MI/ll/Text-NSP-Measures-2D-MI-ll-1.03.t
 t/2D/MI/ll/Text-NSP-Measures-2D-MI-ll.t
 t/2D/MI/pmi/Text-NSP-Measures-2D-MI-pmi.t
 t/2D/MI/ps/Text-NSP-Measures-2D-MI-ps.t
@@ -799,6 +801,7 @@ Testing/split-data/testB1.sh
 Testing/statistic/error-handling.sh
 Testing/statistic/normal-op.sh
 Testing/statistic/README.txt
+Testing/statistic/t2
 Testing/statistic/test-1.sub-1-a.reqd
 Testing/statistic/test-1.sub-1-b.reqd
 Testing/statistic/test-1.sub-1-c.reqd

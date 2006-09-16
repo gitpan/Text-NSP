@@ -84,7 +84,7 @@ our ($VERSION, @EXPORT, @ISA);
              $npp $np1 $np2 $n2p $n1p $errorCodeNumber
              $errorMessage);
 
-$VERSION = '0.97';
+$VERSION = '1.03';
 
 =item getValues() - This method calls the computeMarginalTotals(),
 computeObservedValues() and the computeExpectedValues() methods to
@@ -177,7 +177,14 @@ sub computeVal
 {
   my $n = shift;
   my $m = shift;
-  return (($n-$m)**2)/$m;
+  if($m)
+  {
+    return (($n-$m)**2)/$m;
+  }
+  else
+  {
+    return 0;
+  }
 }
 
 
@@ -207,7 +214,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: CHI.pm,v 1.11 2006/06/21 11:10:52 saiyam_kohli Exp $
+Last updated: $Id: CHI.pm,v 1.13 2006/09/15 23:27:03 saiyam_kohli Exp $
 
 =head1 BUGS
 

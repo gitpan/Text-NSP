@@ -97,7 +97,7 @@ our ($VERSION, @EXPORT, @ISA);
              getValues computePMI);
 
 
-$VERSION = '0.97';
+$VERSION = '1.03';
 
 
 =item getValues($count_values) - This method calls
@@ -203,44 +203,44 @@ sub getValues
   }
 
 
-  if (($n111 / $m111) < 0)
+  if ($m111 < 0)
   {
-    $errorMessage = "About to take log of negative value for cell (1,1,1)";
+    $errorMessage = "Expected Value for cell(1,1,1) should not be negative";
     $errorCodeNumber = 212;     return;
   }
-  if (($n112 / $m112) < 0)
+  if ($m112 < 0)
   {
-    $errorMessage = "About to take log of negative value for cell (1,1,2)";
+    $errorMessage = "Expected Value for cell (1,1,2) should not be negative";
     $errorCodeNumber = 212;     return;
   }
-  if (($n121 / $m121) < 0)
+  if ($m121 < 0)
   {
-    $errorMessage = "About to take log of negative value for cell (1,2,1)";
+    $errorMessage = "Expected Value for cell (1,2,1) should not be negative";
     $errorCodeNumber = 212;     return;
   }
-  if (($n122 / $m122) < 0)
+  if ($m122 < 0)
   {
-    $errorMessage = "About to take log of negative value for cell (1,2,2)";
+    $errorMessage = "Expected Value for cell (1,2,2) should not be negative";
     $errorCodeNumber = 212;     return;
   }
-  if (($n211 / $m211) < 0)
+  if ($m211 < 0)
   {
-    $errorMessage = "About to take log of negative value for cell (2,1,1)";
+    $errorMessage = "Expected Value for cell (2,1,1) should not be negative";
     $errorCodeNumber = 212;     return;
   }
-  if (($n212 / $m212) < 0)
+  if ($m212 < 0)
   {
-    $errorMessage = "About to take log of negative value for cell (2,1,2)";
+    $errorMessage = "Expected Value for cell (2,1,2) should not be negative";
     $errorCodeNumber = 212;     return;
   }
-  if (($n221 / $m221) < 0)
+  if ($m221 < 0)
   {
-    $errorMessage = "About to take log of negative value for cell (2,2,1)";
+    $errorMessage = "Expected Value for cell (2,2,1) should not be negative";
     $errorCodeNumber = 212;     return;
   }
-  if (($n222 / $m222) < 0)
+  if ($m222 < 0)
   {
-    $errorMessage = "About to take log of negative value for cell (2,2,2)";
+    $errorMessage = "Expected Value for cell (2,2,2) should not be negative";
     $errorCodeNumber = 212;     return;
   }
 
@@ -266,9 +266,9 @@ sub computePMI
 {
   my $n = shift;
   my $m = shift;
-  my $val = $n/$m;
-  if($val)
+  if($n)
   {
+    my $val = $n/$m;
     return log($val);
   }
   else
@@ -304,7 +304,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: MI.pm,v 1.11 2006/06/21 11:10:53 saiyam_kohli Exp $
+Last updated: $Id: MI.pm,v 1.14 2006/09/15 23:27:06 saiyam_kohli Exp $
 
 =head1 BUGS
 

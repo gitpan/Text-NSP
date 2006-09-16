@@ -88,7 +88,7 @@ our ($VERSION, @EXPORT, @ISA);
              $n11 $n12 $n21 $n22 $m11 $m12 $m21 $m22
              $npp $np1 $np2 $n2p $n1p);
 
-$VERSION = '0.97';
+$VERSION = '1.03';
 
 
 =item getValues() - This method calls the computeMarginalTotals(),
@@ -162,27 +162,27 @@ sub getValues
       return;
     }
   }
-  if (($n11 / $m11) < 0)
+  if ($m11 < 0)
   {
-    $errorMessage = "About to take log of negative value for cell (1,1)";
+    $errorMessage = "Expected value for cell (1,1) should not be negative";
     $errorCodeNumber = 212;
     return;
   }
-  if (($n12 / $m12) < 0)
+  if ($m12 < 0)
   {
-    $errorMessage = "About to take log of negative value for cell (1,2)";
+    $errorMessage = "Expected value for cell (1,2) should not be negative";
     $errorCodeNumber = 212;
     return;
   }
-  if (($n21 / $m21) < 0)
+  if ($m21 < 0)
   {
-    $errorMessage = "About to take log of negative value for cell (2,1)";
+    $errorMessage = "Expected value for cell (2,1) should not be negative";
     $errorCodeNumber = 212;
     return;
   }
-  if (($n22 / $m22) < 0)
+  if ($m22 < 0)
   {
-    $errorMessage = "About to take log of negative value for cell (2,2)";
+    $errorMessage = "Expected value for cell (2,2) should not be negative";
     $errorCodeNumber = 212;
     return;
   }
@@ -210,9 +210,9 @@ sub computePMI
 {
   my $n = shift;
   my $m = shift;
-  my $val = $n/$m;
-  if($val)
+  if($n)
   {
+    my $val = $n/$m;
     return log($val);
   }
   else
@@ -248,7 +248,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: MI.pm,v 1.23 2006/06/21 11:10:52 saiyam_kohli Exp $
+Last updated: $Id: MI.pm,v 1.26 2006/09/15 23:27:03 saiyam_kohli Exp $
 
 =head1 BUGS
 
