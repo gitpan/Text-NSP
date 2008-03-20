@@ -2,8 +2,6 @@
 
 README for Ngram Statistics Package
 
-Last Updated for Version 0.93, May 20, 2006
-
 =head1 SYNOPSIS
 
 This document provides a general introduction to the Ngram Statistics
@@ -1257,16 +1255,14 @@ paper about NSP that could provide a suitable reference:
 
  @inproceedings{BanerjeeP03,
         author = {Banerjee, S. and Pedersen, T.},
-        title = {The Design, Implementation, and Use of the
-    {N}gram {S}tatistic {P}ackage},
-  booktitle = {Proceedings of the Fourth International
-    Conference on Intelligent Text Processing and
-    Computational Linguistics},
-  year = {2003},
+        title = {The Design, Implementation, and Use of the {N}gram {S}tatistic {P}ackage},
+	booktitle = {Proceedings of the Fourth International Conference on Intelligent Text Processing and Computational Linguistics},
+        pages = {370-381},
+	year = {2003},
         month ={February},
         address = {Mexico City}}
 
-This paper is found in Docs/cicling2003.(ps|pdf)
+This paper is found in docs/cicling2003.(ps|pdf)
 
 =head2 8. Copying NSP:
 
@@ -1304,21 +1300,26 @@ Amruta Purandare, pura0010@d.umn.edu
 
 Saiyam Kohli, kohli003@d.umn.edu
 
+Last modified by :
+$Id: README.pod,v 1.2 2008/03/20 13:57:51 tpederse Exp $
+
 =head1 BUGS
 
-Date of Last Update 02/19/06 by Saiyam
+None known.
 
 =head1 SEE ALSO
 
- home page:    http://www.d.umn.edu/~tpederse/nsp.html
+=over 4
 
- mailing list: http://groups.yahoo.com/group/ngram/
+=item * NSP Home:      http://www.d.umn.edu/~tpederse/nsp.html
 
-To convert this document ...
+=item * Sourceforge:   http://sourceforge.net/projects/ngram
 
-  into html:       pod2html README.pod > README.html
+=item * CPAN:          http://search.cpan.org/dist/Text-NSP/
 
-  into plain text: pod2text README.pod > README.text
+=item * Mailing List : http://groups.yahoo.com/group/ngram/
+
+=back
 
 =head2 REFERENCES
 
@@ -1338,23 +1339,9 @@ cicling2003.pdf or cicling2003.ps).
 
 =back
 
-=head2 WEB PAGES
-
-=over 4
-
-=item * NSP Home:      http://www.d.umn.edu/~tpederse/nsp.html
-
-=item * Sourceforge:   http://sourceforge.net/projects/ngram
-
-=item * CPAN:          http://search.cpan.org/dist/Text-NSP/
-
-=item * Mailing List : http://groups.yahoo.com/group/ngram/
-
-=back
-
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2006, Ted Pedersen, Satanjeev Banerjee,
+Copyright (C) 2000-2008, Ted Pedersen, Satanjeev Banerjee,
 Amruta Purandare, Bridget Thomson-McInnes and Saiyam Kohli
 
 This program is free software; you can redistribute it and/or modify

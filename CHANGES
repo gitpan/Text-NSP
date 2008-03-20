@@ -1,28 +1,59 @@
-Changes from NSP version 1.01 to 1.03
---------------------------------------
+NAME
+    CHANGES.pod
 
-Ted Pedersen, tpederse@d.umn.edu
-University of Minnesota, Duluth
+SYNOPSIS
+    Revision history for Perl module Text::NSP
 
-September 16, 2006
+DESCRIPTION
+    1.05
+        Released March 20, 2008 all changes by TDP
 
-Saiyam fixed the Divide by Zero error that
-was being generated with tables of the form :
+        *   Fixed problem with file Testing/statistic/t2 would appear
+            (mysteriously) but not be in the MANIFEST. This file was left
+            behind during /Testing/statistic/normal-op.sh and is now being
+            removed.
 
-9 0 | 9
-0 0 | 0
------ 
-9 0   9
+        *   Fixed problem in /Testing where .sh files are sometimes not
+            executable. Those files are now invoked via 'csh test.sh' rather
+            than './test.sh', meaning that they no longer need to be
+            executable.
 
-and 
+        *   Fixed ticket number 24061 from rt.cpan.org regarding
+            incorrection version information coming from Measures.pm
 
-9  0 | 9
-6  0 | 6
------- 
-15 0  15
+        *   Archived all old ChangeLogs to doc/ChangeLogs directory. Began
+            to use pod in CHANGES directory instead
 
-Rather than generating divide by zero errors, these tables are
-independent and should report scores that reflect that (depending
-on the measure invoked). This error affected the measures ll and x2.
+        *   Added doc/update-pod.sh to automatically refresh top level read
+            only documentation including README, CHANGES, TODO and INSTALL
 
+        *   Fixed Makefile.PL to avoid problems during Windows install. This
+            problem and fix was reported by Richard Churchill to the ngram
+            mailing list. This may also address ticket #20371 from
+            rt.cpan.org.
+
+        *   Modified Makefile.PL to allow for use of 'make dist' and also
+            creation of META.yml
+
+AUTHORS
+     Ted Pedersen, University of Minnesota, Duluth
+     tpederse at d.umn.edu
+
+    This document last modified by : $Id: CHANGES.pod,v 1.4 2008/03/20
+    15:12:27 tpederse Exp $
+
+SEE ALSO
+    <http://ngram.sourceforge.net>
+
+COPYRIGHT AND LICENSE
+    Copyright (c) 2004-2008 Ted Pedersen
+
+    Permission is granted to copy, distribute and/or modify this document
+    under the terms of the GNU Free Documentation License, Version 1.2 or
+    any later version published by the Free Software Foundation; with no
+    Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+    Note: a copy of the GNU Free Documentation License is available on the
+    web at <http://www.gnu.org/copyleft/fdl.html> and is included in this
+    distribution as FDL.txt.
 

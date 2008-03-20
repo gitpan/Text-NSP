@@ -1,3 +1,27 @@
+package Text::NSP::Measures;
+
+# moved this version information to the top of the file to avoid 
+# confusion with the documentation below, that includes code examples 
+# that set versions, etc.
+
+use Text::NSP;
+use strict;
+use Carp;
+use warnings;
+require Exporter;
+
+our ($VERSION, @ISA, @EXPORT, $errorCodeNumber, $errorMessage);
+
+@ISA  = qw(Exporter);
+
+@EXPORT = qw(initializeStatistic calculateStatistic
+             getErrorCode getErrorMessage getStatisticName
+             $errorCodeNumber $errorMessage);
+
+$VERSION = '0.97';
+
+=cut
+
 =head1 NAME
 
 Text::NSP::Measures - Perl modules for computing association scores of
@@ -547,28 +571,6 @@ This statement is present at the end of the module:
 =head2 Methods
 
 =over
-
-=cut
-
-
-package Text::NSP::Measures;
-
-
-use Text::NSP;
-use strict;
-use Carp;
-use warnings;
-require Exporter;
-
-our ($VERSION, @ISA, @EXPORT, $errorCodeNumber, $errorMessage);
-
-@ISA  = qw(Exporter);
-
-@EXPORT = qw(initializeStatistic calculateStatistic
-             getErrorCode getErrorMessage getStatisticName
-             $errorCodeNumber $errorMessage);
-
-$VERSION = '0.97';
 
 =item initializeStatistic() - Provides an empty method which is called in case
                               the measures do not override this method. If you

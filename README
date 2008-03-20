@@ -1,8 +1,6 @@
 NAME
     README for Ngram Statistics Package
 
-    Last Updated for Version 0.91, February 19, 2006
-
 SYNOPSIS
     This document provides a general introduction to the Ngram Statistics
     Package.
@@ -1224,16 +1222,14 @@ DESCRIPTION
 
      @inproceedings{BanerjeeP03,
             author = {Banerjee, S. and Pedersen, T.},
-            title = {The Design, Implementation, and Use of the
-        {N}gram {S}tatistic {P}ackage},
-      booktitle = {Proceedings of the Fourth International
-        Conference on Intelligent Text Processing and
-        Computational Linguistics},
-      year = {2003},
+            title = {The Design, Implementation, and Use of the {N}gram {S}tatistic {P}ackage},
+            booktitle = {Proceedings of the Fourth International Conference on Intelligent Text Processing and Computational Linguistics},
+            pages = {370-381},
+            year = {2003},
             month ={February},
             address = {Mexico City}}
 
-    This paper is found in Docs/cicling2003.(ps|pdf)
+    This paper is found in docs/cicling2003.(ps|pdf)
 
   8. Copying NSP:
     This suite of programs is free software; you can redistribute it and/or
@@ -1269,19 +1265,17 @@ AUTHORS
 
     Saiyam Kohli, kohli003@d.umn.edu
 
+    Last modified by : $Id: README.pod,v 1.2 2008/03/20 13:57:51 tpederse
+    Exp $
+
 BUGS
-    Date of Last Update 02/19/06 by Saiyam
+    None known.
 
 SEE ALSO
-     home page:    http://www.d.umn.edu/~tpederse/nsp.html
-
-     mailing list: http://groups.yahoo.com/group/ngram/
-
-    To convert this document ...
-
-      into html:       pod2html README.pod > README.html
-
-      into plain text: pod2text README.pod > README.text
+    * NSP Home: http://www.d.umn.edu/~tpederse/nsp.html
+    * Sourceforge: http://sourceforge.net/projects/ngram
+    * CPAN: http://search.cpan.org/dist/Text-NSP/
+    * Mailing List : http://groups.yahoo.com/group/ngram/
 
   REFERENCES
     1   L. Wall, T. Christiansen and J. Orwant. 2000. Programming Perl.
@@ -1293,14 +1287,8 @@ SEE ALSO
         Computational Linguistics, 2003, February, Mexico City. (Available
         in this distribution as cicling2003.pdf or cicling2003.ps).
 
-  WEB PAGES
-    * NSP Home: http://www.d.umn.edu/~tpederse/nsp.html
-    * Sourceforge: http://sourceforge.net/projects/ngram
-    * CPAN: http://search.cpan.org/dist/Text-NSP/
-    * Mailing List : http://groups.yahoo.com/group/ngram/
-
 COPYRIGHT
-    Copyright (C) 2000-2006, Ted Pedersen, Satanjeev Banerjee, Amruta
+    Copyright (C) 2000-2008, Ted Pedersen, Satanjeev Banerjee, Amruta
     Purandare, Bridget Thomson-McInnes and Saiyam Kohli
 
     This program is free software; you can redistribute it and/or modify it

@@ -28,7 +28,7 @@
 
 set dirlist = `ls testB*.sh`
 foreach i ($dirlist)
-	./$i
+	csh ./$i
 end
 
 rm -fr *.output

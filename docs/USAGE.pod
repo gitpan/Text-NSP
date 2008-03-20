@@ -1,6 +1,6 @@
 =head1 NAME
 
-Usage.pod
+USAGE.pod
 
 =head1 SYNOPSIS
 
@@ -126,9 +126,11 @@ score greater than 0.90 on fisher's exact test.
 
 =head1 AUTHOR
 
-Ted Pedersen, tpederse@d.umn.edu
+Ted Pedersen, tpederse at d.umn.edu
 
-Last update on 02/15/01 by TDP based on BSP v0.3.
+Last update on 02/15/01 by TDP based on BSP v0.3. This is very old, and 
+should be updated to include many more examples of both command line use 
+of NSP as well as module use. 
 
 =head1 BUGS
 

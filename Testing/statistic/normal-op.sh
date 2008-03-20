@@ -17,11 +17,11 @@
 # -----------------------------------------------------------------------------
 
 # library file for whole testing
-/bin/mv -f test_1_sub_3_a.pm_test test_1_sub_3_a.pm
-/bin/mv -f test_1_sub_3_b.pm_test test_1_sub_3_b.pm
-/bin/mv -f test_1_sub_3_c.pm_test test_1_sub_3_c.pm
-/bin/mv -f test_1_sub_3_d.pm_test test_1_sub_3_d.pm
-/bin/mv -f test_2.pm_test test_2.pm
+/bin/mv -f ./test_1_sub_3_a.pm_test ./test_1_sub_3_a.pm
+/bin/mv -f ./test_1_sub_3_b.pm_test ./test_1_sub_3_b.pm
+/bin/mv -f ./test_1_sub_3_c.pm_test ./test_1_sub_3_c.pm
+/bin/mv -f ./test_1_sub_3_d.pm_test ./test_1_sub_3_d.pm
+/bin/mv -f ./test_2.pm_test ./test_2.pm
 
 /bin/mv -f Text/NSP/Measures/2D/test_1_sub_3_a.pm_test Text/NSP/Measures/2D/test_1_sub_3_a.pm
 /bin/mv -f Text/NSP/Measures/2D/test_1_sub_3_b.pm_test Text/NSP/Measures/2D/test_1_sub_3_b.pm
@@ -209,8 +209,8 @@ echo ""
 /bin/rm -f error.out
 /bin/rm -f test-2.out
 /bin/rm -f freq.out
-
-
+/bin/rm -f t1
+/bin/rm -f t2
 
 # Subtest 3: check to see if --rank is working or not
 

@@ -29,6 +29,6 @@
 
 set dirlist = `ls testA*.sh`
 foreach i ($dirlist)
-	./$i
+	csh ./$i
 end
 

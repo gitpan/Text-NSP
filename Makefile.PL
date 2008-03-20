@@ -21,7 +21,12 @@ WriteMakefile(
                          ],
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
     (ABSTRACT_FROM  => 'lib/Text/NSP.pm', # retrieve abstract from module
-    AUTHOR         => 'Ted Pedersen <tpederse@d.umn.edu>') : ()),
+    AUTHOR         => 'Ted Pedersen <tpederse at d.umn.edu>') : ()),
+   # allows make dist to create .tar.gz with correct name/version
+   'dist'             => {'COMPRESS' => 'gzip -9f', 'SUFFIX' => 'gz'},
+   # allows for automatic creation of META.yml
+   ($ExtUtils::MakeMaker::VERSION ge '6.30_00'?
+   ('LICENSE' => 'gpl', ) : ()),
 );
 
 
@@ -34,23 +39,26 @@ sub configSub
   print "\n";
   print "        make\n";
   print "        make test\n";
+  print "        cd Testing\n";
+  print "        csh ./ALL-TESTS.sh\n";
+  print "        cd ..\n";
   print "        make install\n";
+  print "        make clean\n";
   print "\n";
   print " if \"make install\" fails and indicates that you don\'t have proper\n";
   print " permissions to install, you do have the option to install NSP in\n";
   print " a local directory of your own choosing. You can do this as follows:\n";
   print "\n";
-  print "        perl Makefile.PL PREFIX=/MYDIR/NSP\n";
+  print "        perl Makefile.PL PREFIX=~/MyNSP LIB=~/MyPerlLib\n";
   print "        make\n";
   print "        make test\n";
+  print "        cd Testing\n";
+  print "        csh ./ALL-TESTS.sh\n";
+  print "        cd ..\n";
   print "        make install\n";
+  print "        make clean\n";
   print "\n";
-  print " where /MYDIR is a directory that you own and can write to, and\n";
-  print " NSP is a new subdirectory. (The name NSP is not required, it\n";
-  print " can be anything)\n";
-  print "\n";
-  print " After all this is done, you can run \"make clean\" to remove some\n";
-  print " of the files created during installation\n";
+  print " where ~ is your home directory (or any directory you control)\n";
   print "#################################################################\n";
 
   return {};
@@ -60,12 +68,11 @@ sub MY::postamble {
 
   my $postamble = <<'END';
 html:
-
 	@echo "*****************************************************"
 	@echo "Installing the Ngram Statistics Package, V $(VERSION)..."
 	@echo " ...into $(SITEPREFIX) (/doc /bin /lib /man) "
 	@echo "Make sure that the following are in your PATH:"
-	@echo "     $(INSTALLBIN)"
+	@echo "     $(INSTALLSITEBIN)"
 	@echo "and the following in your PERL5LIB:"
 	@echo "     $(INSTALLSITELIB)"
 	@echo "*****************************************************"

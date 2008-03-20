@@ -14,7 +14,35 @@ items - they are all things we've discussed amongst ourselves or with
 users and agree would be good to add. 
 
 If you have additional ideas, or would like to comment on something on the 
-current list, please let me know at tpederse@umn.edu. 
+current list, please let us know via the ngram mailing list. 
+
+=head2 UNICODE SUPPORT / ENCODING ISSUES
+
+NSP is geared for the Roman alphabet (Latin-1). Perl has increasingly 
+better Unicode support with each passing release, and we will 
+incorporate Unicode support in future. We attempted to use the Unicode 
+features in Perl 5.6, but found them to be incomplete. We have not yet 
+attempted this with Perl 5.8 (the now current version) but it is said to 
+be considerably better.  
+
+Perl support for unicode will include language / alphabet specific   
+definitions of regular expression character classes like \d+ or \w+  
+(digits and non-white space characters). So you should be able to use
+(in theory) the same regular expression definitions with any alphabet
+and have it match in a way that makes sense for that language.
+
+Our expertise in this area is fairly limited, so please let us know if
+we are missing something obvious or misunderstanding what Perl is
+attempting to do. 
+
+In a discussion in Feb 2008, Richard Jelinek suggested the use of the 
+ENCODE module, discussion starts here :
+
+L<http://tech.groups.yahoo.com/group/ngram/message/210>
+
+In that discussion some drawbacks to 'use locale' were pointed out, so 
+for the moment we have made no changes, but it seems like fitting NSP 
+with ENCODE support is a good idea.
 
 =head2 MORE EFFICIENT COUNTING
 
@@ -25,19 +53,19 @@ of using suffix trees which would greatly improve space utilization.
 
 The use of suffix trees for counting term frequencies is based on :
 	
-Yamamoto, M. and Church, K (2001) “Using Suffix Arrays to compute Term 
-Frequency and Document Frequency for All Substrings in a Corpus,” 
+Yamamoto, M. and Church, K (2001) Using Suffix Arrays to compute Term 
+Frequency and Document Frequency for All Substrings in a Corpus, 
 Computational Linguistics, vol 27:1, pp. 1-30, MIT Press.
 
 Find the article at:
 
- http://acl.ldc.upenn.edu/J/J01/J01-1001.pdf
+ L<http://acl.ldc.upenn.edu/J/J01/J01-1001.pdf>
 
- http://www.research.att.com/~kwc/CL_suffix_array.pdf
+ L<http://www.research.att.com/~kwc/CL_suffix_array.pdf>
 
 In fact, they even provide a C implementation:
 
- http://www.milab.is.tsukuba.ac.jp/~myama/tfdf/index.html
+ L<http://www.milab.is.tsukuba.ac.jp/~myama/tfdf/index.html>
 
 However, we would convert this into Perl and may need to modify it 
 somewhat to fit into NSP. 
@@ -67,23 +95,14 @@ respective counts.
 [Our interest in this has been inspired by both Peter Turney (ACL-02 
 paper) and Frank Keller (EMNLP-02 paper).] 
 
-=head2 UNICODE SUPPORT
+=head2 PARALLEL COUNTING
 
-NSP is geared for the Roman alphabet. Perl has increasingly better Unicode 
-support with each passing release, and we will incorporate Unicode support 
-in future. We attempted to use the Unicode features in Perl 5.6, but found
-them to be incomplete. We have not yet attempted this with Perl 5.8 (the
-now current version) but it is said to be considerably better. 
+Counting words and ngrams in large corpora could be parallelized. The 
+trick is not so much in the counting, but in the combining of counts 
+from various sources. 
 
-Perl support for unicode will include language / alphabet specific   
-definitions of regular expression character classes like \d+ or \w+  
-(digits and non-white space characters). So you should be able to use
-(in theory) the same regular expression definitions with any alphabet
-and have it match in a way that makes sense for that language.
-
-Our expertise in this area is fairly limited, so please let us know if
-we are missing something obvious or misunderstanding what Perl is
-attempting to do. 
+This is something we might try and implement using MPI (Message Passing 
+Interface).
 
 =head2 PROGRESS METER for count.pl
 
@@ -92,7 +111,6 @@ the file has been processed, or even if it is still making progress. A
 "progress meter" could show how much of the file has been proceeded, or
 how many ngrams have been counted, or something to indicate that progress 
 is being made. 
-
 
 =head2 OVERLY LONG LINE DETECTOR for count.pl
 
@@ -208,31 +226,27 @@ There is a certain amount of redundant code in count.pl, huge-count.pl and
 kocos.pl. It would be useful to make these more modular, to allow for 
 inheritance and code sharing, as well as the use of objects (potentially). 
 
-=head2 NBYN.pl 
+=head2 UPDATE USAGE.pod
 
-make nbyn.pl program distribution ready (Amruta). This program
-takes marginal totals as input, and produces the internal 
-cell counts that led to these marginals (but that are not shown
-in NSP output). This is useful for converting count.pl output
-for testing in another system (SAS, for example). 
+USAGE.pod has not been updated since 2001, and is very basic. 
 
 =head1 AUTHOR
 
 Ted Pedersen, tpederse@d.umn.edu
 
-Last updated 06/21/06 by TDP
+Last Updated : $Id: TODO.pod,v 1.1 2008/03/20 13:51:39 tpederse Exp $
 
 =head1 BUGS
 
 =head1 SEE ALSO
 
- home page:    http://www.d.umn.edu/~tpederse/nsp.html
+ home page:    L<http://www.d.umn.edu/~tpederse/nsp.html>
 
- mailing list: http://groups.yahoo.com/group/ngram/
+ mailing list: L<http://groups.yahoo.com/group/ngram/>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2006 Ted Pedersen
+Copyright (C) 2000-2008 Ted Pedersen
 
 Permission is granted to copy, distribute and/or modify this  document  
 under the terms of the GNU Free Documentation License, Version 1.2 or  any  

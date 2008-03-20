@@ -29,7 +29,7 @@
 
 set dirlist = `ls test*.sh`
 foreach i ($dirlist)
-	./$i
+	csh ./$i
 end
  
 rm -fr *.output
