@@ -1,6 +1,6 @@
 =head1 NAME
 
-README for Ngram Statistics Package
+README Introduction to Ngram Statistics Package (Text-NSP)
 
 =head1 SYNOPSIS
 
@@ -34,10 +34,10 @@ this score. The statistical score computed for each Ngram can be used to
 decide whether or not there is enough evidence to reject the null
 hypothesis (that the Ngram is not a collocation) for that Ngram.
 
-Various utility programs are found in bin/Utils/ and take as their input the
-results (output) from count.pl and/or statistic.pl.
+Various utility programs are found in bin/utils/ and take as their input 
+the results (output) from count.pl and/or statistic.pl.
 
-bin/Utils/rank.pl takes as input two files output by statistic.pl and
+bin/utils/rank.pl takes as input two files output by statistic.pl and
 computes the Spearman's rank correlation coefficient on the Ngrams that
 are common to both files. Typically the two files should be produced by
 applying statistic.pl on the same Ngram count file but by using two
@@ -47,7 +47,8 @@ value close to 1 would indicate that these two measures rank Ngrams in
 the same order, -1 that the two orderings are exactly opposite to each
 other and 0 that they are not related.
 
-bin/Utils/kocos.pl takes as input a file output by count.pl or statistic.pl
+bin/utils/kocos.pl takes as input a file output by count.pl or 
+statistic.pl
 and uses that to identify kth order co-occurrences of a given word. A
 kth order co-occurrence of a target WORD is a word that co-occurs with a
 (k-1)th co-occurrence of the given target WORD. So A is a 2nd order
@@ -57,25 +58,25 @@ co-occurrences). In "New Jack", "New" and "Jack" co-occur. Thus, "Jack"
 and "York" are second order co-occurrences because they both co-occur
 with "New".
 
-bin/Utils/combig.pl will take the output of count.pl and find unordered
+bin/utils/combig.pl will take the output of count.pl and find unordered
 counts of bigrams. Normally count.pl treats bigrams like "fine wine" and
 "wine fine" as distinct. combig.pl (combine bigram) will adjust the
 counts such that they do not depend on the order. So one could then go
 on to measure how much the words "fine" and "wine" are associated
 without respect to their order.
 
-bin/Utils/huge-count.pl allows a user to run count.pl on much larger
+bin/utils/huge-count.pl allows a user to run count.pl on much larger
 corpora. It essentially divides a corpora into pieces, and then uses
 count.pl to count piece, and then recombines the counts to get the final
-output. huge-count.pl also uses bin/Utils/huge-combine.pl,
-bin/Utils/split-data.pl, and bin/Utils/sort-bigrams.pl.
+output. huge-count.pl also uses bin/utils/huge-combine.pl,
+bin/Utils/split-data.pl, and bin/utils/sort-bigrams.pl.
 
 This README continues with an introduction to the basic definitions of
 tokens, the tokenization process and the Ngram formation process. This
 is followed by a description of the two main programs in this suite
 (count.pl and statistic.pl) and brief notes one how one could typically
 use each of them. The programs rank.pl, kocos.pl, and combig.pl are
-described in separate READMEs in the /Utils directory.
+described in separate READMEs in the /utils directory.
 
 =head2 2. Tokens
 
@@ -1262,7 +1263,7 @@ paper about NSP that could provide a suitable reference:
         month ={February},
         address = {Mexico City}}
 
-This paper is found in docs/cicling2003.(ps|pdf)
+This paper is found in doc/cicling2003.(ps|pdf)
 
 =head2 8. Copying NSP:
 
@@ -1301,7 +1302,7 @@ Amruta Purandare, pura0010@d.umn.edu
 Saiyam Kohli, kohli003@d.umn.edu
 
 Last modified by :
-$Id: README.pod,v 1.2 2008/03/20 13:57:51 tpederse Exp $
+$Id: README.pod,v 1.3 2008/03/24 14:46:10 tpederse Exp $
 
 =head1 BUGS
 

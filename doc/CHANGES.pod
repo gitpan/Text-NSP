@@ -1,6 +1,6 @@
 =head1 NAME
 
-CHANGES.pod
+CHANGES Changelog for the Ngram Statistics Package (Text-NSP)
 
 =head1 SYNOPSIS
 
@@ -8,7 +8,44 @@ Revision history for Perl module Text::NSP
 
 =head1 DESCRIPTION
 
+=item 1.07
+
+Released March 24, 2008 all changes by TDP
+
 =over
+
+=item
+
+Updated Makefile.PL to no longer require 5.8.5 - have dropped back to 5.6
+
+=item
+
+Updated FAQ with some explanation of ALL-TESTS.sh
+
+=item
+
+Renamed /docs as /doc to be consistent with other packages
+
+=item
+
+Added descriptive labels in POD in NAME field of .pl programs to provide 
+that info on CPAN display
+
+=item 
+
+Fixed duplicate Copyright message bug in documentation of Measures.pm
+
+=item
+
+Removed "help" messages from Makefile.PL execution so as to (hopefully) 
+avoid problems with installations on Windows.
+
+=item
+
+Corrected error in INSTALL instructions - csh ./ALL-TESTS.sh must be 
+performed after 'make install'
+
+=back
 
 =item 1.05 
 
@@ -57,15 +94,13 @@ of META.yml
 
 =back
 
-=back
-
 =head1 AUTHORS
 
  Ted Pedersen, University of Minnesota, Duluth
  tpederse at d.umn.edu
 
 This document last modified by :
-$Id: CHANGES.pod,v 1.4 2008/03/20 15:12:27 tpederse Exp $
+$Id: CHANGES.pod,v 1.2 2008/03/24 14:49:25 tpederse Exp $
 
 =head1 SEE ALSO
 

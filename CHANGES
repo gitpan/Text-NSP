@@ -1,46 +1,65 @@
 NAME
-    CHANGES.pod
+    CHANGES Changelog for the Ngram Statistics Package (Text-NSP)
 
 SYNOPSIS
     Revision history for Perl module Text::NSP
 
 DESCRIPTION
+    1.07
+    Released March 24, 2008 all changes by TDP
+
+    *   Updated Makefile.PL to no longer require 5.8.5 - have dropped back
+        to 5.6
+
+    *   Updated FAQ with some explanation of ALL-TESTS.sh
+
+    *   Renamed /docs as /doc to be consistent with other packages
+
+    *   Added descriptive labels in POD in NAME field of .pl programs to
+        provide that info on CPAN display
+
+    *   Fixed duplicate Copyright message bug in documentation of
+        Measures.pm
+
+    *   Removed "help" messages from Makefile.PL execution so as to
+        (hopefully) avoid problems with installations on Windows.
+
+    *   Corrected error in INSTALL instructions - csh ./ALL-TESTS.sh must be
+        performed after 'make install'
+
     1.05
-        Released March 20, 2008 all changes by TDP
+    Released March 20, 2008 all changes by TDP
 
-        *   Fixed problem with file Testing/statistic/t2 would appear
-            (mysteriously) but not be in the MANIFEST. This file was left
-            behind during /Testing/statistic/normal-op.sh and is now being
-            removed.
+    *   Fixed problem with file Testing/statistic/t2 would appear
+        (mysteriously) but not be in the MANIFEST. This file was left behind
+        during /Testing/statistic/normal-op.sh and is now being removed.
 
-        *   Fixed problem in /Testing where .sh files are sometimes not
-            executable. Those files are now invoked via 'csh test.sh' rather
-            than './test.sh', meaning that they no longer need to be
-            executable.
+    *   Fixed problem in /Testing where .sh files are sometimes not
+        executable. Those files are now invoked via 'csh test.sh' rather
+        than './test.sh', meaning that they no longer need to be executable.
 
-        *   Fixed ticket number 24061 from rt.cpan.org regarding
-            incorrection version information coming from Measures.pm
+    *   Fixed ticket number 24061 from rt.cpan.org regarding incorrection
+        version information coming from Measures.pm
 
-        *   Archived all old ChangeLogs to doc/ChangeLogs directory. Began
-            to use pod in CHANGES directory instead
+    *   Archived all old ChangeLogs to doc/ChangeLogs directory. Began to
+        use pod in CHANGES directory instead
 
-        *   Added doc/update-pod.sh to automatically refresh top level read
-            only documentation including README, CHANGES, TODO and INSTALL
+    *   Added doc/update-pod.sh to automatically refresh top level read only
+        documentation including README, CHANGES, TODO and INSTALL
 
-        *   Fixed Makefile.PL to avoid problems during Windows install. This
-            problem and fix was reported by Richard Churchill to the ngram
-            mailing list. This may also address ticket #20371 from
-            rt.cpan.org.
+    *   Fixed Makefile.PL to avoid problems during Windows install. This
+        problem and fix was reported by Richard Churchill to the ngram
+        mailing list. This may also address ticket #20371 from rt.cpan.org.
 
-        *   Modified Makefile.PL to allow for use of 'make dist' and also
-            creation of META.yml
+    *   Modified Makefile.PL to allow for use of 'make dist' and also
+        creation of META.yml
 
 AUTHORS
      Ted Pedersen, University of Minnesota, Duluth
      tpederse at d.umn.edu
 
-    This document last modified by : $Id: CHANGES.pod,v 1.4 2008/03/20
-    15:12:27 tpederse Exp $
+    This document last modified by : $Id: CHANGES.pod,v 1.1 2008/03/24
+    14:39:05 tpederse Exp $
 
 SEE ALSO
     <http://ngram.sourceforge.net>

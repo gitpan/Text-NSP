@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-huge-count.pl
+huge-count.pl - Divide huge text into pieces and run count.pl separately on each (and then combine)
 
 =head1 SYNOPSIS
 

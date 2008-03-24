@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-count.pl
+count.pl - Count the frequency of Ngrams in text
 
 =head1 SYNOPSIS
 

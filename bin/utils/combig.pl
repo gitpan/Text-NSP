@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-combig.pl
+combig.pl - Combine frequency counts to determine co-occurrence
 
 =head1 SYNOPSIS
 

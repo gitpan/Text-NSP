@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:                Text-NSP
-version:             1.05
-abstract:            The Ngram Statistic Package allows a user to count
+version:             1.07
+abstract:            Count and identify significant collocations and Ngrams in text
 license:             gpl
 author:              
     - Ted Pedersen <tpederse at d.umn.edu>

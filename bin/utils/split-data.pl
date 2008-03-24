@@ -1,9 +1,8 @@
 #!/usr/local/bin/perl -w
-#############################################################################
 
 =head1 NAME
 
-split-data.pl
+split-data.pl - Divide a text file in N approximately equal parts
 
 =head1 SYNOPSIS
 

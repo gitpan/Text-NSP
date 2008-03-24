@@ -1,6 +1,6 @@
 =head1 NAME
 
-USAGE.pod
+USAGE How to use the Ngram Statistics Package (Text-NSP)
 
 =head1 SYNOPSIS
 

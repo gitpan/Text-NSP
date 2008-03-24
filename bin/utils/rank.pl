@@ -1,9 +1,8 @@
 #!/usr/local/bin/perl -w
-#
 
 =head1 NAME
 
-rank.pl
+rank.pl - Calculate Spearman's Correlation on two ranked lists output by count.pl or statistic.pl
 
 =head1 SYNOPSIS
 

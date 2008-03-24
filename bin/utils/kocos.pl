@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-kocos.pl
+kocos.pl - Find the Kth order co-occurrences of a word
 
 =head1 SYNOPSIS
 

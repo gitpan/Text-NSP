@@ -5,10 +5,10 @@ SYNOPSIS
         perl Makefile.PL
         make
         make test
+        make install
         cd Testing
         csh ./ALL-TESTS.sh
         cd ..
-        make install
         make clean
 
 DESCRIPTION
@@ -22,14 +22,14 @@ DESCRIPTION
 
         perl Makefile.PL
         make
-        make test  # optional, but recommended
-
-        cd Testing # optional, but recommended
-        csh ./ALL-TESTS.sh # optional, but recommended
-        cd ..
-
+        make test  
         su         # or sudo, as the case may be
         make install
+
+        cd Testing # optional, but recommended
+        csh ./ALL-TESTS.sh 
+        cd ..
+
         make clean
 
     If you need to install this distribution in your local user account
@@ -39,12 +39,10 @@ DESCRIPTION
         perl Makefile.PL PREFIX=~/MyNSP LIB=~/MyPerlLib
         make
         make test
-
+        make install
         cd Testing 
         csh ./ALL-TESTS.sh 
         cd ..
-
-        make install
 
     This will install the executable scripts into ~/MyNSP/bin, the man pages
     in ~/MyPerlLib/man, and the libraries into ~/MyPerlLib.
@@ -66,11 +64,11 @@ DESCRIPTION
   Orientation
      INSTALL           : this file
 
-     README            : a plain text version of docs/README.pod
+     README            : a plain text version of doc/README.pod
 
-     CHANGES           : a plain text version of docs/CHANGES.pod
+     CHANGES           : a plain text version of doc/CHANGES.pod
 
-     TODO              : a plain text version of docs/TODO.pod
+     TODO              : a plain text version of doc/TODO.pod
 
      MANIFEST          : a list of the files found in this distribution,
                          created automatically by "make manifest" and used
@@ -81,7 +79,7 @@ DESCRIPTION
      bin/statistic.pl  : program that measures association of Ngrams based on
                          count.pl output
 
-     docs/             : directory of documentation
+     doc/              : directory of documentation
 
                          README.pod  - complete description of NSP
                          INSTALL.pod - this file
@@ -93,7 +91,7 @@ DESCRIPTION
                          NSP-Class-diagram.(png|pdf) - UML of measure hierarchy
                          ChangeLogs  - archive of Change logs
 
-     bin/Utils/        : directory that contains several useful programs
+     bin/utils/        : directory that contains several useful programs
 
                          rank.pl: compare two measures of association
                          kocos.pl: find kth order co-occurrences
@@ -125,8 +123,8 @@ AUTHOR
      Ted Pedersen, University of Minnesota, Duluth
      tpederse at d.umn.edu
 
-    This document last modified by : $Id: INSTALL.pod,v 1.3 2008/03/20
-    18:00:46 tpederse Exp $
+    This document last modified by : $Id: INSTALL.pod,v 1.3 2008/03/24
+    14:46:10 tpederse Exp $
 
 SEE ALSO
     Please join the NSP mailing list to report bugs, receive information

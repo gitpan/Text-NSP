@@ -702,11 +702,6 @@ L<http://www.d.umn.edu/~tpederse/nsp.html>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2006, Ted Pedersen, Satanjeev Banerjee, Amruta
-Purandare, Bridget Thomson-McInnes and Saiyam Kohli
-
-=head1 COPYRIGHT
-
 Copyright (C) 2000-2006, Ted Pedersen, Satanjeev Banerjee,
 Amruta Purandare, Bridget Thomson-McInnes and Saiyam Kohli
 

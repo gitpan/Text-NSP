@@ -1,8 +1,8 @@
-#!/usr/bin/perl -w
+#!/usr/local/bin/perl -w
 
 =head1 NAME
 
-sort-bigrams.pl
+sort-bigrams.pl - Sort output from count.pl or statistic.pl in descending order based on frequency or association score
 
 =head1 SYNOPSIS
 

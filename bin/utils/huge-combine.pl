@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-huge-combine.pl
+huge-combine.pl - Combine two bigram files created by count.pl into single file 
 
 =head1 SYNOPSIS
 

@@ -1,8 +1,8 @@
-#!/usr/bin/perl -w
+#!/usr/local/bin/perl -w
 
 =head1 NAME
 
-statistic.pl
+statistic.pl - Measure the association of Ngrams in text
 
 =head1 SYNOPSIS
 
@@ -35,7 +35,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: statistic.pl,v 1.18 2006/06/20 22:47:39 saiyam_kohli Exp $
+Last updated: $Id: statistic.pl,v 1.19 2008/03/24 14:44:19 tpederse Exp $
 
 =head1 BUGS
 

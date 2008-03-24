@@ -1,8 +1,6 @@
 =head1 NAME
 
-Text::NSP - The Ngram Statistic Package allows a user to count
-            sequences of words in large corpora of text, and
-            measure their association.
+Text::NSP - Count and identify significant collocations and Ngrams in text
 
 =head1 SYNOPSIS
 
@@ -67,34 +65,32 @@ Text::NSP::Measures).
 The following table decrribes the error codes use in the
 implementation,
 
-
 Error codes common to all the association measures.
 
-100 - Trying to create an object of a abstract class.
+ 100 - Trying to create an object of a abstract class.
 
-200 - one of the required values is missing.
+ 200 - one of the required values is missing.
 
-201 - one of the observed frequency comes out to be -ve.
+ 201 - one of the observed frequency comes out to be -ve.
 
-202 - one of the frequency values(n11) exceeds the total no of
-      bigrams(npp) or a marginal total(n1p, np1).
+ 202 - one of the frequency values(n11) exceeds the total no of
+       bigrams(npp) or a marginal total(n1p, np1).
 
-203 - one of the marginal totals(n1p, np1) exceeds the total bigram
-      count(npp).
+ 203 - one of the marginal totals(n1p, np1) exceeds the total bigram
+       count(npp).
 
-204 - one of the marginal totals is -ve.
-
+ 204 - one of the marginal totals is -ve.
 
 Error Codes required by the mutual information measures
 
-211 - one of the expected values is zero.
+ 211 - one of the expected values is zero.
 
-212 - one of the expexted values is -ve.
+ 212 - one of the expexted values is -ve.
 
 
 Error codes required by the CHI measures.
 
-221 - one of the expected values is zero.
+ 221 - one of the expected values is zero.
 
 =head2 Methods
 
@@ -102,9 +98,7 @@ Error codes required by the CHI measures.
 
 =cut
 
-
 package Text::NSP;
-
 
 use strict;
 use Carp;
@@ -114,7 +108,7 @@ our ($VERSION, @ISA);
 
 @ISA  = qw(Exporter);
 
-$VERSION = '1.05';
+$VERSION = '1.07';
 
 1;
 
@@ -123,40 +117,34 @@ __END__
 
 =back
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 Ted Pedersen,                University of Minnesota Duluth
-                             E<lt>tpederse@d.umn.eduE<gt>
+                             E<lt>tpederse at d.umn.eduE<gt>
 
 Satanjeev Banerjee,          Carnegie Mellon University
-                             E<lt>satanjeev@cmu.eduE<gt>
 
 Amruta Purandare,            University of Pittsburgh
-                             E<lt>amruta@cs.pitt.eduE<gt>
 
 Bridget Thomson-McInnes,     University of Minnesota Twin Cities
-                             E<lt>bthompson@d.umn.eduE<gt>
 
 Saiyam Kohli,                University of Minnesota Duluth
-                             E<lt>kohli003@d.umn.eduE<gt>
 
 =head1 HISTORY
 
-Last updated: $Id: NSP.pm,v 1.27 2008/03/20 13:20:59 tpederse Exp $
+Last updated: $Id: NSP.pm,v 1.30 2008/03/24 14:21:48 tpederse Exp $
 
 =head1 BUGS
-
 
 =head1 SEE ALSO
 
 L<http://groups.yahoo.com/group/ngram/>
 
-L<http://www.d.umn.edu/~tpederse/nsp.html>
-
+L<http://ngram.sourceforge.net>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2006, Ted Pedersen, Satanjeev Banerjee,
+Copyright (C) 2000-2008, Ted Pedersen, Satanjeev Banerjee,
 Amruta Purandare, Bridget Thomson-McInnes and Saiyam Kohli
 
 This program is free software; you can redistribute it and/or modify

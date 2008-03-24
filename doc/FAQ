@@ -1,5 +1,5 @@
 NAME
-    Ngram Statistics Package (NSP) FAQ
+    FAQ Frequently Asked Questions about the Ngram Statistics Package
 
 SYNOPSIS
     Frequently Asked Questions about the Ngram Statistics Package.
@@ -14,8 +14,7 @@ DESCRIPTION
     Please send your questions to me (tpederse@d.umn.edu) or the NSP mailing
     list http://groups.yahoo.com/group/ngram/.
 
-  General Questions
-   How can I cite NSP in a paper?
+  How should I cite NSP in a paper?
     There is one published paper about NSP that you could cite:
 
      @inproceedings{BanerjeeP03,
@@ -32,25 +31,44 @@ DESCRIPTION
 
     You can get a copy of this paper at:
 
-     http://www.d.umn.edu/~tpederse/Pubs/cicling2003-2.pdf
+     L<http://www.d.umn.edu/~tpederse/Pubs/cicling2003-2.pdf>
 
     If you would rather cite a URL, the official home page of NSP is
 
-     http://www.d.umn.edu/~tpederse/nsp.html
+     L<http://www.d.umn.edu/~tpederse/nsp.html>
 
-    TDP 11/30/2003
+  Where can I find other papers by users of NSP?
+    We have established an NSP bibliography that includes some papers by
+    users. Please make contributions to this bibliography when you publish a
+    paper using NSP!
 
-    ------------------------------------------------------------------------
-    -
+    <http://www.d.umn.edu/~tpederse/nsp-bib/>
+
+  General Questions
+   Why do you have 'make test' and then csh ./ALL-TESTS.sh
+    This reflects the historical development of NSP. Initially NSP was based
+    on command line scripts, and was not easy to test using the standard
+    Perl methods you see in 'make test'. However, once NSP went object
+    oriented, using 'make test' became much easier.
+
+    We use ./ALL-TESTS.sh to test our command line programs very
+    extensively, so you should still run this and take note of any errors.
+    Please make sure you run 'csh ./ALL-TESTS.sh' AFTER running 'make
+    install', otherwise some of the tests cases won't find the modules they
+    need (since they haven't been installed and since ./ALL-TESTS.sh does
+    not look into the build libraries prior to installation.
+
+   Why do you use the C shell (csh) so much?
+    This reflects the historical development of NSP. Initially NSP was
+    developed on Solaris systems, which use tcsh as their default shell.
+    Since we do not do anything too fancy with the shell, it seemed like a
+    reasonable thing to stay with csh even after our site and many others
+    moved to Linux, where the bash shell is more common.
 
    What is in the future for NSP?
-    Many things! See our Todo list (Todo.txt) for a fairly complete
-    accounting of our future plans.
-
-    TDP 11/30/2003
-
-    ------------------------------------------------------------------------
-    -
+    Many things! See our Todo list (TODO) for a fairly complete accounting
+    of our future plans. We are always open to suggestions, so please send
+    those to the mailing list for consideration and discussion.
 
    Why is NSP so slow on large files of text?
     As of version 0.61 (and before) NSP does all counting using a Perl hash.
@@ -71,11 +89,6 @@ DESCRIPTION
     unigrams in a 1,000,000 word corpus, then try bigrams. Then move up to
     5,000,000 words with unigrams, and so forth.
 
-    TDP 11/30/2003
-
-    ------------------------------------------------------------------------
-    -
-
   Questions about Significance Testing
    What is Fisher's exact test?
     Fisher's exact test is a significance test that is considered to be more
@@ -84,13 +97,8 @@ DESCRIPTION
 
     The paper "Fishing for Exactness" gives a fairly detailed description of
     Fisher's exact test relative to these other tests. Find it with the 1996
-    entries at: http://www.d.umn.edu/~tpederse/pubs.html It is also
-    available at: http://xxx.lanl.gov/abs/cmp-lg/9608010
-
-    TDP
-
-    ------------------------------------------------------------------------
-    -
+    entries at: <http://www.d.umn.edu/~tpederse/pubs.html> It is also
+    available at: <http://xxx.lanl.gov/abs/cmp-lg/9608010>
 
    What is a left sided, right sided, and two sided Fisher's exact test?
     Fisher's exact test is computed by fixing the marginal totals of a 2x2
@@ -114,11 +122,6 @@ DESCRIPTION
     entries at: http://www.d.umn.edu/~tpederse/pubs.html It is also
     available at: http://xxx.lanl.gov/abs/cmp-lg/9608010
 
-    TDP
-
-    ------------------------------------------------------------------------
-    -
-
    Why do you recommend the use of a left sided Fisher's exact test?
     The main advantage of the left sided test it is interpreted much like
     the other tests that we provide. The larger the value the stronger the
@@ -134,12 +137,7 @@ DESCRIPTION
     rankings of a right sided test with, for example, mutual information.
 
     A two sided test doesn't seem to have a very natural mapping to
-    explaining bigram data. (TDP?)
-
-    TDP
-
-    ------------------------------------------------------------------------
-    -
+    explaining bigram data.
 
    Why don't the log likelihood tests (ll.pm) and Pearson's test (x2.pm) report the significance values associated with their raw scores?
     We don't assign significance values to these tests since setting the
@@ -151,8 +149,6 @@ DESCRIPTION
 
     Having said all this, it is very likely that future versions of NSP will
     have this capability.
-
-    TDP
 
    How do I decide which of the tests your provide is the one I should use?
     The tests provided here can be divided into three classes:
@@ -194,11 +190,6 @@ DESCRIPTION
     If you are interested in Mutual information, then you have it, and you
     have the closely related alternative measure the Dice Coefficient.
 
-    TDP
-
-    ------------------------------------------------------------------------
-    -
-
    How do I interpret the values of these test scores?
     Carefully. Subjectively. Creatively.
 
@@ -218,11 +209,6 @@ DESCRIPTION
     there is greater association between the bigrams. These tests should not
     be compared to others with the rank.pl program!
 
-    TDP
-
-    ------------------------------------------------------------------------
-    -
-
    Fisher's left sided test seems to rank a lot of bigrams first! Why?
     As sample sizes get larger, the hypergeometric probabilities associated
     with each possible 2x2 table of bigram data (given fixed marginal
@@ -233,13 +219,8 @@ DESCRIPTION
 
     The paper "Fishing for Exactness" shows how these hypergeometric
     probabilities are computed. Find it with the 1996 entries at:
-    http://www.d.umn.edu/~tpederse/pubs.html It is also available at:
-    http://xxx.lanl.gov/abs/cmp-lg/9608010
-
-    TDP
-
-    ------------------------------------------------------------------------
-    -
+    <http://www.d.umn.edu/~tpederse/pubs.html> It is also available at:
+    <http://xxx.lanl.gov/abs/cmp-lg/9608010>
 
   Questions about stop lists and removing non-tokens
    How does the stop list option (--stop) work?
@@ -283,11 +264,6 @@ DESCRIPTION
     typically be the case that the first and second position counts for a
     word will be the same.
 
-    TDP 01/08/03
-
-    ------------------------------------------------------------------------
-    -
-
    Can I have modifiers in my stoplist regular expressions?
     No. :)
 
@@ -314,11 +290,6 @@ DESCRIPTION
     the regex, since then we wouldn't be able to concatenate them together
     like we are doing now.
 
-    SB, with minor additions by TDP 01/09/03
-
-    ------------------------------------------------------------------------
-    -
-
    Why is there a --stop and a --nontoken option for count.pl?
     The stop option allows you to specify a stop list that eliminates Ngrams
     if they are completely made up of stop words (AND mode) or if one of the
@@ -328,11 +299,6 @@ DESCRIPTION
     The nontoken option allows you to eliminate words from the text prior to
     the formation of Ngrams. This processing occurs well before the stop
     option, which is carried out after Ngrams have been formed.
-
-    TDP 1/11/03
-
-    ------------------------------------------------------------------------
-    -
 
    How can I disregard n-grams that cross sentence boundaries or other punctuation marks?
     For example, in :
@@ -358,8 +324,10 @@ DESCRIPTION
 
      perl -e "while(<>){s/[.]/\n/g; print}" sentence.txt > sentence.tmp
 
-    would create the following in file "sentence.tmp": this is a sentence
-    this is a sentence
+    would create the following in file "sentence.tmp":
+
+     this is a sentence
+      this is a sentence
 
     (To use more punctuation marks, you'd want to put them inside the
     [square brackets])
@@ -381,11 +349,14 @@ DESCRIPTION
     There's one problem in this approach though. Assume the following is
     your original "sentence.txt" file:
 
-    this is a sentence. this is a sentence.
+     this is a sentence. this is
+     a sentence.
 
     Replacing '.' with \n would produce the following:
 
-    this is a sentence this is a sentence
+     this is a sentence
+     this is
+     a sentence
 
     And then if you use --newLine, you'd not be able to catch the second
     "is<>a" bigram.
@@ -401,11 +372,6 @@ DESCRIPTION
 
     Be warned though that very long lines can lead to very slow processing.
 
-    SB, with minor additions by TDP
-
-    ------------------------------------------------------------------------
-    -
-
   Questions about rank.pl
    In rank.pl you use Spearman's rank correlation coefficient. Why not use Kendall's tau or some other correlation measure?
     The reason we use Spearman's measure is that it is geared towards
@@ -416,11 +382,6 @@ DESCRIPTION
     ratio produce values that are on different scales, and you can't compare
     them directly. This is why we focus on comparing ranked values, which is
     why we use Spearman's.
-
-    TDP
-
-    ------------------------------------------------------------------------
-    -
 
   Questions about kocos.pl
    What is a kth order co-occurrence?
@@ -446,23 +407,20 @@ DESCRIPTION
 
     kocos.pl finds such kth order relationships among words.
 
-    TDP 11/30/2003
-
-    ------------------------------------------------------------------------
-    -
-
 AUTHORS
-     Ted Pedersen          tpederse@umn.edu         TDP
-     Satanjeev Banerjee    bane0025@d.umn.edu       SB
+     Ted Pedersen, University of Minnesota, Duluth
+     tpederse at d.umn.edu         
+
+     Satanjeev Banerjee, Carnegie-Mellon University
 
 BUGS
 SEE ALSO
-     NSP home         : http://www.d.umn.edu/~tpederse/nsp.html
-     Sourceforge home : http://ngram.sourceforge.net
-     NSP mailing list : http://groups.yahoo.com/group/ngram/
+     NSP home         : L<http://www.d.umn.edu/~tpederse/nsp.html>
+     Sourceforge home : L<http://ngram.sourceforge.net>
+     NSP mailing list : L<http://groups.yahoo.com/group/ngram/>
 
 COPYRIGHT
-    Copyright (C) 2000-2006 Ted Pedersen
+    Copyright (C) 2000-2008 Ted Pedersen
 
     Permission is granted to copy, distribute and/or modify this document
     under the terms of the GNU Free Documentation License, Version 1.2 or
