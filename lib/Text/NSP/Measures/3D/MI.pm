@@ -1,7 +1,7 @@
 =head1 NAME
 
 Text::NSP::Measures::3D::MI - Perl module that provides error checks and
-                              framework to implement Loglieklihood,
+                              framework to implement Loglikelihood,
                               Total Mutual Information, Pointwise Mutual
                               Information and Poisson Stirling Measure
                               for trigrams.
@@ -65,7 +65,7 @@ ps = n111 * ( log(n111/m111) - 1)
 
 All these methods use the ratio of the observed values to expected values,
 for computations, and thus have common error checks, so they have been grouped
-togrther.
+together.
 
 =head2 Methods
 
@@ -103,7 +103,7 @@ $VERSION = '1.03';
 =item getValues($count_values) - This method calls
 computeMarginalTotals the computeObservedValues() and
 the computeExpectedValues() methods to compute the
-observed and expected values. It checks thes values
+observed and expected values. It checks these values
 for any errors that might cause the Loglikelihood,
 TMI and PMI measures to fail.
 
@@ -113,7 +113,7 @@ INPUT PARAMS  : $count_values           .. Reference of an hash containing
 
 RETURN VALUES : 1/undef           ..returns '1' to indicate success
                                     and an undefined(NULL) value to indicate
-                                    faliure.
+                                    failure.
 
 =cut
 
@@ -304,7 +304,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: MI.pm,v 1.14 2006/09/15 23:27:06 saiyam_kohli Exp $
+Last updated: $Id: MI.pm,v 1.15 2008/03/26 17:41:33 tpederse Exp $
 
 =head1 BUGS
 

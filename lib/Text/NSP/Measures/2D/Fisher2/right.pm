@@ -1,7 +1,7 @@
 =head1 NAME
 
 Text::NSP::Measures::2D::Fisher2::right - Perl module implementation of the right sided
-                                          Fisher's exact test.
+                                          Fisher's exact test (Deprecated).
 
 =head1 SYNOPSIS
 
@@ -235,7 +235,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: right.pm,v 1.9 2006/06/21 11:10:52 saiyam_kohli Exp $
+Last updated: $Id: right.pm,v 1.10 2008/03/26 17:24:15 tpederse Exp $
 
 =head1 BUGS
 

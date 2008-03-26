@@ -1,5 +1,5 @@
 NAME
-    Todo.pod
+    TODO Things to do in the Ngram Statistics Package
 
 SYNOPSIS
     Ngram Statistics Package Todo list
@@ -12,6 +12,10 @@ DESCRIPTION
 
     If you have additional ideas, or would like to comment on something on
     the current list, please let us know via the ngram mailing list.
+
+  WEB INTERFACE / WEB SERVER
+    It would be nice to offer a web interface or web server for users who
+    just want to run a few measures.
 
   UNICODE SUPPORT / ENCODING ISSUES
     NSP is geared for the Roman alphabet (Latin-1). Perl has increasingly
@@ -217,7 +221,7 @@ DESCRIPTION
 AUTHOR
     Ted Pedersen, tpederse@d.umn.edu
 
-    Last Updated : $Id: TODO,v 1.7 2008/03/24 14:49:24 tpederse Exp $
+    Last Updated : $Id: TODO,v 1.13 2008/03/26 17:56:11 tpederse Exp $
 
 BUGS
 SEE ALSO

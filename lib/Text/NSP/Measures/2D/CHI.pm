@@ -1,7 +1,7 @@
 =head1 NAME
 
 Text::NSP::Measures::2D::CHI - Perl module that provides error checks
-                               for the Pearsons chi squared, phi coefficient
+                               for the Pearson's chi squared, phi coefficient
                                and the Tscore measures.
 
 =head1 SYNOPSIS
@@ -56,7 +56,7 @@ Pearson's Chi-Squared test multiplied by the sample size, that is:
 
  Although T-score seems quite different from the other two measures we
  have put it in the CHI family because like the other two measures it
- uses the difference between the obseved and expected values and is also
+ uses the difference between the observed and expected values and is also
  quite similar in ranking the bigrams.
 
 =over
@@ -88,7 +88,7 @@ $VERSION = '1.03';
 
 =item getValues() - This method calls the computeMarginalTotals(),
 computeObservedValues() and the computeExpectedValues() methods to
-compute the observed and expected values. It checks thes values for
+compute the observed and expected values. It checks thees values for
 any errors that might cause the PHI and x2 measures to fail.
 
 INPUT PARAMS  : $count_values           .. Reference of an hash containing
@@ -97,7 +97,7 @@ INPUT PARAMS  : $count_values           .. Reference of an hash containing
 
 RETURN VALUES : 1/undef           ..returns '1' to indicate success
                                     and an undefined(NULL) value to indicate
-                                    faliure.
+                                    failure.
 
 =cut
 
@@ -214,7 +214,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: CHI.pm,v 1.13 2006/09/15 23:27:03 saiyam_kohli Exp $
+Last updated: $Id: CHI.pm,v 1.14 2008/03/26 17:18:26 tpederse Exp $
 
 =head1 BUGS
 

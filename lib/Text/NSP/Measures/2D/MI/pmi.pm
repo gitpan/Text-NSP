@@ -49,7 +49,7 @@ for example:
    m11=   ---------
             npp
 
-Pointwise Mutual Information (pmi) is defined as the log of the devitation
+Pointwise Mutual Information (pmi) is defined as the log of the deviation
 between the observed frequency of a bigram (n11) and the probability of
 that bigram if it were independent (m11).
 
@@ -188,7 +188,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: pmi.pm,v 1.23 2006/06/21 11:10:52 saiyam_kohli Exp $
+Last updated: $Id: pmi.pm,v 1.24 2008/03/26 17:20:28 tpederse Exp $
 
 =head1 BUGS
 

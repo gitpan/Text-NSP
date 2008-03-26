@@ -22,11 +22,11 @@ scope of the package in moving beyond Bigrams to Ngrams.
 
 NSP consists of two core programs and three utilities:
 
-Program bin/count.pl takes flat text files as input and generates a list of
-all the Ngrams that occur in those files. The Ngrams, along with their
-frequencies, are output in descending order of their frequency.
+Program L<count.pl> takes flat text files as input and generates a list 
+of all the Ngrams that occur in those files. The Ngrams, along with 
+their frequencies, are output in descending order of their frequency.
 
-Program bin/statistic.pl takes as input a list of Ngrams with their
+Program L<statistic.pl> takes as input a list of Ngrams with their
 frequencies (in the format output by count.pl) and runs a user-selected
 statistical measure of association to compute a "score" for each Ngram.
 The Ngrams, along with their scores, are output in descending order of
@@ -37,7 +37,7 @@ hypothesis (that the Ngram is not a collocation) for that Ngram.
 Various utility programs are found in bin/utils/ and take as their input 
 the results (output) from count.pl and/or statistic.pl.
 
-bin/utils/rank.pl takes as input two files output by statistic.pl and
+L<rank.pl> takes as input two files output by statistic.pl and
 computes the Spearman's rank correlation coefficient on the Ngrams that
 are common to both files. Typically the two files should be produced by
 applying statistic.pl on the same Ngram count file but by using two
@@ -47,7 +47,7 @@ value close to 1 would indicate that these two measures rank Ngrams in
 the same order, -1 that the two orderings are exactly opposite to each
 other and 0 that they are not related.
 
-bin/utils/kocos.pl takes as input a file output by count.pl or 
+L<kocos.pl> takes as input a file output by count.pl or 
 statistic.pl
 and uses that to identify kth order co-occurrences of a given word. A
 kth order co-occurrence of a target WORD is a word that co-occurs with a
@@ -58,14 +58,14 @@ co-occurrences). In "New Jack", "New" and "Jack" co-occur. Thus, "Jack"
 and "York" are second order co-occurrences because they both co-occur
 with "New".
 
-bin/utils/combig.pl will take the output of count.pl and find unordered
+L<combig.pl> will take the output of count.pl and find unordered
 counts of bigrams. Normally count.pl treats bigrams like "fine wine" and
 "wine fine" as distinct. combig.pl (combine bigram) will adjust the
 counts such that they do not depend on the order. So one could then go
 on to measure how much the words "fine" and "wine" are associated
 without respect to their order.
 
-bin/utils/huge-count.pl allows a user to run count.pl on much larger
+L<huge-count.pl> allows a user to run count.pl on much larger
 corpora. It essentially divides a corpora into pieces, and then uses
 count.pl to count piece, and then recombines the counts to get the final
 output. huge-count.pl also uses bin/utils/huge-combine.pl,
@@ -351,7 +351,7 @@ The following are all the trigrams with a window size of 4:
 
 Etc.
 
-=head2 5. Program count.pl:
+=head2 5. Program L<count.pl>:
 
 This program takes as input a flat ASCII text file and outputs all
 Ngrams, or token sequences of length 'n', where the value of 'n' can
@@ -971,7 +971,7 @@ The user can also generate a "histogram" output by using the
 Ngrams of a certain frequency has occurred. Following is a typical
 line out of a histogram output:
 
-Number of n-grams that occurred   5 time(s) =    14 (40.94 percent)
+ Number of n-grams that occurred   5 time(s) =    14 (40.94 percent)
 
 This says that there were 14 distinct Ngrams that occurred 5 times
 each, and between themselves they make up around 41% of the total
@@ -986,7 +986,7 @@ if one also uses the switch --recurse, all subdirectories inside the
 source directory are searched for text files recursively, and all text
 files so found are used to create Ngrams from.
 
-=head2 6. Program statistic.pl:
+=head2 6. Program L<statistic.pl>:
 
 Program statistic.pl takes as input a list of Ngrams with their
 frequencies in the format output by count.pl and runs a user-selected
@@ -1217,26 +1217,83 @@ are suitable for use with bigrams and one may be used with trigrams.
 
 The bigram measures are:
 
-  1) Dice Coefficient (Text::NSP::Measures::2D::Dice::dice)
-  2) Fishers exact test - left sided (Text::NSP::Measures::2D::Fisher::left)
-  3) Fishers exact test - right sided (Text::NSP::Measures::2D::Fisher::right)
-  4) Fishers twotailed test - right sided (Text::NSP::Measures::2D::Fisher::twotailed)
-  5) Jaccard Coefficient (Text::NSP::Measures::2D::Dice::jaccard)
-  6) Log-likelihood ratio (Text::NSP::Measures::2D::MI::ll)
-  7) Mutual Information (Text::NSP::Measures::2D::MI::tmi)
-  8) Odds Ratio (Text::NSP::Measures::2D::odds)
-  9) Pointwise Mutual Information (Text::NSP::Measures::2D::MI::pmi)
-  10) Phi Coefficient (Text::NSP::Measures::2D::CHI::phi)
-  11) Pearson's Chi Squared Test (Text::NSP::Measures::2D::CHI::x2)
-  12) Poisson Stirling Measure (Text::NSP::Measure::2D::MI::ps)
-  13) T-score (Text::NSP::Measures::2D::CHI::tscore)
+=over 4
+
+=item * 
+
+Dice Coefficient (L<Text::NSP::Measures::2D::Dice::dice>)
+
+=item * 
+
+Fishers exact test - left sided (L<Text::NSP::Measures::2D::Fisher::left>)
+
+=item * 
+
+Fishers exact test - right sided (<Text::NSP::Measures::2D::Fisher::right>)
+
+=item * 
+
+Fishers twotailed test - right sided (<Text::NSP::Measures::2D::Fisher::twotailed>)
+
+=item * 
+
+Jaccard Coefficient (L<Text::NSP::Measures::2D::Dice::jaccard>)
+
+=item * 
+
+Log-likelihood ratio (L<Text::NSP::Measures::2D::MI::ll>)
+
+=item * 
+
+Mutual Information (L<Text::NSP::Measures::2D::MI::tmi>)
+
+=item * 
+
+Odds Ratio (L<Text::NSP::Measures::2D::odds>)
+
+=item * 
+
+Pointwise Mutual Information (L<Text::NSP::Measures::2D::MI::pmi>)
+
+=item * 
+
+Phi Coefficient (L<Text::NSP::Measures::2D::CHI::phi>)
+
+=item * 
+
+Pearson's Chi Squared Test (L<Text::NSP::Measures::2D::CHI::x2>)
+
+=item * 
+
+Poisson Stirling Measure (L<Text::NSP::Measure::2D::MI::ps>)
+
+=item * 
+
+T-score (L<Text::NSP::Measures::2D::CHI::tscore>)
+
+=back
 
 The trigram measures are:
 
-  1) Log-likelihood ratio (Text::NSP::Measures::3D::MI::ll)
-  2) Mutual Information (Text::NSP::Measures::3D::MI::tmi)
-  3) Pointwise Mutual Information (Text::NSP::Measures::3D::MI::pmi)
-  4) Poisson Stirling Measure (Text::NSP::Measure::3D::MI::ps)
+=over 4
+
+=item * 
+
+Log-likelihood ratio (L<Text::NSP::Measures::3D::MI::ll>)
+
+=item * 
+
+Mutual Information (L<Text::NSP::Measures::3D::MI::tmi>)
+
+=item *
+
+Pointwise Mutual Information (L<Text::NSP::Measures::3D::MI::pmi>)
+
+=item * 
+
+Poisson Stirling Measure (L<Text::NSP::Measure::3D::MI::ps>)
+
+=back
 
 Any of these measures can be used as follows:
 
@@ -1252,7 +1309,7 @@ details about the Measures can be found in their respective perldocs.
 
 If you write a paper that has used NSP in some way, we'd certainly be
 grateful if you sent us a copy and referenced NSP. We have a published
-paper about NSP that could provide a suitable reference:
+paper about NSP that provides a suitable reference:
 
  @inproceedings{BanerjeeP03,
         author = {Banerjee, S. and Pedersen, T.},
@@ -1263,82 +1320,43 @@ paper about NSP that could provide a suitable reference:
         month ={February},
         address = {Mexico City}}
 
-This paper is found in doc/cicling2003.(ps|pdf)
+This paper is also found in L<cicling2003.ps> or L<cicling2003.pdf>
 
-=head2 8. Copying NSP:
+=head1 AUTHORS
 
-This suite of programs is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 2 of the License, or (at your option)
-any later version.
+Ted Pedersen, University of Minnesota, Duluth
+tpederse at d.umn.edu
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+Satanjeev Banerjee
 
-You should have received a copy of the GNU General Public License along with
-this program; if not, write to the Free Software Foundation, Inc., 59 Temple
-Place - Suite 330, Boston, MA  02111-1307, USA.
+Amruta Purandare
 
-Note: The text of the GNU General Public License is provided in the file
-GPL.txt that you should have received with this distribution.
+Saiyam Kohli
 
-=head2 9. Acknowledgments:
+Last modified by :
+$Id: README.pod,v 1.5 2008/03/26 01:57:55 tpederse Exp $
+
+=head1 BUGS
+
+Please report to the NSP mailing list
+
+=head1 SEE ALSO
+
+=over 4
+
+=item * NSP Home:      L<http://ngram.sourceforge.net>
+
+=item * Mailing List : L<http://groups.yahoo.com/group/ngram/>
+
+=back
+
+=head2 8. Acknowledgments:
 
 This work has been partially supported by a National Science Foundation
 Faculty Early CAREER Development award (\#0092784) and by a Grant-in-Aid
 of Research, Artistry and Scholarship from the Office of the Vice
 President for Research and the Dean of the Graduate School of the
 University of Minnesota.
-
-=head1 AUTHORS
-
-Ted Pedersen, tpederse@umn.edu
-
-Satanjeev Banerjee, bane0025@d.umn.edu
-
-Amruta Purandare, pura0010@d.umn.edu
-
-Saiyam Kohli, kohli003@d.umn.edu
-
-Last modified by :
-$Id: README.pod,v 1.3 2008/03/24 14:46:10 tpederse Exp $
-
-=head1 BUGS
-
-None known.
-
-=head1 SEE ALSO
-
-=over 4
-
-=item * NSP Home:      http://www.d.umn.edu/~tpederse/nsp.html
-
-=item * Sourceforge:   http://sourceforge.net/projects/ngram
-
-=item * CPAN:          http://search.cpan.org/dist/Text-NSP/
-
-=item * Mailing List : http://groups.yahoo.com/group/ngram/
-
-=back
-
-=head2 REFERENCES
-
-=over 4
-
-=item 1
-
-L. Wall, T. Christiansen and J. Orwant. 2000. Programming Perl. O'Reilly.
-
-=item 2
-
-S. Banerjee and T. Pedersen. 2003. The Design, Implementation and Use of
-the Ngram Statistics Package. Proceedings of the Fourth International
-Conference on Intelligent Text Processing and Computational Linguistics,
-2003, February, Mexico City. (Available in this distribution as
-cicling2003.pdf or cicling2003.ps).
-
-=back
 
 =head1 COPYRIGHT
 

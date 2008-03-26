@@ -91,24 +91,26 @@ sub MY::postamble {
   return ($postamble);
 }
 
-sub MY::install
-{
-  my $self = shift;
-  my $string = $self->MM::install;
+## revert to a more standard method of testing and installation
+
+#sub MY::install
+#{
+#  my $self = shift;
+#  my $string = $self->MM::install;
 ##  my $add = 'html';
-  $string =~ s/(pure_install\s+)(.*)/$1 $add $2/;
-  return $string;
-}
+#  $string =~ s/(pure_install\s+)(.*)/$1 $add $2/;
+#  return $string;
+#}
 
 # For testing
-sub MY::test
-{
-    q(
-TEST_VERBOSE=0
+#sub MY::test
+#{
+#    q(
+#TEST_VERBOSE=0
+#
+#test: all
+#	$(FULLPERL) t/TEST $(TEST_VERBOSE)
 
-test: all
-	$(FULLPERL) t/TEST $(TEST_VERBOSE)
-
-);
-}
+#);
+#}
 

@@ -27,7 +27,7 @@ Text::NSP::Measures::2D::MI::ps - Perl module that implements Poisson-Stirling
 
 =head1 DESCRIPTION
 
-The log-likelihood ratio measures the devitation between the observed data
+The log-likelihood ratio measures the deviation between the observed data
 and what would be expected if <word1> and <word2> were independent. The
 higher the score, the less evidence there is in favor of concluding that
 the words are independent.
@@ -54,15 +54,15 @@ for example:
    m11=   ---------
             npp
 
-The poisson stirling measure is a negative lograthimic approximation
-of the poisson-likelihood measure. It uses the stirlings firmula to
-approximate the factorial in poisson-likelihood measure.
+The Poisson Stirling measure is a negative logarithmic approximation
+of the Poisson-likelihood measure. It uses the Stirling's formula to
+approximate the factorial in Poisson-likelihood measure.
 
-Posson-Stirling = n11 * ( log(n11) - log(m11) - 1)
+Poisson-Stirling = n11 * ( log(n11) - log(m11) - 1)
 
 which is same as
 
-Posson-Stirling = n11 * ( log(n11/m11) - 1)
+Poisson-Stirling = n11 * ( log(n11/m11) - 1)
 
 
 =head2 Methods
@@ -162,7 +162,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: ps.pm,v 1.8 2006/06/21 11:10:52 saiyam_kohli Exp $
+Last updated: $Id: ps.pm,v 1.9 2008/03/26 17:20:28 tpederse Exp $
 
 =head1 BUGS
 

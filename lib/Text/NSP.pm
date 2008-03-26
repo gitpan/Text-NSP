@@ -1,6 +1,6 @@
 =head1 NAME
 
-Text::NSP - Count and identify significant collocations and Ngrams in text
+Text::NSP - Extract collocations and Ngrams from text
 
 =head1 SYNOPSIS
 
@@ -36,7 +36,6 @@ NSP.pm is a stub that doesn't have any real functionality. It serves
 as a top level module in the hierarchy and allows us to group the
 Text::NSP::Count and Text::NSP::Measures modules.
 
-
 The modules under Text::NSP::Measures implement measures of
 association that are used to evaluate whether the co-occurrence of the
 words in a Ngram is purely by chance or statistically significant.
@@ -62,7 +61,7 @@ Text::NSP::Measures).
 
 =head2 Error Codes
 
-The following table decrribes the error codes use in the
+The following table describes the error codes use in the
 implementation,
 
 Error codes common to all the association measures.
@@ -85,7 +84,7 @@ Error Codes required by the mutual information measures
 
  211 - one of the expected values is zero.
 
- 212 - one of the expexted values is -ve.
+ 212 - one of the expected values is -ve.
 
 
 Error codes required by the CHI measures.
@@ -108,7 +107,7 @@ our ($VERSION, @ISA);
 
 @ISA  = qw(Exporter);
 
-$VERSION = '1.07';
+$VERSION = '1.09';
 
 1;
 
@@ -132,7 +131,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: NSP.pm,v 1.30 2008/03/24 14:21:48 tpederse Exp $
+Last updated: $Id: NSP.pm,v 1.33 2008/03/26 17:49:29 tpederse Exp $
 
 =head1 BUGS
 

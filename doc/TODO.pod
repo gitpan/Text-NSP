@@ -1,6 +1,6 @@
 =head1  NAME 
 
-Todo.pod
+TODO  Things to do in the Ngram Statistics Package 
 
 =head1 SYNOPSIS
 
@@ -15,6 +15,11 @@ users and agree would be good to add.
 
 If you have additional ideas, or would like to comment on something on the 
 current list, please let us know via the ngram mailing list. 
+
+=head2 WEB INTERFACE / WEB SERVER
+
+It would be nice to offer a web interface or web server for users who 
+just want to run a few measures. 
 
 =head2 UNICODE SUPPORT / ENCODING ISSUES
 
@@ -234,7 +239,7 @@ USAGE.pod has not been updated since 2001, and is very basic.
 
 Ted Pedersen, tpederse@d.umn.edu
 
-Last Updated : $Id: TODO.pod,v 1.1 2008/03/24 14:39:06 tpederse Exp $
+Last Updated : $Id: TODO.pod,v 1.3 2008/03/26 17:49:29 tpederse Exp $
 
 =head1 BUGS
 

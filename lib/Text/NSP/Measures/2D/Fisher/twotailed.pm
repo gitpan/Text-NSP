@@ -48,7 +48,7 @@ contingency tables,
 A twotailed fishers test is calculated by adding the probabilities of
 all the contingency tables with probabilities less than the probability
 of the observed table. The twotailed fishers test tells us how likely
-it would be to observe an contingency table which is less prpbable than
+it would be to observe an contingency table which is less probable than
 the current table.
 
 =head2 Methods
@@ -172,7 +172,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: twotailed.pm,v 1.12 2006/06/21 11:10:52 saiyam_kohli Exp $
+Last updated: $Id: twotailed.pm,v 1.13 2008/03/26 17:21:19 tpederse Exp $
 
 =head1 BUGS
 

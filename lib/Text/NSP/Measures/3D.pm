@@ -137,11 +137,11 @@ bigram count.
 
 INPUT PARAMS  : $count_values     .. Reference to an hash consisting
                                      of the count values passed to
-                                     the calcualteStatistic() method.
+                                     the calculateStatistic() method.
 
 RETURN VALUES : 1/undef           ..returns '1' to indicate success
                                     and an undefined(NULL) value to indicate
-                                    faliure.
+                                    failure.
 
 =cut
 
@@ -358,7 +358,7 @@ INPUT PARAMS  : $count_values     .. Reference to an hash consisting
 
 RETURN VALUES : 1/undef           ..returns '1' to indicate success
                                     and an undefined(NULL) value to indicate
-                                    faliure.
+                                    failure.
 
 =cut
 
@@ -393,7 +393,7 @@ INPUT PARAMS  : $count_values     .. Reference to an hash consisting
 
 RETURN VALUES : 1/undef           ..returns '1' to indicate success
                                     and an undefined(NULL) value to indicate
-                                    faliure.
+                                    failure.
 
 =cut
 
@@ -599,7 +599,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: 3D.pm,v 1.14 2006/06/21 11:10:52 saiyam_kohli Exp $
+Last updated: $Id: 3D.pm,v 1.15 2008/03/26 17:25:13 tpederse Exp $
 
 =head1 BUGS
 

@@ -86,15 +86,15 @@ DESCRIPTION
 AUTHOR
     Ted Pedersen, tpederse at d.umn.edu
 
+BUGS
     Last update on 02/15/01 by TDP based on BSP v0.3. This is very old, and
     should be updated to include many more examples of both command line use
     of NSP as well as module use.
 
-BUGS
 SEE ALSO
-     home page:    http://www.d.umn.edu/~tpederse/nsp.html
+     NSP home :    L<http://ngram.sourceforge.net> 
 
-     mailing list: http://groups.yahoo.com/group/ngram/
+     NSP mailing list: L<http://groups.yahoo.com/group/ngram/>
 
 COPYRIGHT
     Copyright (C) 2000-2003 Ted Pedersen.

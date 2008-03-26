@@ -78,9 +78,9 @@ than observed. In other words, it tells us how likely it is to sample
 an observation where the two words are more dependent than currently
 observed.
 
-A twotailed fishers test is calculated by adding the probabilities of
+A two-tailed fishers test is calculated by adding the probabilities of
 all the contingency tables with probabilities less than the probability
-of the observed table. The twotailed fishers test tells us how likely
+of the observed table. The two-tailed fishers test tells us how likely
 it would be to observe an contingency table which is less probable than
 the current table.
 
@@ -114,9 +114,9 @@ our ($VERSION, @EXPORT, @ISA);
 $VERSION = '0.97';
 
 
-=item getValues() -This method calls the
+=item getValues() - This method calls the
 computeObservedValues() and the computeExpectedValues() methods to
-compute the observed and marginal total values. It checks thes values
+compute the observed and marginal total values. It checks these values
 for any errors that might cause the Fishers Exact test measures to
 fail.
 
@@ -126,7 +126,7 @@ INPUT PARAMS  : $count_values       .. Reference of an array containing
 
 RETURN VALUES : 1/undef           ..returns '1' to indicate success
                                     and an undefined(NULL) value to indicate
-                                    faliure.
+                                    failure.
 
 =cut
 
@@ -159,7 +159,7 @@ INPUT PARAMS  : $n11_start          .. the value for the cell 1,1 in the first c
                 $final_limit        .. the value of cell 1,1 in the last contingency table
                                        for which we have to compute the probability.
 
-RETURN VALUES : $probability        .. Reference to a hash containg hypergeometric
+RETURN VALUES : $probability        .. Reference to a hash containing hypergeometric
                                        probabilities for all the possible contingency
                                        tables
 
@@ -272,7 +272,7 @@ sub computeHyperGeometric
     # since the no.s generally correspond to bigram counts, they are very large
     # and the computation of their factorial results in a overflow
     # to prevent this we compute the factorial in the numerator till we reach
-    # a threshold of 10000000 then we start diviing so, the result is again
+    # a threshold of 10000000 then we start dividing so, the result is again
     # scaled down, this prevents overflow and underflow errors.
     while ( ( $product < 10000000 ) && ( defined ( $nLimits[0] ) ) )
     {
@@ -337,7 +337,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: Fisher2.pm,v 1.10 2006/06/21 11:10:52 saiyam_kohli Exp $
+Last updated: $Id: Fisher2.pm,v 1.11 2008/03/26 17:18:26 tpederse Exp $
 
 =head1 BUGS
 

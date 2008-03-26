@@ -12,10 +12,10 @@ DESCRIPTION
     those!
 
     Please send your questions to me (tpederse@d.umn.edu) or the NSP mailing
-    list http://groups.yahoo.com/group/ngram/.
+    list <http://groups.yahoo.com/group/ngram/>.
 
   How should I cite NSP in a paper?
-    There is one published paper about NSP that you could cite:
+    This is our preferred reference:
 
      @inproceedings{BanerjeeP03,
             author = {Banerjee, S. and Pedersen, T.},
@@ -33,18 +33,27 @@ DESCRIPTION
 
      L<http://www.d.umn.edu/~tpederse/Pubs/cicling2003-2.pdf>
 
-    If you would rather cite a URL, the official home page of NSP is
+    If you would also like to cite a URL, the official home page of NSP is :
 
-     L<http://www.d.umn.edu/~tpederse/nsp.html>
+     L<http://ngram.sourceforge.net>
 
   Where can I find other papers by users of NSP?
     We have established an NSP bibliography that includes some papers by
     users. Please make contributions to this bibliography when you publish a
     paper using NSP!
 
-    <http://www.d.umn.edu/~tpederse/nsp-bib/>
+     L<http://www.d.umn.edu/~tpederse/nsp-bib/>
 
   General Questions
+  What is the class structure of your Measure hierarchy?
+    The following diagram tries to lay that all out:
+
+    NSP-Class-diagram.pdf
+
+    In general we've tried to group the measures into families that reflect
+    their underlying relationships, and allow us to avoid replicating a lot
+    of code.
+
    Why do you have 'make test' and then csh ./ALL-TESTS.sh
     This reflects the historical development of NSP. Initially NSP was based
     on command line scripts, and was not easy to test using the standard
@@ -66,9 +75,9 @@ DESCRIPTION
     moved to Linux, where the bash shell is more common.
 
    What is in the future for NSP?
-    Many things! See our Todo list (TODO) for a fairly complete accounting
-    of our future plans. We are always open to suggestions, so please send
-    those to the mailing list for consideration and discussion.
+    Many things! See TODO.pod for a fairly complete accounting of our future
+    plans. We are always open to suggestions, so please send those to the
+    mailing list for consideration and discussion.
 
    Why is NSP so slow on large files of text?
     As of version 0.61 (and before) NSP does all counting using a Perl hash.
@@ -119,8 +128,8 @@ DESCRIPTION
 
     The paper "Fishing for Exactness" gives a fairly detailed description of
     computing left, right and two sided values. Find it with the 1996
-    entries at: http://www.d.umn.edu/~tpederse/pubs.html It is also
-    available at: http://xxx.lanl.gov/abs/cmp-lg/9608010
+    entries at: <http://www.d.umn.edu/~tpederse/pubs.html> It is also
+    available at: <http://xxx.lanl.gov/abs/cmp-lg/9608010>
 
    Why do you recommend the use of a left sided Fisher's exact test?
     The main advantage of the left sided test it is interpreted much like
@@ -415,8 +424,7 @@ AUTHORS
 
 BUGS
 SEE ALSO
-     NSP home         : L<http://www.d.umn.edu/~tpederse/nsp.html>
-     Sourceforge home : L<http://ngram.sourceforge.net>
+     NSP home : L<http://ngram.sourceforge.net>
      NSP mailing list : L<http://groups.yahoo.com/group/ngram/>
 
 COPYRIGHT

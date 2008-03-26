@@ -1,7 +1,7 @@
 =head1 NAME
 
 Text::NSP::Measures::2D::Fisher2::twotailed - Perl module implementation of the two-sided
-                                             Fisher's exact test.
+                                             Fisher's exact test (Deprecated).
 
 =head1 SYNOPSIS
 
@@ -62,7 +62,7 @@ contingency tables,
 A twotailed fishers test is calculated by adding the probabilities of
 all the contingency tables with probabilities less than the probability
 of the observed table. The twotailed fishers test tells us how likely
-it would be to observe an contingency table which is less prpbable than
+it would be to observe an contingency table which is less probable than
 the current table.
 
 =head2 Methods
@@ -189,7 +189,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: twotailed.pm,v 1.9 2006/06/21 11:10:52 saiyam_kohli Exp $
+Last updated: $Id: twotailed.pm,v 1.10 2008/03/26 17:24:15 tpederse Exp $
 
 =head1 BUGS
 

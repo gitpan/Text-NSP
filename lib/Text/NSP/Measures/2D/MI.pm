@@ -1,7 +1,7 @@
 =head1 NAME
 
 Text::NSP::Measures::2D::MI - Perl module that provides error checks
-                              for Loglieklihood, Total Mutual
+                              for Loglikelihood, Total Mutual
                               Information, Pointwise Mutual Information
                               and Poisson-Stirling Measure.
 
@@ -58,8 +58,8 @@ PS =   n11*(log (n11/m11)-1)
 =back
 
 All these methods use the ratio of the observed values to expected values,
-for computations, and thus have common error checks, sothey have been grouped
-togrther.
+for computations, and thus have common error checks, so they have been grouped
+together.
 
 =head2 Methods
 
@@ -105,7 +105,7 @@ INPUT PARAMS  : $count_values           .. Reference of an hash containing
 
 RETURN VALUES : 1/undef           ..returns '1' to indicate success
                                     and an undefined(NULL) value to indicate
-                                    faliure.
+                                    failure.
 
 =cut
 
@@ -248,7 +248,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: MI.pm,v 1.26 2006/09/15 23:27:03 saiyam_kohli Exp $
+Last updated: $Id: MI.pm,v 1.27 2008/03/26 17:18:26 tpederse Exp $
 
 =head1 BUGS
 

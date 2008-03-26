@@ -518,7 +518,11 @@ $value = calculateStatistic(n11 => $n11,
                                     np1 => $np1,
                                     npp => $npp);
 $err = getErrorCode();
-if($value < 25765.2677567 and $value > 25765.2677566)
+
+## test condition relaxed due to failures on 64 bit systems
+## if($value < 25765.2677567 and $value > 25765.2677566)
+
+if($value < 25765.2677570 and $value > 25765.2677560)
 {
     print "ok 27\n";
 }
@@ -560,7 +564,11 @@ $value = calculateStatistic(n11 => $n11,
                                     np1 => $np1,
                                     npp => $npp);
 $err = getErrorCode();
-if($value < 38842.420466473 and $value > 38842.42046647)
+
+## relaxed due to failures on 64 bit systems
+## if($value < 38842.420466473 and $value > 38842.42046647)
+
+if($value < 38842.420466480 and $value > 38842.42046640)
 {
     print "ok 29\n";
 }

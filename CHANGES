@@ -5,6 +5,23 @@ SYNOPSIS
     Revision history for Perl module Text::NSP
 
 DESCRIPTION
+    1.09
+    Released March 26, 2008 all changes by TDP
+
+    *   Spell checked the modules
+
+    *   Relaxed test caes 27, 29 for ll, 20 for x2, and 13 for phi, due to
+        arithemetic differences on 64 bit architectures
+
+    *   Modified Makefile.PL to go back to more standard methods of testing
+        and installation.
+
+    *   Modified structure of /t directory for 'make test'. It appears that
+        the use of subdirectories in /t with test cases might have been
+        causing problems for Windows testing, so we have moved all test
+        files to the top level of /t, and also removed the TEST program so
+        that things are called in a more standard or generic fashion.
+
     1.07
     Released March 24, 2008 all changes by TDP
 
@@ -58,8 +75,8 @@ AUTHORS
      Ted Pedersen, University of Minnesota, Duluth
      tpederse at d.umn.edu
 
-    This document last modified by : $Id: CHANGES.pod,v 1.1 2008/03/24
-    14:39:05 tpederse Exp $
+    This document last modified by : $Id: CHANGES.pod,v 1.5 2008/03/26
+    17:43:20 tpederse Exp $
 
 SEE ALSO
     <http://ngram.sourceforge.net>

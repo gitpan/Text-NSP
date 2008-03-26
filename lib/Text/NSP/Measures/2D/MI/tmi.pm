@@ -50,7 +50,7 @@ for example:
             npp
 
 True Mutual Information (tmi) is defined as the weighted average of the
-pointwise mutual informations for all the observed and expected value pairs.
+Pointwise mutual informations for all the observed and expected value pairs.
 
  tmi = [n11/npp * log(n11/m11) + n12/npp * log(n12/m12) +
         n21/npp * log(n21/m21) + n22/npp * log(n22/m22)]
@@ -160,7 +160,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: tmi.pm,v 1.22 2006/06/21 11:10:53 saiyam_kohli Exp $
+Last updated: $Id: tmi.pm,v 1.23 2008/03/26 17:20:28 tpederse Exp $
 
 =head1 BUGS
 

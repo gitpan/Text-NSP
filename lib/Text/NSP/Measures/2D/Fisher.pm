@@ -63,9 +63,9 @@ than observed. In other words, it tells us how likely it is to sample
 an observation where the two words are more dependent than currently
 observed.
 
-A twotailed fishers test is calculated by adding the probabilities of
+A two-tailed fishers test is calculated by adding the probabilities of
 all the contingency tables with probabilities less than the probability
-of the observed table. The twotailed fishers test tells us how likely
+of the observed table. The two-tailed fishers test tells us how likely
 it would be to observe an contingency table which is less probable than
 the current table.
 
@@ -101,7 +101,7 @@ $VERSION = '0.97';
 
 =item getValues() -This method calls the
 computeObservedValues() and the computeExpectedValues() methods to
-compute the observed and marginal total values. It checks thes values
+compute the observed and marginal total values. It checks these values
 for any errors that might cause the Fishers Exact test measures to
 fail.
 
@@ -111,7 +111,7 @@ INPUT PARAMS  : $count_values       .. Reference of an array containing
 
 RETURN VALUES : 1/undef           ..returns '1' to indicate success
                                     and an undefined(NULL) value to indicate
-                                    faliure.
+                                    failure.
 
 =cut
 
@@ -145,7 +145,7 @@ INPUT PARAMS  : $n11_start          .. the value for the cell 1,1 in the first c
                 $final_limit        .. the value of cell 1,1 in the last contingency table
                                        for which we have to compute the probability.
 
-RETURN VALUES : $probability        .. Reference to a hash containg hypergeometric
+RETURN VALUES : $probability        .. Reference to a hash containing hypergeometric
                                        probabilities for all the possible contingency
                                        tables
 
@@ -241,7 +241,7 @@ sub computeDistribution
   $prob = $probability{$i};
 
   # to reduce the no. of computations and the make the measure more efficient
-  # we use the previos tables probabilities to compute the new tables probabilies
+  # we use the previous tables probabilities to compute the new tables probabilities
   # we can do this because the counts in the table will change by only a factor of 1
   # thus instead of repeating all those multiplications we have to perform only
   # 4 multiplications.
@@ -329,7 +329,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: Fisher.pm,v 1.20 2006/06/21 11:10:52 saiyam_kohli Exp $
+Last updated: $Id: Fisher.pm,v 1.21 2008/03/26 17:18:26 tpederse Exp $
 
 =head1 BUGS
 

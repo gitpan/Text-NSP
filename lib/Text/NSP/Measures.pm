@@ -57,7 +57,7 @@ Text::NSP::Measures - Perl modules for computing association scores of
 =head2 Introduction
 
 These modules provide perl implementations of mathematical functions
-(association measures) that can be used to interpret the cooccurrence
+(association measures) that can be used to interpret the co-occurrence
 frequency data for Ngrams. We define an Ngram as a sequence of 'n'
 tokens that occur within a window of at least 'n' tokens in the text;
 what constitutes a "token" can be defined by the user.
@@ -221,7 +221,7 @@ use Text::NSP::Measures::2D::MI;
 =back
 
 You also need to insert the following lines to make sure that the required
-functions are visible to the programs using your module. Thses lines are
+functions are visible to the programs using your module. These lines are
 same for bigrams and trigrams. The "no warnings 'redefine';" statement is
 used to suppress perl warnings about method overriding.
 
@@ -333,7 +333,7 @@ computeMarginalTotals() before calling computeObservedValues().
 
 %value is the same hash that was initialized earlier for computeMarginalTotals.
 
-If succesfull it returns 1 otherwise an undefined value is retuened. The
+If successful it returns 1 otherwise an undefined value is returned. The
 computed observed values will be available in the following variables:
 
 =over
@@ -359,7 +359,7 @@ if( !(Text::NSP::Measures::2D::computeExpectedValues()) ) {
 
 =back
 
-If succesfull it returns 1 otherwise an undefined value is retuened. The
+If successful it returns 1 otherwise an undefined value is returned. The
 computed expected values will be available in the following variables:
 
 =over
@@ -401,9 +401,9 @@ initializeStatistic() method.
 The getErrorCode method is called immediately after every call to
 method calculateStatistic(). This method is used to return the
 errorCode, if any, in the previous operations. To view all the
-possible errorcodes and the corresponding error message please refer
+possible error codes and the corresponding error message please refer
 to the Text::NSP documentation (perldoc Text::NSP).You can create new
-errorcodes in your measure, if the existing errorcodes are not
+error codes in your measure, if the existing error codes are not
 sufficient.
 
 The Text::NSP::Measures module implements both getErrorCode()
@@ -436,7 +436,7 @@ An example of this is below:
 
 The fourth method that may be implemented is getStatisticName().
 If this method is implemented, it is expected to return a string
-containing the name of the statistic being implmented. This string
+containing the name of the statistic being implemented. This string
 is used in the formatted output of statistic.pl. If this method
 is not implemented, then the statistic name entered on the
 commandline is used in the formatted output.
@@ -466,7 +466,7 @@ this by
 
         or
 
-    perl Makefile.PL PREFIX=<desination directory>
+    perl Makefile.PL PREFIX=<destination directory>
     make
     make test
     make install
@@ -610,7 +610,7 @@ sub calculateStatistic
 
 
 =item getErrorCode() - Returns the error code in the last operation if
-any and resets the errorcode to 0.
+any and resets the errorCode to 0.
 
 # INPUT PARAMS  : none
 

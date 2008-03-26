@@ -1,6 +1,6 @@
 =head1 NAME
 
-INSTALL - installation instructions for Text-NSP
+INSTALL - Installation instructions for Text-NSP
 
 =head1 SYNOPSIS
 
@@ -130,7 +130,7 @@ case may be.
  tpederse at d.umn.edu
 
 This document last modified by :
-$Id: INSTALL.pod,v 1.3 2008/03/24 14:46:10 tpederse Exp $
+$Id: INSTALL.pod,v 1.4 2008/03/26 17:49:29 tpederse Exp $
 
 =head1 SEE ALSO
 

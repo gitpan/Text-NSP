@@ -8,6 +8,36 @@ Revision history for Perl module Text::NSP
 
 =head1 DESCRIPTION
 
+=item 1.09
+
+Released March 26, 2008 all changes by TDP
+
+=over
+
+=item 
+
+Spell checked the modules
+
+=item 
+
+Relaxed test caes 27, 29 for ll, 20 for x2, and 13 for phi, due to 
+arithemetic differences on 64 bit architectures
+
+=item
+
+Modified Makefile.PL to go back to more standard methods of testing and 
+installation. 
+
+=item
+
+Modified structure of /t directory for 'make test'. It appears that the 
+use of subdirectories in /t with test cases might have been causing 
+problems for Windows testing, so we have moved all test files to the top 
+level of /t, and also removed the TEST program so that things are called 
+in a more standard or generic fashion.
+
+=back
+
 =item 1.07
 
 Released March 24, 2008 all changes by TDP
@@ -100,7 +130,7 @@ of META.yml
  tpederse at d.umn.edu
 
 This document last modified by :
-$Id: CHANGES.pod,v 1.2 2008/03/24 14:49:25 tpederse Exp $
+$Id: CHANGES.pod,v 1.6 2008/03/26 17:56:11 tpederse Exp $
 
 =head1 SEE ALSO
 

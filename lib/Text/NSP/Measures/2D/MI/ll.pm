@@ -27,7 +27,7 @@ Text::NSP::Measures::2D::MI::ll - Perl module that implements Loglikelihood
 
 =head1 DESCRIPTION
 
-The log-likelihood ratio measures the devitation between the observed data
+The log-likelihood ratio measures the deviation between the observed data
 and what would be expected if <word1> and <word2> were independent. The
 higher the score, the less evidence there is in favor of concluding that
 the words are independent.
@@ -161,7 +161,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: ll.pm,v 1.22 2006/06/21 11:10:52 saiyam_kohli Exp $
+Last updated: $Id: ll.pm,v 1.23 2008/03/26 17:20:27 tpederse Exp $
 
 =head1 BUGS
 

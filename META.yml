@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:                Text-NSP
-version:             1.07
-abstract:            Count and identify significant collocations and Ngrams in text
+version:             1.09
+abstract:            Extract collocations and Ngrams from text
 license:             gpl
 author:              
     - Ted Pedersen <tpederse at d.umn.edu>

@@ -14,11 +14,11 @@ I'd be happy to elaborate on any point raised here that isn't clear. Also,
 if you spot errors or have suggestions I'd be happy to hear about those!
 
 Please send your questions to me (tpederse@d.umn.edu) or the NSP mailing  
-list http://groups.yahoo.com/group/ngram/. 
+list L<http://groups.yahoo.com/group/ngram/>. 
 
 =head2 How should I cite NSP in a paper? 
 
-There is one published paper about NSP that you could cite: 
+This is our preferred reference:
 
  @inproceedings{BanerjeeP03,
         author = {Banerjee, S. and Pedersen, T.},
@@ -36,9 +36,9 @@ You can get a copy of this paper at:
 
  L<http://www.d.umn.edu/~tpederse/Pubs/cicling2003-2.pdf>
 
-If you would rather cite a URL, the official home page of NSP is
+If you would also like to cite a URL, the official home page of NSP is :
 
- L<http://www.d.umn.edu/~tpederse/nsp.html>
+ L<http://ngram.sourceforge.net>
 
 =head2 Where can I find other papers by users of NSP?
 
@@ -46,9 +46,19 @@ We have established an NSP bibliography that includes some papers by
 users. Please make contributions to this bibliography when you publish a 
 paper using NSP!
 
-L<http://www.d.umn.edu/~tpederse/nsp-bib/>
+ L<http://www.d.umn.edu/~tpederse/nsp-bib/>
 
 =head2 General Questions
+
+=head2 What is the class structure of your Measure hierarchy?
+
+The following diagram tries to lay that all out:
+
+L<NSP-Class-diagram.pdf>
+
+In general we've tried to group the measures into families that reflect 
+their underlying relationships, and allow us to avoid replicating a lot 
+of code. 
 
 =head3 Why do you have 'make test' and then csh ./ALL-TESTS.sh
 
@@ -74,7 +84,7 @@ moved to Linux, where the bash shell is more common.
 
 =head3 What is in the future for NSP? 
 
-Many things! See our Todo list (TODO) for a fairly complete accounting  
+Many things! See L<TODO.pod> for a fairly complete accounting  
 of our future plans. We are always open to suggestions, so please send 
 those to the mailing list for consideration and discussion. 
 
@@ -132,8 +142,8 @@ bigram is a "special" pair of words that may merit further attention.
 
 The paper "Fishing for Exactness" gives a fairly detailed description
 of computing left, right and two sided values. Find it with the 1996 
-entries at: http://www.d.umn.edu/~tpederse/pubs.html
-It is also available at: http://xxx.lanl.gov/abs/cmp-lg/9608010
+entries at: L<http://www.d.umn.edu/~tpederse/pubs.html>
+It is also available at: L<http://xxx.lanl.gov/abs/cmp-lg/9608010>
 
 =head3 Why do you recommend the use of a left sided Fisher's exact test?
 
@@ -443,8 +453,7 @@ kocos.pl finds such kth order relationships among words.
 
 =head1 SEE ALSO
 
- NSP home         : L<http://www.d.umn.edu/~tpederse/nsp.html>
- Sourceforge home : L<http://ngram.sourceforge.net>
+ NSP home : L<http://ngram.sourceforge.net>
  NSP mailing list : L<http://groups.yahoo.com/group/ngram/>
 
 =head1 COPYRIGHT
