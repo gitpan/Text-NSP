@@ -36,7 +36,7 @@ for example:
 
             n1pp * np1p * npp1
    m111=   --------------------
-                   nppp
+              nppp * nppp
 
 Pointwise Mutual Information (pmi) is defined as the log of the devitation
 between the observed frequency of a trigram (n111) and the probability of
@@ -157,7 +157,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: pmi.pm,v 1.8 2006/06/21 11:10:53 saiyam_kohli Exp $
+Last updated: $Id: pmi.pm,v 1.9 2009/11/03 14:53:55 tpederse Exp $
 
 =head1 BUGS
 

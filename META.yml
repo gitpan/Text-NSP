@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Text-NSP
-version:             1.09
+version:             1.11
 abstract:            Extract collocations and Ngrams from text
 license:             gpl
 author:              

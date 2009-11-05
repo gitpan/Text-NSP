@@ -1229,11 +1229,11 @@ Fishers exact test - left sided (L<Text::NSP::Measures::2D::Fisher::left>)
 
 =item * 
 
-Fishers exact test - right sided (<Text::NSP::Measures::2D::Fisher::right>)
+Fishers exact test - right sided (L<Text::NSP::Measures::2D::Fisher::right>)
 
 =item * 
 
-Fishers twotailed test - right sided (<Text::NSP::Measures::2D::Fisher::twotailed>)
+Fishers twotailed test - right sided (L<Text::NSP::Measures::2D::Fisher::twotailed>)
 
 =item * 
 
@@ -1265,7 +1265,7 @@ Pearson's Chi Squared Test (L<Text::NSP::Measures::2D::CHI::x2>)
 
 =item * 
 
-Poisson Stirling Measure (L<Text::NSP::Measure::2D::MI::ps>)
+Poisson Stirling Measure (L<Text::NSP::Measures::2D::MI::ps>)
 
 =item * 
 
@@ -1291,7 +1291,7 @@ Pointwise Mutual Information (L<Text::NSP::Measures::3D::MI::pmi>)
 
 =item * 
 
-Poisson Stirling Measure (L<Text::NSP::Measure::3D::MI::ps>)
+Poisson Stirling Measure (L<Text::NSP::Measures::3D::MI::ps>)
 
 =back
 
@@ -1320,7 +1320,9 @@ paper about NSP that provides a suitable reference:
         month ={February},
         address = {Mexico City}}
 
-This paper is also found in L<cicling2003.ps> or L<cicling2003.pdf>
+This paper is also found in 
+L<http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.09/doc/cicling2003.ps> or 
+L<http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.09/doc/cicling2003.pdf>
 
 =head1 AUTHORS
 
@@ -1334,7 +1336,7 @@ Amruta Purandare
 Saiyam Kohli
 
 Last modified by :
-$Id: README.pod,v 1.5 2008/03/26 01:57:55 tpederse Exp $
+$Id: README.pod,v 1.6 2009/11/05 16:12:14 tpederse Exp $
 
 =head1 BUGS
 

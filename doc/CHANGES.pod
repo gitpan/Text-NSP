@@ -8,6 +8,47 @@ Revision history for Perl module Text::NSP
 
 =head1 DESCRIPTION
 
+=item 1.11
+
+Released Nov 5, 2009 all changes by TDP
+
+=over
+
+=item 
+
+Fixed bug in statistic.pl which caused long form of pmi (Text::NSP::Measures::3D::MI::pmi)
+not to be handled correctly on the command line, and that caused pmi_exp 
+not to be properly initialize when using the long form of pmi.
+
+  Reported here : <L http://tech.groups.yahoo.com/group/ngram/message/240>
+
+=item  
+
+Added nsp-stoplist.regex to distribution (in /Text-NSP/bin/utils), to 
+serve as a default stoplist.
+
+  Reported here : <L http://tech.groups.yahoo.com/group/ngram/message/280>
+
+=item 
+
+Fixed link to class diagram in FAQ.pod. 
+
+  Reported here : <L http://tech.groups.yahoo.com/group/ngram/message/230>
+
+=item 
+
+Fixed documentation Text::NSP::Measures::3D::MI::pmi to correctly show 
+how we are computing expected values. 
+
+  Reported here : <L http://tech.groups.yahoo.com/group/ngram/message/290>
+
+=item 
+
+Fixed a few broken links in README.pod that were discovered while 
+preparng this release
+
+=back
+
 =item 1.09
 
 Released March 26, 2008 all changes by TDP
@@ -20,8 +61,8 @@ Spell checked the modules
 
 =item 
 
-Relaxed test caes 27, 29 for ll, 20 for x2, and 13 for phi, due to 
-arithemetic differences on 64 bit architectures
+Relaxed test cases 27, 29 for ll, 20 for x2, and 13 for phi, due to 
+arithmetic differences on 64 bit architectures
 
 =item
 
@@ -98,7 +139,7 @@ meaning that they no longer need to be executable.
 
 =item
 
-Fixed ticket number 24061 from rt.cpan.org regarding incorrection 
+Fixed ticket number 24061 from rt.cpan.org regarding incorrect 
 version information coming from Measures.pm
 
 =item 
@@ -130,7 +171,7 @@ of META.yml
  tpederse at d.umn.edu
 
 This document last modified by :
-$Id: CHANGES.pod,v 1.6 2008/03/26 17:56:11 tpederse Exp $
+$Id: CHANGES.pod,v 1.11 2009/11/05 16:20:41 tpederse Exp $
 
 =head1 SEE ALSO
 

@@ -48,7 +48,8 @@ DESCRIPTION
   What is the class structure of your Measure hierarchy?
     The following diagram tries to lay that all out:
 
-    NSP-Class-diagram.pdf
+    <http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.09/doc/NSP-Class-dia
+    gram.pdf>
 
     In general we've tried to group the measures into families that reflect
     their underlying relationships, and allow us to avoid replicating a lot
@@ -391,6 +392,11 @@ DESCRIPTION
     ratio produce values that are on different scales, and you can't compare
     them directly. This is why we focus on comparing ranked values, which is
     why we use Spearman's.
+
+    However, when your data has numerous ties in the ranks, then you may
+    want to employ a method of other than Spearman's as provided via
+    rank.pl, which reranks the tied items but continues to use the standard
+    Spearman's formula. See the TODO list for more discussion on this point.
 
   Questions about kocos.pl
    What is a kth order co-occurrence?

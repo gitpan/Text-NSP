@@ -1190,10 +1190,10 @@ DESCRIPTION
         (Text::NSP::Measures::2D::Fisher::left)
 
     *   Fishers exact test - right sided
-        (<Text::NSP::Measures::2D::Fisher::right>)
+        (Text::NSP::Measures::2D::Fisher::right)
 
     *   Fishers twotailed test - right sided
-        (<Text::NSP::Measures::2D::Fisher::twotailed>)
+        (Text::NSP::Measures::2D::Fisher::twotailed)
 
     *   Jaccard Coefficient (Text::NSP::Measures::2D::Dice::jaccard)
 
@@ -1209,7 +1209,7 @@ DESCRIPTION
 
     *   Pearson's Chi Squared Test (Text::NSP::Measures::2D::CHI::x2)
 
-    *   Poisson Stirling Measure (Text::NSP::Measure::2D::MI::ps)
+    *   Poisson Stirling Measure (Text::NSP::Measures::2D::MI::ps)
 
     *   T-score (Text::NSP::Measures::2D::CHI::tscore)
 
@@ -1221,7 +1221,7 @@ DESCRIPTION
 
     *   Pointwise Mutual Information (Text::NSP::Measures::3D::MI::pmi)
 
-    *   Poisson Stirling Measure (Text::NSP::Measure::3D::MI::ps)
+    *   Poisson Stirling Measure (Text::NSP::Measures::3D::MI::ps)
 
     Any of these measures can be used as follows:
 
@@ -1247,7 +1247,11 @@ DESCRIPTION
             month ={February},
             address = {Mexico City}}
 
-    This paper is also found in cicling2003.ps or cicling2003.pdf
+    This paper is also found in
+    <http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.09/doc/cicling2003.p
+    s> or
+    <http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.09/doc/cicling2003.p
+    df>
 
 AUTHORS
     Ted Pedersen, University of Minnesota, Duluth tpederse at d.umn.edu
@@ -1258,7 +1262,7 @@ AUTHORS
 
     Saiyam Kohli
 
-    Last modified by : $Id: README.pod,v 1.5 2008/03/26 01:57:55 tpederse
+    Last modified by : $Id: README.pod,v 1.6 2009/11/05 16:12:14 tpederse
     Exp $
 
 BUGS

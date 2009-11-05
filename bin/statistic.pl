@@ -35,7 +35,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: statistic.pl,v 1.19 2008/03/24 14:44:19 tpederse Exp $
+Last updated: $Id: statistic.pl,v 1.24 2009/11/05 16:33:18 tpederse Exp $
 
 =head1 BUGS
 
@@ -447,10 +447,21 @@ else
 }
 
 require $includename;
-#import $usename;
 import $usename;
 
-if($statistic eq 'pmi')
+# we won't go through the extracting of the short form of the 
+# measure at this point in the code - instead, we will simply
+# look for 'pmi' somewhere in the measure name - this won't
+# cause a problem until we have a measure named opmin , etc. 
+#
+# there seems to be some kind of scope issue here - we have
+# apparently lost the extracted form of the measure name found
+# above in order to get the initailizeStatistic method below
+#
+# tdp november 2009
+
+## if($statistic eq 'pmi') tdp november 2009
+if($statistic =~ /pmi/)
 {
   if(defined $opt_pmi_exp)
   {

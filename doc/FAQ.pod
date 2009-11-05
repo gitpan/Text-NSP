@@ -54,7 +54,7 @@ paper using NSP!
 
 The following diagram tries to lay that all out:
 
-L<NSP-Class-diagram.pdf>
+L<http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.09/doc/NSP-Class-diagram.pdf>
 
 In general we've tried to group the measures into families that reflect 
 their underlying relationships, and allow us to avoid replicating a lot 
@@ -414,7 +414,12 @@ values of the ranked items. However, when comparing different kinds of
 tests of association such direct comparisons may not be meaningful. For 
 example, the Dice Coefficient and the Log-likelihood ratio produce values 
 that are on different scales, and you can't compare them directly. This is 
-why we focus on comparing ranked values, which is why we use Spearman's. 
+why we focus on comparing ranked values, which is why we use Spearman's.
+
+However, when your data has numerous ties in the ranks, then you may 
+want to employ a method of other than Spearman's as provided via 
+rank.pl, which reranks the tied items but continues to use the standard 
+Spearman's formula. See the TODO list for more discussion on this point.  
 
 =head2 Questions about kocos.pl
 

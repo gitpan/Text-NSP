@@ -215,13 +215,31 @@ DESCRIPTION
     for inheritance and code sharing, as well as the use of objects
     (potentially).
 
+  RANK.PL TIE HANDLING
+    Right now rank.pl does not handle ties in any way other than re-ranking
+    them such that all members of a tie have the same rank, and that the
+    next rank after the ties is incremented by the number of ties. Some
+    sources advocate using Pearson's correlation coefficient on the ranks in
+    case of ties :
+
+    <http://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient>
+
+    Other sources prefer the use of Kendall's Tau over Spearman's:
+
+    <http://rsscse.org.uk/ts/bts/noether/text.html>
+
+    Our suggestion is that if you have data with numerous ties, you want to
+    look very carefully at alternatives to the methods described in rank.pl
+    However, typical collocation data collected from corpora usually doesn't
+    have too many ties, so in general we feel rank.pl remains useful.
+
   UPDATE USAGE.pod
     USAGE.pod has not been updated since 2001, and is very basic.
 
 AUTHOR
     Ted Pedersen, tpederse@d.umn.edu
 
-    Last Updated : $Id: TODO,v 1.13 2008/03/26 17:56:11 tpederse Exp $
+    Last Updated : $Id: TODO,v 1.15 2009/11/05 16:21:08 tpederse Exp $
 
 BUGS
 SEE ALSO
