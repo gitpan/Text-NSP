@@ -35,7 +35,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: statistic.pl,v 1.24 2009/11/05 16:33:18 tpederse Exp $
+Last updated: $Id: statistic.pl,v 1.25 2010/03/04 04:08:00 tpederse Exp $
 
 =head1 BUGS
 
@@ -49,7 +49,7 @@ http://www.d.umn.edu/~tpederse/nsp.html
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2006, Ted Pedersen, Satanjeev Banerjee, Amruta
+Copyright (C) 2000-2010, Ted Pedersen, Satanjeev Banerjee, Amruta
 Purandare, Bridget Thomson-McInnes and Saiyam Kohli
 
 This program is free software; you can redistribute it and/or modify it

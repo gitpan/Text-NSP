@@ -63,8 +63,8 @@ DESCRIPTION
     huge-count.pl allows a user to run count.pl on much larger corpora. It
     essentially divides a corpora into pieces, and then uses count.pl to
     count piece, and then recombines the counts to get the final output.
-    huge-count.pl also uses bin/utils/huge-combine.pl,
-    bin/Utils/split-data.pl, and bin/utils/sort-bigrams.pl.
+    huge-count.pl also uses bin/utils/huge-sort.pl and
+    bin/utils/huge-merge.pl.
 
     This README continues with an introduction to the basic definitions of
     tokens, the tokenization process and the Ngram formation process. This
@@ -1247,10 +1247,14 @@ DESCRIPTION
             month ={February},
             address = {Mexico City}}
 
-    This paper is also found in
-    <http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.09/doc/cicling2003.p
-    s> or
-    <http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.09/doc/cicling2003.p
+    This paper can be found at :
+
+    <http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.13/doc/cicling2003.p
+    s>
+
+    or
+
+    <http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.13/doc/cicling2003.p
     df>
 
 AUTHORS
@@ -1262,15 +1266,16 @@ AUTHORS
 
     Saiyam Kohli
 
-    Last modified by : $Id: README.pod,v 1.6 2009/11/05 16:12:14 tpederse
+    Last modified by : $Id: README.pod,v 1.10 2010/03/04 04:08:16 tpederse
     Exp $
 
 BUGS
     Please report to the NSP mailing list
 
 SEE ALSO
-    * NSP Home: <http://ngram.sourceforge.net>
-    * Mailing List : <http://groups.yahoo.com/group/ngram/>
+    *   NSP Home: <http://ngram.sourceforge.net>
+
+    *   Mailing List : <http://groups.yahoo.com/group/ngram/>
 
   8. Acknowledgments:
     This work has been partially supported by a National Science Foundation
@@ -1280,8 +1285,8 @@ SEE ALSO
     University of Minnesota.
 
 COPYRIGHT
-    Copyright (C) 2000-2008, Ted Pedersen, Satanjeev Banerjee, Amruta
-    Purandare, Bridget Thomson-McInnes and Saiyam Kohli
+    Copyright (C) 2000-2010, Ted Pedersen, Satanjeev Banerjee, Amruta
+    Purandare, Bridget Thomson-McInnes Saiyam Kohli, and Ying Liu
 
     This program is free software; you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by the

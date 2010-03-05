@@ -48,7 +48,7 @@ DESCRIPTION
   What is the class structure of your Measure hierarchy?
     The following diagram tries to lay that all out:
 
-    <http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.09/doc/NSP-Class-dia
+    <http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.13/doc/NSP-Class-dia
     gram.pdf>
 
     In general we've tried to group the measures into families that reflect
@@ -434,7 +434,7 @@ SEE ALSO
      NSP mailing list : L<http://groups.yahoo.com/group/ngram/>
 
 COPYRIGHT
-    Copyright (C) 2000-2008 Ted Pedersen
+    Copyright (C) 2000-2010 Ted Pedersen
 
     Permission is granted to copy, distribute and/or modify this document
     under the terms of the GNU Free Documentation License, Version 1.2 or

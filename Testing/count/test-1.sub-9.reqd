@@ -2,6 +2,8 @@
 @count.WindowSize=2
 @count.FrequencyCut=0
 @count.RemoveCut=0
+@count.uFrequencyCut=100000000
+@count.uRemoveCut=100000000
 @count.InputFilePath=test-1.sub-5.txt 
 479
 in<>a<>5 14 18 

@@ -1,62 +1,76 @@
 #!/bin/csh
 
-echo "Test A61 for huge-count.pl"
-echo "Running huge-count.pl --newLine --token token.regex --nontoken nontoken.regex --stop stoplist --split 4 --remove 2 test-A61.output test-A61.data"
+echo "Test A6 for huge-count.pl"
+echo "Running huge-count.pl --tokenlist --split 20 --remove 2 --newLine --token token.regex --nontoken nontoken.regex --stop stoplist test-A6.output test-A61.data"
 
-huge-count.pl --newLine --token token.regex --nontoken nontoken.regex --stop stoplist --split 4 --remove 2 test-A61.output test-A61.data
+huge-count.pl --tokenlist --split 20 --remove 2 --newLine --token token.regex --nontoken nontoken.regex --stop stoplist test-A6.output test-A61.data
 
-# testing only the final output
+echo "Running count.pl --remove 2 --newLine --token token.regex --nontoken nontoken.regex --stop stoplist test-A6.output test-A61.data"
 
-sort test-A61.output/huge-count.output > t0
-sort test-A6.reqd > t1
+count.pl --remove 2 --newLine --token token.regex --nontoken nontoken.regex --stop stoplist count-A6.output test-A61.data
 
-diff -w t0 t1 > var1
+# testing split
 
-if(-z var1) then
+sort ./test-A6.output/huge-count.output > t0
+sort count-A6.output > t1
+
+diff t0 t1 > var
+
+if(-z var) then
         echo "Test Ok";
 else
         echo "Test Error";
-        echo "When tested against test-A6.reqd";
-        cat var1;
+        echo "When tested against result of count.pl";
+        cat var;
 endif
 
-/bin/rm -f -r var1 t0 t1 test-A61.output
+/bin/rm -f -r t0 t1 count-A6.output test-A6.output var
 
-echo "Running huge-count.pl --newLine --token token.regex --nontoken nontoken.regex --stop stoplist --remove 2 test-A62.output test-A62.data"
+echo "Test A6 for huge-count.pl"
+echo "Running huge-count.pl --tokenlist --split 20 --remove 2 --newLine --token token.regex --nontoken nontoken.regex --stop stoplist test-A6.output test-A62.data"
 
-huge-count.pl --newLine --token token.regex --nontoken nontoken.regex --stop stoplist --remove 2 test-A62.output test-A62.data
+huge-count.pl --tokenlist --split 20 --remove 2 --newLine --token token.regex --nontoken nontoken.regex --stop stoplist test-A6.output test-A62.data
 
-sort test-A62.output/huge-count.output > t0
-sort test-A6.reqd > t1
+echo "Running count.pl --remove 2 --newLine --token token.regex --nontoken nontoken.regex --stop stoplist test-A6.output test-A62.data"
 
-diff -w t0 t1 > var1
+count.pl --remove 2 --newLine --token token.regex --nontoken nontoken.regex --stop stoplist count-A6.output test-A62.data
 
-if(-z var1) then
+# testing split
+
+sort ./test-A6.output/huge-count.output > t0
+sort count-A6.output > t1
+
+diff t0 t1 > var
+
+if(-z var) then
         echo "Test Ok";
 else
         echo "Test Error";
-        echo "When tested against test-A6.reqd";
-        cat var1;
+        echo "When tested against result of count.pl";
+        cat var;
 endif
 
-/bin/rm -f -r var1 t0 t1 test-A62.output
+/bin/rm -f -r t0 t1 count-A6.output test-A6.output var
 
-echo "Running huge-count.pl --newLine --token token.regex --nontoken nontoken.regex --stop stoplist --remove 2 test-A63.output test-A63.data1 test-A63.data2 test-A63.data3 test-A63.data4"
+echo "Test A6 for huge-count.pl"
+echo "Running huge-count.pl --tokenlist --split 20 --remove 2 --newLine --token token.regex --nontoken nontoken.regex --stop stoplist test-A6.output test-A63.data1 test-A63.data2 test-A63.data3 test-A63.data4"
 
-huge-count.pl --newLine --token token.regex --nontoken nontoken.regex --stop stoplist --remove 2 test-A63.output test-A63.data1 test-A63.data2 test-A63.data3 test-A63.data4
+huge-count.pl --tokenlist --split 20 --remove 2 --newLine --token token.regex --nontoken nontoken.regex --stop stoplist test-A6.output test-A63.data1 test-A63.data2 test-A63.data3 test-A63.data4
 
-sort test-A63.output/huge-count.output > t0
-sort test-A6.reqd > t1
+# testing split
 
-diff -w t0 t1 > var1
+sort ./test-A6.output/huge-count.output > t0
+sort test-A63.reqd > t1
 
-if(-z var1) then
+diff t0 t1 > var
+
+if(-z var) then
         echo "Test Ok";
 else
         echo "Test Error";
-        echo "When tested against test-A6.reqd";
-        cat var1;
+        echo "When tested against result of count.pl";
+        cat var;
 endif
 
-/bin/rm -f -r var1 t0 t1 test-A63.output
+/bin/rm -f -r t0 t1 count-A6.output test-A6.output var
 

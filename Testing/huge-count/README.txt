@@ -2,11 +2,13 @@
 
 		     README.txt FOR Testing huge-count.pl
 
-                               Version 0.02
+                               Version 0.03
                          Copyright (C) 2002-2004
                        Ted Pedersen, tpederse@umn.edu
                     Amruta Purandare pura0010@d.umn.edu
                        University of Minnesota, Duluth
+                        Ying Liu, liux0395@umn.edu
+                   University of Minnesota, Twin Cities 
 
 		   http://www.d.umn.edu/~tpederse/nsp.html
 
@@ -16,9 +18,9 @@
 Testing for huge-count.pl
 ---------------------------
 
-AMRUTA PURANDARE
-pura0010@d.umn.edu
-03/04/2004
+Ying Liu
+liux0395@umn.edu
+02/13/2010
 
 1. Introduction: 
 ----------------
@@ -52,7 +54,13 @@ Test A6:	Tests huge-count's --remove option
 
 Test A7:	Runs A1, A2, A3 without --newLine
 
-Test A8:	Compares A1, A2, A3 's outputs against normal count
+Test A9: 	Runs A2 with --tokenline & --split option	
+
+Test A10: 	Runs A2 with --tokenline --split --remove --uremove  option
+
+Test A11: 	Runs A2 with --tokenline --remove --uremove  option
+
+Test A12: 	Runs A2 with --tokenline --frequency --ufrequency option
 
 
 2.2 Error conditions:
@@ -62,9 +70,6 @@ Tests written in testB*.sh test huge-count.pl under error conditions.
 Run error-op.sh to run all test cases testB*.sh
 
 Test B1:	Tests huge-count when input contains more than one directory
-
-Test B2:	Tests huge-count when a single plain file is provided without
-		--split
 
 
 3. Conclusions:

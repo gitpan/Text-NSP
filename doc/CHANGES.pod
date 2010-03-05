@@ -8,6 +8,55 @@ Revision history for Perl module Text::NSP
 
 =head1 DESCRIPTION
 
+=over
+
+=item 1.13
+
+Released March 5, 2010 all changes by TDP and YL
+
+=over
+
+=item 
+
+Replaced huge-count.pl with a more efficient version that counts
+large number of bigrams by creating multiple files, sorting, and
+merging them. The sorting and merging are carried out by huge-sort and 
+huge-merge.pl. Note that the previous versions of huge-count.pl
+and associated utilities can be found in /Text-NSP/bin/utils/deprecated 
+and will remain there for at least one more release. They will 
+not however be installed automatically. (YL) 
+
+=item 
+
+Added --uremove and --ufrequency options to count.pl. This allow for 
+frequency cutoffs based on ngrams occuring more than a given number of 
+times (rather than just less than, which is what --remove and 
+--frequency enable). This is a long standing item on the NSP Todo 
+list that has finally been checked off! (YL)
+
+=item
+
+Introduced /bin/utils/contributed to allow for the distribution of user 
+contributed programs that might be useful to other users. These programs
+do not get installed automatically with NSP, and are not included in our
+standard testing streams, but could still prove very useful to users.
+Please let us know if you have code you might like to include here. (TDP)
+
+=item 
+
+Added nsp-stoplist.regex to distribution (in /Text-NSP/bin/utils), to 
+serve as a default stoplist. (TDP)
+
+ Reported here : <L http://tech.groups.yahoo.com/group/ngram/message/280>
+
+This was not added in 1.11 due to failure to rebuilt MANIFEST.
+
+=item 
+
+Added support for 4-d log-likelihood (Text::NSP::Measures::4D::MI:ll). (TDP)
+
+=back
+
 =item 1.11
 
 Released Nov 5, 2009 all changes by TDP
@@ -165,13 +214,15 @@ of META.yml
 
 =back
 
+=back
+
 =head1 AUTHORS
 
  Ted Pedersen, University of Minnesota, Duluth
  tpederse at d.umn.edu
 
 This document last modified by :
-$Id: CHANGES.pod,v 1.11 2009/11/05 16:20:41 tpederse Exp $
+$Id: CHANGES.pod,v 1.17 2010/03/04 04:08:16 tpederse Exp $
 
 =head1 SEE ALSO
 
@@ -179,7 +230,7 @@ L<http://ngram.sourceforge.net>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2004-2008 Ted Pedersen
+Copyright (c) 2004-2010 Ted Pedersen
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.2

@@ -77,12 +77,15 @@ somewhat to fit into NSP.
 
 Another alternative would be to simply modify the count.pl program such 
 that rather than using memory it used disk space to accumulate counts. 
-This would be very slow but might suffice for certain situations.
+This would be very slow but might suffice for certain situations. This
+is what huge-count.pl currently does. 
+
+Another alternative would be to tie the hashes that are used in NSP to 
+a database, and thereby reduce some memory use. 
 
 Regardless of the changes we make to counting,  would continue to support 
 counting in memory, which is perfectly  adequate for smaller amounts of  
 corpora. 
-
 
 =head2 GET COUNTS FROM WEB
 
@@ -161,11 +164,12 @@ count output files.
 
 =head2 OTHER CUTOFFS FOR count.pl
 
-What about having a frequency cutoff for count.pl that removed any ngrams 
-that occur more than some number of times? The idea here would be to 
-eliminate high frequency ngrams not through the use of a stoplist but 
-rather through a frequency cutoff, based on the presumption that most very 
-high frequent ngrams will be made up of stop words. 
+DONE IN VERSION 1.13! (--uremove option): What about having a frequency 
+cutoff for count.pl that removed any ngrams that occur more than some 
+number of times? The idea here would be to eliminate high frequency 
+ngrams not through the use of a stoplist but rather through a frequency 
+cutoff, based on the presumption that most very high frequent ngrams 
+will be made up of stop words. 
 
 What about a percentage cutoff? In other words, eliminate the least (or 
 most) frequent ngrams? 
@@ -258,7 +262,7 @@ USAGE.pod has not been updated since 2001, and is very basic.
 
 Ted Pedersen, tpederse@d.umn.edu
 
-Last Updated : $Id: TODO.pod,v 1.4 2009/11/05 15:57:02 tpederse Exp $
+Last Updated : $Id: TODO.pod,v 1.6 2010/03/04 04:08:16 tpederse Exp $
 
 =head1 BUGS
 
@@ -270,7 +274,7 @@ Last Updated : $Id: TODO.pod,v 1.4 2009/11/05 15:57:02 tpederse Exp $
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2008 Ted Pedersen
+Copyright (C) 2000-2010 Ted Pedersen
 
 Permission is granted to copy, distribute and/or modify this  document  
 under the terms of the GNU Free Documentation License, Version 1.2 or  any  

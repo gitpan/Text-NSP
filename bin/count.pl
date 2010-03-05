@@ -72,6 +72,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #               07/01/2003      Ted         (2) if destination file  TDP.57.2
 #		                                found, check for 
 #                                               source before proceeding
+#
+# 0.58		01/29/2010      Ying        (1) Introduced 
+#						--tokenlist option   YDP.58.1
+#
 ###############################################################################
 
 #-----------------------------------------------------------------------------
@@ -90,9 +94,9 @@ if ( $#ARGV == -1 )
 }
 
 # now get the options!
-GetOptions( "verbose", "recurse", "version", "help", "histogram=s",
-            "frequency=i", "window=i", "stop=s", "newLine", "extended",
-            "token=s", "ngram=i", "remove=i", "set_freq_combo=s", "get_freq_combo=s","nontoken=s");
+GetOptions( "verbose", "recurse", "version", "help", "tokenlist", "histogram=s",
+            "frequency=i", "ufrequency=i", "window=i", "stop=s", "newLine", "extended",
+            "token=s", "ngram=i", "remove=i", "uremove=i", "set_freq_combo=s", "get_freq_combo=s","nontoken=s");
 
 # if help has been requested, print out help!
 if ( defined $opt_help )
@@ -112,16 +116,44 @@ if ( defined $opt_version )
 
 if (defined $opt_recurse) { $opt_recurse = 1; }
 
+if (defined $opt_tokenlist) { $opt_tokenlist = 1; }
+
 if ( defined $opt_frequency ) { $cutOff = $opt_frequency; }
 else                          { $cutOff = 0; }
 
+                         ## YL.58.1 START
+if ( defined $opt_ufrequency ) { $ucutOff = $opt_ufrequency; }
+else				{$ucutOff = 100000000;}
+
+if ((defined $opt_frequency) and (defined $opt_ufrequency))
+{
+	if ($opt_frequency > $opt_ufrequency)
+	{
+		print "--frequency must be smaller than --ufrequency!\n";
+		print STDERR "Type count.pl --help for help.\n";
+		exit;
+	}
+}
                          ## TDP.57.1 START
 if ( defined $opt_remove )    { $removeOff = $opt_remove }
 else                          { $removeOff = 0; }
                          ## TDP.57.1 FINISH
 
+if ( defined $opt_uremove )   { $uremoveOff = $opt_uremove }
+else                          { $uremoveOff = 100000000;} 
+
+if ((defined $opt_remove) and (defined $opt_uremove))
+{
+	if ($opt_remove > $opt_uremove)
+	{
+		print "--remove must be smaller than --uremove!\n";
+		print STDERR "Type count.pl --help for help.\n";
+		exit;
+	}
+}
 if ( defined $opt_ngram )     { $ngram = $opt_ngram; }
 else                          { $ngram = 2; }
+                         ## YL.58.1 FINISH
 
 if ($ngram <= 0) 
 {
@@ -149,17 +181,17 @@ if ($windowSize < $ngram || ($ngram == 1 && $windowSize != 1))
 
 # get hold of the frequency combinations that we need to keep track
 # of, either from the file provided
-if (defined $opt_set_freq_combo)
+if ((defined $opt_set_freq_combo) and (!defined $opt_tokenlist))
 {
     readFreqCombo($opt_set_freq_combo);
 }
 # or, by default, everything possible
-else
+elsif ((!defined $opt_set_freq_combo) and (!defined $opt_tokenlist))
 {
     getDefaultFreqCombos();
 }
 
-if (defined $opt_get_freq_combo)
+if ((defined $opt_get_freq_combo) and (!defined $opt_tokenlist))
 {
     open (FREQ_COMBO_OUT, ">$opt_get_freq_combo") || die ("Couldnt open $opt_get_freq_combo");
     
@@ -301,6 +333,112 @@ if(defined $opt_nontoken)
 # having stripped the commandline of all the options etc, we should now be
 # left only with the source/destination files
 
+#  we moved this here in order to create the stop regex so that it can 
+#  be used with the --tokenlist option - 16 Feb 2010 Bridget
+my $stop_regex = "";
+my $stop_mode = "AND";
+if(defined $opt_stop) {
+
+    # we have already checked that the stop list exists. open it and create
+    # the stop hash
+    #  we moved this in order to account for the --tokenlist option
+
+    open ( STP, $opt_stop ) ||
+        die ("Couldn't open the stoplist file $opt_stop\n");
+
+    # --------------
+    # ADP.53.1 start 
+    # --------------
+    # Perl Regex support for stop option
+    # this will accept the stop tokens from the 
+    # stop file as Perl regular experssions 
+    # delimited by slashes /regex/ 
+    # each regex should appear on a separate line 
+    
+    # commented code belongs to old version 0.51 
+    # my %stopHash = (); version 0.51 code 
+    
+    while ( <STP> ) 
+    { 
+         chomp; 
+    # 	 version 0.51 code
+    #    s/^\s+//;
+    #    s/\s+$//;
+    #    if ( /^\/(.*)\/$/ ) 
+    #    { 
+    #        $stopHash{$1} = 1;
+    #    }
+    #}
+	# ---------------
+	# ADP.53.2 start
+	# ---------------
+	# Adding support for AND and OR Stop modes 
+	# AND Mode will remove those ngrams which 
+	# consist of all stop words 
+	# OR Mode will remove those ngrams which 
+	# consist of at least one stop word
+	# Default Mode will be AND Mode
+
+        if(/\@stop.mode\s*=\s*(\w+)\s*$/) {
+		$stop_mode=$1;
+		if(!($stop_mode=~/^(AND|and|OR|or)$/)) {
+			print STDERR "Requested Stop Mode $1 is not supported.\n";
+			exit;
+		}
+		next;
+	} 
+	# --------------
+        # ADP.53.2 end
+        # --------------
+
+	# accepting Perl Regexs from Stopfile
+	s/^\s+//;
+	s/\s+$//;
+
+	#handling a blank lines
+	if(/^\s*$/)
+	{
+		next;
+	}
+	#check if a valid Perl Regex
+        if(!(/^\//)) {
+                print STDERR "Stop token regular expression <$_> should start with '/'\n";
+                exit;
+        }
+        if(!(/\/$/)) {
+                print STDERR "Stop token regular expression <$_> should end with '/'\n";
+                exit;
+        }
+        #remove the / s from beginning and end
+        s/^\///;
+        s/\/$//;
+        #form a single big regex
+        $stop_regex.="(".$_.")|";
+    }
+    if(length($stop_regex)<=0) {
+	print STDERR "No valid Perl Regular Experssion found in Stop file $opt_stop";
+	exit;
+    }
+    chop $stop_regex;
+
+    # Added Perl Regex Support for Stop option
+    # ------------
+    # ADP.53.1 end 
+    # ------------
+
+    # --------------
+    # ADP.53.2 start
+    # --------------
+    # making AND a default stop mode
+    if(!defined $stop_mode) {
+	$stop_mode="AND";
+    }
+    # ------------
+    # ADP.53.2 end
+    # ------------
+    close STP;
+}
+
 # so, first get hold of the destination file!
 $destination = shift;
 
@@ -423,104 +561,6 @@ foreach $source (@sourceFiles)
 # now to put in the stop list, if its been provided
 
 if ( defined $opt_stop ) {
-
-    # we have already checked that the stop list exists. open it and create
-    # the stop hash
-
-    open ( STP, $opt_stop ) ||
-        die ("Couldn't open the stoplist file $opt_stop\n");
-
-    # --------------
-    # ADP.53.1 start 
-    # --------------
-    # Perl Regex support for stop option
-    # this will accept the stop tokens from the 
-    # stop file as Perl regular experssions 
-    # delimited by slashes /regex/ 
-    # each regex should appear on a separate line 
-    
-    # commented code belongs to old version 0.51 
-    # my %stopHash = (); version 0.51 code 
-    
-    while ( <STP> ) 
-    { 
-         chomp; 
-    # 	 version 0.51 code
-    #    s/^\s+//;
-    #    s/\s+$//;
-    #    if ( /^\/(.*)\/$/ ) 
-    #    { 
-    #        $stopHash{$1} = 1;
-    #    }
-    #}
-	# ---------------
-	# ADP.53.2 start
-	# ---------------
-	# Adding support for AND and OR Stop modes 
-	# AND Mode will remove those ngrams which 
-	# consist of all stop words 
-	# OR Mode will remove those ngrams which 
-	# consist of at least one stop word
-	# Default Mode will be AND Mode
-
-        if(/\@stop.mode\s*=\s*(\w+)\s*$/) {
-		$stop_mode=$1;
-		if(!($stop_mode=~/^(AND|and|OR|or)$/)) {
-			print STDERR "Requested Stop Mode $1 is not supported.\n";
-			exit;
-		}
-		next;
-	} 
-	# --------------
-        # ADP.53.2 end
-        # --------------
-
-	# accepting Perl Regexs from Stopfile
-	s/^\s+//;
-	s/\s+$//;
-
-	#handling a blank lines
-	if(/^\s*$/)
-	{
-		next;
-	}
-	#check if a valid Perl Regex
-        if(!(/^\//)) {
-                print STDERR "Stop token regular expression <$_> should start with '/'\n";
-                exit;
-        }
-        if(!(/\/$/)) {
-                print STDERR "Stop token regular expression <$_> should end with '/'\n";
-                exit;
-        }
-        #remove the / s from beginning and end
-        s/^\///;
-        s/\/$//;
-        #form a single big regex
-        $stop_regex.="(".$_.")|";
-    }
-    if(length($stop_regex)<=0) {
-	print STDERR "No valid Perl Regular Experssion found in Stop file $opt_stop";
-	exit;
-    }
-    chop $stop_regex;
-
-    # Added Perl Regex Support for Stop option
-    # ------------
-    # ADP.53.1 end 
-    # ------------
-
-    # --------------
-    # ADP.53.2 start
-    # --------------
-    # making AND a default stop mode
-    if(!defined $stop_mode) {
-	$stop_mode="AND";
-    }
-    # ------------
-    # ADP.53.2 end
-    # ------------
-    close STP;
     
     # having got the file, go thru the ngrams, removing the offending ngrams
     foreach (keys %ngramFreq) {
@@ -587,13 +627,33 @@ if ( defined $opt_stop ) {
     }
 }
 
-# now to remove n-grams if the --remove option has been taken.
+# now to remove n-grams if the --remove or --uremove option has been taken.
 if ( defined $opt_remove )
 {
-    foreach ( keys %ngramFreq ) 
-    {
-        removeNgram($_) if ($ngramFreq{$_} < $opt_remove);
-    }
+	if ( defined $opt_uremove)
+	{
+		foreach  (keys %ngramFreq)
+		{
+        		removeNgram($_) if (($ngramFreq{$_} < $opt_remove) || ($ngramFreq{$_} > $opt_uremove));
+		}	
+	}
+	else
+	{
+		foreach  (keys %ngramFreq)
+		{
+        		removeNgram($_) if ($ngramFreq{$_} < $opt_remove);
+		}
+	}
+}
+else
+{
+	if ( defined $opt_uremove)
+	{
+		foreach  (keys %ngramFreq)
+		{
+        		removeNgram($_) if ($ngramFreq{$_} > $opt_uremove);
+		}
+	}
 }
 
 # end of processing all the files. now to write out the information.
@@ -612,10 +672,19 @@ if ( defined $opt_extended )
     # print out the frequency cut off used
     print DST "\@count.FrequencyCut=$cutOff\n";
 
+
                                   ## TDP.57.1 START
     # print out the remove cut off used   
     print DST "\@count.RemoveCut=$removeOff\n";
                                   ## TDP.57.1 FINISH
+
+                                  ## YL.58.1 START
+    # print out the frequency cut off used
+    print DST "\@count.uFrequencyCut=$ucutOff\n";
+
+    # print out the remove cut off used   
+    print DST "\@count.uRemoveCut=$uremoveOff\n";
+
 
     ##########################################################################
     #                                                                        #
@@ -634,13 +703,20 @@ if ( defined $opt_extended )
 }
 
 # finally print out the total ngrams
-print DST "$ngramTotal\n";
+if (!defined $opt_tokenlist)
+{
+    print DST "$ngramTotal\n";
+}
 
 foreach (sort { $ngramFreq{$b} <=> $ngramFreq{$a} } keys %ngramFreq)
 {
     # check if this is below the cut-off frequency to be displayed
     # as set by switch --frequency. if so, quit the loop
     last if ($ngramFreq{$_} < $cutOff);
+
+    # check if this is above the ucut-off frequency to be displayed
+    # as set by switch --ufrequency. if so, quit the loop
+    next if ($ngramFreq{$_} > $ucutOff);
 
     # get the components of this ngram
     my @words = split /<>/;
@@ -725,29 +801,76 @@ sub processToken
 
             # that is our ngram then!
             # increment the ngramTotal
-            $ngramTotal++;
 
-            # and the ngram freq hash. our output ngrams are going to
-            # be sorted on this hash. we shall not show this frequency
-            # tho... if this has to be shown, the corresponding combo
-            # has to be in the loop below!
-            $ngramFreq{$ngramString}++;
+	    if (defined $opt_tokenlist) 
+            {    
+		if(defined $opt_stop) {
+		    #  This is the stopregex copied from below in order to 
+		    #  incorporate this functionality into the --tokenlist 
+		    #  option - 16 Feb 2010 Bridget
+		    
+		    # by default AND should get value 1 so that when any word 
+		    # doesn't match a stop token, we can accept the ngram 
+		    my $doStop = 1;
+		    #  otherwise set it to the or
+		    if($stop_mode=~/OR|or/) {
+			$doStop = 0;
+		    }
+		    
+		    my @tempArray = split/<>/, $ngramString;
+		    
+		    for ($i = 0; $i <= $#tempArray; $i++ ) {
+			
+			if($stop_mode=~/OR|or/) { 
+			    if($tempArray[$i]=~/$stop_regex/) {
+				$doStop=1;
+				last;
+			    }
+			}
+			else {
+			    if(!($tempArray[$i]=~/$stop_regex/)) {
+				$doStop=0;
+				last;
+			    }
+			}
+		    }
+		    
+		    
+		    if (! ($doStop) ) {
+			print DST "$ngramString\n";
+		    }
+		}
+		else {
+		    print DST "$ngramString\n";
+		}
+            }    
+            else 
+            {    
+
+                $ngramTotal++;
+
+                # and the ngram freq hash. our output ngrams are going to
+                # be sorted on this hash. we shall not show this frequency
+                # tho... if this has to be shown, the corresponding combo
+                # has to be in the loop below!
+                $ngramFreq{$ngramString}++;
             
-            # now increment the various frequencies according to the
-            # @freqCombo array...
-            my @words = split /<>/, $ngramString;
-            my $j;
-            for ($j = 0; $j < $combIndex; $j++)
-            {
-                my $tempString = "";
-                my $k;
-                for ($k = 1; $k <= $freqComb[$j][0]; $k++)
+                # now increment the various frequencies according to the
+                # @freqCombo array...
+                my @words = split /<>/, $ngramString;
+                my $j;
+                for ($j = 0; $j < $combIndex; $j++)
                 {
-                    $tempString .= "$words[$freqComb[$j][$k]]<>";
+                     my $tempString = "";
+                     my $k;
+                     for ($k = 1; $k <= $freqComb[$j][0]; $k++)
+                     {
+                         $tempString .= "$words[$freqComb[$j][$k]]<>";
+                     }
+                     $tempString .= $j;
+                     $frequencies{$tempString}++;
                 }
-                $tempString .= $j;
-                $frequencies{$tempString}++;
-            }
+	    }
         }
 
         # having dealt with all the new ngrams in this window,
@@ -1094,12 +1217,22 @@ sub showHelp
     print "  --frequency N      Does not display n-grams that occur less\n";
     print "                     than N times.\n\n";
 	  
+    print "  --ufrequency N     Does not display n-grams that occur more\n";
+    print "                     than N times. Default value is 100,000,000\n\n";
+	  
     print "  --remove N         Ignores n-grams that occur less than N\n";
     print "                     times. Ignored n-grams are not counted and\n";
     print "                     so do not affect counts and frequencies.\n\n";
 	  
+    print "  --uremove N        Ignores n-grams that occur more than N\n";
+    print "                     times. Ignored n-grams are not counted and\n";
+    print "                     so do not affect counts and frequencies.\n";
+    print "                     Default value is 100,000,000.\n\n";
+	  
     print "  --newLine          Prevents n-grams from spanning across the\n";
     print "                     new-line character.\n\n";
+	  
+    print "  --tokenlist        Prints out all n-grams to the output file.\n\n";
 	  
     print "  --histogram FILE   Outputs histogram to FILE. Tabulates how\n";
     print "                     many times n-grams of a given frequency\n";
@@ -1120,12 +1253,13 @@ sub showHelp
     print "  --help             Prints this help message.\n\n";
 }
 
+
 # function to output the version number
 sub showVersion
 {
-    print STDERR "count.pl      -        version 0.57\n";
-    print STDERR "Copyright (C) 2000-2003, Ted Pedersen & Satanjeev Banerjee\n";
-    print STDERR "Date of Last Update 07/01/03\n";
+    print STDERR "count.pl      -        version 0.58\n";
+    print STDERR "Copyright (C) 2000-2010, Ted Pedersen & Satanjeev Banerjee & Ying Liu\n";
+    print STDERR "Date of Last Update 01/29/10\n";
 
 }
 

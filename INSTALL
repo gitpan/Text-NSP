@@ -123,8 +123,8 @@ AUTHOR
      Ted Pedersen, University of Minnesota, Duluth
      tpederse at d.umn.edu
 
-    This document last modified by : $Id: INSTALL.pod,v 1.4 2008/03/26
-    17:49:29 tpederse Exp $
+    This document last modified by : $Id: INSTALL.pod,v 1.5 2010/03/04
+    04:08:16 tpederse Exp $
 
 SEE ALSO
     Please join the NSP mailing list to report bugs, receive information
@@ -133,7 +133,7 @@ SEE ALSO
     <http://groups.yahoo.com/group/ngram/>
 
 COPYRIGHT AND LICENSE
-    Copyright (c) 2000-2008, Ted Pedersen
+    Copyright (c) 2000-2010, Ted Pedersen
 
     Permission is granted to copy, distribute and/or modify this document
     under the terms of the GNU Free Documentation License, Version 1.2 or

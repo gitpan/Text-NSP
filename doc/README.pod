@@ -68,8 +68,8 @@ without respect to their order.
 L<huge-count.pl> allows a user to run count.pl on much larger
 corpora. It essentially divides a corpora into pieces, and then uses
 count.pl to count piece, and then recombines the counts to get the final
-output. huge-count.pl also uses bin/utils/huge-combine.pl,
-bin/Utils/split-data.pl, and bin/utils/sort-bigrams.pl.
+output. huge-count.pl also uses bin/utils/huge-sort.pl
+and bin/utils/huge-merge.pl.
 
 This README continues with an introduction to the basic definitions of
 tokens, the tokenization process and the Ngram formation process. This
@@ -1320,9 +1320,13 @@ paper about NSP that provides a suitable reference:
         month ={February},
         address = {Mexico City}}
 
-This paper is also found in 
-L<http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.09/doc/cicling2003.ps> or 
-L<http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.09/doc/cicling2003.pdf>
+This paper can be found at :
+
+L<http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.13/doc/cicling2003.ps>  
+
+or 
+
+L<http://cpansearch.perl.org/src/TPEDERSE/Text-NSP-1.13/doc/cicling2003.pdf>
 
 =head1 AUTHORS
 
@@ -1336,7 +1340,7 @@ Amruta Purandare
 Saiyam Kohli
 
 Last modified by :
-$Id: README.pod,v 1.6 2009/11/05 16:12:14 tpederse Exp $
+$Id: README.pod,v 1.10 2010/03/04 04:08:16 tpederse Exp $
 
 =head1 BUGS
 
@@ -1362,8 +1366,9 @@ University of Minnesota.
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2008, Ted Pedersen, Satanjeev Banerjee,
-Amruta Purandare, Bridget Thomson-McInnes and Saiyam Kohli
+Copyright (C) 2000-2010, Ted Pedersen, Satanjeev Banerjee,
+Amruta Purandare, Bridget Thomson-McInnes Saiyam Kohli, and 
+Ying Liu
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -5,6 +5,10 @@ Satanjeev Banerjee
 bane0025@d.umn.edu
 14th February, 2002
 
+Ying Liu
+liux0395@umn.edu
+8th February, 2010
+
 ------------------------------------------------------------------------------
 
 			Upgrades since 14th February, 2002	
@@ -17,6 +21,9 @@ Jan 7,2003	Subtests 4c,4d,4e	Amruta		To test new features
 							AND and OR Modes 
 								 
 Jan 7,2003      Subtest 10 		Amruta		To test --nontoken
+							option
+
+Feb 8,2010      Subtest 11 		Ying		To test --tokenlist
 							option
 ------------------------------------------------------------------------------
 							
@@ -233,6 +240,14 @@ sequences when there are multiple sequences in the nontoken file
 
 Subtest c checks if count.pl removes every occurrence of given nontoken 
 sequences when the sequences use Perl Regex features like character classes
+
+2.1.11 Subtest 11:
+-----------------
+
+This subtest checks count.pl's tokenlist option. 
+
+Subtest a checks if count.pl print out all the bigrams of the text 
+
 
 2.2. Phase 2: Testing count.pl's response to erroneous conditions:
 ------------------------------------------------------------------

@@ -1553,3 +1553,50 @@ echo ""
 /bin/rm -f one two difference
 /bin/rm -f test-1.out
 
+# -------------------------------------------------------------------------
+# Subtest 11 is added by Ying on 02/08/2010 to test the --tokenlist option
+# ------------------------------------------------------------------------- 
+# Subtest 11 : Check --tokenlist
+
+echo "Subtest 11: Checking --tokenlist"
+echo ""
+
+# input file
+set TESTFILE = "test-1.txt"
+
+# check if this file exists. if not, quit!
+if (!(-e $TESTFILE)) then
+    echo "File $TESTFILE does not exist... aborting"
+    exit
+endif
+
+# required output file
+set TARGETFILE = "test-1.sub-11.reqd"
+
+if (!(-e $TARGETFILE)) then
+    echo "File $TARGETFILE does not exist... aborting"
+    exit
+endif
+
+# now the test!
+echo "Test:   count.pl --tokenlist test-11.out $TESTFILE"
+count.pl --tokenlist test-11.out $TESTFILE
+
+# compare the actual output with the required output
+sort test-11.out > one
+sort $TARGETFILE > two
+diff one two > difference
+if (-z difference) then
+    echo "Status: OK\!\! Output matches target output (as provided in $TARGETFILE)"
+else
+    echo "Status: ERROR\!\! Following differences exist between test-1.out and $TARGETFILE :"
+    cat difference
+endif
+
+echo ""
+
+/bin/rm -f one two difference
+/bin/rm -f test-11.out
+
+
+

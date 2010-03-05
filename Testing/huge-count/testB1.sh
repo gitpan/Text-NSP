@@ -1,9 +1,9 @@
 #!/bin/csh
 
 echo "Test B1 for huge-count.pl"
-echo "Running huge-count.pl test-B1.output test-B1.data1 test-B1.data2 test-B1.data3"
+echo "Running huge-count.pl --tokenlist test-B1.output test-B1.data1 test-B1.data2 test-B1.data3"
 
-huge-count.pl test-B1.output test-B1.data1 test-B1.data2 test-B1.data3 >& test-B1.err
+huge-count.pl --tokenlist test-B1.output test-B1.data1 test-B1.data2 test-B1.data3 >& test-B1.err
 
 diff -w test-B1.err test-B1.reqd > var
 
