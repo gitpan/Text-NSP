@@ -437,64 +437,33 @@ else
 # Split bigrams 
 # --------------------
 
-if (defined $opt_tokenlist)
+if(!defined $chdir)
 {
-	if(!defined $chdir)
+	chdir $destdir;
+	$chdir = 1;
+}
+# current dir is now destdir
+opendir(DIR,".") || die "ERROR($0):
+       Error (code=$!) in opening Destination Directory <$destdir>.\n";
+
+if (defined $opt_split)
+{
+	print "split the bigrams files...\n";
+	while(defined ($file = readdir DIR))
 	{
-		chdir $destdir;
-		$chdir = 1;
-	}
-	# current dir is now destdir
-	opendir(DIR,".") || die "ERROR($0):
-        Error (code=$!) in opening Destination Directory <$destdir>.\n";
-
-	if (defined $opt_split)
-	{
-		print "split the bigrams files...\n";
-		while(defined ($file = readdir DIR))
-		{
-			if($file=~/\.bigrams$/)
-    			{
-        			open SPLIT, "<$file" or die $!;
-        			my $split_num = 0;
-
-        			my $sub_i = 1;
-        			my $sub_file = "$file" . ".$sub_i";
-        			open(SUB, ">$sub_file") or die("Error: cannot open file '$sub_file' for output index.\n");
-        			while (my $line = <SPLIT>)
-        			{
-                    			printf SUB "$line";
-                    			$split_num++;
-
-                    			if ($split_num == $opt_split)
-                    			{
-                        			close SUB;
-                        			if (eof (SPLIT))
-                        			{
-                           				last; 
-                        			}
-                        			else
-                        			{
-                            				$sub_i++;
-                            				$split_num = 0;
-                            				my $sub_file = "$file" . ".$sub_i";
-                            				open(SUB, ">$sub_file") or die("Error: cannot open file '$sub_file' for output index.\n");
-                        			}
-                    			}
-        			}
-
-                		close SPLIT;
-                		system("/bin/rm $file");
-
-    			}
-		}
-	}
-	else
-	{
-		print STDERR "Warning($0): You can run huge-sort.pl directly on the \n";
-		print STDERR "single tokenlist file if don't want to split the tokenlist.\n";
+		if($file=~/\.bigrams$/)
+   			{
+				system("huge-split.pl --split $opt_split $file");	
+               	system("/bin/rm $file");
+   			}
 	}
 }
+else
+{
+	print STDERR "Warning($0): You can run huge-sort.pl directly on the \n";
+	print STDERR "single tokenlist file if don't want to split the tokenlist.\n";
+}
+
 # --------------------
 # Sort bigrams 
 # --------------------
@@ -530,6 +499,14 @@ if(defined $chdir)
 	chdir $current_dir;
 }
 
+system("huge-merge.pl $destdir");
+
+
+# --------------------
+# Delete bigrams 
+# --------------------
+
+print "delete the bigrams ...\n";
 if (defined $opt_remove)
 {
 	if (defined $opt_uremove)
@@ -538,11 +515,11 @@ if (defined $opt_remove)
 		{
 			if (defined $opt_ufrequency)
 			{
-				system("huge-merge.pl --remove $opt_remove --uremove $opt_uremove --frequency $opt_frequency --ufrequency $opt_ufrequency $destdir");
+				system("huge-delete.pl --remove $opt_remove --uremove $opt_uremove --frequency $opt_frequency --ufrequency $opt_ufrequency $destdir/merge* $destdir/finalmerge");
 			}	
 			else
 			{
-				system("huge-merge.pl --remove $opt_remove --uremove $opt_uremove --frequency $opt_frequency $destdir");
+				system("huge-delete.pl --remove $opt_remove --uremove $opt_uremove --frequency $opt_frequency $destdir/merge* $destdir/finalmerge");
 			}
 		}
 		# --frequency not used
@@ -550,11 +527,11 @@ if (defined $opt_remove)
 		{
 			if (defined $opt_ufrequency)
 			{
-				system("huge-merge.pl --remove $opt_remove --uremove $opt_uremove --ufrequency $opt_ufrequency $destdir");
+				system("huge-delete.pl --remove $opt_remove --uremove $opt_uremove --ufrequency $opt_ufrequency $destdir/merge* $destdir/finalmerge");
 			}	
 			else
 			{
-				system("huge-merge.pl --remove $opt_remove --uremove $opt_uremove $destdir");
+				system("huge-delete.pl --remove $opt_remove --uremove $opt_uremove $destdir/merge* $destdir/finalmerge");
 			}
 
 		}
@@ -566,11 +543,11 @@ if (defined $opt_remove)
 		{
 			if (defined $opt_ufrequency)
 			{
-				system("huge-merge.pl --remove $opt_remove --frequency $opt_frequency --ufrequency $opt_ufrequency $destdir");
+				system("huge-delete.pl --remove $opt_remove --frequency $opt_frequency --ufrequency $opt_ufrequency $destdir/merge* $destdir/finalmerge");
 			}	
 			else
 			{
-				system("huge-merge.pl --remove $opt_remove --frequency $opt_frequency $destdir");
+				system("huge-delete.pl --remove $opt_remove --frequency $opt_frequency $destdir/merge* $destdir/finalmerge");
 			}
 		}
 		# --frequency not used
@@ -578,11 +555,11 @@ if (defined $opt_remove)
 		{
 			if (defined $opt_ufrequency)
 			{
-				system("huge-merge.pl --remove $opt_remove --ufrequency $opt_ufrequency $destdir");
+				system("huge-delete.pl --remove $opt_remove --ufrequency $opt_ufrequency $destdir/merge* $destdir/finalmerge");
 			}	
 			else
 			{
-				system("huge-merge.pl --remove $opt_remove $destdir");
+				system("huge-delete.pl --remove $opt_remove $destdir/merge* $destdir/finalmerge");
 			}
 
 		}
@@ -597,11 +574,11 @@ else
 		{
 			if (defined $opt_ufrequency)
 			{
-				system("huge-merge.pl --uremove $opt_uremove --frequency $opt_frequency --ufrequency $opt_ufrequency $destdir");
+				system("huge-delete.pl --uremove $opt_uremove --frequency $opt_frequency --ufrequency $opt_ufrequency $destdir/merge* $destdir/finalmerge");
 			}	
 			else
 			{
-				system("huge-merge.pl --uremove $opt_uremove --frequency $opt_frequency $destdir");
+				system("huge-delete.pl --uremove $opt_uremove --frequency $opt_frequency $destdir/merge* $destdir/finalmerge");
 			}
 		}
 		# --frequency not used
@@ -609,11 +586,11 @@ else
 		{
 			if (defined $opt_ufrequency)
 			{
-				system("huge-merge.pl --uremove $opt_uremove --ufrequency $opt_ufrequency $destdir");
+				system("huge-delete.pl --uremove $opt_uremove --ufrequency $opt_ufrequency $destdir/mgerge* $destdir/finalmerge");
 			}	
 			else
 			{
-				system("huge-merge.pl --uremove $opt_uremove $destdir");
+				system("huge-delete.pl --uremove $opt_uremove $destdir/merge* $destdir/finalmerge");
 			}
 
 		}
@@ -625,11 +602,11 @@ else
 		{
 			if (defined $opt_ufrequency)
 			{
-				system("huge-merge.pl --frequency $opt_frequency --ufrequency $opt_ufrequency $destdir");
+				system("huge-delete.pl --frequency $opt_frequency --ufrequency $opt_ufrequency $destdir/merge* $destdir/finalmerge");
 			}	
 			else
 			{
-				system("huge-merge.pl --frequency $opt_frequency $destdir");
+				system("huge-delete.pl --frequency $opt_frequency $destdir/merge* $destdir/finalmerge");
 			}
 		}
 		# --frequency not used
@@ -637,28 +614,26 @@ else
 		{
 			if (defined $opt_ufrequency)
 			{
-				system("huge-merge.pl --ufrequency $opt_ufrequency $destdir");
+				system("huge-delete.pl --ufrequency $opt_ufrequency $destdir/mgerge* $destdir/finalmerge");
 			}	
-			else
-			{
-				system("huge-merge.pl $destdir");
-			}
-
 		}
 
 	}
 }
 
 $output="huge-count.output";
-if (defined $opt_tokenlist)
+if ((defined $opt_remove ) or (defined $opt_uremove) or (defined $opt_frequency) or (defined $opt_ufrequency))
 {
+	system("mv $destdir/finalmerge $destdir/$output");
+}
+else
+{
+
 	system("mv $destdir/merge.* $destdir/$output");
 }
 print STDERR "Check the output in $destdir/$output.\n";
 
 exit;
-
-
 
 ##############################################################################
 

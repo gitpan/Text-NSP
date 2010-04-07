@@ -1,6 +1,6 @@
 *******************************************************************************
 
-		     README.txt FOR Testing huge-merge.pl
+		     README.txt FOR Testing huge-split.pl
 
                                Version 0.01
                          Copyright (C) 2009-2010
@@ -14,18 +14,18 @@
 *******************************************************************************
 
 
-Testing for huge-merge.pl
+Testing for huge-split.pl
 ------------------------------
 
 Ying Liu
 liux0395@umn.edu
-02/20/2010
+04/02/2010
 
 1. Introduction: 
 ----------------
 
-This program is a component of the N-gram Statistics Package that combines
-two bigram count files.
+This program is a component of the N-gram Statistics Package that removes 
+bigrams with low/high frequencies. 
 The scripts and files provided here could be used to test the correct 
 behavior of the program and backward compatibility. 
 
@@ -38,13 +38,7 @@ behavior of the program and backward compatibility.
 Tests written in testA*.sh test huge-combine.pl under normal conditions.
 Run normal-op.sh to run all test cases testA*.sh 
 
-Test A1:	Tests on two general bigram files
-
-Test A2:	Tests on three general bigram files
-
-Test A3:	Tests when the two count files share all bigrams
-
-
+Test A1:	Tests on --split
 
 2.2 Error conditions:
 ----------------------
@@ -52,13 +46,12 @@ Test A3:	Tests when the two count files share all bigrams
 Tests written in testB*.sh test huge-combine.pl under error conditions.
 Run error-op.sh to run all test cases testB*.sh
 
-Test B1:	Tests when a bigram is repeated in the same file
+Test B1:	Tests without --split option 
 
-Test B2:	Tests when a bigram file is not sorted correctly 
 
 3. Conclusions:
 ---------------
 
-We have tested program huge-combine.pl enough to conclude that it runs 
+We have tested program huge-delete.pl enough to conclude that it runs 
 correctly. We have also provided the test scripts so that future versions of 
-huge-combine.pl can be compared to the current version against these scripts.
+huge-delete.pl can be compared to the current version against these scripts.

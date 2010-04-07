@@ -5,6 +5,13 @@ SYNOPSIS
     Revision history for Perl module Text::NSP
 
 DESCRIPTION
+    1.15
+        Released April 7, 2010 all changes by YL
+
+        *   Created huge-split.pl and huge-delete.pl in order to remove this
+            functionality from huge-count.pl and huge-merge.pl (and make it
+            easier to use these different components in more flexible ways).
+
     1.13
         Released March 5, 2010 all changes by TDP and YL
 
@@ -138,11 +145,33 @@ DESCRIPTION
             creation of META.yml
 
 AUTHORS
+     Ying Liu, University of Minnesota, Twin Cities 
+     liux0395 at umn.edu
+
      Ted Pedersen, University of Minnesota, Duluth
      tpederse at d.umn.edu
 
-    This document last modified by : $Id: CHANGES.pod,v 1.17 2010/03/04
-    04:08:16 tpederse Exp $
+    This document last modified by : $Id: CHANGES.pod,v 1.19 2010/04/06
+    17:14:41 liux0395 Exp $
+
+SEE ALSO
+    <http://ngram.sourceforge.net>
+
+COPYRIGHT AND LICENSE
+    Copyright (c) 2004-2010 Ted Pedersen
+
+    Permission is granted to copy, distribute and/or modify this document
+    under the terms of the GNU Free Documentation License, Version 1.2 or
+    any later version published by the Free Software Foundation; with no
+    Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+    Note: a copy of the GNU Free Documentation License is available on the
+    web at <http://www.gnu.org/copyleft/fdl.html> and is included in this
+    distribution as FDL.txt. Ted Pedersen, University of Minnesota, Duluth
+    tpederse at d.umn.edu
+
+    This document last modified by : $Id: CHANGES.pod,v 1.19 2010/04/06
+    17:14:41 liux0395 Exp $
 
 SEE ALSO
     <http://ngram.sourceforge.net>

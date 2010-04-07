@@ -122,31 +122,10 @@ if ( $#ARGV == -1 )
 }
 
 # now get the options!
-GetOptions( "remove=i", "frequency=i", "uremove=i", "ufrequency=i", "keep", "version", "help" );
+GetOptions( "keep", "version", "help" );
 
 if ( defined $opt_keep)    { $opt_keep = 1; }
 else                          { $opt_keep = 0; }
-
-
-if ((defined $opt_remove) and (defined $opt_uremove))
-{
-        if ($opt_remove > $opt_uremove)
-        {
-                print "--remove must be smaller than --uremove!\n";
-                print STDERR "Type huge-merge.pl --help for help.\n";
-                exit;
-        }
-}
-
-if ((defined $opt_frequency) and (defined $opt_ufrequency))
-{
-        if ($opt_frequency > $opt_ufrequency)
-        {
-                print "--frequency must be smaller than --ufrequency!\n";
-                print STDERR "Type huge-merge.pl --help for help.\n";
-                exit;
-        }
-}
 
 
 # if help has been requested, print out help!
@@ -196,6 +175,8 @@ my %w1;
 my %w2;
 while(@files>1)
 {
+	$bigramTotal = 0;
+
 	$i++;
 	%f1_w1 = ( );
 	%f1_w2 = ( );
@@ -364,12 +345,17 @@ while(@files>1)
 
 	# TEMP file for hold the merge file before get the 
 	# correct freqeuncy of each word of the bigrams
+	if (@files==0)
+	{
+		printf MERGE "$bigramTotal\n";
+	}
+	
 	open(TEMP, "<$temp") or die("Error: cannot open file '$temp'\n");		
 	while (my $line = <TEMP>)
 	{
 		chop ($line);
 		my @words = split('<>', $line);	
-		printf MERGE "$line $w1{$words[0]} $w2{$words[1]}\n"; 
+		printf MERGE "$line $w1{$words[0]} $w2{$words[1]} \n"; 
 	}
 	close TEMP;
 	close MERGE;
@@ -378,8 +364,8 @@ while(@files>1)
 	push (@files, $merge);
 
 	# remove the unsorted duplicated bigrams
-        if ($opt_keep == 0)
-        {
+    if ($opt_keep == 0)
+    {
 		#print "remove $file1 $file2\n";
 		system ("rm $file1");
 		system ("rm $file2");
@@ -388,119 +374,7 @@ while(@files>1)
 }
 
 
-if (@files==1)
-{
-	my $final_merge = shift @files; 
-	open(FMERGE, "<$final_merge") or die("Error: cannot open file '$final_merge'\n");		
 
-	my $temp = "temp"; 
-	open(TEMP, "+>$temp") or die("Error: cannot open file '$temp'\n");		
-
-	my $total_bigrams = 0;
-
-	# remove bigrams with low or high frequency
-	while (my $line = <FMERGE>)
-	{
-		chop ($line);
-		my @bigrams= split('<>', $line);	
-		my @words = split(' ', $bigrams[2]);	
-		
-		$w1{$bigrams[0]} = $words[1] if (!defined $w1{$bigrams[0]});
-		$w2{$bigrams[1]} = $words[2] if (!defined $w2{$bigrams[1]});
-
-		if((defined $opt_remove) and (defined $opt_uremove))
-		{
-			if (($words[0]>=$opt_remove) and ($words[0]<=$opt_uremove))
-			{	
-				printf TEMP "$line\n";
-				$total_bigrams += $words[0];				
-			}
-			else
-			{
-				$w1{$bigrams[0]} -= $words[0];
-				$w2{$bigrams[1]} -= $words[0];
-			}
-		}
-		elsif((defined $opt_remove) and (!defined $opt_uremove)) 
-		{
-			if ($words[0]>=$opt_remove)
-			{	
-				printf TEMP "$line\n";
-				$total_bigrams += $words[0];				
-			}
-			else
-			{
-				$w1{$bigrams[0]} -= $words[0];
-				$w2{$bigrams[1]} -= $words[0];
-			}
-		}
-		elsif((!defined $opt_remove) and (defined $opt_uremove)) 
-		{
-			if ($words[0]<=$opt_uremove)
-			{	
-				printf TEMP "$line\n";
-				$total_bigrams += $words[0];				
-			}
-			else
-			{
-				$w1{$bigrams[0]} -= $words[0];
-				$w2{$bigrams[1]} -= $words[0];
-			}
-		}
-		else
-		{
-			printf TEMP "$line\n";
-			$total_bigrams += $words[0];				
-		}	
-
-	}
-	close FMERGE;
-	system ("rm $final_merge");	
-
-	$i++;
-	my $final_output = "$dir" . "/merge." . "$i";
-	open(FINAL, ">$final_output") or die("Error: cannot open file '$final_output'\n");
-	printf FINAL "$total_bigrams\n";
-
-	seek TEMP, 0, 0;
-	while (my $line = <TEMP>)
-	{
-		chop ($line);
-		my @bigrams= split('<>', $line);	
-		my @words = split(' ', $bigrams[2]);	
-
-		if((defined $opt_frequency) and (defined $opt_ufrequency))
-		{
-			if (($words[0]>=$opt_frequency) and ($words[0]<=$opt_ufrequency))
-			{	
-				printf FINAL "$bigrams[0]<>$bigrams[1]<>$words[0] $w1{$bigrams[0]} $w2{$bigrams[1]} \n"; 
-			}
-		}
-		elsif((defined $opt_frequency) and (!defined $opt_ufrequency)) 
-		{
-			if ($words[0]>=$opt_frequency)
-			{	
-				printf FINAL "$bigrams[0]<>$bigrams[1]<>$words[0] $w1{$bigrams[0]} $w2{$bigrams[1]} \n"; 
-			}
-		}
-		elsif((!defined $opt_frequency) and (defined $opt_ufrequency)) 
-		{
-			if ($words[0]<=$opt_ufrequency)
-			{	
-				printf FINAL "$bigrams[0]<>$bigrams[1]<>$words[0] $w1{$bigrams[0]} $w2{$bigrams[1]} \n"; 
-			}
-		}
-		else
-		{
-			printf FINAL "$bigrams[0]<>$bigrams[1]<>$words[0] $w1{$bigrams[0]} $w2{$bigrams[1]} \n"; 
-		}	
-	}
-
-	close TEMP;
-	close FINAL;
-
-	system ("rm $temp");	
-}
 
 
 #-----------------------------------------------------------------------------
@@ -544,7 +418,6 @@ sub showHelp
     print "  --ufrequency F     Bigrams with counts > F will not be displayed.\n";
     print "                     --frequency must be smaller than --ufrequency.\n\n";
 
-
     print "  --help             Prints this help message.\n";
     print "  --version          Prints this version message.\n";
 }
@@ -552,9 +425,9 @@ sub showHelp
 # function to output the version number
 sub showVersion
 {
-    print STDERR "huge-merge.pl      -        version 0.3\n";
+    print STDERR "huge-merge.pl      -        version 0.4\n";
     print STDERR "Copyright (C) 2010, Ying Liu\n";
-    print STDERR "Date of Last Update 02/25/2010\n";
+    print STDERR "Date of Last Update 04/01/2010\n";
 
 }
 

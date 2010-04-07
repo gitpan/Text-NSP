@@ -18,4 +18,4 @@ else
 	cat var;
 endif
 
-/bin/rm -f t0 t1 var test-B1.output
+/bin/rm -f t0 t1 var test-B1.bigrams-sorted
