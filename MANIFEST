@@ -6,6 +6,7 @@ bin/utils/contributed/huge-combine3.pl
 bin/utils/contributed/huge-count3.pl
 bin/utils/contributed/README
 bin/utils/contributed/sort-trigrams.pl
+bin/utils/count2huge.pl
 bin/utils/deprecated/huge-combine.pl
 bin/utils/deprecated/huge-count.pl
 bin/utils/deprecated/README
@@ -227,6 +228,16 @@ Testing/count/test-2.sub-7.reqd
 Testing/count/test-2.sub-8.freq_combo.txt
 Testing/count/test-2.sub-8.reqd
 Testing/count/test-2.txt
+Testing/count2huge/error-handling.sh
+Testing/count2huge/normal-op.sh
+Testing/count2huge/README.txt
+Testing/count2huge/testA1.data
+Testing/count2huge/testA1.sh
+Testing/count2huge/testA2.sh
+Testing/count2huge/testA3.sh
+Testing/count2huge/testA4.sh
+Testing/count2huge/testB1.reqd
+Testing/count2huge/testB1.sh
 Testing/dice/error-handling.sh
 Testing/dice/normal-op.sh
 Testing/dice/README.txt

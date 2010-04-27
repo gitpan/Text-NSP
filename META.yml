@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Text-NSP
-version:            1.15
+version:            1.17
 abstract:           Extract collocations and Ngrams from text
 author:
     - Ted Pedersen <tpederse at d.umn.edu>

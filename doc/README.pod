@@ -670,6 +670,15 @@ Observe that the only difference between this output and the default
 output is that instead of reporting 7 frequency values per ngram, only
 the 4 requested are output.
 
+count2huge.pl is a method to convert the output of count.pl to huge-count.pl.
+The program can sort the bigrams in the alphabet order and generate the 
+same output with huge-count.pl. The reason we sort the bigrams is because
+when we use the bigrams list to generate co-occurrence matrix for the vector 
+relatedness measure of UMLS-Similarity, it requires the input bigrams which 
+start with the same term are grouped together. Sort the bigrams when create 
+the co-occurrence can imporve the efficiency.  
+  
+
 =head3 5.6. "Stopping" the Ngrams:
 
 The user may "stop" the Ngrams formed by count.pl by providing a list
@@ -1341,7 +1350,7 @@ Amruta Purandare
 Saiyam Kohli
 
 Last modified by :
-$Id: README.pod,v 1.11 2010/04/06 16:08:28 liux0395 Exp $
+$Id: README.pod,v 1.12 2010/04/26 18:30:46 liux0395 Exp $
 
 =head1 BUGS
 

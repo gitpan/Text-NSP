@@ -5,6 +5,12 @@ SYNOPSIS
     Revision history for Perl module Text::NSP
 
 DESCRIPTION
+    1.17
+        Released April 26, 2010 all changes by YL
+
+        *   Created count2huge.pl and its testing files. count2huge.pl helps
+            to convert the output of count.pl to huge-count.pl.
+
     1.15
         Released April 7, 2010 all changes by YL
 
@@ -151,8 +157,8 @@ AUTHORS
      Ted Pedersen, University of Minnesota, Duluth
      tpederse at d.umn.edu
 
-    This document last modified by : $Id: CHANGES.pod,v 1.19 2010/04/06
-    17:14:41 liux0395 Exp $
+    This document last modified by : $Id: CHANGES.pod,v 1.21 2010/04/26
+    18:30:45 liux0395 Exp $
 
 SEE ALSO
     <http://ngram.sourceforge.net>
@@ -170,8 +176,8 @@ COPYRIGHT AND LICENSE
     distribution as FDL.txt. Ted Pedersen, University of Minnesota, Duluth
     tpederse at d.umn.edu
 
-    This document last modified by : $Id: CHANGES.pod,v 1.19 2010/04/06
-    17:14:41 liux0395 Exp $
+    This document last modified by : $Id: CHANGES.pod,v 1.21 2010/04/26
+    18:30:45 liux0395 Exp $
 
 SEE ALSO
     <http://ngram.sourceforge.net>

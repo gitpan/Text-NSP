@@ -32,8 +32,7 @@ huge-sort.pl can be efficiently run on any part containing N lines from
 the file contains all bigrams file. 
 
 We suggest that N is equal to the number of KB of memory you have. If the 
-computer has 8 GB RAM, which is 8,000,000 KB, N should be set to 8000000. If
-N is set too small, split output file suffixes exhausted.  
+computer has 8 GB RAM, which is 8,000,000 KB, N should be set to 8000000. 
 
 =head3 Other Options :
 

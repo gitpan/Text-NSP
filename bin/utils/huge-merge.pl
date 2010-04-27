@@ -45,32 +45,6 @@ is in the source directory.
 Switches ON the --keep option will keep all the intermediate merging 
 files.
 
-=head4 --remove L
-
-Bigrams with counts less than L in the entire SOURCE data are removed from
-the sample. The counts of the removed bigrams are not counted in any 
-marginal totals. This has same effect as count.pl's --remove option.
-
-=head4 --uremove L
-
-Bigrams with counts more than L in the entire SOURCE data are removed from
-the sample. The counts of the removed bigrams are not counted in any 
-marginal totals. This has same effect as count.pl's --uremove option.
-
-=head4 --frequency F
-
-Bigrams with counts less than F in the entire SOURCE are not displayed. 
-The counts of the skipped bigrams ARE counted in the marginal totals. In other
-words, --frequency in huge-count.pl has same effect as the count.pl's 
---frequency option.
-
-=head4 --ufrequency F
-
-Bigrams with counts more than F in the entire SOURCE are not displayed. 
-The counts of the skipped bigrams ARE counted in the marginal totals. In other
-words, --frequency in huge-count.pl has same effect as the count.pl's 
---ufrequency option.
-
 =head3 Other Options:
 
 =head4 --help
@@ -409,14 +383,6 @@ sub showHelp
 
     print "  --keep             Keep the unmerged files.\n";
     print "                     The unmerged files are deleted by default.\n\n";
-
-    print "  --remove L         Bigrams with counts < L will be removed from the sample.\n";
-    print "  --uremove L        Bigrams with counts > L will be removed from the sample.\n";
-    print "                     --remove must be smaller than --uremove.\n\n";
-
-    print "  --frequency F      Bigrams with counts < F will not be displayed.\n";
-    print "  --ufrequency F     Bigrams with counts > F will not be displayed.\n";
-    print "                     --frequency must be smaller than --ufrequency.\n\n";
 
     print "  --help             Prints this help message.\n";
     print "  --version          Prints this version message.\n";
