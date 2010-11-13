@@ -2,7 +2,7 @@ use 5.006;
 
 use ExtUtils::MakeMaker;
 
-my @utils_to_install = qw (kocos.pl rank.pl combig.pl huge-count.pl huge-merge.pl huge-sort.pl huge-split.pl huge-delete.pl count2huge.pl);
+my @utils_to_install = qw (kocos.pl rank.pl combig.pl huge-count.pl huge-merge.pl huge-sort.pl huge-split.pl huge-delete.pl count2huge.pl find-compounds.pl);
 #my @utils_to_install = qw (kocos.pl rank.pl combig.pl huge-count.pl huge-combine.pl sort-bigrams.pl split-data.pl);
 
 my @required_to_install = qw(count.pl statistic.pl);

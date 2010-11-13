@@ -12,7 +12,10 @@ huge-count.pl --tokenlist --split 100 destination-dir input
 
 Runs count.pl efficiently on large amounts of data by splitting the data into separate files, and counting up each file separately, and then merging them to get overall results. 
 
-The total counts of all the bigrams in the input data will be found in destintation-dir/huge-count.output.
+Two output files are created. destination-dir/huge-count.output contains 
+the bigram counts after applying --remove and --remove. 
+destination-dir/complete-huge-count.output provides the bigram counts as 
+if no --uremove or --remove cutoff were provided. 
 
 =head1 USAGE
 
@@ -219,7 +222,10 @@ After huge-count finishes successfully, DESTINATION will contain -
 =over
 
 =item * Final bigram count file (huge-count.output) showing bigram counts in
-the entire SOURCE.
+the entire SOURCE after --remove and --uremove applied.
+
+=item * Final bigram count file (complete-huge-count.output) showing 
+bigram counts in the entire SOURCE without --remove and --uremove.
 
 =back
 
@@ -461,7 +467,7 @@ if (defined $opt_split)
 else
 {
 	print STDERR "Warning($0): You can run huge-sort.pl directly on the \n";
-	print STDERR "single tokenlist file if don't want to split the tokenlist.\n";
+	print STDERR	 "single tokenlist file if don't want to split the tokenlist.\n";
 }
 
 # --------------------
@@ -621,17 +627,18 @@ else
 	}
 }
 
-$output="huge-count.output";
+$output="complete-huge-count.output";
 if ((defined $opt_remove ) or (defined $opt_uremove) or (defined $opt_frequency) or (defined $opt_ufrequency))
 {
-	system("mv $destdir/finalmerge $destdir/$output");
+	system("mv $destdir/merge.* $destdir/$output");
+	system("mv $destdir/finalmerge $destdir/huge-count.output");
+	print STDERR "Check the output in $destdir/huge-count.output\n";
 }
 else
 {
-
 	system("mv $destdir/merge.* $destdir/$output");
+	print STDERR "Check the output in $destdir/$output\n";
 }
-print STDERR "Check the output in $destdir/$output.\n";
 
 exit;
 

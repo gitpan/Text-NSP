@@ -8,7 +8,10 @@ huge-count.pl --tokenlist --newline --split 100 testA1.hugecount testA1.data
 
 count2huge.pl testA1.count A3  
 
-diff ./A3/count2huge.output ./testA1.hugecount/huge-count.output > ./A3/var
+if((-e ./A3/count2huge.output) && (-e ./testA1.hugecount/complete-huge-count.output)) then
+diff ./A3/count2huge.output ./testA1.hugecount/complete-huge-count.output > ./A3/var
+endif
+
 
 if( -z ./A3/var ) then
 	echo "Test Ok";

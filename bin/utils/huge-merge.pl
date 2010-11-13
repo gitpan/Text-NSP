@@ -147,6 +147,46 @@ my %f2_w1;
 my %f2_w2;
 my %w1; 
 my %w2;
+
+# without split the bigrams list, only one sorted file
+if(@files==1)
+{
+	my $file1 = shift @files;
+
+	open(FILE1, "<$file1") or die("Error: cannot open file '$file1'\n");		
+
+	my $merge = "$dir" . "/merge." . "$i";
+	open(MERGE, ">$merge") or die("Error: cannot open file '$merge'\n");		
+
+	while(my $line= <FILE1>)
+	{
+		chomp($line);
+		my @s = split ('<>', $line);
+		my @fre = split (' ', $s[2]); 
+		$bigramTotal += $fre[0];
+	}
+
+	print MERGE "$bigramTotal\n";
+	seek FILE1, 0, 0;
+	while(my $line= <FILE1>)
+	{
+		chomp($line);
+		print MERGE "$line\n";
+	}
+	close MERGE;
+	close FILE1;
+
+	# remove the unsorted duplicated bigrams
+    if ($opt_keep == 0)
+    {
+		#print "remove $file1 $file2\n";
+		system ("rm $file1");
+	}
+
+}
+
+
+# split the bigrams list, more than one sorted file
 while(@files>1)
 {
 	$bigramTotal = 0;

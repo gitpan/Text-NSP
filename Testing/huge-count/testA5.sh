@@ -11,7 +11,7 @@ count.pl --window 3 --newLine --token token.regex --nontoken nontoken.regex --st
 
 # testing split
 
-sort ./test-A5.output/huge-count.output > t0
+sort ./test-A5.output/complete-huge-count.output > t0
 sort count-A5.output > t1
 
 diff t0 t1 > var
@@ -37,7 +37,7 @@ count.pl --window 3 --newLine --token token.regex --nontoken nontoken.regex --st
 
 # testing split
 
-sort ./test-A5.output/huge-count.output > t0
+sort ./test-A5.output/complete-huge-count.output > t0
 sort count-A5.output > t1
 
 diff t0 t1 > var
@@ -59,7 +59,7 @@ huge-count.pl --tokenlist --split 20 --window 3 --newLine --token token.regex --
 
 # testing split
 
-sort ./test-A5.output/huge-count.output > t0
+sort ./test-A5.output/complete-huge-count.output > t0
 sort test-A53.reqd > t1
 
 diff t0 t1 > var

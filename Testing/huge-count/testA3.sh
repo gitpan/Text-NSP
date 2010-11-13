@@ -7,7 +7,7 @@ huge-count.pl --tokenlist --split 20 --newLine --token token.regex --nontoken no
 
 # testing split
 
-sort ./test-A3.output/huge-count.output > t0
+sort ./test-A3.output/complete-huge-count.output > t0
 sort test-A31.reqd > t1
 
 diff t0 t1 > var

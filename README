@@ -1234,6 +1234,10 @@ DESCRIPTION
 
     *   Poisson Stirling Measure (Text::NSP::Measures::3D::MI::ps)
 
+    The 4-gram measures is:
+
+    *   Log-likelihood ratio (Text::NSP::Measures::4D::MI::ll)
+
     Any of these measures can be used as follows:
 
       statistic.pl XXXX output.txt input.txt
@@ -1277,7 +1281,7 @@ AUTHORS
 
     Saiyam Kohli
 
-    Last modified by : $Id: README.pod,v 1.11 2010/04/06 16:08:28 liux0395
+    Last modified by : $Id: README.pod,v 1.12 2010/04/26 18:30:46 liux0395
     Exp $
 
 BUGS

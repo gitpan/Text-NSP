@@ -35,7 +35,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: statistic.pl,v 1.25 2010/03/04 04:08:00 tpederse Exp $
+Last updated: $Id: statistic.pl,v 1.26 2010/11/12 18:40:20 btmcinnes Exp $
 
 =head1 BUGS
 
@@ -248,6 +248,85 @@ if ($ngram eq 3)
                                }
 }
 
+if ($ngram eq 4)
+{
+    for ($i = 0; $i < $combIndex; $i++)
+    {
+        $str="";
+        foreach(@{$freqComb[$i]}[1..$freqComb[$i][0]]) { $str.=$_."#"; }
+	
+        if($str eq "0#1#2#3#"){  $n1111Index=$i; }
+        if($str eq "0#")     {  $n1pppIndex=$i; }
+        if($str eq "1#")     {  $np1ppIndex=$i; }
+        if($str eq "2#")     {  $npp1pIndex=$i; }
+        if($str eq "3#")     {  $nppp1Index=$i; }
+	if($str eq "0#1#")   {  $n11ppIndex=$i; }
+	if($str eq "0#2#")   {  $n1p1pIndex=$i; }
+	if($str eq "0#3#")   {  $n1pp1Index=$i; }
+	if($str eq "1#2#")   {  $np11pIndex=$i; }
+	if($str eq "1#3#")   {  $np1p1Index=$i; }
+	if($str eq "2#3#")   {  $npp11Index=$i; }
+	if($str eq "0#1#2#") {  $n111pIndex=$i; }
+	if($str eq "0#1#3#") {  $n11p1Index=$i; }
+	if($str eq "0#2#3#") {  $n1p11Index=$i; }
+	if($str eq "1#2#3#") {  $np111Index=$i; }
+    }
+    if (!(defined $n1111Index)) { $errorCodeNumber = 100; $errorMessage = "Frequency combination \"0 1 2 3\" missing!\n";
+				  die($errorMessage);
+    }
+    if (!(defined $n1pppIndex)) { $errorCodeNumber = 101; $errorMessage = "Frequency combination \"0\" missing!\n";
+				  die($errorMessage);
+    }
+    if (!(defined $np1ppIndex)) { $errorCodeNumber = 102; $errorMessage = "Frequency combination \"1\" missing!\n";
+				  die($errorMessage);
+    }
+    if (!(defined $npp1pIndex)) { $errorCodeNumber = 103; $errorMessage = "Frequency combination \"2\" missing!\n";
+				  die($errorMessage);
+    }
+    if (!(defined $nppp1Index)) { $errorCodeNumber = 104; $errorMessage = "Frequency combination \"3\" missing!\n";
+				  die($errorMessage);
+    }
+    if (!(defined $n11ppIndex)) { $errorCodeNumber = 105; $errorMessage = "Frequency combination \"0 1\" missing!\n";
+				      die($errorMessage);
+    }
+    
+    if (!(defined $n1p1pIndex)) { $errorCodeNumber = 106; $errorMessage = "Frequency combination \"0 2\" missing!\n";
+				  die($errorMessage);
+    }
+    
+    if (!(defined $n1pp1Index)) { $errorCodeNumber = 107; $errorMessage = "Frequency combination \"0 3\" missing!\n";
+				  die($errorMessage);
+    }
+    
+    if (!(defined $np11pIndex)) { $errorCodeNumber = 108; $errorMessage = "Frequency combination \"1 2\" missing!\n";
+				  die($errorMessage);
+    }
+    
+    if (!(defined $np1p1Index)) { $errorCodeNumber = 109; $errorMessage = "Frequency combination \"1 3\" missing!\n";
+				  die($errorMessage);
+    }
+    
+    if (!(defined $npp11Index)) { $errorCodeNumber = 110; $errorMessage = "Frequency combination \"2 3\" missing!\n";
+				  die($errorMessage);
+    }
+    
+    if (!(defined $n111pIndex)) { $errorCodeNumber = 111; $errorMessage = "Frequency combination \"0 1 2\" missing!\n";
+				  die($errorMessage);
+    }
+    
+    if (!(defined $n11p1Index)) { $errorCodeNumber = 112; $errorMessage = "Frequency combination \"0 1 3\" missing!\n";
+				      die($errorMessage);
+    }
+    
+    if (!(defined $n1p11Index)) { $errorCodeNumber = 113; $errorMessage = "Frequency combination \"0 2 3\" missing!\n";
+				  die($errorMessage);
+    }
+    
+    if (!(defined $np111Index)) { $errorCodeNumber = 114; $errorMessage = "Frequency combination \"1 2 3\" missing!\n";
+				  die($errorMessage);
+    }
+}
+
 
 
 if (defined $opt_get_freq_combo)
@@ -327,10 +406,10 @@ use File::Spec;
 
 if($statistic =~ /::/)
 {
-  my @statComponents = split (/::/, $statistic);
-  $statComponents[$#statComponents] =   $statComponents[$#statComponents].".pm";
-  $includename = File::Spec->catfile(@statComponents);
-  $usename = $statistic;
+    my @statComponents = split (/::/, $statistic);
+    $statComponents[$#statComponents] =   $statComponents[$#statComponents].".pm";
+    $includename = File::Spec->catfile(@statComponents);
+    $usename = $statistic;
 }
 # else
 # {
@@ -339,111 +418,137 @@ if($statistic =~ /::/)
 #
 #   }
 # }
-elsif($statistic eq "ll"||$statistic eq "pmi" || $statistic eq "tmi"
-      || $statistic eq "ps")
+elsif($statistic eq "ll") 
 {
-  if($ngram eq 2 || $ngram eq 3)
-  {
-    $usename = 'Text::NSP::Measures::'.$ngram.'D::MI::'.$statistic;
-    $includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','MI',$statistic.'.pm');
-  }
-  else
-  {
-    print STDERR "Error: This measure is only defined for bigrams & trigrams";
-    exit;
-  }
+    if($ngram eq 2 || $ngram eq 3 || $ngram eq 4)
+    {
+	$usename = 'Text::NSP::Measures::'.$ngram.'D::MI::'.$statistic;
+	$includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','MI',$statistic.'.pm');
+    }
+    else
+    {
+	print STDERR "Error: This measure is only defined for bigrams, trigrams and 4-grams";
+	exit;
+    }
+}
+elsif($statistic eq "pmi" || $statistic eq "tmi" || $statistic eq "ps")
+{
+    if($ngram eq 2 || $ngram eq 3)
+    {
+	$usename = 'Text::NSP::Measures::'.$ngram.'D::MI::'.$statistic;
+	$includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','MI',$statistic.'.pm');
+    }
+    else
+    {
+	print STDERR "Error: This measure is only defined for bigrams & trigrams";
+	exit;
+    }
 }
 elsif($statistic eq "x2"||$statistic eq "phi"||$statistic eq "tscore")
 {
-  if($ngram eq 2)
-  {
-    $usename = 'Text::NSP::Measures::'.$ngram.'D::CHI::'.$statistic;
-    $includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','CHI',$statistic.'.pm');
-  }
-  else
-  {
-    print STDERR "Error: This measure is only defined for bigrams";
-    exit;
-  }
+    if($ngram eq 2)
+    {
+	$usename = 'Text::NSP::Measures::'.$ngram.'D::CHI::'.$statistic;
+	$includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','CHI',$statistic.'.pm');
+    }
+    else
+    {
+	print STDERR "Error: This measure is only defined for bigrams";
+	exit;
+    }
 }
 elsif($statistic eq "leftFisher"||$statistic eq "rightFisher"||$statistic eq "twotailed")
 {
-  if($ngram eq 2)
-  {
-    if($statistic eq "leftFisher")
+    if($ngram eq 2)
     {
-      $statistic = "left";
+	if($statistic eq "leftFisher")
+	{
+	    $statistic = "left";
+	}
+	elsif($statistic eq "rightFisher")
+	{
+	    $statistic = "right";
+	}
+	$usename = 'Text::NSP::Measures::'.$ngram.'D::Fisher::'.$statistic;
+	$includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','Fisher',$statistic.'.pm');
     }
-    elsif($statistic eq "rightFisher")
+    else
     {
-      $statistic = "right";
+	print STDERR "Error: This measure is only defined for bigrams";
+	exit;
     }
-    $usename = 'Text::NSP::Measures::'.$ngram.'D::Fisher::'.$statistic;
-    $includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','Fisher',$statistic.'.pm');
-  }
-  else
-  {
-    print STDERR "Error: This measure is only defined for bigrams";
-    exit;
-  }
 }
 elsif($statistic eq "ll3"||$statistic eq "tmi3")
 {
-  $statistic =~ s/3//;
-  if($ngram eq 3)
-  {
-    $usename = 'Text::NSP::Measures::'.$ngram.'D::MI::'.$statistic;
-    $includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','MI',$statistic.'.pm');
-  }
-  else
-  {
-    print STDERR "Error: This measure is only defined for trigrams";
-    exit;
-  }
+    $statistic =~ s/3//;
+    if($ngram eq 3)
+    {
+	$usename = 'Text::NSP::Measures::'.$ngram.'D::MI::'.$statistic;
+	$includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','MI',$statistic.'.pm');
+    }
+    else
+    {
+	print STDERR "Error: This measure is only defined for trigrams";
+	exit;
+    }
+}
+elsif($statistic eq "ll4")
+{
+    $statistic =~ s/4//;
+    if($ngram eq 4)
+    {
+	$usename = 'Text::NSP::Measures::'.$ngram.'D::MI::'.$statistic;
+	$includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','MI',$statistic.'.pm');
+    }
+    else
+    {
+	print STDERR "Error: This measure is only defined for 4-grams";
+	exit;
+    }
 }
 elsif($statistic eq "dice" || $statistic eq "jaccard")
 {
-  if($ngram eq 2)
-  {
-    $usename = 'Text::NSP::Measures::'.$ngram.'D::Dice::'.$statistic;
-    $includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','Dice',$statistic.'.pm');
-  }
-  else
-  {
-    print STDERR "Error: This measure is only defined for bigrams";
-    exit;
-  }
+    if($ngram eq 2)
+    {
+	$usename = 'Text::NSP::Measures::'.$ngram.'D::Dice::'.$statistic;
+	$includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','Dice',$statistic.'.pm');
+    }
+    else
+    {
+	print STDERR "Error: This measure is only defined for bigrams";
+	exit;
+    }
 }
 elsif($statistic eq "odds")
 {
-  if($ngram eq 2)
-  {
-    $usename = 'Text::NSP::Measures::'.$ngram.'D::'.$statistic;
-    $includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D',$statistic.'.pm');
-  }
-  else
-  {
-    print STDERR "Error: This measure is only defined for bigrams";
-    exit;
-  }
+    if($ngram eq 2)
+    {
+	$usename = 'Text::NSP::Measures::'.$ngram.'D::'.$statistic;
+	$includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D',$statistic.'.pm');
+    }
+    else
+    {
+	print STDERR "Error: This measure is only defined for bigrams";
+	exit;
+    }
 }
 else
 {
-  if($ngram eq 2)
-  {
-    $usename = 'Text::NSP::Measures::'.$ngram.'D::'.$statistic;
-    $includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D',$statistic.'.pm');
-  }
-  elsif($ngram eq 3)
-  {
-    $usename = 'Text::NSP::Measures::'.$ngram.'D::'.$statistic;
-    $includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D',$statistic.'.pm');
-  }
-  else
-  {
-    print STDERR "Measure not defined for $ngram-grams\n";
-    exit;
-  }
+    if($ngram eq 2)
+    {
+	$usename = 'Text::NSP::Measures::'.$ngram.'D::'.$statistic;
+	$includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D',$statistic.'.pm');
+    }
+    elsif($ngram eq 3)
+    {
+	$usename = 'Text::NSP::Measures::'.$ngram.'D::'.$statistic;
+	$includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D',$statistic.'.pm');
+    }
+    else
+    {
+	print STDERR "Measure not defined for $ngram-grams\n";
+	exit;
+    }
 }
 
 require $includename;
@@ -631,25 +736,46 @@ while(<SRC>)
 
     if ($ngram eq 2)
     {
-      %values = (n11=>$numbers[$n11FreqIndex],
-                n1p=>$numbers[$n1pFreqIndex],
-                np1=>$numbers[$np1FreqIndex],
-                npp=>$totalNgrams);
-      $totalNgramCount += $numbers[$n11FreqIndex];
+	%values = (n11=>$numbers[$n11FreqIndex],
+		   n1p=>$numbers[$n1pFreqIndex],
+		   np1=>$numbers[$np1FreqIndex],
+		   npp=>$totalNgrams);
+	$totalNgramCount += $numbers[$n11FreqIndex];
     }
     elsif($ngram eq 3)
     {
-      %values = ( n111=>$numbers[$n111Index],
-                  n1pp=>$numbers[$n1ppIndex],
-                  np1p=>$numbers[$np1pIndex],
-                  npp1=>$numbers[$npp1Index],
-                  n11p=>$numbers[$n11pIndex],
-                  n1p1=>$numbers[$n1p1Index],
-                  np11=>$numbers[$np11Index],
-                  nppp=>$totalNgrams);
-      $totalNgramCount = $numbers[$n111Index];
+	%values = ( n111=>$numbers[$n111Index],
+		    n1pp=>$numbers[$n1ppIndex],
+		    np1p=>$numbers[$np1pIndex],
+		    npp1=>$numbers[$npp1Index],
+		    n11p=>$numbers[$n11pIndex],
+		    n1p1=>$numbers[$n1p1Index],
+		    np11=>$numbers[$np11Index],
+		    nppp=>$totalNgrams);
+	$totalNgramCount = $numbers[$n111Index];
     }
-
+    elsif($ngram eq 4)
+    {
+	%values = ( 
+	    n1111=>$numbers[$n1111Index],
+	    n1ppp=>$numbers[$n1pppIndex],
+	    np1pp=>$numbers[$np1ppIndex],
+	    npp1p=>$numbers[$npp1pIndex],
+	    nppp1=>$numbers[$nppp1Index],
+	    n11pp=>$numbers[$n11ppIndex],
+	    n1p1p=>$numbers[$n1p1pIndex],
+	    n1pp1=>$numbers[$n1pp1Index],
+	    np11p=>$numbers[$np11pIndex],
+	    np1p1=>$numbers[$np1p1Index],
+	    npp11=>$numbers[$npp11Index],
+	    n111p=>$numbers[$n111pIndex],
+	    n11p1=>$numbers[$n11p1Index],
+	    n1p11=>$numbers[$n1p11Index],
+	    np111=>$numbers[$np111Index],
+	    npppp=>$totalNgrams);
+	$totalNgramCount = $numbers[$n1111Index];
+    }
+    
     # ------------------------------------------------------------------
     # ADP.67.1 start
     # we don't need to store the Ngram tokens and scores separately in

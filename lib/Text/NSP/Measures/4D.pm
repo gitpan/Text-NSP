@@ -31,8 +31,7 @@ some degree of error handling that verifies the data.
                                   n11p1=>8,
                                   n1p11=>8,
                                   np111=>56,
-                                  npppp=>15180,
-                                  expected_values="0 1 2 3");
+                                  npppp=>15180);
 
   if( ($errorCode = getErrorCode()))
   {
@@ -222,7 +221,8 @@ sub computeObservedValues
   $np111=$values->{np111};
   $npppp=$values->{npppp};
 
-  $expected_values=$values->{expected_values};
+  #  we do not have the model fully implemented yet
+  #$expected_values=$values->{expected_values};
 
   #  Check that all the values are defined
   if(!defined $values->{n1111})
@@ -726,7 +726,19 @@ RETURN VALUES : 1/undef           ..returns '1' to indicate success
 sub computeExpectedValues
 {
     my ($values)=@_;
-        #  calculate the expected values for : "0 123" check
+
+    if(! (defined $expected_values) ) {
+	$expected_values = "0 1 2 3";
+    }
+
+    #  the expected values can be calculated based on 
+    #  a number of different models. I have the code
+    #  for the models here but we do not have the option
+    #  to change them implemented in the statistic.pl 
+    #  
+
+
+    #  calculate the expected values for : "0 123" check
     if($expected_values eq "0 123") {	
 	#print "0 123\n";
 	
@@ -1121,13 +1133,6 @@ sub computeExpectedValues
 	$m2222=$n2ppp*$np2pp*$npp2p*$nppp2/($npppp**3);
     }
 
-
-
-
-
-
-
-
     return 1;
 }
 
@@ -1239,7 +1244,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: 4D.pm,v 1.2 2008/12/01 20:03:21 btmcinnes Exp $
+Last updated: $Id: 4D.pm,v 1.3 2010/11/12 18:40:23 btmcinnes Exp $
 
 =head1 BUGS
 

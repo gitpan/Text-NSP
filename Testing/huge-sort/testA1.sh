@@ -8,7 +8,11 @@ huge-sort.pl --keep test-A1.bigrams
 sort test-A1.bigrams-sorted > t0
 sort test-A1.reqd > t1
 
+if (-e test-A1.bigrams-sorted) then
 diff t0 t1 > var
+else
+	echo "Test Error";
+endif
 
 if(-z var) then
 	echo "Test Ok";

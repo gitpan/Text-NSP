@@ -77,7 +77,6 @@ use Text::NSP::Measures::4D;
 use strict;
 use Carp;
 use warnings;
-# use subs(calculateStatistic);
 require Exporter;
 
 our ($VERSION, @EXPORT, @ISA);
@@ -420,7 +419,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: MI.pm,v 1.1 2008/11/22 18:53:13 btmcinnes Exp $
+Last updated: $Id: MI.pm,v 1.2 2010/11/12 18:40:23 btmcinnes Exp $
 
 =head1 BUGS
 

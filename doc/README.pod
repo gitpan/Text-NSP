@@ -1305,6 +1305,16 @@ Poisson Stirling Measure (L<Text::NSP::Measures::3D::MI::ps>)
 
 =back
 
+The 4-gram measures is:
+
+=over 4
+
+=item * 
+
+Log-likelihood ratio (L<Text::NSP::Measures::4D::MI::ll>)
+
+=back
+
 Any of these measures can be used as follows:
 
   statistic.pl XXXX output.txt input.txt
@@ -1350,7 +1360,7 @@ Amruta Purandare
 Saiyam Kohli
 
 Last modified by :
-$Id: README.pod,v 1.12 2010/04/26 18:30:46 liux0395 Exp $
+$Id: README.pod,v 1.13 2010/11/12 19:13:41 btmcinnes Exp $
 
 =head1 BUGS
 

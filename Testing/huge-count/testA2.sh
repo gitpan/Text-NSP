@@ -11,7 +11,7 @@ count.pl --newLine --token token.regex --nontoken nontoken.regex --stop stoplist
 
 # testing split
 
-sort ./test-A2.output/huge-count.output > t0
+sort ./test-A2.output/complete-huge-count.output > t0
 sort count-A2.output > t1
 
 diff t0 t1 > var

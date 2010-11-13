@@ -128,8 +128,8 @@ open SPLIT, "<$file" or die $!;
 
 if (!defined $opt_split)
 {
-	print STDERR "Warning($0): You do not specify the split size. huge-split.pl\n";
-	print STDERR "does not split the whole bigrams file into smaller pieces.\n";
+	print STDERR "Warning($0): You did not specify the split size. huge-split.pl\n";
+	print STDERR "will not split the whole bigrams file into smaller pieces.\n";
 	exit;
 }
 

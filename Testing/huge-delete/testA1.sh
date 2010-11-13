@@ -11,11 +11,14 @@ huge-delete.pl --remove 2 --uremove 5 test-1.output test-1.delete1
 echo "Running count.pl --newline --remove 2  --uremove 5 test-1.delete2 test-1.txt" 
 count.pl --newline --remove 2 --uremove 5 test-1.delete2 test-1.txt
 
+if((-e test-1.delete1) && (-e test-1.delete2)) then 
+sort test-1.delete1 > t0;
+sort test-1.delete2 > t1;
 
-sort test-1.delete1 > t0
-sort test-1.delete2 > t1
-
-diff t0 t1 > var
+diff t0 t1 > var;
+else
+	echo "Test Error";
+endif
 
 if(-z var) then
 	echo "Test Ok";

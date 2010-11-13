@@ -10,6 +10,31 @@ Revision history for Perl module Text::NSP
 
 =over
 
+=item 1.21
+
+Released November 12, 2010 all changes by BTM
+
+=over
+
+=item
+
+Added the Log Likelihood Measure for 4-grams
+
+=back
+
+=item 1.19
+
+Released November 1, 2010 all changes by YL
+
+=over
+
+=item
+
+Created find-compounds.pl and its testing files. find-compounds.pl helps 
+to pick out the compound words in the text file. 
+
+=back
+
 =item 1.17
 
 Released April 26, 2010 all changes by YL
@@ -252,7 +277,7 @@ of META.yml
  tpederse at d.umn.edu
 
 This document last modified by :
-$Id: CHANGES.pod,v 1.22 2010/04/26 18:56:05 liux0395 Exp $
+$Id: CHANGES.pod,v 1.24 2010/11/12 19:05:56 btmcinnes Exp $
 
 =head1 SEE ALSO
 
@@ -275,7 +300,7 @@ this distribution as FDL.txt.
  tpederse at d.umn.edu
 
 This document last modified by :
-$Id: CHANGES.pod,v 1.22 2010/04/26 18:56:05 liux0395 Exp $
+$Id: CHANGES.pod,v 1.24 2010/11/12 19:05:56 btmcinnes Exp $
 
 =head1 SEE ALSO
 

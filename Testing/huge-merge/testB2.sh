@@ -8,7 +8,12 @@ huge-merge.pl  --keep test-B2
 sort ./test-B2/merge.1 > ./test-B2/t0
 sort ./test-B2/test-B2.reqd > ./test-B2/t1
 
-diff -w ./test-B2/t0 ./test-B2/t1 > ./test-B2/var
+if ((-e ./test-B2/t0) && (-e ./test-B2/t1)) then
+	diff -w ./test-B2/t0 ./test-B2/t1 > ./test-B2/var;
+else
+    echo "Test Error";
+endif
+
 
 if(-z ./test-B2/var) then
 	echo "Test Ok";

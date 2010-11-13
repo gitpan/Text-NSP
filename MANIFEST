@@ -12,6 +12,7 @@ bin/utils/deprecated/huge-count.pl
 bin/utils/deprecated/README
 bin/utils/deprecated/sort-bigrams.pl
 bin/utils/deprecated/split-data.pl
+bin/utils/find-compounds.pl
 bin/utils/huge-count.pl
 bin/utils/huge-delete.pl
 bin/utils/huge-merge.pl
@@ -122,6 +123,8 @@ t/Text-NSP-Measures-3D-MI-pmi.t
 t/Text-NSP-Measures-3D-MI-ps.t
 t/Text-NSP-Measures-3D-MI-tmi.t
 t/Text-NSP-Measures-3D-MI.t
+t/Text-NSP-Measures-4D-MI-ll.t
+t/Text-NSP-Measures-4D-MI.t
 t/Text-NSP-Measures.t
 t/Text-NSP.t
 Testing/ALL-TESTS.sh
@@ -155,6 +158,7 @@ Testing/combig/testA6.sh
 Testing/combig/testB1.sh
 Testing/combig/testB2.sh
 Testing/combig/testB3.sh
+Testing/count/1
 Testing/count/data-dir/data-subdir-1/test-1.txt
 Testing/count/data-dir/data-subdir-2/test-2.txt
 Testing/count/data-dir/data-subdir-3/test-3.txt
@@ -228,6 +232,7 @@ Testing/count/test-2.sub-7.reqd
 Testing/count/test-2.sub-8.freq_combo.txt
 Testing/count/test-2.sub-8.reqd
 Testing/count/test-2.txt
+Testing/count/test.txt
 Testing/count2huge/error-handling.sh
 Testing/count2huge/normal-op.sh
 Testing/count2huge/README.txt
@@ -258,6 +263,15 @@ Testing/dice/test-2.sub-1-a.reqd
 Testing/dice/test-2.sub-1-b.cnt
 Testing/dice/test-2.sub-1-b.freq_combo.txt
 Testing/dice/test-2.sub-1-b.reqd
+Testing/find-compounds/compoundword.txt
+Testing/find-compounds/normal-op.sh
+Testing/find-compounds/README.txt
+Testing/find-compounds/test-A1.input
+Testing/find-compounds/test-A1.reqd
+Testing/find-compounds/test-A2.input
+Testing/find-compounds/test-A2.reqd
+Testing/find-compounds/testA1.sh
+Testing/find-compounds/testA2.sh
 Testing/huge-count/error-handling.sh
 Testing/huge-count/lc.pl
 Testing/huge-count/nontoken.regex
