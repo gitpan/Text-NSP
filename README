@@ -1281,16 +1281,15 @@ AUTHORS
 
     Saiyam Kohli
 
-    Last modified by : $Id: README.pod,v 1.12 2010/04/26 18:30:46 liux0395
+    Last modified by : $Id: README.pod,v 1.13 2010/11/12 19:13:41 btmcinnes
     Exp $
 
 BUGS
     Please report to the NSP mailing list
 
 SEE ALSO
-    *   NSP Home: <http://ngram.sourceforge.net>
-
-    *   Mailing List : <http://groups.yahoo.com/group/ngram/>
+    * NSP Home: <http://ngram.sourceforge.net>
+    * Mailing List : <http://groups.yahoo.com/group/ngram/>
 
   8. Acknowledgments:
     This work has been partially supported by a National Science Foundation

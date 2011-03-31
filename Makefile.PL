@@ -30,7 +30,7 @@ WriteMakefile(
    'dist'             => {'COMPRESS' => 'gzip -9f', 'SUFFIX' => 'gz'},
    # allows for automatic creation of META.yml
    ($ExtUtils::MakeMaker::VERSION ge '6.30_00'?
-   ('LICENSE' => 'gpl', ) : ()),
+   ('LICENSE' => 'GPL', ) : ()),
 );
 
 

@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-huge-split.pl - Split bigrams into pieces.
+huge-split.pl - Split bigram files from huge-count.pl into pieces.
 
 =head1 DESCRIPTION
 
@@ -51,7 +51,7 @@ University of Minnesota at Duluth.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2004,2010
+Copyright (c) 2004-2011
 
 Ted Pedersen, University of Minnesota, Duluth.
 tpederse@umn.edu
@@ -139,7 +139,7 @@ my $sub_file = "$file" . ".$sub_i";
 open(SUB, ">$sub_file") or die("Error: cannot open file '$sub_file' for output index.\n");
 while (my $line = <SPLIT>)
 {
-	printf SUB "$line";
+	print SUB "$line";
    	$split_num++;
 
    	if ($split_num == $opt_split)
@@ -185,7 +185,7 @@ sub showhelp()
 
 	print "OPTIONS:\n\n";
 
-    print "  --split N          Split the bigrams file into smaller files. Every \n";
+    print "  --split N          Split the bigram file into smaller files. Every \n";
     print "                     smaller file contains N bigrams. N must be an integer. \n\n";
 
     print "  --help             Prints this help message.\n";
@@ -196,10 +196,11 @@ sub showhelp()
 #version information
 sub showversion()
 {
-        print "huge-split.pl      -       Version 0.01\n";
-        print "Copyright (C) 2010, Ted Pedersen & Ying Liu.\n";
-        print "Date of Last Update:     04/01/2010\n";
+        print 'huge-split.pl $Id: huge-split.pl,v 1.12 2011/03/31 23:04:04 tpederse Exp $';
+        print "\nCopyright (C) 2004-2011, Amruta Pruandare, Ted Pedersen & Ying Liu.\n";
 }
+
+
 
 #############################################################################
 

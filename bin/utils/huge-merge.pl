@@ -6,15 +6,6 @@ huge-merge.pl - Merge the results of multiple huge-sort generated files into a s
 
 =head1 SYNOPSIS
 
-count.pl --tokenlist input1.out input1
-count.pl --tokenlist input2.out input2
-
-huge-sort.pl input1.out
-huge-sort.pl input2.out
-
-mv input1.out-sorted output-directory
-mv input2.out-sorted output-directory
-
 huge-merge.pl output-directory 
 
 =head1 DESCRIPTION
@@ -55,6 +46,19 @@ Displays the help information.
 
 Displays the version information.
 
+=head3 BUGS
+
+There is a limitation in huge-merge.pl. When the size of the
+corpus is very large (>16G)  and the some of the terms of the
+bigrams is very long (>30 chars), the program could run out of
+memory at huge-merge.pl step. This is because huge-merge use
+two hashes to count the frequencies of the first and second
+term of the bigrams. These two hashes could use up the memory
+with the increase of the length of the terms and the increase
+of the number of the terms. If just for normal text, terms
+are within limited length and numbers, the software won't
+use up the memory.
+
 =head1 AUTHOR
 
 Ying Liu, University of Minnesota, Twin Cities.
@@ -65,7 +69,7 @@ tpederse at umn.edu
 
 =head1 COPYRIGHT
 
-Copyright (C) 2009-2010, Ying Liu and Ted Pedersen
+Copyright (C) 2009-2011, Ying Liu and Ted Pedersen
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -213,33 +217,37 @@ while(@files>1)
 		
 	my $flag = 0;
 
+
+#print "merge: $i\n";
+
+
 	while ( )
 	{
 		if (!eof(FILE1) and !eof(FILE2))
 		{
-			if ($flag == 1)
+			if ($flag == 1) # read file 1
 			{
 				$line1 = <FILE1>; chop ($line1);
 				my @s = split ('<>', $line1);
-				$b1[1] = "$s[0]<>$s[1]<>";
-				my @fre = split (' ', $s[2]); 
-				$b1[0] = $fre[0]; 
+				$b1[1] = "$s[0]<>$s[1]<>"; # @b1 holds the bigram string
+				my @fre = split (' ', $s[2]); # bigram freq, w1 freq and w2 freq in @fre
+				$b1[0] = $fre[0];  
 				$f1_w1{$s[0]} = $fre[1];
 				$f1_w2{$s[1]} = $fre[2];
 				$bigramTotal += $fre[0];
 			}
-			elsif ($flag == 2)
+			elsif ($flag == 2) # read file 2
 			{
 				$line2 = <FILE2>; chop ($line2);
 				my @s = split ('<>', $line2);
-				$b2[1] = "$s[0]<>$s[1]<>";
+				$b2[1] = "$s[0]<>$s[1]<>";  # @b2 holds the bigram string
 				my @fre = split (' ', $s[2]); 
 				$b2[0] = $fre[0]; 
 				$f2_w1{$s[0]} = $fre[1];
 				$f2_w2{$s[1]} = $fre[2];
 				$bigramTotal += $fre[0];
 			}
-			elsif ($flag == 0)
+			elsif ($flag == 0) # read file 1 and 2
 			{
 				$line1 = <FILE1>; chop ($line1);
 				my @s1 = split ('<>', $line1);
@@ -260,19 +268,19 @@ while(@files>1)
 				$bigramTotal += $fre2[0];
 			}
 
-			if ($b1[1] eq $b2[1])
+			if ($b1[1] eq $b2[1]) # two string is the same, add their freqs
 			{
 				my $total = $b1[0] + $b2[0];
 				print TEMP "$b1[1]$total\n";
 				$flag = 0;
 			}
-			elsif ($b1[1] gt $b2[1])
+			elsif ($b1[1] gt $b2[1]) # print string 2 
 			{
 				print TEMP "$b2[1]$b2[0]\n";		
 				$flag = 2;	
 				print TEMP "$b1[1]$b1[0]\n" if(eof(FILE1)and eof(FILE2));		
 			}
-			elsif ($b1[1] lt $b2[1])
+			elsif ($b1[1] lt $b2[1]) # print string 1
 			{
 				print TEMP "$b1[1]$b1[0]\n";		
 				$flag = 1;	
@@ -285,9 +293,24 @@ while(@files>1)
 		}
 		else
 		{
-			my %tail;
-			$tail{$b2[1]} = $b2[0] if $flag == 1;
-			$tail{$b1[1]} = $b1[0] if $flag == 2;
+
+			# $left_freq is already added in to $bigramTotal
+			my $left_string = "";
+			my $left_freq = 0;
+			my $print_flag = 0;
+			if ($flag == 1)
+			{
+				$left_string = $b2[1];
+				$left_freq = $b2[0];
+
+			}
+
+			if ($flag == 2)
+			{
+				$left_string = $b1[1];
+				$left_freq = $b1[0];
+
+			}
 
 			if(!eof(FILE1))
 			{
@@ -298,9 +321,50 @@ while(@files>1)
 					my @fre = split (' ', $s[2]); 
 					$f1_w1{$s[0]} = $fre[1];
 					$f1_w2{$s[1]} = $fre[2];
-					$tail{"$s[0]<>$s[1]<>"} += $fre[0];
-					$bigramTotal += $fre[0];
+
+					my $bigram_string = "$s[0]<>$s[1]<>";
+					if ($left_string ne "") #$flag = 1 or flag = 2
+					{
+						if ($print_flag==0)
+						{
+							if ($bigram_string eq $left_string)
+							{
+								my $frequency = $fre[0] + $left_freq;
+								print TEMP "$bigram_string$frequency\n";
+								$print_flag = 1;
+							}
+				
+							if ($bigram_string lt $left_string)
+							{
+								print TEMP "$bigram_string$fre[0]\n";
+							}	
+
+							if ($bigram_string gt $left_string)
+							{
+								print TEMP "$left_string$left_freq\n"; 
+								$print_flag = 1;
+								print TEMP "$bigram_string$fre[0]\n";
+							}	
+						}
+						else	
+						{
+							print TEMP "$bigram_string$fre[0]\n";
+						}
+
+						$bigramTotal += $fre[0];
+					}
+					else #$flag = 0
+					{
+						print TEMP "$bigram_string$fre[0]\n";
+						$bigramTotal += $fre[0];
+					}
 				}
+
+				if (($print_flag==0) and ($left_string ne ""))
+				{
+					print TEMP "$left_string$left_freq\n"; 
+				}
+
 			}
 			elsif(!eof(FILE2))
 			{
@@ -311,19 +375,59 @@ while(@files>1)
 					my @fre = split (' ', $s[2]); 
 					$f2_w1{$s[0]} = $fre[1];
 					$f2_w2{$s[1]} = $fre[2];
-					$tail{"$s[0]<>$s[1]<>"} += $fre[0];
-					$bigramTotal += $fre[0];
+
+					my $bigram_string = "$s[0]<>$s[1]<>";
+
+					if ($left_string ne "") #$flag = 1 or $flag = 2
+					{
+						if ($print_flag==0)
+						{
+							if ($bigram_string eq $left_string)
+							{
+								my $frequency = $fre[0] + $left_freq;
+								print TEMP "$bigram_string$frequency\n";
+								$print_flag = 1;
+							}
+				
+							if ($bigram_string lt $left_string)
+							{
+								print TEMP "$bigram_string$fre[0]\n";
+							}	
+
+							if ($bigram_string gt $left_string)
+							{
+								print TEMP "$left_string$left_freq\n"; 
+								$print_flag = 1;
+								print TEMP "$bigram_string$fre[0]\n";
+							}	
+						}
+						else	
+						{
+							print TEMP "$bigram_string$fre[0]\n";
+						}
+
+
+						$bigramTotal += $fre[0];
+
+					}
+					else #$flag = 0
+					{
+						print TEMP "$bigram_string$fre[0]\n";
+						$bigramTotal += $fre[0];
+					}
 				}
+
+				if (($print_flag==0) and ($left_string ne ""))
+				{
+					print TEMP "$left_string$left_freq\n"; 
+				}
+
 			}
 
-			foreach my $key (sort (keys %tail))
-			{
-				printf TEMP "$key$tail{$key}\n";
 
-			}
 		}
 
-	}
+	} # end of while (), merge 2 files
 
 	close FILE1;
 	close FILE2;
@@ -359,9 +463,9 @@ while(@files>1)
 
 	# TEMP file for hold the merge file before get the 
 	# correct freqeuncy of each word of the bigrams
-	if (@files==0)
+	if (@files==0) # no files in the queue for merge
 	{
-		printf MERGE "$bigramTotal\n";
+		print MERGE "$bigramTotal\n";
 	}
 	
 	open(TEMP, "<$temp") or die("Error: cannot open file '$temp'\n");		
@@ -369,7 +473,7 @@ while(@files>1)
 	{
 		chop ($line);
 		my @words = split('<>', $line);	
-		printf MERGE "$line $w1{$words[0]} $w2{$words[1]} \n"; 
+		print MERGE "$line $w1{$words[0]} $w2{$words[1]} \n"; 
 	}
 	close TEMP;
 	close MERGE;
@@ -385,7 +489,7 @@ while(@files>1)
 		system ("rm $file2");
 	}
 
-}
+} # end of while (@files>1)
 
 
 
@@ -431,9 +535,8 @@ sub showHelp
 # function to output the version number
 sub showVersion
 {
-    print STDERR "huge-merge.pl      -        version 0.4\n";
-    print STDERR "Copyright (C) 2010, Ying Liu\n";
-    print STDERR "Date of Last Update 04/01/2010\n";
+    print STDERR 'huge-merge.pl $Id: huge-merge.pl,v 1.26 2011/03/31 23:04:04 tpederse Exp $';
+    print STDERR "\nCopyright (C) 2009-2011, Ying Liu\n";
 
 }
 

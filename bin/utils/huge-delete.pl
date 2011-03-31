@@ -2,12 +2,12 @@
 
 =head1 NAME
 
-huge-delete.pl - Delete the bigrams by low/high frequency 
+huge-delete.pl - Delete bigrams found by huge-count.pl based on low/high frequency.
 
 =head1 SYNOPSIS
 
-huge-delete.pl takes a unique bigrams list and remove the bigrams 
-by the low or hight frequency cutoffs. 
+huge-delete.pl takes a unique bigram list and removes the bigrams 
+based on a low or high frequency cutoff. 
 
 =head1 DESCRIPTION
 
@@ -65,7 +65,7 @@ liux0395@umn.edu
 
 =head1 COPYRIGHT
 
-Copyright (C) 2009-2010 Ying Liu 
+Copyright (C) 2009-2011 Ying Liu 
 
 Ying Liu, University of Minnesota, Twin Cities.
 liux0395@umn.edu
@@ -149,7 +149,7 @@ if ((defined $opt_frequency) and (defined $opt_ufrequency))
 
 if((!defined $opt_remove) and (!defined $opt_uremove) and (!defined $opt_frequency) and (!defined $opt_ufrequency))
 {
-	printf STDERR "No (u)remove and (u)frequency cutoffs, the result file is the same with the input file!\n";
+	print STDERR "No (u)remove and (u)frequency cutoffs, the result file is the same with the input file!\n";
 	exit;
 }
 
@@ -176,7 +176,7 @@ while (my $line = <FMERGE>)
     {
 	    if (($words[0]>=$opt_remove) and ($words[0]<=$opt_uremove))
         {
-         	printf TEMP "$line\n";
+         	print TEMP "$line\n";
             $total_bigrams += $words[0];
         }
         else
@@ -189,7 +189,7 @@ while (my $line = <FMERGE>)
     {
      	if ($words[0]>=$opt_remove)
         {
-      		printf TEMP "$line\n";
+      		print TEMP "$line\n";
             $total_bigrams += $words[0];
         }
         else
@@ -202,7 +202,7 @@ while (my $line = <FMERGE>)
      { 
       	if ($words[0]<=$opt_uremove)
        	{
-      		printf TEMP "$line\n";
+      		print TEMP "$line\n";
             $total_bigrams += $words[0];
         }
         else
@@ -213,7 +213,7 @@ while (my $line = <FMERGE>)
      }
      else
 	 {
-      		printf TEMP "$line\n";
+      		print TEMP "$line\n";
             $total_bigrams += $words[0];
      }
 
@@ -223,7 +223,7 @@ close FMERGE;
 
 my $final_output = $ARGV[1]; 
 open(FINAL, ">$final_output") or die("Error: cannot open file '$final_output'\n");
-printf FINAL "$total_bigrams\n";
+print FINAL "$total_bigrams\n";
 
 seek TEMP, 0, 0;
 while (my $line = <TEMP>)
@@ -236,26 +236,26 @@ while (my $line = <TEMP>)
     {
 	    if (($words[0]>=$opt_frequency) and ($words[0]<=$opt_ufrequency))
         {
-        	printf FINAL "$bigrams[0]<>$bigrams[1]<>$words[0] $w1{$bigrams[0]} $w2{$bigrams[1]} \n";
+        	print FINAL "$bigrams[0]<>$bigrams[1]<>$words[0] $w1{$bigrams[0]} $w2{$bigrams[1]} \n";
         }
     }
     elsif((defined $opt_frequency) and (!defined $opt_ufrequency))
     {
       	if ($words[0]>=$opt_frequency)
         {
-      		 printf FINAL "$bigrams[0]<>$bigrams[1]<>$words[0] $w1{$bigrams[0]} $w2{$bigrams[1]} \n";
+      		 print FINAL "$bigrams[0]<>$bigrams[1]<>$words[0] $w1{$bigrams[0]} $w2{$bigrams[1]} \n";
         }  
     }
     elsif((!defined $opt_frequency) and (defined $opt_ufrequency))
     {
       	if ($words[0]<=$opt_ufrequency)
         {
-       		 printf FINAL "$bigrams[0]<>$bigrams[1]<>$words[0] $w1{$bigrams[0]} $w2{$bigrams[1]} \n";
+       		 print FINAL "$bigrams[0]<>$bigrams[1]<>$words[0] $w1{$bigrams[0]} $w2{$bigrams[1]} \n";
         }
     }
     else
     {
-        printf FINAL "$bigrams[0]<>$bigrams[1]<>$words[0] $w1{$bigrams[0]} $w2{$bigrams[1]} \n";
+        print FINAL "$bigrams[0]<>$bigrams[1]<>$words[0] $w1{$bigrams[0]} $w2{$bigrams[1]} \n";
     }
 }
 
@@ -310,9 +310,8 @@ sub showhelp
 # function to output the version number
 sub showversion
 {
-    print STDERR "huge-delete.pl      -        version 0.2\n";
-    print STDERR "Copyright (C) 2010, Ying Liu\n";
-    print STDERR "Date of Last Update 03/22/2010\n";
+    print STDERR 'huge-delete.pl $Id: huge-delete.pl,v 1.9 2011/03/31 23:04:04 tpederse Exp $';
+    print STDERR "\nCopyright (C) 2009-2011, Ying Liu\n";
 
 }
 

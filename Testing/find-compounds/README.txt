@@ -39,7 +39,7 @@ Tests written in testA*.sh test huge-count.pl under normal conditions.
 Run normal-op.sh to run all test cases testA*.sh 
 
 Test A1:	Tests on general English file 
-Test A3: 	Tests on general english file without compounds words
+Test A2: 	Tests on general english file without compounds words
 
 3. Conclusions:
 ---------------

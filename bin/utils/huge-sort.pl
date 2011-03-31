@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-huge-sort.pl - Sort a --tokenlist of bigrams in alphabetical order.
+huge-sort.pl - Sort a --tokenlist of bigrams from huge-count.pl in alphabetical order.
 
 =head1 SYNOPSIS
 
@@ -60,7 +60,7 @@ tpederse at umn.edu
 
 =head1 COPYRIGHT
 
-Copyright (C) 2009-2010, Ying Liu and Ted Pedersen
+Copyright (C) 2009-2011, Ying Liu and Ted Pedersen
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -142,9 +142,9 @@ open(SORT, ">$sorted") or die("Error: cannot open file '$sorted'\n");
 
 foreach my $b (sort (keys %bigrams))
 {
-	printf SORT "$b$bigrams{$b} ";		
+	print SORT "$b$bigrams{$b} ";		
 	my @words = split('<>', $b);
-	printf SORT "$w1{$words[0]} $w2{$words[1]}\n";	
+	print SORT "$w1{$words[0]} $w2{$words[1]}\n";	
 }
 close SORT;	
 
@@ -193,9 +193,8 @@ sub showHelp
 # function to output the version number
 sub showVersion
 {
-    print STDERR "huge-sort.pl      -        version 0.2\n";
-    print STDERR "Copyright (C) 2010, Ying Liu\n";
-    print STDERR "Date of Last Update 02/25/10\n";
+    print STDERR 'huge-sort.pl $Id: huge-sort.pl,v 1.10 2011/03/31 23:04:04 tpederse Exp $';
+    print STDERR "\nCopyright (C) 2009-2011, Ying Liu\n";
 
 }
 

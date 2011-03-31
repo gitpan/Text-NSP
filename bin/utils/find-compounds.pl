@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-find-compounds.pl - pick out the compound words of the text. 
+find-compounds.pl - find compound words in a text that are specified in a list.
 
 =head1 DESCRIPTION
 
@@ -30,8 +30,8 @@ are seperated by underscore "_". Each compound word is a line.
 The original text contains "This is the new york city". In the 
 compound word list, it has
 
-new_york
-new_york_city
+ new_york
+ new_york_city
 
 The find-compounds.pl will find the longest match. After replace
 the compound words, the text is "This is the new_york_city". 
@@ -62,7 +62,7 @@ liux0395@umn.edu
 
 =head1 COPYRIGHT
 
-Copyright (c) 2010
+Copyright (c) 2010-2011, Ying Liu
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -332,9 +332,9 @@ sub showHelp
     print "\n";
     print "Usage: find-compounds.pl Outputfile Sourcefile CompoundWordList\n\n";
 
-    print "pick out the compound words in the source file by the\n";
-    print "compound word list file. Compound words are connected by\n";
-    print "underscore.\n\n";
+    print "Identify the the compound words in the source file as found\n";
+    print "in the file CompoundWordList. Compound words are connected by\n";
+    print "an underscore.\n\n";
 
     print "OPTIONS:\n\n";
 
@@ -348,9 +348,8 @@ sub showHelp
 # function to output the version number
 sub showVersion
 {
-    print STDERR "find-compounds.pl      -        version 0.01\n";
-    print STDERR "Copyright (C) 2009, Ying Liu\n";
-    print STDERR "Date of Last Update 11/01/10\n";
+    print STDERR 'find-compounds.pl $Id: find-compounds.pl,v 1.9 2011/03/31 23:04:04 tpederse Exp $';
+    print STDERR "\nCopyright (C) 2009-2011, Ying Liu\n";
 
 }
 

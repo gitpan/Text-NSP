@@ -1248,10 +1248,9 @@ Type 'perldoc huge-count.pl' to view detailed documentation of huge-count.\n";
 #version information
 sub showversion()
 {
-        print "huge-count.pl      -       Version 0.05\n";
-        print "Efficiently runs count.pl on a huge data.\n";
-        print "Copyright (C) 2004, Amruta Purandare, Ted Pedersen & Ying Liu.\n";
-        print "Date of Last Update:     02/25/2010\n";
+        print 'huge-count.pl  $Id: huge-count.pl,v 1.26 2011/03/31 23:04:04 tpederse Exp $';
+        print "\nEfficiently runs count.pl on a huge data.\n";
+        print "Copyright (C) 2004-2011, Amruta Purandare, Ted Pedersen & Ying Liu.\n";
 }
 
 #############################################################################

@@ -5,12 +5,21 @@ SYNOPSIS
     Revision history for Perl module Text::NSP
 
 DESCRIPTION
+    1.23
+        Release March 31, 2011 all changes by YL
+
+        *   Changed printf to print in huge-split.pl, huge-sort.pl,
+            huge-merge.pl, and count2huge.pl.
+
+            Replaced the tail hash of huge-merge.pl by without use hash.
+
     1.21
         Released November 12, 2010 all changes by BTM
 
         *   Added the Log Likelihood Measure for 4-grams
 
-    1.19
+        >>>>>>> 1.24 =item 1.19
+
         Released November 1, 2010 all changes by YL
 
         *   Created find-compounds.pl and its testing files.
@@ -162,6 +171,16 @@ DESCRIPTION
         *   Modified Makefile.PL to allow for use of 'make dist' and also
             creation of META.yml
 
+BUGS
+    There is a limitation in huge-count.pl. When the size of the corpus is
+    very large (>16G) and the some of the terms of the bigrams is very long
+    (>30 chars), the program could run out of memory at huge-merge.pl step.
+    This is because huge-merge use two hashes to count the frequencies of
+    the first and second term of the bigrams. These two hashes could use up
+    the memory with the increase of the length of the terms and the increase
+    of the number of the terms. If just for normal text, terms are within
+    limited length and numbers, the software won't use up the memory.
+
 AUTHORS
      Ying Liu, University of Minnesota, Twin Cities 
      liux0395 at umn.edu
@@ -169,14 +188,14 @@ AUTHORS
      Ted Pedersen, University of Minnesota, Duluth
      tpederse at d.umn.edu
 
-    This document last modified by : $Id: CHANGES.pod,v 1.23 2010/11/01
-    20:23:50 liux0395 Exp $
+    This document last modified by : $Id: CHANGES.pod,v 1.29 2011/03/31
+    22:41:12 tpederse Exp $
 
 SEE ALSO
     <http://ngram.sourceforge.net>
 
 COPYRIGHT AND LICENSE
-    Copyright (c) 2004-2010 Ted Pedersen
+    Copyright (c) 2004-2011 Ted Pedersen
 
     Permission is granted to copy, distribute and/or modify this document
     under the terms of the GNU Free Documentation License, Version 1.2 or
@@ -188,14 +207,14 @@ COPYRIGHT AND LICENSE
     distribution as FDL.txt. Ted Pedersen, University of Minnesota, Duluth
     tpederse at d.umn.edu
 
-    This document last modified by : $Id: CHANGES.pod,v 1.23 2010/11/01
-    20:23:50 liux0395 Exp $
+    This document last modified by : $Id: CHANGES.pod,v 1.29 2011/03/31
+    22:41:12 tpederse Exp $
 
 SEE ALSO
     <http://ngram.sourceforge.net>
 
 COPYRIGHT AND LICENSE
-    Copyright (c) 2004-2010 Ted Pedersen
+    Copyright (c) 2004-2011 Ted Pedersen
 
     Permission is granted to copy, distribute and/or modify this document
     under the terms of the GNU Free Documentation License, Version 1.2 or
