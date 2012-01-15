@@ -892,3 +892,4 @@ Testing/x2/test-2.sub-1-b.cnt
 Testing/x2/test-2.sub-1-b.freq_combo.txt
 Testing/x2/test-2.sub-1-b.reqd
 TODO
+META.json                                Module JSON meta-data (added by MakeMaker)

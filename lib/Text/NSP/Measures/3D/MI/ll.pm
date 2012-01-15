@@ -24,7 +24,7 @@ Text::NSP::Measures::3D::MI::ll - Perl module that implements Loglikelihood
   }
   else
   {
-    print getStatisticName."value for bigram is ".$ll_value."\n";
+    print getStatisticName."value for trigram is ".$ll_value."\n";
   }
 
 
@@ -50,8 +50,6 @@ cell is computed to arrive at the log-likelihood value.
            n121 * log(n121/m121) + n122 * log(n122/m122) +
            n211 * log(n211/m211) + n212 * log(n212/m212) +
            n221 * log(n221/m221) + n222 * log(n222/m222)]
-
-=head2 Methods
 
 =over
 
@@ -149,14 +147,14 @@ Amruta Purandare,            University of Pittsburgh
                              E<lt>amruta@cs.pitt.eduE<gt>
 
 Bridget Thomson-McInnes,     University of Minnesota Twin Cities
-                             E<lt>bthompson@d.umn.eduE<gt>
+                             E<lt>bthomson@d.umn.eduE<gt>
 
 Saiyam Kohli,                University of Minnesota Duluth
                              E<lt>kohli003@d.umn.eduE<gt>
 
 =head1 HISTORY
 
-Last updated: $Id: ll.pm,v 1.9 2006/06/21 11:10:53 saiyam_kohli Exp $
+Last updated: $Id: ll.pm,v 1.10 2011/12/23 21:59:33 btmcinnes Exp $
 
 =head1 BUGS
 
@@ -194,7 +192,7 @@ L<http://www.d.umn.edu/~tpederse/nsp.html>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2006, Ted Pedersen, Satanjeev Banerjee, Amruta
+Copyright (C) 2000-2011, Ted Pedersen, Satanjeev Banerjee, Amruta
 Purandare, Bridget Thomson-McInnes and Saiyam Kohli
 
 This program is free software; you can redistribute it and/or modify it

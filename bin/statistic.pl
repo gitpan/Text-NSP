@@ -35,7 +35,7 @@ Saiyam Kohli,                University of Minnesota Duluth
 
 =head1 HISTORY
 
-Last updated: $Id: statistic.pl,v 1.26 2010/11/12 18:40:20 btmcinnes Exp $
+Last updated: $Id: statistic.pl,v 1.27 2011/12/23 22:25:04 btmcinnes Exp $
 
 =head1 BUGS
 
@@ -444,7 +444,7 @@ elsif($statistic eq "pmi" || $statistic eq "tmi" || $statistic eq "ps")
 	exit;
     }
 }
-elsif($statistic eq "x2"||$statistic eq "phi"||$statistic eq "tscore")
+elsif($statistic eq "x2"||$statistic eq "phi")
 {
     if($ngram eq 2)
     {
@@ -454,6 +454,19 @@ elsif($statistic eq "x2"||$statistic eq "phi"||$statistic eq "tscore")
     else
     {
 	print STDERR "Error: This measure is only defined for bigrams";
+	exit;
+    }
+}
+elsif($statistic eq "tscore")
+{
+    if($ngram eq 2 || $ngram eq 3 || $ngram eq 4)
+    {
+	$usename = 'Text::NSP::Measures::'.$ngram.'D::CHI::'.$statistic;
+	$includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','CHI',$statistic.'.pm');
+    }
+    else
+    {
+	print STDERR "Error: This measure is only defined for bigrams & trigrams & 4-grams";
 	exit;
     }
 }
@@ -492,6 +505,20 @@ elsif($statistic eq "ll3"||$statistic eq "tmi3")
 	exit;
     }
 }
+elsif($statistic eq "tscore3")
+{
+    $statistic =~ s/3//;
+    if($ngram eq 3)
+    {
+	$usename = 'Text::NSP::Measures::'.$ngram.'D::CHI::'.$statistic;
+	$includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','CHI',$statistic.'.pm');
+    }
+    else
+    {
+	print STDERR "Error: This measure is only defined for trigrams";
+	exit;
+    }
+}
 elsif($statistic eq "ll4")
 {
     $statistic =~ s/4//;
@@ -503,6 +530,20 @@ elsif($statistic eq "ll4")
     else
     {
 	print STDERR "Error: This measure is only defined for 4-grams";
+	exit;
+    }
+}
+elsif($statistic eq "tscore4")
+{
+    $statistic =~ s/4//;
+    if($ngram eq 4)
+    {
+	$usename = 'Text::NSP::Measures::'.$ngram.'D::CHI::'.$statistic;
+	$includename = File::Spec->catfile('Text','NSP','Measures',$ngram.'D','CHI',$statistic.'.pm');
+    }
+    else
+    {
+	print STDERR "Error: This measure is only defined for trigrams";
 	exit;
     }
 }

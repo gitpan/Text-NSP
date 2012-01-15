@@ -27,7 +27,7 @@ Text::NSP::Measures::3D::MI - Perl module that provides error checks and
   }
   else
   {
-    print getStatisticName."value for bigram is ".$ll_value."\n";
+    print getStatisticName."value for trigram is ".$ll_value."\n";
   }
 
 =head1 DESCRIPTION
@@ -202,7 +202,6 @@ sub getValues
     }
   }
 
-
   if ($m111 < 0)
   {
     $errorMessage = "Expected Value for cell(1,1,1) should not be negative";
@@ -297,14 +296,14 @@ Amruta Purandare,            University of Pittsburgh
                              E<lt>amruta@cs.pitt.eduE<gt>
 
 Bridget Thomson-McInnes,     University of Minnesota Twin Cities
-                             E<lt>bthompson@d.umn.eduE<gt>
+                             E<lt>bthomson@d.umn.eduE<gt>
 
 Saiyam Kohli,                University of Minnesota Duluth
                              E<lt>kohli003@d.umn.eduE<gt>
 
 =head1 HISTORY
 
-Last updated: $Id: MI.pm,v 1.15 2008/03/26 17:41:33 tpederse Exp $
+Last updated: $Id: MI.pm,v 1.16 2011/12/23 22:25:05 btmcinnes Exp $
 
 =head1 BUGS
 
@@ -318,7 +317,7 @@ L<http://www.d.umn.edu/~tpederse/nsp.html>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2006, Ted Pedersen, Satanjeev Banerjee, Amruta
+Copyright (C) 2000-2011, Ted Pedersen, Satanjeev Banerjee, Amruta
 Purandare, Bridget Thomson-McInnes and Saiyam Kohli
 
 This program is free software; you can redistribute it and/or modify it

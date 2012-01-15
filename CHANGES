@@ -5,6 +5,16 @@ SYNOPSIS
     Revision history for Perl module Text::NSP
 
 DESCRIPTION
+    1.25
+        Release Jan 15, 2012 all changes by BTM
+
+        *   Added tscore for 3D and 4D along with test cases
+
+        *   Updated rank.pl to work with ties
+
+        *   Added --N option to rank.pl to return the number of ngrams being
+            used to calculate the correlation.
+
     1.23
         Release March 31, 2011 all changes by YL
 
@@ -188,8 +198,8 @@ AUTHORS
      Ted Pedersen, University of Minnesota, Duluth
      tpederse at d.umn.edu
 
-    This document last modified by : $Id: CHANGES.pod,v 1.29 2011/03/31
-    22:41:12 tpederse Exp $
+    This document last modified by : $Id: CHANGES.pod,v 1.32 2012/01/15
+    14:10:31 btmcinnes Exp $
 
 SEE ALSO
     <http://ngram.sourceforge.net>
@@ -207,8 +217,8 @@ COPYRIGHT AND LICENSE
     distribution as FDL.txt. Ted Pedersen, University of Minnesota, Duluth
     tpederse at d.umn.edu
 
-    This document last modified by : $Id: CHANGES.pod,v 1.29 2011/03/31
-    22:41:12 tpederse Exp $
+    This document last modified by : $Id: CHANGES.pod,v 1.32 2012/01/15
+    14:10:31 btmcinnes Exp $
 
 SEE ALSO
     <http://ngram.sourceforge.net>

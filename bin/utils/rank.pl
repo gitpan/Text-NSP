@@ -19,28 +19,6 @@ statistical measures of association. Given the same set of n-grams ranked
 in two different ways by two different statistical measures, this program  
 computes Spearman's rank correlation coefficient between the two rankings.  
 
-=head3 1.1. Spearman's rank correlation coefficient: 
-
-Assume we have n n-grams ranked in two ways such that each ngram has
-two ranks created by the two measures. Let Di represent the difference
-between the two ranks for ngram i. Then Spearman's rank correlation
-coefficient r is given by the following formula:
-
-             i=n
-         6 X SUM(Di^2)
-             i=1
- r = 1 - ------------
-          n(n^2 - 1)
-
-
-That is, find the sum of the squares of the differences Di between
-ranks for each ngram i, and then multiply by 6 and divide by
-n(n^2-1). Note that when for every ngram, the two ranks of are always
-the same, that is the two rankings perfectly match, then Di is always
-0, and so r = 1. It can be shown that when two rankings are exactly
-opposite to each other, that is every ngram has ranks a and n-a in the
-two rankings, then r = -1. 
-
 =head3 1.2. Typical Way to Run rank.pl:
 
 Assume that test.cnt is a list of n-grams with their frequencies as
@@ -192,6 +170,7 @@ manually modified to the user's requirements.
 
  Ted Pedersen, tpederse@umn.edu
  Satanjeev Banerjee, bane0025@d.umn.edu
+ Bridget McInnes, bthomson@umn.edu
 
 This work has been partially supported by a National Science Foundation
 Faculty Early CAREER Development award (\#0092784) and by a Grant-in-Aid  
@@ -201,7 +180,7 @@ University of Minnesota.
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2003, Ted Pedersen and Satanjeev Banerjee
+Copyright (C) 2000-2012, Ted Pedersen and Satanjeev Banerjee and Bridget T. McInnes
 
 This suite of programs is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License as published by the
@@ -239,7 +218,7 @@ if ( $#ARGV == -1 )
 }
 
 # now get the options!
-GetOptions("version", "help", "precision=i");
+GetOptions("version", "help", "precision=i", "N");
 
 # if help has been requested, print out help and exit
 if (defined $opt_help)
@@ -257,104 +236,172 @@ if (defined $opt_version)
     exit;
 }
 
-# get the first file.
-$firstFile = shift;
-open(SRC, $firstFile) || die("Couldn't open $firstFile\n");
-while(<SRC>)
+my $precision = 4;
+#  if precision is defined, set precision
+if (defined $opt_precision) 
 {
-    next unless(/^((\S+<>)+)(\d+)\s/);
-    $list1{$1} = $3;
+    $precision = $opt_precision;
 }
-close(SRC);
 
-# get from the second file only those ngrams that are in the first
-# file. Also continuously "rerank".
-$secondFile = shift;
-if (!defined $secondFile) 
+#  if N is defined set N
+if (defined $opt_N) 
 { 
-    print STDERR "Second file not provided.\n"; 
-    askHelp(); 
-    exit; 
+    $opt_N = 1;
 }
 
-open(SRC, $secondFile) || die("Couldn't open $secondFile\n");
-$lastRankSeen = 0;
-$lastRankUsed = 0;
-$tiesAtLastRank = 0;
-while(<SRC>)
-{
-    next unless(/^((\S+<>)+)(\d+)\s/);
-    my $ngram = $1;
-    my $rank = $3;
 
-    # ignore ngrams not on first list
-    next unless(defined $list1{$ngram});
+#  initialize variables
+my $xfile = shift;
+my $yfile = shift;
 
-    # save ngram in second list, but after adjusting rank
-    if ($rank == $lastRankSeen)
-    {
-	$list2{$ngram} = $lastRankUsed;
-	$tiesAtLastRank++;
-    }
-    else
-    {
-	$list2{$ngram} = $lastRankUsed + $tiesAtLastRank + 1;
-	$lastRankUsed  = $lastRankUsed + $tiesAtLastRank + 1;
-	$lastRankSeen = $rank;
-	$tiesAtLastRank = 0;
-    }
+open(X, $xfile) || die "Could not open file: $xfile\n";
+open(Y, $yfile) || die "Could not open file: $yfile\n";
+
+
+my $ymean = 0;
+my $xmean = 0;
+
+my $ycount = 0;
+my $xcount = 0;
+
+my %xhash = ();
+my %yhash = ();
+
+my %xlist = ();
+my %ylist = ();
+
+my $xtotal = 0;
+my $ytotal = 0;
+
+my $xN = <X>;
+while(<X>) {
+
+    chomp;
+
+    my @array = split/<>/;
+    
+    my $numbers = pop @array;
+
+    my @stats   = split/\s+/, $numbers;
+    my $rank    = shift @stats;
+    my $score   = shift @stats;
+
+    my $ngram = join "<>", @array;
+    
+    $xtotal++;
+   
+    push @{$xhash{$score}}, $ngram;
+    $xlist{$ngram}++;
+} close X;
+
+my $yN = <Y>;
+while(<Y>) {
+    chomp;
+    my @array = split/<>/;
+    
+    my $numbers = pop @array;
+    my @stats   = split/\s+/, $numbers;
+    my $rank    = shift @stats;
+    my $score   = shift @stats;
+    
+    my $ngram = join "<>", @array;
+
+    $ytotal++;
+
+    push @{$yhash{$score}}, $ngram;
+    $ylist{$ngram}++;
+} close Y;
+
+my %xrank = ();
+my %yrank = ();
+
+my $rank = 0; 
+foreach my $score (sort {$b<=>$a} keys %xhash) {
+
+    my $count = 0;
+    my $computed_rank = 0; my $crank = $rank + 1;
+    foreach my $term (@{$xhash{$score}}) {
+	if(exists $ylist{$term}) {
+	    $computed_rank += $crank;
+	    $count++; $crank++;
+	}
+    } 
+    
+    if($count == 0) { next; }
+    
+    $computed_rank = $computed_rank / $count;
+    
+    foreach my $term (@{$xhash{$score}}) {
+	if(! (exists $ylist{$term})) { next; }
+	$xrank{$term} = $computed_rank;
+	$xmean += $computed_rank;
+	$xcount++;
+	$rank++;
+    } 
 }
-close(SRC);
 
-# now remove those ngrams in list1 that dont exist in list2, and rerank
-$lastRankSeen = 0;
-$lastRankUsed = 0;
-$tiesAtLastRank = 0;
-foreach (sort {$list1{$a} <=> $list1{$b}} keys %list1)
-{
-    # remove ngrams not on second list
-    next unless (defined $list2{$_});
-
-    # Adjust rank
-    if ($list1{$_} == $lastRankSeen)
-    {
-	$adjustedList1{$_} = $lastRankUsed;
-	$tiesAtLastRank++;
-    }
-    else
-    {
-	$adjustedList1{$_} = $lastRankUsed + $tiesAtLastRank + 1;
-	$lastRankUsed  = $lastRankUsed + $tiesAtLastRank + 1;
-	$lastRankSeen = $list1{$_};
-	$tiesAtLastRank = 0;
-    }
+$rank = 0; 
+foreach my $score (sort {$b<=>$a} keys %yhash) {
+    
+    my $count = 0;
+    my $computed_rank = 0; my $crank = $rank + 1;
+    foreach my $term (@{$yhash{$score}}) {
+	if(exists $xlist{$term}) {
+	    $computed_rank += $crank;
+	    $count++; $crank++;
+	}
+    } 
+    
+    if($count == 0) { next; }
+    
+    $computed_rank = $computed_rank / $count;
+    
+    foreach my $term (@{$yhash{$score}}) {
+	if(! (exists $xlist{$term})) { next; }
+	$yrank{$term} = $computed_rank;
+	$ymean += $computed_rank;
+	$ycount++;
+	$rank++;
+    } 
 }
 
-%list1 = %adjustedList1;
-
-# compute the coeff and count the number of bigrams being used
-$bigramsUsed = 0;
-$coeff = 0;
-foreach (sort {$list1{$b} <=> $list1{$a}} keys %list1)
-{
-    $bigramsUsed++;
-    $diff = $list1{$_} - $list2{$_};
-    $coeff += $diff * $diff;
-}
-
-if ($bigramsUsed == 0)
-{
-    print STDERR "No bigrams to calculate rank correlation coefficient for.\n";
+if( ($xcount == 0) or ($ycount == 0) ) { 
+    print "ERROR: Files do not contain similar ngrams.\n";
+    showHelp();
     exit;
 }
 
-$coeff *= 6;
-$coeff /= $bigramsUsed * ( $bigramsUsed * $bigramsUsed - 1 );
-$coeff = 1 - $coeff;
+$xmean = $xmean/$xcount;
+$ymean = $ymean/$ycount;
 
-$precision = (defined $opt_precision) ? $opt_precision : 4;
-$floatFormat = "%.${precision}f";
-printf("Rank correlation coefficient = $floatFormat\n", $coeff);
+
+my $numerator = 0;
+my $xdenom = 0;
+my $ydenom = 0;
+foreach my $term (sort keys %xrank) {
+    my $xi = $xrank{$term};
+    my $yi = $yrank{$term};
+            
+    $numerator += ( ($xi-$xmean) * ($yi-$ymean) );
+    
+    $xdenom += ( ($xi - $xmean)**2 );
+    $ydenom += ( ($yi - $ymean)**2 );
+}
+
+my $denominator = sqrt($xdenom * $ydenom);
+
+
+my $pearsons = $numerator / $denominator;
+
+my $floatformat = join '', '%', '.', $precision, 'f';
+my $score = sprintf $floatformat, $pearsons;
+
+printf("Rank correlation coefficient = $floatformat", $score);
+
+if(defined $opt_N) { print " (N = $xcount)"; }
+
+print "\n";
+
     
 # function to output a minimal usage note when the user has not provided any
 # commandline options
@@ -378,6 +425,7 @@ sub showHelp
     print "OPTIONS:\n\n";
 
     print "   --precision N   Rounds coefficient to N places of decimal. N = 4 by\n";
+    print "   --N             Returns the number of ngrams both files have in common\n\n";
     print "                   default.\n\n";
 
     print "   --version       Prints the version number.\n\n";
@@ -390,8 +438,8 @@ sub showHelp
 # function to show the version number
 sub showVersion
 {
-    print "rank.pl         -       version 0.01\n";
-    print "Copyright (C) 2000-2003, Ted Pedersen & Satanjeev Banerjee\n";
+    print "rank.pl         -       version 0.03\n";
+    print "Copyright (C) 2000-2012, Ted Pedersen & Satanjeev Banerjee & Bridget T McInnes\n";
 }
 
 # function to output "ask for help" message when the user's goofed up!
