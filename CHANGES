@@ -5,8 +5,14 @@ SYNOPSIS
     Revision history for Perl module Text::NSP
 
 DESCRIPTION
+    1.27
+        Released Feb 16, 2013 all changes by BTM
+
+        *   Fixed rank.pl so that it checks for required ngram count in
+            first line.
+
     1.25
-        Release Jan 15, 2012 all changes by BTM
+        Released Jan 15, 2012 all changes by BTM
 
         *   Added tscore for 3D and 4D along with test cases
 
@@ -198,8 +204,8 @@ AUTHORS
      Ted Pedersen, University of Minnesota, Duluth
      tpederse at d.umn.edu
 
-    This document last modified by : $Id: CHANGES.pod,v 1.32 2012/01/15
-    14:10:31 btmcinnes Exp $
+    This document last modified by : $Id: CHANGES.pod,v 1.33 2012/01/15
+    17:12:18 tpederse Exp $
 
 SEE ALSO
     <http://ngram.sourceforge.net>
@@ -217,8 +223,8 @@ COPYRIGHT AND LICENSE
     distribution as FDL.txt. Ted Pedersen, University of Minnesota, Duluth
     tpederse at d.umn.edu
 
-    This document last modified by : $Id: CHANGES.pod,v 1.32 2012/01/15
-    14:10:31 btmcinnes Exp $
+    This document last modified by : $Id: CHANGES.pod,v 1.33 2012/01/15
+    17:12:18 tpederse Exp $
 
 SEE ALSO
     <http://ngram.sourceforge.net>

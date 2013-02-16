@@ -10,9 +10,21 @@ Revision history for Perl module Text::NSP
 
 =over
 
+=item 1.27
+
+Released Feb 16, 2013 all changes by BTM
+
+=over
+
+=item
+
+Fixed rank.pl so that it checks for required ngram count in first line.
+
+=back
+
 =item 1.25
 
-Release Jan 15, 2012 all changes by BTM
+Released Jan 15, 2012 all changes by BTM
 
 =over
 
@@ -328,7 +340,7 @@ use up the memory.
  tpederse at d.umn.edu
 
 This document last modified by :
-$Id: CHANGES.pod,v 1.33 2012/01/15 17:12:18 tpederse Exp $
+$Id: CHANGES.pod,v 1.34 2013/02/16 21:23:27 tpederse Exp $
 
 =head1 SEE ALSO
 
@@ -351,7 +363,7 @@ this distribution as FDL.txt.
  tpederse at d.umn.edu
 
 This document last modified by :
-$Id: CHANGES.pod,v 1.33 2012/01/15 17:12:18 tpederse Exp $
+$Id: CHANGES.pod,v 1.34 2013/02/16 21:23:27 tpederse Exp $
 
 =head1 SEE ALSO
 

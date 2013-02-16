@@ -257,7 +257,6 @@ my $yfile = shift;
 open(X, $xfile) || die "Could not open file: $xfile\n";
 open(Y, $yfile) || die "Could not open file: $yfile\n";
 
-
 my $ymean = 0;
 my $xmean = 0;
 
@@ -366,8 +365,8 @@ foreach my $score (sort {$b<=>$a} keys %yhash) {
 }
 
 if( ($xcount == 0) or ($ycount == 0) ) { 
-    print "ERROR: Files do not contain similar ngrams.\n";
-    showHelp();
+    print "ERROR: There are no ngrams in common between the files.\n";
+##    showHelp();
     exit;
 }
 
@@ -390,7 +389,12 @@ foreach my $term (sort keys %xrank) {
 
 my $denominator = sqrt($xdenom * $ydenom);
 
-
+if($denominator <= 0) { 
+    print STDERR "Correlation can not be calculated.\n";
+    print STDERR "There are no ngrams in common between the files.\n";
+    exit;
+}
+    
 my $pearsons = $numerator / $denominator;
 
 my $floatformat = join '', '%', '.', $precision, 'f';
@@ -424,9 +428,8 @@ sub showHelp
 
     print "OPTIONS:\n\n";
 
-    print "   --precision N   Rounds coefficient to N places of decimal. N = 4 by\n";
-    print "   --N             Returns the number of ngrams both files have in common\n\n";
-    print "                   default.\n\n";
+    print "   --precision N   Rounds coefficient to N places (default = 4)\n";
+    print "   --N             Returns count of ngrams in common between files\n\n";
 
     print "   --version       Prints the version number.\n\n";
 
@@ -438,7 +441,7 @@ sub showHelp
 # function to show the version number
 sub showVersion
 {
-    print "rank.pl         -       version 0.03\n";
+    print "rank.pl         -       version 0.05\n";
     print "Copyright (C) 2000-2012, Ted Pedersen & Satanjeev Banerjee & Bridget T McInnes\n";
 }
 

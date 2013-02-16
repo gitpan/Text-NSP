@@ -95,27 +95,27 @@ GetOptions ("help","version", "newline");
 # show help option
 if(defined $opt_help)
 {
-        $opt_help = 1;
-        &showHelp();
-        exit;
+    $opt_help = 1;
+    &showHelp();
+    exit;
 }
 
 # show version information
 if(defined $opt_version)
 {
-        $opt_version = 1;
-        &showVersion();
-        exit;
+    $opt_version = 1;
+    &showVersion();
+    exit;
 }
 
 # newline option 
 if(defined $opt_newline)
 {
-        $opt_newline = 1;
+    $opt_newline = 1;
 }
 else
 {
-		$opt_newline = 0;
+    $opt_newline = 0;
 }
 
 #############################################################################
@@ -127,7 +127,7 @@ else
 # print out the usage notes!
 if ( $#ARGV == -1 )
 {
-	&minimalUsageNotes();
+    &minimalUsageNotes();
     exit;
 }
 
@@ -138,28 +138,28 @@ open(LST1, "$list_file") or die ("Error: cannot open file $list_file for input.\
 my %complist = ();
 while (my $line = <LST1>)
 {
-	chomp($line);
-	if ($line ne "") {
+    chomp($line);
+    if ($line ne "") {
 	my $lower_case = lc($line);
 	my @string = split('_', $lower_case);	
 	my $head = shift(@string);
-
+	
 	my $rest = join (' ', @string);
 	push (@{$complist{$head}}, $rest); 
-	}
-
+    }
+    
 }
 close LST1;
 
 # sort the compound txt 
 foreach my $h (sort (keys (%complist)) )
 {
-	my @sort_list = sort(@{$complist{$h}});
-
-	for my $i (0..$#sort_list)
-	{
-		$complist{$h}[$i] = $sort_list[$i]; 
-	} 
+    my @sort_list = sort(@{$complist{$h}});
+    
+    for my $i (0..$#sort_list)
+    {
+	$complist{$h}[$i] = $sort_list[$i]; 
+    } 
 }
 
 my $input_file = $ARGV[0] ;
@@ -173,139 +173,140 @@ open(TXT, "<$input_file") or die ("Error: cannot open file $input_file for input
 
 while (my $line = <TXT>)
 {
-	chomp($line);
-	my @words = split(' ', $line);
-	my $size_line = @words;
-
-	#for every word of the line, check the compound word
-	for (my $i=0; $i<$size_line; $i++)
+    chomp($line);
+    my @words = split(' ', $line);
+    my $size_line = @words;
+    
+    #for every word of the line, check the compound word
+    for (my $i=0; $i<$size_line; $i++)
+    {
+	if (($opt_newline==0) and ($i==$size_line-1))
 	{
-		if (($opt_newline==0) and ($i==$size_line-1))
+	    while($line = <TXT>)
+	    {	
+		chomp($line);
+		my @line_words = split(' ', $line);
+		push (@words, @line_words);							
+		$size_line = @words; 
+	    }
+	}
+	
+	my $w = $words[$i];
+	my $w_lower = lc($w);
+	my $flag_print_w = 0;
+	my $flag_comp = 0;
+	my $flag_comp2 = 0;
+	
+	if(defined $complist{$w_lower})
+	{
+	    # get the compound list start with word $w
+	    my @comps = @{$complist{$w_lower}};					
+	    my @string_match= ();
+	    foreach my $c (@comps)
+	    {
+		# compare the rest of the compound word  
+		my @string = split(' ', $c);
+		my @text_string = ();
+		my $count = 1;			
+		my $flag_compstring = 0;
+		for(my $j=0; $j<@string; $j++)
 		{
+		    # read a new line if without the line boundary
+		    if (($opt_newline==0) and (($i+$count)==($size_line-1)))
+		    {
 			while($line = <TXT>)
 			{	
-				chomp($line);
-				my @line_words = split(' ', $line);
-				push (@words, @line_words);							
-				$size_line = @words; 
+			    chomp($line);
+			    my @line_words = split(' ', $line);
+			    push (@words, @line_words);							
+			    $size_line = @words; 
 			}
-		}
-
-		my $w = $words[$i];
-		my $w_lower = lc($w);
-		my $flag_print_w = 0;
-		my $flag_comp = 0;
-		my $flag_comp2 = 0;
-		
-		if(defined $complist{$w_lower})
+		    }
+		    
+		    # match string 
+		    if (($i+$count)<$size_line)    
+		    {
+			my $match_word = lc($words[$i+$count]);		
+			my @match_chars = split('', $match_word);
+			my @char_string = ();
+			
+			# no signs
+			foreach my $char (@match_chars)
+			{
+			    if ($char =~ /[a-z]/)	
+			    {
+				push(@char_string, $char);
+			    }
+			}
+			
+			$match_word = join('', @char_string);
+			if ($string[$j] eq $match_word)
+			{
+			    $flag_comp = 1;			
+			    push(@text_string, $words[$i+$count]);
+			    $count++;
+			}			
+			else
+			{
+			    $flag_comp = 0;
+			    last;
+			}
+		    }
+		    
+		    # couldn't finish a full compound word string
+		    #print "i = $i count=$count size_line=$size_line j=$j \n";
+		    if ((($i+$count)==$size_line) and ($j<@string-1))
+		    {
+			$flag_comp = 0;
+		    }
+		    
+		} # test one compound word start by $w_lower															
+		# connect the compound word  	
+		if ($flag_comp==1)
 		{
-			# get the compound list start with word $w
-			my @comps = @{$complist{$w_lower}};					
-			my @string_match= ();
-			foreach my $c (@comps)
-			{
-				# compare the rest of the compound word  
-				my @string = split(' ', $c);
-				my @text_string = ();
-				my $count = 1;			
-				my $flag_compstring = 0;
-				for(my $j=0; $j<@string; $j++)
-				{
-					# read a new line if without the line boundary
-					if (($opt_newline==0) and (($i+$count)==($size_line-1)))
-					{
-						while($line = <TXT>)
-						{	
-							chomp($line);
-							my @line_words = split(' ', $line);
-							push (@words, @line_words);							
-							$size_line = @words; 
-						}
-					}
-
-					# match string 
-					if (($i+$count)<$size_line)    
-					{
-						my $match_word = lc($words[$i+$count]);		
-						my @match_chars = split('', $match_word);
-						my @char_string = ();
-
-						# no signs
-						foreach my $char (@match_chars)
-						{
-							if ($char =~ /[a-z]/)	
-							{
-								push(@char_string, $char);
-							}
-						}
-
-						$match_word = join('', @char_string);
-						if ($string[$j] eq $match_word)
-						{
-							$flag_comp = 1;			
-							push(@text_string, $words[$i+$count]);
-							$count++;
-						}			
-						else
-						{
-							$flag_comp = 0;
-							last;
-						}
-					}
-						
-					# couldn't finish a full compound word string
-					#print "i = $i count=$count size_line=$size_line j=$j \n";
-					if ((($i+$count)==$size_line) and ($j<@string-1))
-					{
-							$flag_comp = 0;
-					}
-
-				} # test one compound word start by $w_lower															
-				# connect the compound word  	
-				if ($flag_comp==1)
-				{
-					unshift(@text_string, "$w");
-					my $comp = join('_', @text_string);		
-					push(@string_match, $comp);								
-					$flag_comp2 = 1;
-				}	
-			}
-			# print out the $w if it doesn't match any compound words
-			if (($flag_print_w==0) and ($flag_comp2==0))
-			{
-				print "$w ";				
-				$flag_print_w = 1;
-			}
-
-			if ($flag_comp2==1)
-			{
-				my $longest = 0;
-				my $longest_string = "";
-				foreach my $s (@string_match)
-				{
-					if($longest < length($s))
-					{
-						$longest = length($s);
-						$longest_string = $s;
-					}		
-				}	
-				print "$longest_string ";				
-				my @string = split('_', $longest_string);
-				my $skip = @string-1;
-				$i = $i + $skip;
-			}
-		} # test all the compound word start by $w	
-		else
-		{
-			print "$w ";				
+		    unshift(@text_string, "$w");
+		    my $comp = join('_', @text_string);		
+		    push(@string_match, $comp);								
+		    $flag_comp2 = 1;
 		}	
-
-	} # end of defined compound word start by $w
+	    }
+	    # print out the $w if it doesn't match any compound words
+	    if (($flag_print_w==0) and ($flag_comp2==0))
+	    {
+		print "$w ";				
+		$flag_print_w = 1;
+	    }
+	    
+	    if ($flag_comp2==1)
+	    {
+		my $longest = 0;
+		my $longest_string = "";
+		foreach my $s (@string_match)
+		{
+		    if($longest < length($s))
+		    {
+			$longest = length($s);
+			$longest_string = $s;
+		    }		
+		}	
+		print "$longest_string ";				
+		my @string = split('_', $longest_string);
+		my $skip = @string-1;
+		$i = $i + $skip;
+	    }
+	} # test all the compound word start by $w	
+	else
+	{
+	    print "$w ";				
+	    
+	}	
 	
-	print "\n";				
-
+    } # end of defined compound word start by $w
+    
+    print "\n";				
+    
 } # end of every line of the file
-	
+
 close TXT;
 
 #-----------------------------------------------------------------------------
@@ -335,9 +336,9 @@ sub showHelp
     print "Identify the the compound words in the source file as found\n";
     print "in the file CompoundWordList. Compound words are connected by\n";
     print "an underscore.\n\n";
-
+    
     print "OPTIONS:\n\n";
-
+    
     print "  --newline          Find compound words in one line.\n\n";
 
     print "  --version          Prints the version number.\n\n";
@@ -348,7 +349,7 @@ sub showHelp
 # function to output the version number
 sub showVersion
 {
-    print STDERR 'find-compounds.pl $Id: find-compounds.pl,v 1.9 2011/03/31 23:04:04 tpederse Exp $';
+    print STDERR 'find-compounds.pl $Id: find-compounds.pl,v 1.10 2013/02/15 22:50:57 btmcinnes Exp $';
     print STDERR "\nCopyright (C) 2009-2011, Ying Liu\n";
 
 }

@@ -1,21 +1,21 @@
----
-abstract: 'Extract collocations and Ngrams from text'
+--- #YAML:1.0
+name:               Text-NSP
+version:            1.27
+abstract:           Extract collocations and Ngrams from text
 author:
-  - 'Ted Pedersen <tpederse at d.umn.edu>'
-build_requires:
-  ExtUtils::MakeMaker: 0
+    - Ted Pedersen <tpederse at d.umn.edu>
+license:            GPL
+distribution_type:  module
 configure_requires:
-  ExtUtils::MakeMaker: 0
-dynamic_config: 1
-generated_by: 'ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.112621'
-license: open_source
-meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: 1.4
-name: Text-NSP
+    ExtUtils::MakeMaker:  0
+build_requires:
+    ExtUtils::MakeMaker:  0
+requires:  {}
 no_index:
-  directory:
-    - t
-    - inc
-requires: {}
-version: 1.25
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.57_05
+meta-spec:
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4
